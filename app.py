@@ -3,6 +3,8 @@ import pandas as pd
 import sqlite3
 import hashlib
 
+st.set_page_config(page_title="Sport Predictor Ultra",layout="wide")
+
 # Fonction de hash du mot de passe
 def h(x):
     return hashlib.sha256(x.encode()).hexdigest()
@@ -52,6 +54,10 @@ if m == "Inscription" and st.button("Créer compte"):
 
         st.error("❌ Email déjà utilisé")
 
+# Initialisation session
+if "user" not in st.session_state:
+    st.session_state.user = None
+
 # Connexion
 if m == "Login" and st.button("Connexion"):
 
@@ -72,14 +78,23 @@ if m == "Login" and st.button("Connexion"):
 
         st.rerun()
 
-    if "user" not in st.session_state:
-    st.session_state.user = None
-
     else:
 
         st.error("❌ Identifiants incorrects")
+
+# Déconnexion
+if st.session_state.user:
+
+    st.sidebar.success(
+        f"✅ {st.session_state.user}"
+    )
+
+    if st.sidebar.button("🚪 Déconnexion"):
+
+        st.session_state.user = None
+
+        st.rerun()
         
-st.set_page_config(page_title="Sport Predictor Ultra",layout="wide")
 menu=st.sidebar.radio("Navigation",["🏠 Accueil","⚽ Football","🎾 Tennis","🏒 Hockey","🏆 Compétitions","📊 Classements","👥 Joueurs","📈 Prédictions","📉 Statistiques Avancées","👑 Admin"])
 if menu=="🏠 Accueil":
  st.title("🏠 Sport Predictor")
@@ -185,3 +200,21 @@ users = pd.read_sql_query(
 )
 
 st.dataframe(users, width="stretch")
+
+elif menu == "👑 Admin":
+
+    st.title("👑 Dashboard Admin")
+
+    users = pd.read_sql_query(
+        "SELECT id,email FROM users",
+        conn
+    )
+
+    st.subheader("👥 Utilisateurs inscrits")
+
+    st.dataframe(users, width="stretch")
+
+    st.metric(
+        "Nombre d'utilisateurs",
+        len(users)
+    )
