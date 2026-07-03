@@ -18,10 +18,10 @@ CREATE TABLE IF NOT EXISTS users(
 conn.commit()
 c.execute(
     """
-    INSERT INTO users(email, password)
-    VALUES (?, ?)
+    INSERT INTO users(email,password)
+    VALUES(?,?)
     """,
-    (email, password_hash)
+    (e, h(p))
 )
 
 conn.commit()
@@ -32,7 +32,7 @@ if m == "Inscription" and st.button("Créer compte"):
         c.execute(
             """
             INSERT INTO users(email,password)
-            VALUES(?,?)
+            VALUES (?,?)
             """,
             (e, h(p))
         )
