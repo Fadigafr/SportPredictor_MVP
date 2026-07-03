@@ -1,7 +1,13 @@
 import streamlit as st
 import pandas as pd
 import sqlite3
+import hashlib
 
+# Fonction de hash du mot de passe
+def h(x):
+    return hashlib.sha256(x.encode()).hexdigest()
+
+# Base SQLite
 conn = sqlite3.connect("users.db", check_same_thread=False)
 c = conn.cursor()
 
@@ -14,14 +20,25 @@ CREATE TABLE IF NOT EXISTS users(
 """)
 
 conn.commit()
+
+# Interface connexion
+m = st.sidebar.radio(
+    "Accès",
+    ["Login", "Inscription"]
+)
+
+e = st.text_input("Email")
+p = st.text_input("Mot de passe", type="password")
+
+# Inscription
 if m == "Inscription" and st.button("Créer compte"):
 
     try:
 
         c.execute(
             """
-            INSERT INTO users(email,password)
-            VALUES (?,?)
+            INSERT INTO users(email, password)
+            VALUES (?, ?)
             """,
             (e, h(p))
         )
@@ -33,6 +50,8 @@ if m == "Inscription" and st.button("Créer compte"):
     except sqlite3.IntegrityError:
 
         st.error("❌ Email déjà utilisé")
+
+# Connexion
 if m == "Login" and st.button("Connexion"):
 
     user = c.execute(
@@ -45,10 +64,15 @@ if m == "Login" and st.button("Connexion"):
     ).fetchone()
 
     if user:
+
         st.session_state.user = e
+
         st.success("✅ Connexion réussie")
+
         st.rerun()
+
     else:
+
         st.error("❌ Identifiants incorrects")
         
 st.set_page_config(page_title="Sport Predictor Ultra",layout="wide")
