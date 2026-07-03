@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 
-import sqlite3
-
 conn = sqlite3.connect("users.db", check_same_thread=False)
 c = conn.cursor()
 
@@ -16,15 +14,7 @@ CREATE TABLE IF NOT EXISTS users(
 """)
 
 conn.commit()
-c.execute(
-    """
-    INSERT INTO users(email,password)
-    VALUES(?,?)
-    """,
-    (e, h(p))
-)
 
-conn.commit()
 if m == "Inscription" and st.button("Créer compte"):
 
     try:
