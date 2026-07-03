@@ -1,5 +1,19 @@
 import streamlit as st
 import pandas as pd
+import sqlite3
+
+conn = sqlite3.connect("users.db", check_same_thread=False)
+c = conn.cursor()
+
+c.execute("""
+CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE,
+    password TEXT
+)
+""")
+
+conn.commit()
 st.set_page_config(page_title="Sport Predictor Ultra",layout="wide")
 menu=st.sidebar.radio("Navigation",["🏠 Accueil","⚽ Football","🎾 Tennis","🏒 Hockey","🏆 Compétitions","📊 Classements","👥 Joueurs","📈 Prédictions","📉 Statistiques Avancées","👑 Admin"])
 if menu=="🏠 Accueil":
