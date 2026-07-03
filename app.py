@@ -15,7 +15,8 @@ c.execute("""
 CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT UNIQUE,
-    password TEXT
+    password TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 """)
 
@@ -70,6 +71,9 @@ if m == "Login" and st.button("Connexion"):
         st.success("✅ Connexion réussie")
 
         st.rerun()
+
+    if "user" not in st.session_state:
+    st.session_state.user = None
 
     else:
 
@@ -135,3 +139,49 @@ elif menu == "📉 Statistiques Avancées":
 elif menu=="👑 Admin":
  st.title("Dashboard Admin")
  st.metric("Utilisateurs",125)
+menu = st.sidebar.selectbox(
+    "Menu",
+    [
+        "🏠 Accueil",
+        "👑 Admin"
+    ]
+)
+if menu == "👑 Admin":
+
+    st.title("👑 Dashboard Admin")
+
+    users = pd.read_sql_query(
+        """
+        SELECT
+            id,
+            email
+        FROM users
+        ORDER BY id DESC
+        """,
+        conn
+    )
+
+    st.subheader("👥 Utilisateurs inscrits")
+
+    st.dataframe(
+        users,
+        width="stretch"
+    )
+
+    st.metric(
+        "Nombre utilisateurs",
+        len(users)
+    )
+users = pd.read_sql_query(
+    """
+    SELECT
+        id,
+        email,
+        created_at
+    FROM users
+    ORDER BY created_at DESC
+    """,
+    conn
+)
+
+st.dataframe(users, width="stretch")
