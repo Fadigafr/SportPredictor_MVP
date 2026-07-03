@@ -28,7 +28,7 @@ if page=="xG":
     st.write("Version simple. Peut être remplacée par les données xG réelles API-Football selon votre abonnement.")
 
 if page=="Accès":
-    st.code('Email : admin@gmail.com
+st.code('Email : admin@gmail.com
 Mot de passe : admin123')
 
 st.set_page_config(layout="wide")
