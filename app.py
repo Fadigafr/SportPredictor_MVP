@@ -201,7 +201,7 @@ users = pd.read_sql_query(
 
 st.dataframe(users, width="stretch")
 
-elif menu == "👑 Admin":
+if menu == "👑 Admin":
 
     st.title("👑 Dashboard Admin")
 
