@@ -36,9 +36,14 @@ elif menu=="📉 Statistiques Avancées":
  elif onglet=="Tirs":
   st.write("Tirs : 15 | Cadrés : 6")
  elif onglet=="Buteurs":
-  st.write("1. Haaland
-2. Mbappé
-3. Kane")
+  elif onglet == "Buteurs":
+
+    data = {
+        "Rang": ["🥇", "🥈", "🥉"],
+        "Joueur": ["Haaland", "Mbappé", "Kane"]
+    }
+
+    st.dataframe(data, use_container_width=True)
 elif menu=="👑 Admin":
  st.title("Dashboard Admin")
  st.metric("Utilisateurs",125)
