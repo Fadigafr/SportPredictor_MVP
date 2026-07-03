@@ -62,8 +62,7 @@ if page == "Accès":
 Email : admin@gmail.com
 Mot de passe : admin123
 """)
-`
-
+    
 st.set_page_config(layout="wide")
 API_KEY=st.secrets.get("API_KEY","")
 H={"x-apisports-key":API_KEY}
