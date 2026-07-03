@@ -187,19 +187,6 @@ if menu == "👑 Admin":
         "Nombre utilisateurs",
         len(users)
     )
-users = pd.read_sql_query(
-    """
-    SELECT
-        id,
-        email,
-        created_at
-    FROM users
-    ORDER BY created_at DESC
-    """,
-    conn
-)
-
-st.dataframe(users, width="stretch")
 
 if menu == "👑 Admin":
 
