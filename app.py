@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS users(
 """)
 
 conn.commit()
-
 if m == "Inscription" and st.button("Créer compte"):
 
     try:
