@@ -22,28 +22,37 @@ elif menu=="📈 Prédictions":
  st.metric("Over 2.5","78%")
  st.metric("BTTS","67%")
 elif menu=="📉 Statistiques Avancées":
- st.title("📉 Statistiques Avancées")
- onglet=st.selectbox("Analyse",["xG","Forme","H2H","Possession","Tirs","Buteurs"] )
- if onglet=="xG":
-  st.metric("xG Domicile",1.92)
-  st.metric("xG Extérieur",1.14)
- elif onglet=="Forme":
-  st.write("✅✅✅❌✅")
- elif onglet=="H2H":
-  st.write("5 derniers matchs : 3V-1N-1D")
- elif onglet=="Possession":
-  st.write("Possession moyenne : 58%")
- elif onglet=="Tirs":
-  st.write("Tirs : 15 | Cadrés : 6")
- elif onglet=="Buteurs":
-  elif onglet == "Buteurs":
+    st.title("📉 Statistiques Avancées")
 
-    data = {
-        "Rang": ["🥇", "🥈", "🥉"],
-        "Joueur": ["Haaland", "Mbappé", "Kane"]
-    }
+    onglet = st.selectbox(
+        "Analyse",
+        ["xG","Forme","H2H","Possession","Tirs","Buteurs"]
+    )
 
-    st.dataframe(data, use_container_width=True)
+    if onglet == "xG":
+        st.metric("xG Domicile", 1.92)
+        st.metric("xG Extérieur", 1.14)
+
+    elif onglet == "Forme":
+        st.write("✅✅✅❌✅")
+
+    elif onglet == "H2H":
+        st.write("5 derniers matchs : 3V-1N-1D")
+
+    elif onglet == "Possession":
+        st.write("Possession moyenne : 58%")
+
+    elif onglet == "Tirs":
+        st.write("Tirs : 15 | Cadrés : 6")
+
+    elif onglet == "Buteurs":
+
+        data = {
+            "Rang": ["🥇", "🥈", "🥉"],
+            "Joueur": ["Haaland", "Mbappé", "Kane"]
+        }
+
+        st.dataframe(pd.DataFrame(data), use_container_width=True)
 elif menu=="👑 Admin":
  st.title("Dashboard Admin")
  st.metric("Utilisateurs",125)
