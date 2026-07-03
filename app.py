@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 
+import sqlite3
+
 conn = sqlite3.connect("users.db", check_same_thread=False)
 c = conn.cursor()
 
@@ -14,6 +16,52 @@ CREATE TABLE IF NOT EXISTS users(
 """)
 
 conn.commit()
+c.execute(
+    """
+    INSERT INTO users(email, password)
+    VALUES (?, ?)
+    """,
+    (email, password_hash)
+)
+
+conn.commit()
+if m == "Inscription" and st.button("Créer compte"):
+
+    try:
+
+        c.execute(
+            """
+            INSERT INTO users(email,password)
+            VALUES(?,?)
+            """,
+            (e, h(p))
+        )
+
+        conn.commit()
+
+        st.success("✅ Compte créé")
+
+    except sqlite3.IntegrityError:
+
+        st.error("❌ Email déjà utilisé")
+if m == "Login" and st.button("Connexion"):
+
+    user = c.execute(
+        """
+        SELECT *
+        FROM users
+        WHERE email=? AND password=?
+        """,
+        (e, h(p))
+    ).fetchone()
+
+    if user:
+        st.session_state.user = e
+        st.success("✅ Connexion réussie")
+        st.rerun()
+    else:
+        st.error("❌ Identifiants incorrects")
+        
 st.set_page_config(page_title="Sport Predictor Ultra",layout="wide")
 menu=st.sidebar.radio("Navigation",["🏠 Accueil","⚽ Football","🎾 Tennis","🏒 Hockey","🏆 Compétitions","📊 Classements","👥 Joueurs","📈 Prédictions","📉 Statistiques Avancées","👑 Admin"])
 if menu=="🏠 Accueil":
