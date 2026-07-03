@@ -1,4 +1,36 @@
 import streamlit as st, requests, pandas as pd, sqlite3, hashlib
+import streamlit as st, pandas as pd, numpy as np
+st.set_page_config(page_title="Sport Predictor V3",layout="wide")
+st.title("⚽ Sport Predictor V3")
+
+st.sidebar.header("Accès")
+st.sidebar.info("Admin: admin@gmail.com / admin123")
+
+page=st.sidebar.selectbox("Module",["Prédictions","xG","Accès"])
+
+if page=="Prédictions":
+    hg=st.number_input("Moy. buts domicile",0.0,10.0,1.8)
+    ag=st.number_input("Moy. buts extérieur",0.0,10.0,1.2)
+    total=hg+ag
+    over15=min(round((total/1.5)*50,1),99)
+    over25=min(round((total/2.5)*50,1),99)
+    over35=min(round((total/3.5)*50,1),99)
+    st.metric("Over 1.5 %",over15)
+    st.metric("Over 2.5 %",over25)
+    st.metric("Over 3.5 %",over35)
+    st.success(f"BTTS estimé : {min(round((hg*ag)*25,1),95)}%")
+
+if page=="xG":
+    tirs=st.number_input("Tirs",0,50,12)
+    cadrés=st.number_input("Tirs cadrés",0,30,5)
+    xg=round((tirs*0.08)+(cadrés*0.12),2)
+    st.metric("xG estimé",xg)
+    st.write("Version simple. Peut être remplacée par les données xG réelles API-Football selon votre abonnement.")
+
+if page=="Accès":
+    st.code('Email : admin@gmail.com
+Mot de passe : admin123')
+
 st.set_page_config(layout="wide")
 API_KEY=st.secrets.get("API_KEY","")
 H={"x-apisports-key":API_KEY}
