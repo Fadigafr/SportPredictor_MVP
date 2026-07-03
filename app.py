@@ -1,7 +1,24 @@
 import streamlit as st, requests, pandas as pd, sqlite3, hashlib
 import streamlit as st
 from math import exp,factorial
+import sqlite3
+import hashlib
 
+st.set_page_config(layout="wide")
+
+API_KEY = st.secrets.get("API_KEY", "")
+H = {"x-apisports-key": API_KEY}
+
+conn = sqlite3.connect("users.db", check_same_thread=False)
+c = conn.cursor()
+
+c.execute("""
+CREATE TABLE IF NOT EXISTS users(
+    email TEXT UNIQUE,
+    password TEXT
+)
+""")
+conn.commit()
 def poisson(l,k):
     return (l**k*exp(-l))/factorial(k)
 
