@@ -1,5 +1,33 @@
 import streamlit as st, requests, pandas as pd, sqlite3, hashlib
-import numpy as np
+import streamlit as st
+from math import exp,factorial
+
+def poisson(l,k):
+    return (l**k*exp(-l))/factorial(k)
+
+st.title("Sport Predictor V4")
+page=st.sidebar.selectbox("Menu",["Score Exact Poisson","Buteurs Probables Avancés"])
+if page=="Score Exact Poisson":
+    home_xg=st.number_input("xG domicile",0.1,5.0,1.8)
+    away_xg=st.number_input("xG extérieur",0.1,5.0,1.2)
+    scores=[]
+    for h in range(6):
+        for a in range(6):
+            p=poisson(home_xg,h)*poisson(away_xg,a)*100
+            scores.append((f"{h}-{a}",round(p,2)))
+    scores=sorted(scores,key=lambda x:x[1],reverse=True)[:10]
+    st.subheader('Top scores exacts')
+    st.table(scores)
+
+if page=="Buteurs Probables Avancés":
+    buts=st.number_input("Buts saison",0,60,15)
+    matchs=st.number_input("Matchs joués",1,60,25)
+    tirs=st.number_input("Tirs cadrés",0,200,40)
+    indice=round(((buts*0.6)+(tirs*0.4))/matchs*10,2)
+    proba=min(round(indice*5,1),95)
+    st.metric("Indice buteur",indice)
+    st.metric("Probabilité de marquer",f"{proba}%")
+
 st.set_page_config(page_title="Sport Predictor V3",layout="wide")
 st.title("⚽ Sport Predictor V3")
 
