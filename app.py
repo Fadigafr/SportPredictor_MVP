@@ -1,5 +1,5 @@
 import streamlit as st, requests, pandas as pd, sqlite3, hashlib
-import streamlit as st, pandas as pd, numpy as np
+import numpy as np
 st.set_page_config(page_title="Sport Predictor V3",layout="wide")
 st.title("⚽ Sport Predictor V3")
 
