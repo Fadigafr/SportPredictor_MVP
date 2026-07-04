@@ -4,28 +4,68 @@ import sqlite3
 import hashlib
 from math import exp, factorial
 
-# --------------------------------------------------
-# CONFIG
-# --------------------------------------------------
-
 st.set_page_config(
-    page_title="Sport Predictor Ultra",
+    page_title="SPORT PREDICTOR ULTRA PRO 2026",
     layout="wide"
 )
 
-# --------------------------------------------------
-# FONCTIONS
-# --------------------------------------------------
+# =======================
+# STYLE
+# =======================
+
+st.markdown("""
+<style>
+
+.stApp{
+    background-color:#0f1117;
+    color:white;
+}
+
+div[data-testid="stMetric"]{
+    background:#1c2028;
+    padding:15px;
+    border-radius:15px;
+}
+
+.match-card{
+    background:#1a1d24;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:15px;
+    border:1px solid #2e3440;
+}
+
+.live{
+    color:#ff4b4b;
+    font-weight:bold;
+}
+
+.score{
+    color:#FFD700;
+    font-size:40px;
+    font-weight:bold;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# =======================
+# HASH
+# =======================
 
 def h(x):
     return hashlib.sha256(x.encode()).hexdigest()
 
-def poisson(l, k):
-    return (l ** k * exp(-l)) / factorial(k)
+# =======================
+# POISSON
+# =======================
 
-# --------------------------------------------------
+def poisson(l,k):
+    return (l**k * exp(-l))/factorial(k)
+
+# =======================
 # SQLITE
-# --------------------------------------------------
+# =======================
 
 conn = sqlite3.connect(
     "users.db",
@@ -45,31 +85,33 @@ CREATE TABLE IF NOT EXISTS users(
 
 conn.commit()
 
-# --------------------------------------------------
+# =======================
 # SESSION
-# --------------------------------------------------
+# =======================
 
 if "user" not in st.session_state:
     st.session_state.user = None
 
-# --------------------------------------------------
+# =======================
 # LOGIN
-# --------------------------------------------------
+# =======================
 
-m = st.sidebar.radio(
-    "Accès",
-    ["Login", "Inscription"]
+st.sidebar.title("🔐 Accès")
+
+mode = st.sidebar.radio(
+    "",
+    ["Login","Inscription"]
 )
 
-e = st.text_input("Email")
-p = st.text_input(
+email = st.sidebar.text_input("Email")
+password = st.sidebar.text_input(
     "Mot de passe",
     type="password"
 )
 
-if m == "Inscription":
+if mode == "Inscription":
 
-    if st.button("Créer compte"):
+    if st.sidebar.button("Créer compte"):
 
         try:
 
@@ -78,20 +120,22 @@ if m == "Inscription":
                 INSERT INTO users(email,password)
                 VALUES(?,?)
                 """,
-                (e, h(p))
+                (
+                    email,
+                    h(password)
+                )
             )
 
             conn.commit()
 
             st.success("✅ Compte créé")
 
-        except sqlite3.IntegrityError:
+        except:
+            st.error("Email déjà utilisé")
 
-            st.error("❌ Email déjà utilisé")
+if mode == "Login":
 
-if m == "Login":
-
-    if st.button("Connexion"):
+    if st.sidebar.button("Connexion"):
 
         user = c.execute(
             """
@@ -99,24 +143,23 @@ if m == "Login":
             FROM users
             WHERE email=? AND password=?
             """,
-            (e, h(p))
+            (
+                email,
+                h(password)
+            )
         ).fetchone()
 
         if user:
 
-            st.session_state.user = e
+            st.session_state.user = email
 
-            st.success("✅ Connexion réussie")
+            st.success("Connexion OK")
 
             st.rerun()
 
-        else:
-
-            st.error("❌ Identifiants incorrects")
-
-# --------------------------------------------------
-# DECONNEXION
-# --------------------------------------------------
+# =======================
+# LOGOUT
+# =======================
 
 if st.session_state.user:
 
@@ -130,268 +173,26 @@ if st.session_state.user:
 
         st.rerun()
 
-# --------------------------------------------------
-# MENU PRINCIPAL
-# --------------------------------------------------
+# =======================
+# MENU
+# =======================
 
 menu = st.sidebar.radio(
     "Navigation",
     [
         "🏠 Accueil",
+        "🔴 Live",
+        "📅 Avant Match",
         "⚽ Football",
         "🎾 Tennis",
         "🏒 Hockey",
         "🏆 Compétitions",
         "📊 Classements",
         "👥 Joueurs",
-        "📺 Live",
-        "📅 Avant-match",
-        "📈 Prédictions",
-        "📉 Statistiques Avancées",
+        "📈 Prédictions IA",
+        "📉 Statistiques",
+        "⭐ Favoris",
+        "🔔 Alertes",
         "👑 Admin"
     ]
 )
-
-# --------------------------------------------------
-# ACCUEIL
-# --------------------------------------------------
-
-if menu == "🏠 Accueil":
-
-    st.title("🏠 Sport Predictor")
-
-    col1, col2, col3 = st.columns(3)
-
-    col1.metric("Précision IA", "78%")
-    col2.metric("Matchs analysés", "3250")
-    col3.metric("Pronostics", "18750")
-
-# --------------------------------------------------
-# FOOTBALL
-# --------------------------------------------------
-
-elif menu == "⚽ Football":
-
-    st.title("⚽ Football")
-
-    st.write("Calendrier, statistiques et compétitions")
-
-# --------------------------------------------------
-# TENNIS
-# --------------------------------------------------
-
-elif menu == "🎾 Tennis":
-
-    st.title("🎾 Tennis")
-
-# --------------------------------------------------
-# HOCKEY
-# --------------------------------------------------
-
-elif menu == "🏒 Hockey":
-
-    st.title("🏒 Hockey")
-
-# --------------------------------------------------
-# COMPETITIONS
-# --------------------------------------------------
-
-elif menu == "🏆 Compétitions":
-
-    st.title("🏆 Compétitions")
-
-# --------------------------------------------------
-# CLASSEMENTS
-# --------------------------------------------------
-
-elif menu == "📊 Classements":
-
-    st.title("📊 Classements")
-
-# --------------------------------------------------
-# JOUEURS
-# --------------------------------------------------
-
-elif menu == "👥 Joueurs":
-
-    st.title("👥 Joueurs")
-
-# --------------------------------------------------
-# LIVE
-# --------------------------------------------------
-
-elif menu == "📺 Live":
-
-    st.title("🔴 Matchs en direct")
-
-    st.write("""
-⚽ Liverpool 2-1 Arsenal
-
-⚽ Real Madrid 1-0 Barcelone
-
-⚽ PSG 3-1 Marseille
-""")
-
-# --------------------------------------------------
-# AVANT MATCH
-# --------------------------------------------------
-
-elif menu == "📅 Avant-match":
-
-    st.title("📅 Calendrier & Analyse")
-
-    st.write("""
-Arsenal vs Chelsea
-
-Liverpool vs Tottenham
-
-Real Madrid vs Atletico
-""")
-
-# --------------------------------------------------
-# PREDICTIONS
-# --------------------------------------------------
-
-elif menu == "📈 Prédictions":
-
-    st.title("📈 Prédictions IA")
-
-    buts_dom = st.number_input(
-        "Moyenne buts domicile",
-        0.0,
-        5.0,
-        1.8
-    )
-
-    buts_ext = st.number_input(
-        "Moyenne buts extérieur",
-        0.0,
-        5.0,
-        1.2
-    )
-
-    total = buts_dom + buts_ext
-
-    st.metric(
-        "Over 2.5",
-        f"{round((total/2.5)*50,1)}%"
-    )
-
-    btts = min(
-        round(buts_dom * buts_ext * 25, 1),
-        95
-    )
-
-    st.metric("BTTS", f"{btts}%")
-
-    scores = []
-
-    for home in range(6):
-
-        for away in range(6):
-
-            p_score = (
-                poisson(buts_dom, home)
-                * poisson(buts_ext, away)
-                * 100
-            )
-
-            scores.append(
-                (
-                    f"{home}-{away}",
-                    round(p_score, 2)
-                )
-            )
-
-    scores = sorted(
-        scores,
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    st.subheader("Score Exact")
-
-    st.table(scores[:5])
-
-# --------------------------------------------------
-# STATS AVANCEES
-# --------------------------------------------------
-
-elif menu == "📉 Statistiques Avancées":
-
-    st.title("📉 Statistiques Avancées")
-
-    onglet = st.selectbox(
-        "Analyse",
-        [
-            "xG",
-            "Forme",
-            "H2H",
-            "Possession",
-            "Tirs",
-            "Buteurs"
-        ]
-    )
-
-    if onglet == "xG":
-
-        st.metric("xG Domicile", 1.92)
-        st.metric("xG Extérieur", 1.14)
-
-    elif onglet == "Forme":
-
-        st.write("✅ ✅ ✅ ❌ ✅")
-
-    elif onglet == "H2H":
-
-        st.write("3V - 1N - 1D")
-
-    elif onglet == "Possession":
-
-        st.write("58 %")
-
-    elif onglet == "Tirs":
-
-        st.write("15 tirs | 6 cadrés")
-
-    elif onglet == "Buteurs":
-
-        data = {
-            "Rang": ["🥇", "🥈", "🥉"],
-            "Joueur": ["Haaland", "Mbappé", "Kane"]
-        }
-
-        st.dataframe(
-            pd.DataFrame(data),
-            width="stretch"
-        )
-
-# --------------------------------------------------
-# ADMIN
-# --------------------------------------------------
-
-elif menu == "👑 Admin":
-
-    st.title("👑 Dashboard Admin")
-
-    users = pd.read_sql_query(
-        """
-        SELECT
-            id,
-            email,
-            created_at
-        FROM users
-        ORDER BY id DESC
-        """,
-        conn
-    )
-
-    st.dataframe(
-        users,
-        width="stretch"
-    )
-
-    st.metric(
-        "Nombre utilisateurs",
-        len(users)
-    )
