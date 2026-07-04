@@ -163,7 +163,7 @@ menu = st.sidebar.radio(
     ]
 )
 
-elif menu == "📺 Live":
+if menu == "📺 Live":
 
     st.title("🔴 Matchs en direct")
 
