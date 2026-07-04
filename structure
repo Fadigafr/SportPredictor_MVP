@@ -1,0 +1,33 @@
+🏠 Accueil
+
+⚽ Football
+   ├── Ligues
+   ├── Equipes
+   ├── Classements
+
+📺 Live
+   ├── Matchs en direct
+   ├── Scores live
+
+📅 Avant-match
+   ├── Calendrier
+   ├── Analyse IA
+   ├── Forme
+
+📈 Prédictions
+   ├── Over/Under
+   ├── BTTS
+   ├── Score exact
+   ├── xG
+   ├── Buteurs
+
+📉 Statistiques avancées
+   ├── H2H
+   ├── Possession
+   ├── Tirs
+   ├── xG
+
+👑 Admin
+   ├── Utilisateurs
+   ├── Connexions
+   ├── Dashboard
