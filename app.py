@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS users(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 """)
-
 conn.commit()
 
 # Interface connexion
@@ -151,6 +150,185 @@ elif menu == "📉 Statistiques Avancées":
             pd.DataFrame(data),
             width="stretch"
         )
+
+menu = st.sidebar.radio(
+    "Navigation",
+    [
+        "🏠 Accueil",
+        "⚽ Football",
+        "📺 Live",
+        "📅 Avant-match",
+        "📈 Prédictions",
+        "👑 Admin"
+    ]
+)
+
+elif menu == "📺 Live":
+
+    st.title("🔴 Matchs en direct")
+
+    st.info("API-Football Live Fixtures")
+
+    # URL API
+    # /fixtures?live=all
+
+    st.write("""
+    ⚽ Liverpool 2-1 Arsenal
+
+    🔴 78'
+
+    ⚽ Real Madrid 1-0 Barça
+
+    🔴 62'
+    """)
+
+elif menu == "📅 Avant-match":
+
+    st.title("📅 Calendrier & Analyses")
+
+    st.subheader("Matchs à venir")
+
+    st.write("""
+    Arsenal vs Chelsea
+
+    Liverpool vs Tottenham
+
+    Real Madrid vs Atletico
+    """)
+
+elif menu == "📈 Prédictions":
+
+    st.title("🤖 Analyse IA")
+
+    equipe1 = st.text_input("Equipe domicile")
+    equipe2 = st.text_input("Equipe extérieure")
+
+    forme1 = st.number_input("Forme domicile (%)",0,100,70)
+    forme2 = st.number_input("Forme extérieur (%)",0,100,55)
+
+    if st.button("Analyser"):
+        avantage = forme1 - forme2
+
+        if avantage > 10:
+
+            prediction = "Victoire domicile"
+
+        elif avantage < -10:
+
+            prediction = "Victoire extérieur"
+
+        else:
+
+            prediction = "Match équilibré"
+
+        st.success(prediction)
+        analyse = f'''
+{equipe1} possède une forme récente de {forme1}%.
+
+{equipe2} possède une forme récente de {forme2}%.
+
+Le modèle estime :
+
+✅ {prediction}
+
+✅ Over 2.5 probable
+
+✅ BTTS possible
+'''
+
+        st.info(analyse)
+
+st.subheader("⚽ Over / Under")
+
+buts_dom = st.number_input(
+    "Moyenne buts domicile",
+    0.0,
+    5.0,
+    1.8
+)
+
+buts_ext = st.number_input(
+    "Moyenne buts extérieur",
+    0.0,
+    5.0,
+    1.2
+)
+
+total = buts_dom + buts_ext
+
+st.metric(
+    "Over 2.5",
+    f"{round((total/2.5)*50,1)} %"
+)
+btts = min(
+    round(
+        buts_dom * buts_ext * 25,
+        1
+    ),
+    95
+)
+
+st.metric(
+    "BTTS",
+    f"{btts}%"
+)
+from math import exp,factorial
+
+def poisson(l,k):
+    return (l**k*exp(-l))/factorial(k)
+
+scores=[]
+
+for h in range(6):
+
+    for a in range(6):
+
+        p = poisson(
+            buts_dom,
+            h
+        ) * poisson(
+            buts_ext,
+            a
+        )
+
+        scores.append(
+            (
+                f"{h}-{a}",
+                round(
+                    p*100,
+                    2
+                )
+            )
+        )
+
+scores = sorted(
+    scores,
+    key=lambda x:x[1],
+    reverse=True
+)
+
+st.table(scores[:5])
+
+st.subheader("🎯 Buteurs Probables")
+
+data = {
+    "Joueur":[
+        "Haaland",
+        "Mbappé",
+        "Kane"
+    ],
+    "Probabilité":[
+        "68%",
+        "61%",
+        "55%"
+    ]
+}
+
+st.dataframe(
+    pd.DataFrame(data),
+    width="stretch"
+)
+
 elif menu=="👑 Admin":
  st.title("Dashboard Admin")
  st.metric("Utilisateurs",125)
