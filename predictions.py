@@ -141,4 +141,61 @@ elif prediction_menu == "🤖 Prédictions API":
                 f"Attaque extérieur : "
                 f"{pred['comparison']['att']['away']}"
             )
-            
+
+stats_menu = st.selectbox(
+    "Statistiques",
+    [
+        "⚔️ H2H",
+        "📊 Statistiques Match",
+        "📈 xG",
+        "⚽ Tirs",
+        "🏆 Forme"
+    ]
+)
+
+if stats_menu == "📊 Statistiques Match":
+
+    st.subheader("📊 Statistiques du Match")
+
+    fixture_id = st.number_input(
+        "Fixture ID",
+        min_value=1,
+        value=123456
+    )
+
+    if st.button("Charger les statistiques"):
+
+        stats = api_get(
+            f"https://v3.football.api-sports.io/fixtures/statistics?fixture={fixture_id}"
+        )
+
+        if len(stats.get("response", [])) >= 2:
+
+            home = stats["response"][0]
+            away = stats["response"][1]
+
+            rows = []
+
+            for i in range(
+                min(
+                    len(home["statistics"]),
+                    len(away["statistics"])
+                )
+            ):
+
+                rows.append({
+                    "Statistique":
+                        home["statistics"][i]["type"],
+
+                    "Domicile":
+                        home["statistics"][i]["value"],
+
+                    "Extérieur":
+                        away["statistics"][i]["value"]
+                })
+
+            st.dataframe(
+                pd.DataFrame(rows),
+                width="stretch"
+            )
+
