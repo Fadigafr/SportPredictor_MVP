@@ -111,6 +111,57 @@ if menu == "🏠 Accueil":
     c3.metric("Prédictions","18750")
     c4.metric("Compétitions","500+")
 
+if len(stats.get("response", [])) >= 2:
+
+    home = stats["response"][0]
+    away = stats["response"][1]
+
+    st.subheader("📈 Comparaison")
+
+    for i in range(
+        min(
+            len(home["statistics"]),
+            len(away["statistics"])
+        )
+    ):
+
+        nom = home["statistics"][i]["type"]
+
+        h = home["statistics"][i]["value"]
+        a = away["statistics"][i]["value"]
+
+        col1, col2, col3 = st.columns([2,4,2])
+
+        col1.write(h)
+
+        col2.progress(50)
+
+        col2.caption(nom)
+
+        col3.write(a)
+
+Possession
+
+Shots on Goal
+
+Shots off Goal
+
+Total Shots
+
+Corner Kicks
+
+Fouls
+
+Yellow Cards
+
+Red Cards
+
+Expected Goals (si disponible)
+
+Passes
+
+Pass Accuracy
+
 # =====================================================
 # LIVE
 # =====================================================
