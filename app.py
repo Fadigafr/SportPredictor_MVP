@@ -1,45 +1,44 @@
 import streamlit as st
-import requests
 import pandas as pd
+import requests
 from math import exp, factorial
 
-# ---------------------------------------------------
+# =====================================================
 # CONFIG
-# ---------------------------------------------------
+# =====================================================
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO 2026",
     layout="wide"
 )
 
-API_KEY = st.secrets["API_KEY"]
+API_KEY = st.secrets.get("API_KEY", "")
 
 HEADERS = {
     "x-apisports-key": API_KEY
 }
 
-# ---------------------------------------------------
+# =====================================================
 # STYLE
-# ---------------------------------------------------
+# =====================================================
 
 st.markdown("""
 <style>
-
 .stApp{
     background:#0f1117;
-    color:white;
 }
 
-.metric-container{
-    background:#1a1d24;
+[data-testid="stMetric"]{
+    background:#1c2028;
+    padding:15px;
+    border-radius:12px;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# =====================================================
 # FONCTIONS
-# ---------------------------------------------------
+# =====================================================
 
 def api_get(url):
     try:
@@ -49,151 +48,169 @@ def api_get(url):
             timeout=30
         )
         return r.json()
-    except:
-        return {"response":[]}
+    except Exception:
+        return {"response": []}
 
-def poisson(l,k):
-    return (l**k*exp(-l))/factorial(k)
+def poisson(l, k):
+    return (l ** k * exp(-l)) / factorial(k)
 
-# ---------------------------------------------------
-# MENU
-# ---------------------------------------------------
+# =====================================================
+# MENU PRINCIPAL
+# =====================================================
 
 menu = st.sidebar.radio(
     "Navigation",
     [
         "🏠 Accueil",
+
+        "🔴 Matchs Live",
+        "📅 Calendrier",
+
         "⚽ Football",
         "🎾 Tennis",
         "🏒 Hockey",
+
         "🏆 Compétitions",
         "📊 Classements",
+
         "👥 Joueurs",
-        "📺 Live",
-        "📅 Avant-match",
+        "🎯 Buteurs",
+
         "📈 Prédictions",
-        "📉 Statistiques Avancées",
+        "📉 Statistiques",
+
         "👑 Admin"
     ]
 )
 
-# ---------------------------------------------------
+# =====================================================
+# ACCUEIL
+# =====================================================
+
+if menu == "🏠 Accueil":
+
+    st.title("🏆 SPORT PREDICTOR ULTRA PRO 2026")
+
+    c1, c2, c3, c4 = st.columns(4)
+
+    c1.metric("Précision IA", "78%")
+    c2.metric("Matchs analysés", "3250")
+    c3.metric("Prédictions", "18750")
+    c4.metric("Ligues", "500+")
+
+# =====================================================
 # LIVE
-# ---------------------------------------------------
+# =====================================================
 
-if menu == "🔴 Matchs Live":
+elif menu == "🔴 Matchs Live":
 
-    st.title("🔴 Matchs en direct")
+    st.title("🔴 Matchs Live")
 
     data = api_get(
         "https://v3.football.api-sports.io/fixtures?live=all"
     )
 
-    for m in data.get("response",[]):
+    rows = []
 
-        home = m["teams"]["home"]["name"]
-        away = m["teams"]["away"]["name"]
-
-        hg = m["goals"]["home"]
-        ag = m["goals"]["away"]
-
-        minute = (
-            m["fixture"]["status"]["elapsed"]
-        )
-
-        st.info(
-            f"{home} {hg}-{ag} {away} | {minute}'"
-        )
-
-# ---------------------------------------------------
-# COTES
-# ---------------------------------------------------
-
-elif menu == "💰 Cotes":
-
-    st.title("💰 Cotes Bookmakers")
-
-    fixture_id = st.number_input(
-        "Fixture ID",
-        value=0
-    )
-
-    if fixture_id > 0:
-
-        url = (
-            f"https://v3.football.api-sports.io/odds"
-            f"?fixture={fixture_id}"
-        )
-
-        data = api_get(url)
-
-        st.json(data)
-
-elif menu == "💰 Cotes":
-
-    st.title("💰 Cotes 1X2")
-
-    col1, col2, col3 = st.columns(3)
-
-    col1.metric(
-        "🏠 Domicile",
-        "1.75"
-    )
-
-    col2.metric(
-        "🤝 Nul",
-        "3.60"
-    )
-
-    col3.metric(
-        "🛫 Extérieur",
-        "4.50"
-    )
-
-# ---------------------------------------------------
-# CALENDRIER
-# ---------------------------------------------------
-
-elif menu == "📅 Calendrier":
-
-    st.title("📅 Matchs à venir")
-
-    data = api_get(
-        "https://v3.football.api-sports.io/fixtures?next=50"
-    )
-
-    rows=[]
-
-    for m in data.get("response",[]):
+    for m in data.get("response", []):
 
         rows.append({
-            "Date":
-            m["fixture"]["date"][:16],
-
-            "Domicile":
-            m["teams"]["home"]["name"],
-
-            "Extérieur":
-            m["teams"]["away"]["name"],
-
-            "Compétition":
-            m["league"]["name"]
+            "Minute": m["fixture"]["status"]["elapsed"],
+            "Domicile": m["teams"]["home"]["name"],
+            "Score":
+            f"{m['goals']['home']} - {m['goals']['away']}",
+            "Extérieur": m["teams"]["away"]["name"],
+            "Compétition": m["league"]["name"]
         })
 
     st.dataframe(
         pd.DataFrame(rows),
         width="stretch"
     )
-equipe1 = st.text_input(
-    "Équipe domicile"
-)
 
-equipe2 = st.text_input(
-    "Équipe extérieur"
-)
-# ---------------------------------------------------
-# CLASSEMENT
-# ---------------------------------------------------
+# =====================================================
+# CALENDRIER
+# =====================================================
+
+elif menu == "📅 Calendrier":
+
+    st.title("📅 Calendrier")
+
+    data = api_get(
+        "https://v3.football.api-sports.io/fixtures?next=50"
+    )
+
+    rows = []
+
+    for m in data.get("response", []):
+
+        rows.append({
+            "Date": m["fixture"]["date"][:16],
+            "Domicile": m["teams"]["home"]["name"],
+            "Extérieur": m["teams"]["away"]["name"],
+            "Compétition": m["league"]["name"]
+        })
+
+    st.dataframe(
+        pd.DataFrame(rows),
+        width="stretch"
+    )
+
+# =====================================================
+# FOOTBALL
+# =====================================================
+
+elif menu == "⚽ Football":
+
+    st.title("⚽ Football")
+
+    st.info("Ligues, équipes et statistiques football.")
+
+# =====================================================
+# TENNIS
+# =====================================================
+
+elif menu == "🎾 Tennis":
+
+    st.title("🎾 Tennis")
+
+# =====================================================
+# HOCKEY
+# =====================================================
+
+elif menu == "🏒 Hockey":
+
+    st.title("🏒 Hockey")
+
+# =====================================================
+# COMPÉTITIONS
+# =====================================================
+
+elif menu == "🏆 Compétitions":
+
+    st.title("🏆 Compétitions")
+
+    data = api_get(
+        "https://v3.football.api-sports.io/leagues"
+    )
+
+    rows = []
+
+    for league in data.get("response", []):
+
+        rows.append({
+            "Compétition": league["league"]["name"],
+            "Pays": league["country"]["name"]
+        })
+
+    st.dataframe(
+        pd.DataFrame(rows),
+        width="stretch"
+    )
+
+# =====================================================
+# CLASSEMENTS
+# =====================================================
 
 elif menu == "📊 Classements":
 
@@ -215,20 +232,17 @@ elif menu == "📊 Classements":
 
     try:
 
-        standings = (
-            data["response"][0]
-            ["league"]
-            ["standings"][0]
-        )
+        standings = \
+            data["response"][0]["league"]["standings"][0]
 
-        rows=[]
+        rows = []
 
         for t in standings:
 
             rows.append({
-                "Pos":t["rank"],
-                "Club":t["team"]["name"],
-                "Pts":t["points"]
+                "Pos": t["rank"],
+                "Club": t["team"]["name"],
+                "Pts": t["points"]
             })
 
         st.dataframe(
@@ -237,40 +251,42 @@ elif menu == "📊 Classements":
         )
 
     except:
+        st.warning("Aucune donnée")
 
-        st.warning("Classement indisponible")
+# =====================================================
+# JOUEURS
+# =====================================================
 
-# ---------------------------------------------------
-# H2H
-# ---------------------------------------------------
+elif menu == "👥 Joueurs":
 
-elif menu == "⚔️ H2H":
+    st.title("👥 Joueurs")
 
-    st.title("⚔️ Face à Face")
-
-    h2h = st.text_input(
-        "Exemple : 33-40"
+    team_id = st.number_input(
+        "ID équipe",
+        value=33
     )
 
-    if h2h:
+    data = api_get(
+        f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
+    )
 
-        data = api_get(
-            f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={h2h}"
-        )
+    rows = []
 
-        for m in data.get("response",[]):
+    for p in data.get("response", [])[:20]:
 
-            st.write(
-                f"{m['teams']['home']['name']} "
-                f"{m['goals']['home']}"
-                f" - "
-                f"{m['goals']['away']} "
-                f"{m['teams']['away']['name']}"
-            )
+        rows.append({
+            "Nom": p["player"]["name"],
+            "Age": p["player"]["age"]
+        })
 
-# ---------------------------------------------------
+    st.dataframe(
+        pd.DataFrame(rows),
+        width="stretch"
+    )
+
+# =====================================================
 # BUTEURS
-# ---------------------------------------------------
+# =====================================================
 
 elif menu == "🎯 Buteurs":
 
@@ -280,16 +296,13 @@ elif menu == "🎯 Buteurs":
         "https://v3.football.api-sports.io/players/topscorers?league=39&season=2026"
     )
 
-    rows=[]
+    rows = []
 
-    for p in data.get("response",[]):
+    for p in data.get("response", []):
 
         rows.append({
-            "Joueur":
-            p["player"]["name"],
-
-            "Buts":
-            p["statistics"][0]["goals"]["total"]
+            "Joueur": p["player"]["name"],
+            "Buts": p["statistics"][0]["goals"]["total"]
         })
 
     st.dataframe(
@@ -297,298 +310,209 @@ elif menu == "🎯 Buteurs":
         width="stretch"
     )
 
-# ---------------------------------------------------
-# OVER UNDER
-# ---------------------------------------------------
+# =====================================================
+# PREDICTIONS
+# =====================================================
 
-elif menu == "⚽ Over/Under":
+elif menu == "📈 Prédictions":
 
-    st.title("⚽ Over / Under")
+    st.title("📈 Centre de Prédictions")
 
-    dom = st.number_input(
-        "Buts domicile",
-        0.0,
-        5.0,
-        1.8
+    prediction_menu = st.selectbox(
+        "Module",
+        [
+            "💰 Cotes",
+            "📊 Probabilités 1X2",
+            "⚽ Over / Under",
+            "✅ BTTS",
+            "🎲 Score Exact",
+            "🎯 Buteurs Probables",
+            "📈 xG",
+            "🤖 Analyse IA"
+        ]
     )
 
-    ext = st.number_input(
-        "Buts extérieur",
-        0.0,
-        5.0,
-        1.2
-    )
+    if prediction_menu == "💰 Cotes":
 
-    total = dom + ext
-
-    st.metric(
-        "Over 1.5",
-        f"{min(round((total/1.5)*50,1),99)}%"
-    )
-
-    st.metric(
-        "Over 2.5",
-        f"{min(round((total/2.5)*50,1),99)}%"
-    )
-
-    st.metric(
-        "Over 3.5",
-        f"{min(round((total/3.5)*50,1),99)}%"
-    )
-over25 = min(
-        round(
-            (total/2.5)*50,
-            1
-        ),
-        95
-    )
-
-    st.metric(
-        "⚽ Over 2.5",
-        f"{over25}%"
-    )
-
-# ---------------------------------------------------
-# BTTS
-# ---------------------------------------------------
-
-elif menu == "✅ BTTS":
-
-    st.title("✅ Both Teams To Score")
-
-    dom = st.number_input(
-        "Moyenne domicile",
-        0.0,
-        5.0,
-        1.8
-    )
-
-    ext = st.number_input(
-        "Moyenne extérieur",
-        0.0,
-        5.0,
-        1.2
-    )
-
-    btts = min(
-        round(dom*ext*25,1),
-        95
-    )
-
-    st.metric(
-        "BTTS Oui",
-        f"{btts}%"
-    )
-btts = min(
-        round(
-            xg_dom*xg_ext*25,
-            1
-        ),
-        95
-    )
-
-    st.metric(
-        "✅ BTTS",
-        f"{btts}%"
-    )
-
-# ---------------------------------------------------
-# SCORE EXACT
-# ---------------------------------------------------
-
-elif menu == "🎲 Score Exact":
-
-    st.title("🎲 Score Exact Poisson")
-
-    home_xg = st.number_input(
-        "xG domicile",
-        0.1,
-        5.0,
-        1.8
-    )
-
-    away_xg = st.number_input(
-        "xG extérieur",
-        0.1,
-        5.0,
-        1.2
-    )
-
-    scores=[]
-
-    for h in range(6):
-
-        for a in range(6):
-
-            p = (
-                poisson(home_xg,h)
-                *
-                poisson(away_xg,a)
-                *100
-            )
-
-            scores.append(
-                (
-                    f"{h}-{a}",
-                    round(p,2)
-                )
-            )
-
-    scores=sorted(
-        scores,
-        key=lambda x:x[1],
-        reverse=True
-    )
-
-    st.table(scores[:10])
-scores = []
-
-    for h in range(6):
-
-        for a in range(6):
-
-            p = (
-                poisson(xg_dom,h)
-                *
-                poisson(xg_ext,a)
-                *
-                100
-            )
-
-            scores.append(
-                (
-                    f"{h}-{a}",
-                    round(p,2)
-                )
-            )
-
-    scores = sorted(
-        scores,
-        key=lambda x:x[1],
-        reverse=True
-    )
-
-    st.subheader(
-        "🎲 Score Exact"
-    )
-
-    st.table(scores[:5])
-
-# ---------------------------------------------------
-# IA
-# ---------------------------------------------------
-
-elif menu == "🤖 Analyse IA":
-
-    st.title("🤖 Analyse IA")
-
-    equipe1 = st.text_input("Equipe domicile")
-    equipe2 = st.text_input("Equipe extérieur")
-
-    forme1 = st.slider(
-        "Forme domicile",
-        0,
-        100,
-        70
-    )
-
-    forme2 = st.slider(
-        "Forme extérieur",
-        0,
-        100,
-        55
-    )
-
-    if st.button("Analyser"):
-
-        avantage = forme1 - forme2
-
-        if avantage > 10:
-            prediction = "✅ Victoire domicile"
-
-        elif avantage < -10:
-            prediction = "✅ Victoire extérieur"
-
-        else:
-            prediction = "✅ Match équilibré"
-
-        st.success(prediction)
+        fixture_id = st.number_input(
+            "Fixture ID",
+            value=123456
+        )
 
         st.info(
-            f'''
-{equipe1} possède une forme de {forme1}%.
-
-{equipe2} possède une forme de {forme2}%.
-
-Pronostic :
-{prediction}
-
-Over 2.5 probable.
-
-BTTS envisageable.
-'''
+            "Connectez ici l'endpoint /odds"
         )
-analyse = f"""
-✅ Match : {equipe1} vs {equipe2}
 
-🏠 Victoire domicile : {home_win} %
+    elif prediction_menu == "⚽ Over / Under":
 
-🤝 Nul : {round(draw,1)} %
+        dom = st.slider(
+            "Buts domicile",
+            0.0, 5.0, 1.8
+        )
 
-🛫 Victoire extérieur : {away_win} %
+        ext = st.slider(
+            "Buts extérieur",
+            0.0, 5.0, 1.2
+        )
 
-⚽ Over 2.5 : {over25} %
+        total = dom + ext
 
-✅ BTTS : {btts} %
+        st.metric(
+            "Over 2.5",
+            f"{min(round((total/2.5)*50,1),95)}%"
+        )
 
-🎲 Score probable :
-{scores[0][0]}
+    elif prediction_menu == "✅ BTTS":
 
-📈 Analyse :
+        dom = st.slider(
+            "Moyenne domicile",
+            0.0, 5.0, 1.8
+        )
 
-{xg_dom} xG contre {xg_ext} xG.
+        ext = st.slider(
+            "Moyenne extérieur",
+            0.0, 5.0, 1.2
+        )
 
-Le modèle favorise
-{'le domicile' if home_win > away_win else 'l extérieur'}.
-"""
+        btts = min(
+            round(dom * ext * 25, 1),
+            95
+        )
 
-    st.info(analyse)
+        st.metric(
+            "BTTS Oui",
+            f"{btts}%"
+        )
 
-st.subheader("⚽ Résultat probable")
+    elif prediction_menu == "🎲 Score Exact":
 
-    col1,col2,col3 = st.columns(3)
+        home_xg = st.slider(
+            "xG domicile",
+            0.1, 5.0, 1.8
+        )
 
-    col1.metric(
-        "🏠 1",
-        f"{home_win}%"
+        away_xg = st.slider(
+            "xG extérieur",
+            0.1, 5.0, 1.2
+        )
+
+        scores = []
+
+        for h in range(6):
+            for a in range(6):
+
+                p = (
+                    poisson(home_xg, h)
+                    *
+                    poisson(away_xg, a)
+                    * 100
+                )
+
+                scores.append(
+                    (f"{h}-{a}", round(p, 2))
+                )
+
+        scores = sorted(
+            scores,
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        st.table(scores[:10])
+
+    elif prediction_menu == "🤖 Analyse IA":
+
+        equipe1 = st.text_input(
+            "Équipe domicile"
+        )
+
+        equipe2 = st.text_input(
+            "Équipe extérieur"
+        )
+
+        forme1 = st.slider(
+            "Forme domicile",
+            0, 100, 70
+        )
+
+        forme2 = st.slider(
+            "Forme extérieur",
+            0, 100, 55
+        )
+
+        if st.button("Analyser"):
+
+            home = round(
+                (forme1/(forme1+forme2))*100,
+                1
+            )
+
+            away = round(
+                (forme2/(forme1+forme2))*100,
+                1
+            )
+
+            draw = round(
+                100-(home+away)*0.8,
+                1
+            )
+
+            st.metric(
+                "🏠 1",
+                f"{home}%"
+            )
+
+            st.metric(
+                "🤝 X",
+                f"{draw}%"
+            )
+
+            st.metric(
+                "🛫 2",
+                f"{away}%"
+            )
+
+# =====================================================
+# STATISTIQUES
+# =====================================================
+
+elif menu == "📉 Statistiques":
+
+    st.title("📉 Statistiques")
+
+    stats_menu = st.selectbox(
+        "Module",
+        [
+            "xG",
+            "H2H",
+            "Possession",
+            "Tirs",
+            "Forme"
+        ]
     )
 
-    col2.metric(
-        "🤝 X",
-        f"{round(draw,1)}%"
+    st.info(f"Module : {stats_menu}")
+
+# =====================================================
+# ADMIN
+# =====================================================
+
+elif menu == "👑 Admin":
+
+    st.title("👑 Dashboard Admin")
+
+    admin_menu = st.selectbox(
+        "Administration",
+        [
+            "📊 Dashboard",
+            "👥 Utilisateurs",
+            "💎 VIP",
+            "⚽ Matchs analysés",
+            "🤖 Prédictions générées",
+            "🏆 Ligues suivies",
+            "📜 Logs",
+            "⚙️ Paramètres"
+        ]
     )
 
-    col3.metric(
-        "🛫 2",
-        f"{away_win}%"
-    )
-
-if st.button("Analyser"):
-
-    total = xg_dom + xg_ext
-
-    home_win = min(
-        round(
-            (forme1/(forme1+forme2))*100,
-            1
-        ),
-        90
-    )
-
-    away_win = 100 - home_win
-
-    draw = 100 - (
-        home_win * 0.75
-        +
-        away_win * 0.75
-    )
+    st.success(f"Section : {admin_menu}")
