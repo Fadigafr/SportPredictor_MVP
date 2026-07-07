@@ -62,3 +62,83 @@ if st.button("Analyser"):
     st.success(
         "Victoire domicile probable"
     )
+
+prediction_menu = st.selectbox(
+    "Prédictions",
+    [
+        "🎯 Vue Générale IA",
+        "🤖 Prédictions API",
+        "💰 Cotes",
+        "⚽ Over/Under",
+        "✅ BTTS",
+        "🎲 Score Exact",
+        "📜 Historique"
+    ]
+)
+
+elif prediction_menu == "🤖 Prédictions API":
+
+    st.subheader("🤖 Prédiction officielle API-Football")
+
+    fixture_id = st.number_input(
+        "Fixture ID",
+        min_value=1,
+        value=123456
+    )
+
+    if st.button("Charger la prédiction"):
+
+        url = (
+            f"https://v3.football.api-sports.io/predictions"
+            f"?fixture={fixture_id}"
+        )
+
+        data = api_get(url)
+
+        if data.get("response"):
+
+            pred = data["response"][0]
+
+            st.success(
+                pred["predictions"]["advice"]
+            )
+
+            c1, c2, c3 = st.columns(3)
+
+            c1.metric(
+                "🏠 Domicile",
+                pred["percent"]["home"] + "%"
+            )
+
+            c2.metric(
+                "🤝 Nul",
+                pred["percent"]["draw"] + "%"
+            )
+
+            c3.metric(
+                "🛫 Extérieur",
+                pred["percent"]["away"] + "%"
+            )
+
+            st.subheader("📊 Comparaison")
+
+            st.write(
+                f"Forme domicile : "
+                f"{pred['comparison']['form']['home']}"
+            )
+
+            st.write(
+                f"Forme extérieur : "
+                f"{pred['comparison']['form']['away']}"
+            )
+
+            st.write(
+                f"Attaque domicile : "
+                f"{pred['comparison']['att']['home']}"
+            )
+
+            st.write(
+                f"Attaque extérieur : "
+                f"{pred['comparison']['att']['away']}"
+            )
+            
