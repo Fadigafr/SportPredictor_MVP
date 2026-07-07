@@ -140,27 +140,22 @@ if len(stats.get("response", [])) >= 2:
 
         col3.write(a)
 
-Possession
+stats_importantes = pd.DataFrame({
+    "Statistique": [
+        "Possession",
+        "Shots on Goal",
+        "Shots off Goal",
+        "Total Shots",
+        "Corner Kicks",
+        "Fouls",
+        "Yellow Cards",
+        "Red Cards",
+        "Passes",
+        "Pass Accuracy"
+    ]
+})
 
-Shots on Goal
-
-Shots off Goal
-
-Total Shots
-
-Corner Kicks
-
-Fouls
-
-Yellow Cards
-
-Red Cards
-
-Expected Goals (si disponible)
-
-Passes
-
-Pass Accuracy
+st.dataframe(stats_importantes, width="stretch")
 
 # =====================================================
 # LIVE
