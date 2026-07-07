@@ -24,33 +24,26 @@ st.markdown("""
 <style>
 
 .stApp{
-    background-color:#0f1117;
-    color:white;
+ background:#0f1117;
+ color:white;
 }
 
-div[data-testid="stMetric"]{
-    background:#1c2028;
-    padding:15px;
-    border-radius:15px;
+.block-container{
+ padding-top:1rem;
 }
 
 .match-card{
-    background:#1a1d24;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:15px;
-    border:1px solid #2e3440;
-}
-
-.live{
-    color:#ff4b4b;
-    font-weight:bold;
+ background:#1a1d24;
+ border-radius:18px;
+ padding:18px;
+ margin-bottom:12px;
+ border:1px solid #2a2f38;
 }
 
 .score{
-    color:#FFD700;
-    font-size:40px;
-    font-weight:bold;
+ font-size:42px;
+ color:#FFD700;
+ font-weight:bold;
 }
 
 </style>
@@ -218,7 +211,48 @@ if menu == "🏠 Accueil":
     c3.metric("Prédictions","18750")
     c4.metric("VIP","245")
 
-# =======================
+#league_id = 39
+season = 2026
+
+url = (
+    f"https://v3.football.api-sports.io/standings"
+    f"?league={league_id}&season={season}"
+)
+
+data = requests.get(
+    url,
+    headers=HEADERS
+).json()
+table = []
+
+for team in data["response"][0]["league"]["standings"][0]:
+
+    table.append({
+        "Pos": team["rank"],
+        "Club": team["team"]["name"],
+        "Pts": team["points"]
+    })
+
+st.dataframe(table, width="stretch")
+team_id = 33
+
+url = (
+    f"https://v3.football.api-sports.io/players"
+    f"?team={team_id}&season=2026"
+)
+
+response = requests.get(
+    url,
+    headers=HEADERS
+).json()
+Joueur
+Photo
+Âge
+Nationalité
+Club
+Position
+
+=======================
 # LIVE
 # =======================
 
@@ -250,6 +284,35 @@ elif menu == "🔴 Live":
     </div>
     """, unsafe_allow_html=True)
 
+elif menu == "🔴 Live":
+
+    st.title("🔴 Matchs en direct")
+
+    url = "https://v3.football.api-sports.io/fixtures?live=all"
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    ).json()
+
+    for match in response["response"]:
+
+        home = match["teams"]["home"]["name"]
+        away = match["teams"]["away"]["name"]
+
+        hg = match["goals"]["home"]
+        ag = match["goals"]["away"]
+
+        minute = match["fixture"]["status"]["elapsed"]
+
+        st.markdown(
+            f"""
+### 🔴 {home} {hg} - {ag} {away}
+
+Minute : {minute}'
+"""
+        )
+
 # =======================
 # AVANT MATCH
 # =======================
@@ -261,6 +324,61 @@ elif menu == "📅 Avant Match":
     st.write("PSG vs Monaco")
     st.write("Liverpool vs Chelsea")
     st.write("Real Madrid vs Barcelone")
+
+elif menu == "📅 Avant Match":
+
+    st.title("📅 Matchs à venir")
+
+    url = "https://v3.football.api-sports.io/fixtures?next=50"
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    ).json()
+
+    for match in response["response"]:
+
+        home = match["teams"]["home"]["name"]
+        away = match["teams"]["away"]["name"]
+
+        date = match["fixture"]["date"]
+
+        st.write(f"{date[:16]} | {home} vs {away}")
+
+elif menu == "🏆 Compétitions":
+
+    url = (
+        "https://v3.football.api-sports.io/leagues"
+    )
+
+    data = requests.get(
+        url,
+        headers=HEADERS
+    ).json()
+
+    leagues = []
+
+    for l in data["response"]:
+
+        leagues.append({
+            "Ligue": l["league"]["name"],
+            "Pays": l["country"]["name"]
+        })
+
+    st.dataframe(leagues, width="stretch")
+
+league_id = 39
+season = 2026
+
+url = (
+    f"https://v3.football.api-sports.io/standings"
+    f"?league={league_id}&season={season}"
+)
+
+data = requests.get(
+    url,
+    headers=HEADERS
+).json()
 
 # =======================
 # Prediction IA
@@ -332,6 +450,24 @@ elif menu == "📈 Prédictions IA":
     st.subheader("🎯 Scores Exacts")
 
     st.table(scores[:5])
+
+url = (
+    "https://v3.football.api-sports.io/players/topscorers"
+    "?league=39&season=2026"
+)
+/predictions
+fixture_id = 123456
+
+url = (
+    "https://v3.football.api-sports.io/predictions"
+    f"?fixture={fixture_id}"
+)
+
+prediction = requests.get(
+    url,
+    headers=HEADERS
+).json()
+
 
 # =======================
 # Statistiques avancées
