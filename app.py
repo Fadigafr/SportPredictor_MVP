@@ -208,23 +208,7 @@ competition = st.selectbox(
     "🏆 Compétition",
     sorted(list(league_dict.keys()))
 )
-    stats_importantes = pd.DataFrame({
-    "Statistique": [
-        "Possession",
-        "Shots on Goal",
-        "Shots off Goal",
-        "Total Shots",
-        "Corner Kicks",
-        "Fouls",
-        "Yellow Cards",
-        "Red Cards",
-        "Passes",
-        "Pass Accuracy"
-    ]
-})
-
-st.dataframe(stats_importantes, width="stretch")
-
+ 
 # =====================================================
 # MATCH
 # =====================================================
