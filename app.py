@@ -111,13 +111,6 @@ if menu == "🏠 Accueil":
     c3.metric("Prédictions","18750")
     c4.metric("Compétitions","500+")
 
-if len(stats.get("response", [])) >= 2:
-
-    home = stats["response"][0]
-    away = stats["response"][1]
-
-    st.subheader("📈 Comparaison")
-
     for i in range(
         min(
             len(home["statistics"]),
@@ -139,23 +132,6 @@ if len(stats.get("response", [])) >= 2:
         col2.caption(nom)
 
         col3.write(a)
-
-stats_importantes = pd.DataFrame({
-    "Statistique": [
-        "Possession",
-        "Shots on Goal",
-        "Shots off Goal",
-        "Total Shots",
-        "Corner Kicks",
-        "Fouls",
-        "Yellow Cards",
-        "Red Cards",
-        "Passes",
-        "Pass Accuracy"
-    ]
-})
-
-st.dataframe(stats_importantes, width="stretch")
 
 # =====================================================
 # LIVE
@@ -232,6 +208,22 @@ competition = st.selectbox(
     "🏆 Compétition",
     sorted(list(league_dict.keys()))
 )
+    stats_importantes = pd.DataFrame({
+    "Statistique": [
+        "Possession",
+        "Shots on Goal",
+        "Shots off Goal",
+        "Total Shots",
+        "Corner Kicks",
+        "Fouls",
+        "Yellow Cards",
+        "Red Cards",
+        "Passes",
+        "Pass Accuracy"
+    ]
+})
+
+st.dataframe(stats_importantes, width="stretch")
 
 # =====================================================
 # MATCH
