@@ -1,443 +1,358 @@
 import streamlit as st
-import pandas as pd
-import sqlite3
-import hashlib
-from math import exp, factorial
 import requests
-import streamlit as st
+import pandas as pd
+from math import exp, factorial
+
+# ---------------------------------------------------
+# CONFIG
+# ---------------------------------------------------
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO 2026",
     layout="wide"
 )
 
-API_KEY = st.secrets["ae93ad8f2d8d02fd33378e042e988d37"]
+API_KEY = st.secrets["API_KEY"]
 
 HEADERS = {
     "x-apisports-key": API_KEY
 }
-# =======================
+
+# ---------------------------------------------------
 # STYLE
-# =======================
+# ---------------------------------------------------
 
 st.markdown("""
 <style>
 
 .stApp{
- background:#0f1117;
- color:white;
+    background:#0f1117;
+    color:white;
 }
 
-.block-container{
- padding-top:1rem;
-}
-
-.match-card{
- background:#1a1d24;
- border-radius:18px;
- padding:18px;
- margin-bottom:12px;
- border:1px solid #2a2f38;
-}
-
-.score{
- font-size:42px;
- color:#FFD700;
- font-weight:bold;
+.metric-container{
+    background:#1a1d24;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# =======================
-# HASH
-# =======================
+# ---------------------------------------------------
+# FONCTIONS
+# ---------------------------------------------------
 
-def h(x):
-    return hashlib.sha256(x.encode()).hexdigest()
-
-# =======================
-# POISSON
-# =======================
+def api_get(url):
+    try:
+        r = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=30
+        )
+        return r.json()
+    except:
+        return {"response":[]}
 
 def poisson(l,k):
-    return (l**k * exp(-l))/factorial(k)
+    return (l**k*exp(-l))/factorial(k)
 
-# =======================
-# SQLITE
-# =======================
-
-conn = sqlite3.connect(
-    "users.db",
-    check_same_thread=False
-)
-
-c = conn.cursor()
-
-c.execute("""
-CREATE TABLE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT UNIQUE,
-    password TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-""")
-
-conn.commit()
-
-# =======================
-# SESSION
-# =======================
-
-if "user" not in st.session_state:
-    st.session_state.user = None
-
-# =======================
-# LOGIN
-# =======================
-
-st.sidebar.title("🔐 Accès")
-
-mode = st.sidebar.radio(
-    "",
-    ["Login","Inscription"]
-)
-
-email = st.sidebar.text_input("Email")
-password = st.sidebar.text_input(
-    "Mot de passe",
-    type="password"
-)
-
-if mode == "Inscription":
-
-    if st.sidebar.button("Créer compte"):
-
-        try:
-
-            c.execute(
-                """
-                INSERT INTO users(email,password)
-                VALUES(?,?)
-                """,
-                (
-                    email,
-                    h(password)
-                )
-            )
-
-            conn.commit()
-
-            st.success("✅ Compte créé")
-
-        except:
-            st.error("Email déjà utilisé")
-
-if mode == "Login":
-
-    if st.sidebar.button("Connexion"):
-
-        user = c.execute(
-            """
-            SELECT *
-            FROM users
-            WHERE email=? AND password=?
-            """,
-            (
-                email,
-                h(password)
-            )
-        ).fetchone()
-
-        if user:
-
-            st.session_state.user = email
-
-            st.success("Connexion OK")
-
-            st.rerun()
-
-# =======================
-# LOGOUT
-# =======================
-
-if st.session_state.user:
-
-    st.sidebar.success(
-        f"✅ {st.session_state.user}"
-    )
-
-    if st.sidebar.button("🚪 Déconnexion"):
-
-        st.session_state.user = None
-
-        st.rerun()
-
-# =======================
+# ---------------------------------------------------
 # MENU
-# =======================
+# ---------------------------------------------------
 
 menu = st.sidebar.radio(
     "Navigation",
     [
-        "🏠 Accueil",
-        "🔴 Live",
-        "📅 Avant Match",
-        "⚽ Football",
-        "🎾 Tennis",
-        "🏒 Hockey",
-        "🏆 Compétitions",
+        "🔴 Matchs Live",
+        "📅 Calendrier",
         "📊 Classements",
-        "👥 Joueurs",
-        "📈 Prédictions IA",
-        "📉 Statistiques",
-        "⭐ Favoris",
-        "🔔 Alertes",
-        "👑 Admin"
+        "⚔️ H2H",
+        "🎯 Buteurs",
+        "⚽ Over/Under",
+        "✅ BTTS",
+        "🎲 Score Exact",
+        "🤖 Analyse IA"
     ]
 )
 
-# =======================
-# ACCUEIL
-# =======================
-if menu == "🏠 Accueil":
-
-    st.title("🏆 SPORT PREDICTOR ULTRA PRO 2026")
-
-    c1,c2,c3,c4 = st.columns(4)
-
-    c1.metric("Précision IA","78%")
-    c2.metric("Matchs analysés","3250")
-    c3.metric("Prédictions","18750")
-    c4.metric("VIP","245")
-
-#league_id = 39
-season = 2026
-
-url = (
-    f"https://v3.football.api-sports.io/standings"
-    f"?league={league_id}&season={season}"
-)
-
-data = requests.get(
-    url,
-    headers=HEADERS
-).json()
-table = []
-
-for team in data["response"][0]["league"]["standings"][0]:
-
-    table.append({
-        "Pos": team["rank"],
-        "Club": team["team"]["name"],
-        "Pts": team["points"]
-    })
-
-st.dataframe(table, width="stretch")
-team_id = 33
-
-url = (
-    f"https://v3.football.api-sports.io/players"
-    f"?team={team_id}&season=2026"
-)
-
-response = requests.get(
-    url,
-    headers=HEADERS
-).json()
-Joueur
-Photo
-Âge
-Nationalité
-Club
-Position
-
-=======================
+# ---------------------------------------------------
 # LIVE
-# =======================
+# ---------------------------------------------------
 
-elif menu == "🔴 Live":
-
-    st.title("🔴 Matchs en direct")
-
-    st.markdown("""
-    <div class="match-card">
-
-    <div class="live">
-    LIVE 78'
-    </div>
-
-    <h2>
-    Liverpool vs Arsenal
-    </h2>
-
-    <div class="score">
-    2 - 1
-    </div>
-
-    Victoire Liverpool : 58%
-
-    Nul : 22%
-
-    Arsenal : 20%
-
-    </div>
-    """, unsafe_allow_html=True)
-
-elif menu == "🔴 Live":
+if menu == "🔴 Matchs Live":
 
     st.title("🔴 Matchs en direct")
 
-    url = "https://v3.football.api-sports.io/fixtures?live=all"
+    data = api_get(
+        "https://v3.football.api-sports.io/fixtures?live=all"
+    )
 
-    response = requests.get(
-        url,
-        headers=HEADERS
-    ).json()
+    for m in data.get("response",[]):
 
-    for match in response["response"]:
+        home = m["teams"]["home"]["name"]
+        away = m["teams"]["away"]["name"]
 
-        home = match["teams"]["home"]["name"]
-        away = match["teams"]["away"]["name"]
+        hg = m["goals"]["home"]
+        ag = m["goals"]["away"]
 
-        hg = match["goals"]["home"]
-        ag = match["goals"]["away"]
-
-        minute = match["fixture"]["status"]["elapsed"]
-
-        st.markdown(
-            f"""
-### 🔴 {home} {hg} - {ag} {away}
-
-Minute : {minute}'
-"""
+        minute = (
+            m["fixture"]["status"]["elapsed"]
         )
 
-# =======================
-# AVANT MATCH
-# =======================
+        st.info(
+            f"{home} {hg}-{ag} {away} | {minute}'"
+        )
 
-elif menu == "📅 Avant Match":
+# ---------------------------------------------------
+# CALENDRIER
+# ---------------------------------------------------
 
-    st.title("📅 Calendrier")
-
-    st.write("PSG vs Monaco")
-    st.write("Liverpool vs Chelsea")
-    st.write("Real Madrid vs Barcelone")
-
-elif menu == "📅 Avant Match":
+elif menu == "📅 Calendrier":
 
     st.title("📅 Matchs à venir")
 
-    url = "https://v3.football.api-sports.io/fixtures?next=50"
-
-    response = requests.get(
-        url,
-        headers=HEADERS
-    ).json()
-
-    for match in response["response"]:
-
-        home = match["teams"]["home"]["name"]
-        away = match["teams"]["away"]["name"]
-
-        date = match["fixture"]["date"]
-
-        st.write(f"{date[:16]} | {home} vs {away}")
-
-elif menu == "🏆 Compétitions":
-
-    url = (
-        "https://v3.football.api-sports.io/leagues"
+    data = api_get(
+        "https://v3.football.api-sports.io/fixtures?next=50"
     )
 
-    data = requests.get(
-        url,
-        headers=HEADERS
-    ).json()
+    rows=[]
 
-    leagues = []
+    for m in data.get("response",[]):
 
-    for l in data["response"]:
+        rows.append({
+            "Date":
+            m["fixture"]["date"][:16],
 
-        leagues.append({
-            "Ligue": l["league"]["name"],
-            "Pays": l["country"]["name"]
+            "Domicile":
+            m["teams"]["home"]["name"],
+
+            "Extérieur":
+            m["teams"]["away"]["name"],
+
+            "Compétition":
+            m["league"]["name"]
         })
 
-    st.dataframe(leagues, width="stretch")
+    st.dataframe(
+        pd.DataFrame(rows),
+        width="stretch"
+    )
 
-league_id = 39
-season = 2026
+# ---------------------------------------------------
+# CLASSEMENT
+# ---------------------------------------------------
 
-url = (
-    f"https://v3.football.api-sports.io/standings"
-    f"?league={league_id}&season={season}"
-)
+elif menu == "📊 Classements":
 
-data = requests.get(
-    url,
-    headers=HEADERS
-).json()
+    st.title("📊 Classements")
 
-# =======================
-# Prediction IA
-# =======================
+    league = st.number_input(
+        "League ID",
+        value=39
+    )
 
-elif menu == "📈 Prédictions IA":
+    season = st.number_input(
+        "Saison",
+        value=2026
+    )
 
-    st.title("🤖 Analyse IA")
+    data = api_get(
+        f"https://v3.football.api-sports.io/standings?league={league}&season={season}"
+    )
 
-    buts_dom = st.number_input(
+    try:
+
+        standings = (
+            data["response"][0]
+            ["league"]
+            ["standings"][0]
+        )
+
+        rows=[]
+
+        for t in standings:
+
+            rows.append({
+                "Pos":t["rank"],
+                "Club":t["team"]["name"],
+                "Pts":t["points"]
+            })
+
+        st.dataframe(
+            pd.DataFrame(rows),
+            width="stretch"
+        )
+
+    except:
+
+        st.warning("Classement indisponible")
+
+# ---------------------------------------------------
+# H2H
+# ---------------------------------------------------
+
+elif menu == "⚔️ H2H":
+
+    st.title("⚔️ Face à Face")
+
+    h2h = st.text_input(
+        "Exemple : 33-40"
+    )
+
+    if h2h:
+
+        data = api_get(
+            f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={h2h}"
+        )
+
+        for m in data.get("response",[]):
+
+            st.write(
+                f"{m['teams']['home']['name']} "
+                f"{m['goals']['home']}"
+                f" - "
+                f"{m['goals']['away']} "
+                f"{m['teams']['away']['name']}"
+            )
+
+# ---------------------------------------------------
+# BUTEURS
+# ---------------------------------------------------
+
+elif menu == "🎯 Buteurs":
+
+    st.title("🎯 Top Buteurs")
+
+    data = api_get(
+        "https://v3.football.api-sports.io/players/topscorers?league=39&season=2026"
+    )
+
+    rows=[]
+
+    for p in data.get("response",[]):
+
+        rows.append({
+            "Joueur":
+            p["player"]["name"],
+
+            "Buts":
+            p["statistics"][0]["goals"]["total"]
+        })
+
+    st.dataframe(
+        pd.DataFrame(rows),
+        width="stretch"
+    )
+
+# ---------------------------------------------------
+# OVER UNDER
+# ---------------------------------------------------
+
+elif menu == "⚽ Over/Under":
+
+    st.title("⚽ Over / Under")
+
+    dom = st.number_input(
         "Buts domicile",
         0.0,
         5.0,
         1.8
     )
 
-    buts_ext = st.number_input(
+    ext = st.number_input(
         "Buts extérieur",
         0.0,
         5.0,
         1.2
     )
 
-    total = buts_dom + buts_ext
+    total = dom + ext
+
+    st.metric(
+        "Over 1.5",
+        f"{min(round((total/1.5)*50,1),99)}%"
+    )
 
     st.metric(
         "Over 2.5",
-        f"{round((total/2.5)*50,1)}%"
+        f"{min(round((total/2.5)*50,1),99)}%"
+    )
+
+    st.metric(
+        "Over 3.5",
+        f"{min(round((total/3.5)*50,1),99)}%"
+    )
+
+# ---------------------------------------------------
+# BTTS
+# ---------------------------------------------------
+
+elif menu == "✅ BTTS":
+
+    st.title("✅ Both Teams To Score")
+
+    dom = st.number_input(
+        "Moyenne domicile",
+        0.0,
+        5.0,
+        1.8
+    )
+
+    ext = st.number_input(
+        "Moyenne extérieur",
+        0.0,
+        5.0,
+        1.2
     )
 
     btts = min(
-        round(
-            buts_dom*buts_ext*25,
-            1
-        ),
+        round(dom*ext*25,1),
         95
     )
 
     st.metric(
-        "BTTS",
+        "BTTS Oui",
         f"{btts}%"
+    )
+
+# ---------------------------------------------------
+# SCORE EXACT
+# ---------------------------------------------------
+
+elif menu == "🎲 Score Exact":
+
+    st.title("🎲 Score Exact Poisson")
+
+    home_xg = st.number_input(
+        "xG domicile",
+        0.1,
+        5.0,
+        1.8
+    )
+
+    away_xg = st.number_input(
+        "xG extérieur",
+        0.1,
+        5.0,
+        1.2
     )
 
     scores=[]
 
-    for home in range(6):
+    for h in range(6):
 
-        for away in range(6):
+        for a in range(6):
 
             p = (
-                poisson(buts_dom,home)
+                poisson(home_xg,h)
                 *
-                poisson(buts_ext,away)
+                poisson(away_xg,a)
+                *100
             )
 
             scores.append(
                 (
-                    f"{home}-{away}",
-                    round(p*100,2)
+                    f"{h}-{a}",
+                    round(p,2)
                 )
             )
 
@@ -447,106 +362,59 @@ elif menu == "📈 Prédictions IA":
         reverse=True
     )
 
-    st.subheader("🎯 Scores Exacts")
+    st.table(scores[:10])
 
-    st.table(scores[:5])
+# ---------------------------------------------------
+# IA
+# ---------------------------------------------------
 
-url = (
-    "https://v3.football.api-sports.io/players/topscorers"
-    "?league=39&season=2026"
-)
-/predictions
-fixture_id = 123456
+elif menu == "🤖 Analyse IA":
 
-url = (
-    "https://v3.football.api-sports.io/predictions"
-    f"?fixture={fixture_id}"
-)
+    st.title("🤖 Analyse IA")
 
-prediction = requests.get(
-    url,
-    headers=HEADERS
-).json()
+    equipe1 = st.text_input("Equipe domicile")
+    equipe2 = st.text_input("Equipe extérieur")
 
-
-# =======================
-# Statistiques avancées
-# =======================
-
-elif menu == "📉 Statistiques":
-
-    onglet = st.selectbox(
-        "Analyse",
-        [
-            "xG",
-            "Forme",
-            "H2H",
-            "Possession",
-            "Tirs",
-            "Buteurs"
-        ]
+    forme1 = st.slider(
+        "Forme domicile",
+        0,
+        100,
+        70
     )
 
-    if onglet == "xG":
+    forme2 = st.slider(
+        "Forme extérieur",
+        0,
+        100,
+        55
+    )
 
-        st.metric("xG domicile",1.92)
-        st.metric("xG extérieur",1.14)
+    if st.button("Analyser"):
 
-    elif onglet == "Forme":
+        avantage = forme1 - forme2
 
-        st.write("✅ ✅ ✅ ❌ ✅")
+        if avantage > 10:
+            prediction = "✅ Victoire domicile"
 
-    elif onglet == "H2H":
+        elif avantage < -10:
+            prediction = "✅ Victoire extérieur"
 
-        st.write("3V - 1N - 1D")
+        else:
+            prediction = "✅ Match équilibré"
 
-    elif onglet == "Possession":
+        st.success(prediction)
 
-        st.write("58%")
+        st.info(
+            f'''
+{equipe1} possède une forme de {forme1}%.
 
-    elif onglet == "Tirs":
+{equipe2} possède une forme de {forme2}%.
 
-        st.write("15 tirs | 6 cadrés")
+Pronostic :
+{prediction}
 
-    elif onglet == "Buteurs":
+Over 2.5 probable.
 
-        data = {
-            "Rang":["🥇","🥈","🥉"],
-            "Joueur":["Haaland","Mbappé","Kane"]
-        }
-
-        st.dataframe(
-            pd.DataFrame(data),
-            width="stretch"
+BTTS envisageable.
+'''
         )
-
-# =======================
-# Admin
-# =======================
-
-elif menu == "👑 Admin":
-
-    st.title("👑 Dashboard Admin")
-
-    users = pd.read_sql_query(
-        """
-        SELECT
-            id,
-            email,
-            created_at
-        FROM users
-        ORDER BY id DESC
-        """,
-        conn
-    )
-
-    st.dataframe(
-        users,
-        width="stretch"
-    )
-
-    st.metric(
-        "Nombre utilisateurs",
-        len(users)
-    )
-
