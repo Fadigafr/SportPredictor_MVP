@@ -169,3 +169,47 @@ elif menu == "📅 Calendrier":
         pd.DataFrame(rows),
         width="stretch"
     )
+
+leagues = api_get(
+    "https://v3.football.api-sports.io/leagues"
+)
+
+league_dict = {}
+
+for l in leagues.get("response",[]):
+
+    league_dict[
+        l["league"]["name"]
+    ] = l["league"]["id"]
+
+competition = st.selectbox(
+    "🏆 Compétition",
+    sorted(list(league_dict.keys()))
+)
+
+# =====================================================
+# MATCH
+# =====================================================
+league_id = league_dict[competition]
+
+fixtures = api_get(
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=20"
+)
+
+matchs = {}
+
+for m in fixtures.get("response",[]):
+
+    nom = (
+        f"{m['teams']['home']['name']} vs "
+        f"{m['teams']['away']['name']}"
+    )
+
+    matchs[nom] = m["fixture"]["id"]
+
+match_name = st.selectbox(
+    "⚽ Match",
+    list(matchs.keys())
+)
+
+fixture_id = matchs[match_name]
