@@ -14,26 +14,21 @@
 🎯 Buteurs
 
 📈 Prédictions
-   ├─ 🎯 Vue Générale IA
-   ├─ 💰 Cotes
-   ├─ 📊 1X2
-   ├─ ⚽ Over/Under
-   ├─ ✅ BTTS
-   ├─ 🎲 Score Exact
-   ├─ 🎯 Buteurs
-   ├─ 📈 xG
-   └─ 🤖 Analyse IA
+├─ 💰 Cotes
+├─ 📊 1X2
+├─ ⚽ Over/Under
+├─ ✅ BTTS
+├─ 🎲 Score Exact
+├─ 🎯 Buteurs Probables
+├─ 📈 xG
+└─ 🤖 Analyse IA
 
 📉 Statistiques
-   ├─ H2H
-   ├─ Forme
-   ├─ Possession
-   ├─ Tirs
-   └─ xG
+├─ H2H
+├─ Forme
+├─ Possession
+├─ Tirs
+
+🔔 Notifications
 
 👑 Admin
-   ├─ Dashboard
-   ├─ Utilisateurs
-   ├─ VIP
-   ├─ Logs
-   └─ Paramètres
