@@ -199,3 +199,22 @@ if stats_menu == "📊 Statistiques Match":
                 width="stretch"
             )
 
+st.subheader("🤖 Analyse IA")
+
+st.info(
+    f"""
+Possession : {possession_home}
+
+Tirs cadrés : {shots_home}
+
+Corners : {corners_home}
+
+Le modèle estime :
+
+✅ Over 2.5 probable
+
+✅ BTTS envisageable
+
+✅ Score recommandé : 2-1
+"""
+)
