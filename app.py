@@ -67,11 +67,13 @@ menu = st.sidebar.radio(
         "📊 Classements",
         "⚔️ H2H",
         "🎯 Buteurs",
+        "💰 Cotes",
         "⚽ Over/Under",
         "✅ BTTS",
         "🎲 Score Exact",
         "🤖 Analyse IA"
     ]
+)
 )
 
 # ---------------------------------------------------
