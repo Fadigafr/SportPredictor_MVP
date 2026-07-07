@@ -62,16 +62,18 @@ def poisson(l,k):
 menu = st.sidebar.radio(
     "Navigation",
     [
-        "🔴 Matchs Live",
-        "📅 Calendrier",
+        "🏠 Accueil",
+        "⚽ Football",
+        "🎾 Tennis",
+        "🏒 Hockey",
+        "🏆 Compétitions",
         "📊 Classements",
-        "⚔️ H2H",
-        "🎯 Buteurs",
-        "💰 Cotes",
-        "⚽ Over/Under",
-        "✅ BTTS",
-        "🎲 Score Exact",
-        "🤖 Analyse IA"
+        "👥 Joueurs",
+        "📺 Live",
+        "📅 Avant-match",
+        "📈 Prédictions",
+        "📉 Statistiques Avancées",
+        "👑 Admin"
     ]
 )
 
