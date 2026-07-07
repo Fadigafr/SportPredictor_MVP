@@ -105,6 +105,51 @@ if menu == "🔴 Matchs Live":
         )
 
 # ---------------------------------------------------
+# COTES
+# ---------------------------------------------------
+
+elif menu == "💰 Cotes":
+
+    st.title("💰 Cotes Bookmakers")
+
+    fixture_id = st.number_input(
+        "Fixture ID",
+        value=0
+    )
+
+    if fixture_id > 0:
+
+        url = (
+            f"https://v3.football.api-sports.io/odds"
+            f"?fixture={fixture_id}"
+        )
+
+        data = api_get(url)
+
+        st.json(data)
+
+elif menu == "💰 Cotes":
+
+    st.title("💰 Cotes 1X2")
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric(
+        "🏠 Domicile",
+        "1.75"
+    )
+
+    col2.metric(
+        "🤝 Nul",
+        "3.60"
+    )
+
+    col3.metric(
+        "🛫 Extérieur",
+        "4.50"
+    )
+
+# ---------------------------------------------------
 # CALENDRIER
 # ---------------------------------------------------
 
@@ -138,7 +183,13 @@ elif menu == "📅 Calendrier":
         pd.DataFrame(rows),
         width="stretch"
     )
+equipe1 = st.text_input(
+    "Équipe domicile"
+)
 
+equipe2 = st.text_input(
+    "Équipe extérieur"
+)
 # ---------------------------------------------------
 # CLASSEMENT
 # ---------------------------------------------------
@@ -283,6 +334,18 @@ elif menu == "⚽ Over/Under":
         "Over 3.5",
         f"{min(round((total/3.5)*50,1),99)}%"
     )
+over25 = min(
+        round(
+            (total/2.5)*50,
+            1
+        ),
+        95
+    )
+
+    st.metric(
+        "⚽ Over 2.5",
+        f"{over25}%"
+    )
 
 # ---------------------------------------------------
 # BTTS
@@ -313,6 +376,18 @@ elif menu == "✅ BTTS":
 
     st.metric(
         "BTTS Oui",
+        f"{btts}%"
+    )
+btts = min(
+        round(
+            xg_dom*xg_ext*25,
+            1
+        ),
+        95
+    )
+
+    st.metric(
+        "✅ BTTS",
         f"{btts}%"
     )
 
@@ -365,6 +440,38 @@ elif menu == "🎲 Score Exact":
     )
 
     st.table(scores[:10])
+scores = []
+
+    for h in range(6):
+
+        for a in range(6):
+
+            p = (
+                poisson(xg_dom,h)
+                *
+                poisson(xg_ext,a)
+                *
+                100
+            )
+
+            scores.append(
+                (
+                    f"{h}-{a}",
+                    round(p,2)
+                )
+            )
+
+    scores = sorted(
+        scores,
+        key=lambda x:x[1],
+        reverse=True
+    )
+
+    st.subheader(
+        "🎲 Score Exact"
+    )
+
+    st.table(scores[:5])
 
 # ---------------------------------------------------
 # IA
@@ -420,3 +527,67 @@ Over 2.5 probable.
 BTTS envisageable.
 '''
         )
+analyse = f"""
+✅ Match : {equipe1} vs {equipe2}
+
+🏠 Victoire domicile : {home_win} %
+
+🤝 Nul : {round(draw,1)} %
+
+🛫 Victoire extérieur : {away_win} %
+
+⚽ Over 2.5 : {over25} %
+
+✅ BTTS : {btts} %
+
+🎲 Score probable :
+{scores[0][0]}
+
+📈 Analyse :
+
+{xg_dom} xG contre {xg_ext} xG.
+
+Le modèle favorise
+{'le domicile' if home_win > away_win else 'l extérieur'}.
+"""
+
+    st.info(analyse)
+
+st.subheader("⚽ Résultat probable")
+
+    col1,col2,col3 = st.columns(3)
+
+    col1.metric(
+        "🏠 1",
+        f"{home_win}%"
+    )
+
+    col2.metric(
+        "🤝 X",
+        f"{round(draw,1)}%"
+    )
+
+    col3.metric(
+        "🛫 2",
+        f"{away_win}%"
+    )
+
+if st.button("Analyser"):
+
+    total = xg_dom + xg_ext
+
+    home_win = min(
+        round(
+            (forme1/(forme1+forme2))*100,
+            1
+        ),
+        90
+    )
+
+    away_win = 100 - home_win
+
+    draw = 100 - (
+        home_win * 0.75
+        +
+        away_win * 0.75
+    )
