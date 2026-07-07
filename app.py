@@ -3,12 +3,19 @@ import pandas as pd
 import sqlite3
 import hashlib
 from math import exp, factorial
+import requests
+import streamlit as st
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO 2026",
     layout="wide"
 )
 
+API_KEY = st.secrets["ae93ad8f2d8d02fd33378e042e988d37"]
+
+HEADERS = {
+    "x-apisports-key": API_KEY
+}
 # =======================
 # STYLE
 # =======================
