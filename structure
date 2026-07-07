@@ -1,33 +1,39 @@
 🏠 Accueil
 
+🔴 Matchs Live
+📅 Calendrier
+
 ⚽ Football
-   ├── Ligues
-   ├── Equipes
-   ├── Classements
+🎾 Tennis
+🏒 Hockey
 
-📺 Live
-   ├── Matchs en direct
-   ├── Scores live
+🏆 Compétitions
+📊 Classements
 
-📅 Avant-match
-   ├── Calendrier
-   ├── Analyse IA
-   ├── Forme
+👥 Joueurs
+🎯 Buteurs
 
 📈 Prédictions
-   ├── Over/Under
-   ├── BTTS
-   ├── Score exact
-   ├── xG
-   ├── Buteurs
+   ├─ 🎯 Vue Générale IA
+   ├─ 💰 Cotes
+   ├─ 📊 1X2
+   ├─ ⚽ Over/Under
+   ├─ ✅ BTTS
+   ├─ 🎲 Score Exact
+   ├─ 🎯 Buteurs
+   ├─ 📈 xG
+   └─ 🤖 Analyse IA
 
-📉 Statistiques avancées
-   ├── H2H
-   ├── Possession
-   ├── Tirs
-   ├── xG
+📉 Statistiques
+   ├─ H2H
+   ├─ Forme
+   ├─ Possession
+   ├─ Tirs
+   └─ xG
 
 👑 Admin
-   ├── Utilisateurs
-   ├── Connexions
-   ├── Dashboard
+   ├─ Dashboard
+   ├─ Utilisateurs
+   ├─ VIP
+   ├─ Logs
+   └─ Paramètres
