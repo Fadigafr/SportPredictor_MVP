@@ -290,74 +290,121 @@ def predictions_page():
     # H2H
     # =====================================================
 
-st.header("⚔️ Historique H2H")
+    st.header("⚔️ Historique H2H")
 
-h2h = api_get(
-    f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}"
-)
+    h2h = api_get(
+        f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}"
+    )
 
-rows = []
+    rows = []
 
-home_wins = 0
-away_wins = 0
-draws = 0
+    home_wins = 0
+    away_wins = 0
+    draws = 0
 
-for game in h2h.get("response", [])[:10]:
+    for game in h2h.get("response", [])[:10]:
 
-    hg = game["goals"]["home"] or 0
-    ag = game["goals"]["away"] or 0
+        hg = game["goals"]["home"] or 0
+        ag = game["goals"]["away"] or 0
 
-    rows.append({
-        "Date": game["fixture"]["date"][:10],
-        "Match": (
-            f"{game['teams']['home']['name']} vs "
-            f"{game['teams']['away']['name']}"
-        ),
-        "Score": f"{hg}-{ag}"
-    })
+        rows.append({
+            "Date": game["fixture"]["date"][:10],
+            "Match": (
+                f"{game['teams']['home']['name']} vs "
+                f"{game['teams']['away']['name']}"
+            ),
+            "Score": f"{hg}-{ag}"
+        })
 
-    if hg > ag:
-        home_wins += 1
+        if hg > ag:
+            home_wins += 1
 
-    elif hg < ag:
-        away_wins += 1
+        elif hg < ag:
+            away_wins += 1
+
+        else:
+            draws += 1
+
+    if rows:
+
+        st.dataframe(
+            pd.DataFrame(rows),
+            width="stretch"
+        )
+
+        col1, col2, col3 = st.columns(3)
+
+        col1.metric(
+            "🏠 Victoires",
+            home_wins
+        )
+
+        col2.metric(
+            "🤝 Nuls",
+            draws
+        )
+
+        col3.metric(
+            "🛫 Victoires",
+            away_wins
+        )
 
     else:
-        draws += 1
 
-if rows:
+        st.warning(
+            "Aucune donnée H2H disponible"
+        )
 
-    st.dataframe(
-        pd.DataFrame(rows),
-        width="stretch"
+    # =====================================================
+    # SCORE EXACT
+    # =====================================================
+
+    st.header("🎲 Score Exact Poisson")
+
+    home_avg = max(
+        home_stats["buts_marques"] / 5,
+        0.1
     )
 
-    col1, col2, col3 = st.columns(3)
-
-    col1.metric(
-        "🏠 Victoires",
-        home_wins
+    away_avg = max(
+        away_stats["buts_marques"] / 5,
+        0.1
     )
 
-    col2.metric(
-        "🤝 Nuls",
-        draws
+    scores = []
+
+    for h in range(6):
+        for a in range(6):
+
+            prob = (
+                poisson(home_avg, h)
+                *
+                poisson(away_avg, a)
+                * 100
+            )
+
+            scores.append(
+                (
+                    f"{h}-{a}",
+                    round(prob, 2)
+                )
+            )
+
+    scores = sorted(
+        scores,
+        key=lambda x: x[1],
+        reverse=True
     )
 
-    col3.metric(
-        "🛫 Victoires",
-        away_wins
-    )
+    st.table(scores[:10])
 
-else:
+    # =====================================================
+    # ANALYSE IA
+    # =====================================================
 
-    st.warning(
-        "Aucune donnée H2H disponible"
-    )
+    st.header("🤖 Analyse IA")
 
-st.header("🤖 Analyse IA")
-
-st.info(f"""
+    st.info(f"""
 🏟 Match : {match_name}
 
 📈 Forme domicile : {home_stats['points']} pts
