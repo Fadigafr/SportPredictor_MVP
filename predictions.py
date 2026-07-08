@@ -489,28 +489,21 @@ st.subheader("⚔️ *istorique H2H")
 
 rows = []
 
-for ga*e in h2h["response"][:10]:
+for game in h2h.get("response", [])[:10]:
 
-    ro*s.append({
+    rows.append({
         "Date":
-       *game["fixture"]["date"][:10],
+            game["fixture"]["date"][:10],
 
-   *    "Match":
-        (
-           *game["teams"]["home"]["name"]
-    *       + " vs "
-            +
-    *       game["teams"]["away"]["name*]
-        ),
+        "Match":
+            f"{game['teams']['home']['name']} vs "
+            f"{game['teams']['away']['name']}",
 
         "Score":
-   *    (
-            str(game["goals"*["home"])
-            + "-"
-      *     +
-            str(game["goals*]["away"])
-        )
+            f"{game['goals']['home']}-"
+            f"{game['goals']['away']}"
     })
+
 
 st.da*aframe(
     pd.DataFrame(rows),
