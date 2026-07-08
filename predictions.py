@@ -4,7 +4,6 @@ from math import exp, factorial
 
 from api_football import api_get
 
-
 # =====================================================
 # OUTILS
 # =====================================================
@@ -95,7 +94,6 @@ def calcul_over25(matches):
             ok += 1
 
     return round((ok / total) * 100, 1)
-
 
 # =====================================================
 # PAGE PREDICTIONS
