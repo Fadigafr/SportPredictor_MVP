@@ -1,84 +1,15 @@
 import streamlit as st
-import pandas as pd
-import sqlite3
-import hashlib
-import requests
-from math import exp, factorial
 
-# =====================================================
-# CONFIG
-# =====================================================
+from auth import login_page
+from admin import admin_page
+from predictions import predictions_page
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO 2026",
     layout="wide"
 )
 
-API_KEY = st.secrets.get("API_KEY", "")
-
-HEADERS = {
-    "x-apisports-key": API_KEY
-}
-
-# =====================================================
-# SQLITE
-# =====================================================
-
-conn = sqlite3.connect(
-    "users.db",
-    check_same_thread=False
-)
-
-c = conn.cursor()
-
-c.execute("""
-CREATE TABLE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT UNIQUE,
-    password TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-""")
-
-c.execute("""
-CREATE TABLE IF NOT EXISTS predictions(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    competition TEXT,
-    match_name TEXT,
-    prediction TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-""")
-
-conn.commit()
-
-# =====================================================
-# UTILS
-# =====================================================
-
-def h(x):
-    return hashlib.sha256(x.encode()).hexdigest()
-
-def api_get(url):
-
-    try:
-        r = requests.get(
-            url,
-            headers=HEADERS,
-            timeout=20
-        )
-
-        return r.json()
-
-    except:
-        return {"response": []}
-
-def poisson(l, k):
-    return (l ** k * exp(-l)) / factorial(k)
-
-# =====================================================
-# MENU
-# =====================================================
+st.title("🏆 SPORT PREDICTOR ULTRA PRO 2026")
 
 menu = st.sidebar.radio(
     "Navigation",
@@ -97,119 +28,23 @@ menu = st.sidebar.radio(
     ]
 )
 
-# =====================================================
-# ACCUEIL
-# =====================================================
 if menu == "🏠 Accueil":
 
-    st.title("SPORT PREDICTOR ULTRA PRO 2026")
+    c1, c2, c3, c4 = st.columns(4)
 
-    c1,c2,c3,c4 = st.columns(4)
+    c1.metric("Précision IA", "78%")
+    c2.metric("Matchs analysés", "3250")
+    c3.metric("Prédictions", "18750")
+    c4.metric("Compétitions", "500+")
 
-    c1.metric("Précision IA","78%")
-    c2.metric("Matchs analysés","3250")
-    c3.metric("Prédictions","18750")
-    c4.metric("Compétitions","500+")
+elif menu == "📈 Prédictions":
 
-# =====================================================
-# LIVE
-# =====================================================
-elif menu == "🔴 Matchs Live":
+    predictions_page()
 
-    st.title("🔴 Matchs Live")
+elif menu == "👑 Admin":
 
-    data = api_get(
-        "https://v3.football.api-sports.io/fixtures?live=all"
-    )
+    admin_page()
 
-    rows = []
+else:
 
-    for m in data.get("response",[]):
-
-        rows.append({
-            "Match":
-            f"{m['teams']['home']['name']} vs {m['teams']['away']['name']}",
-
-            "Score":
-            f"{m['goals']['home']}-{m['goals']['away']}",
-
-            "Minute":
-            m["fixture"]["status"]["elapsed"]
-        })
-
-    st.dataframe(
-        pd.DataFrame(rows),
-        width="stretch"
-    )
-
-# =====================================================
-# CALENDRIER
-# =====================================================
-elif menu == "📅 Calendrier":
-
-    st.title("📅 Calendrier")
-
-    fixtures = api_get(
-        "https://v3.football.api-sports.io/fixtures?next=50"
-    )
-
-    rows=[]
-
-    for m in fixtures.get("response",[]):
-
-        rows.append({
-            "Date": m["fixture"]["date"][:16],
-            "Domicile":
-            m["teams"]["home"]["name"],
-            "Extérieur":
-            m["teams"]["away"]["name"]
-        })
-
-    st.dataframe(
-        pd.DataFrame(rows),
-        width="stretch"
-    )
-
-leagues = api_get(
-    "https://v3.football.api-sports.io/leagues"
-)
-
-league_dict = {}
-
-for l in leagues.get("response",[]):
-
-    league_dict[
-        l["league"]["name"]
-    ] = l["league"]["id"]
-
-competition = st.selectbox(
-    "🏆 Compétition",
-    sorted(list(league_dict.keys()))
-)
- 
-# =====================================================
-# MATCH
-# =====================================================
-league_id = league_dict[competition]
-
-fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=20"
-)
-
-matchs = {}
-
-for m in fixtures.get("response",[]):
-
-    nom = (
-        f"{m['teams']['home']['name']} vs "
-        f"{m['teams']['away']['name']}"
-    )
-
-    matchs[nom] = m["fixture"]["id"]
-
-match_name = st.selectbox(
-    "⚽ Match",
-    list(matchs.keys())
-)
-
-fixture_id = matchs[match_name]
+    st.info(f"Module : {menu} en cours de développement")
