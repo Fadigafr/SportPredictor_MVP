@@ -16,6 +16,27 @@ prediction_menu = st.selectbox(
     ]
 )
 
+for i in range(
+        min(
+            len(home["statistics"]),
+            len(away["statistics"])
+        )
+    ):
+
+        nom = home["statistics"][i]["type"]
+
+        h = home["statistics"][i]["value"]
+        a = away["statistics"][i]["value"]
+
+        col1, col2, col3 = st.columns([2,4,2])
+
+        col1.write(h)
+
+        col2.progress(50)
+
+        col2.caption(nom)
+
+        col3.write(a)
 # Score exact Poisson
 home_xg = 1.8
 away_xg = 1.2
