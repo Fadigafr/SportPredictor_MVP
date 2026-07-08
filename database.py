@@ -1,16 +1,16 @@
 import sqlite3
 
-def get_connection():
+DB = "users.db"
 
+def get_conn():
     return sqlite3.connect(
-        "users.db",
+        DB,
         check_same_thread=False
     )
 
 def init_db():
 
-    conn = get_connection()
-
+    conn = get_conn()
     c = conn.cursor()
 
     c.execute("""
@@ -18,6 +18,7 @@ def init_db():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT UNIQUE,
         password TEXT,
+        is_admin INTEGER DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
@@ -28,6 +29,8 @@ def init_db():
         competition TEXT,
         match_name TEXT,
         prediction TEXT,
+        btts TEXT,
+        score_exact TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
