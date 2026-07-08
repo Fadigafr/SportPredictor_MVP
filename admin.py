@@ -1,7 +1,8 @@
-# Admin module
-elif menu == "👑 Admin":
+import streamlit as st
 
-    st.title("👑 Dashboard Admin")
+def admin_page():
+
+    st.header("👑 Dashboard Admin")
 
     admin_menu = st.selectbox(
         "Administration",
@@ -13,18 +14,11 @@ elif menu == "👑 Admin":
         ]
     )
 
-    if admin_menu == "👥 Utilisateurs":
+    if admin_menu == "📊 Dashboard":
 
-        users = pd.read_sql_query(
-            """
-            SELECT *
-            FROM users
-            ORDER BY created_at DESC
-            """,
-            conn
-        )
+        c1,c2,c3,c4 = st.columns(4)
 
-        st.dataframe(
-            users,
-            width="stretch"
-        )
+        c1.metric("Utilisateurs", 0)
+        c2.metric("VIP", 0)
+        c3.metric("Matchs", 0)
+        c4.metric("Prédictions", 0)
