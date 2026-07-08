@@ -20,9 +20,10 @@ menu = st.sidebar.radio(
         "🏆 Compétitions",
         "📊 Classements",
         "👥 Joueurs",
-        "🎯 Buteurs",
+        "🎯 Top Buteurs",
         "⚔️ H2H",
         "📈 Prédictions",
+        "🤖 Analyse IA du Jour",
         "🔔 Notifications",
         "👑 Admin"
     ]
