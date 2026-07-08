@@ -285,30 +285,72 @@ def predictions_page():
         "⚽ Over 2.5",
         f"{over25_final}%"
     )
+    
+# =====================================================
+# H2H
+# =====================================================
 
-    # =====================================================
-    # H2H
-    # =====================================================
+st.header("⚔️ Historique H2H")
 
-    st.header("⚔️ Historique H2H")
+h2h = api_get(
+    f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}"
+)
 
-    h2h = api_get(
-        f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}"
+rows = []
+
+home_wins = 0
+away_wins = 0
+draws = 0
+
+for game in h2h.get("response", [])[:10]:
+
+    hg = game["goals"]["home"] or 0
+    ag = game["goals"]["away"] or 0
+
+    rows.append({
+        "Date": game["fixture"]["date"][:10],
+        "Match": (
+            f"{game['teams']['home']['name']} vs "
+            f"{game['teams']['away']['name']}"
+        ),
+        "Score": f"{hg}-{ag}"
+    })
+
+    if hg > ag:
+        home_wins += 1
+
+    elif hg < ag:
+        away_wins += 1
+
+    else:
+        draws += 1
+
+if rows:
+
+    st.dataframe(
+        pd.DataFrame(rows),
+        width="stretch"
     )
 
-    rows = []
+    col1, col2, col3 = st.columns(3)
 
-    home_wins = 0
-    away_wins = 0
-    draws = 0
+    col1.metric(
+        "🏠 Victoires",
+        home_wins
+    )
 
-    for game in h2h.get("response", [])[:10]:
+    col2.metric(
+        "🤝 Nuls",
+        draws
+    )
 
-        hg = game["goals"]["home"] or 0
-        ag = game["goals"]["away"] or 0
+    col3.metric(
+        "🛫 Victoires",
+        away_wins
+    )
 
-        rows.append({
-            "Date": game["fixture"]["date"][:10],
-            "Match":
-                f"{game['teams']['home']['name']} vs "
-                f"{game['teams']['away']['name']}",
+else:
+
+    st.warning(
+        "Aucune donnée H2H disponible."
+    )
