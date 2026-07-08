@@ -22,3 +22,28 @@ def admin_page():
         c2.metric("VIP", 0)
         c3.metric("Matchs", 0)
         c4.metric("Prédictions", 0)
+
+elif menu == "👑 Admin":
+
+    st.title("👑 Administration")
+
+    admin_menu = st.selectbox(
+        "Administration",
+        [
+            "📊 Dashboard",
+            "👥 Utilisateurs",
+            "💎 VIP",
+            "📜 Historique Prédictions",
+            "🔔 Notifications",
+            "⚙️ Paramètres"
+        ]
+    )
+
+if admin_menu == "📊 Dashboard":
+
+    c1,c2,c3,c4 = st.columns(4)
+
+    c1.metric("Utilisateurs", 125)
+    c2.metric("VIP", 17)
+    c3.metric("Matchs Analysés", 5420)
+    c4.metric("Prédictions", 18350)
