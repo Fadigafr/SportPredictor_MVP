@@ -360,3 +360,66 @@ Le modèle recommande :
 🎯 Confiance :
 78%
 """)
+
+fixture = api_get(
+    f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+)
+
+home_id = fixture["response"][0]["teams"]["home"]["id"]
+away_id = fixture["response"][0]["teams"]["away"]["id"]
+home_last5 = api_get(
+    f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
+)
+
+away_last5 = api_get(
+    f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
+)
+
+def calcul_forme(matches, team_id):
+
+    points = 0
+    buts_marques = 0
+    buts_encaisses = 0
+
+    for m in matches["response"]:
+
+        home = m["teams"]["home"]["id"]
+        away = m["teams"]["away"]["id"]
+
+        hg = m["goals"]["home"]
+        ag = m["goals"]["away"]
+
+        if team_id == home:
+
+            buts_marques += hg
+            buts_encaisses += ag
+
+            if hg > ag:
+                points += 3
+            elif hg == ag:
+                points += 1
+
+        else:
+
+            buts_marques += ag
+            buts_encaisses += hg
+
+            if ag > hg:
+                points += 3
+            elif ag == hg:
+                points += 1
+
+    return {
+        "points": points,
+        "buts_marques": buts_marques,
+        "buts_encaisses": buts_encaisses
+    }
+    home_stats = calcul_forme(
+    home_last5,
+    home_id
+)
+
+away_stats = calcul_forme(
+    away_last5,
+    away_id
+)
