@@ -314,4 +314,3 @@ def predictions_page():
             "Match":
                 f"{game['teams']['home']['name']} vs "
                 f"{game['teams']['away']['name']}",
-
