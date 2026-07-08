@@ -242,8 +242,6 @@ st.metric(
     "Probabilité",
     "67%"
 )
-BTTS observé
-sur les 5 derniers matchs.
 
  st.subheader("⚽ Over / Under")
 
@@ -284,15 +282,7 @@ col3.metric(
 )
 
 st.subheader("⚔️ Confrontations directes")
-    2025
-Liverpool 2-1 Arsenal
-
-2025
-Arsenal 1-1 Liverpool
-
-2024
-Liverpool 3-0 Arsenal
-
+   
 st.subheader("🎯 Buteurs Probables")
 
 buteurs = pd.DataFrame({
@@ -367,6 +357,75 @@ fixture = api_get(
 
 home_id = fixture["response"][0]["teams"]["home"]["id"]
 away_id = fixture["response"][0]["teams"]["away"]["id"]
+
+# =====================================================
+# H2H
+# =====================================================
+
+st.subheader("⚔️ Historique H2H")
+
+h2h = api_get(
+    f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}"
+)
+
+rows = []
+
+home_wins = 0
+away_wins = 0
+draws = 0
+
+for game in h2h.get("response", [])[:10]:
+
+    hg = game["goals"]["home"]
+    ag = game["goals"]["away"]
+
+    rows.append({
+        "Date": game["fixture"]["date"][:10],
+        "Match":
+            f"{game['teams']['home']['name']} vs "
+            f"{game['teams']['away']['name']}",
+        "Score": f"{hg}-{ag}"
+    })
+
+    if hg > ag:
+        home_wins += 1
+
+    elif hg < ag:
+        away_wins += 1
+
+    else:
+        draws += 1
+
+if rows:
+
+    st.dataframe(
+        pd.DataFrame(rows),
+        width="stretch"
+    )
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric(
+        "🏠 Victoires Domicile",
+        home_wins
+    )
+
+    col2.metric(
+        "🤝 Nuls",
+        draws
+    )
+
+    col3.metric(
+        "🛫 Victoires Extérieur",
+        away_wins
+    )
+
+else:
+
+    st.warning(
+        "Aucun historique H2H disponible."
+    )
+    
 home_last5 = api_get(
     f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
 )
@@ -423,6 +482,23 @@ away_stats = calcul_forme(
     away_last5,
     away_id
 )
+home_btts = calcul_btts(home_last5)
+
+away_btts = calcul_btts(away_last5)
+
+btts_final = round(
+    (home_btts + away_btts) / 2,
+    1
+)
+
+home_over25 = calcul_over25(home_last5)
+
+away_over25 = calcul_over25(away_last5)
+
+over25_final = round(
+    (home_over25 + away_over25) / 2,
+    1
+)
 
 st.metric(
     "Points Domicile",
@@ -436,6 +512,9 @@ st.metric(
 
 def calcul_btts(matches):
 
+    if not matches.get("response"):
+        return 0
+
     total = len(matches["response"])
     ok = 0
 
@@ -446,22 +525,17 @@ def calcul_btts(matches):
             and
             m["goals"]["away"] > 0
         ):
-
             ok += 1
 
     return round(
         (ok / total) * 100,
         1
     )
-    home_btts = calcul_btts(home_last5)
-away_btts = calcul_btts(away_last5)
-
-btts_final = round(
-    (home_btts + away_btts)/2,
-    1
-)
 
 def calcul_over25(matches):
+
+    if not matches.get("response"):
+        return 0
 
     total = len(matches["response"])
     ok = 0
@@ -478,7 +552,7 @@ def calcul_over25(matches):
             ok += 1
 
     return round(
-        ok/total*100,
+        ok / total * 100,
         1
     )
 
@@ -672,47 +746,32 @@ prob = round(
     1
 )
 
-st.subheader(
-    "🤖 Analyse IA Finale"
-)
+st.subheader("🤖 Analyse IA Finale")
+
 analyse = f"""
-🏟 Match :
-{match_name}
+🏟 Match : {match_name}
+
+📈 Forme Domicile : {home_stats['points']} pts
+
+📈 Forme Extérieur : {away_stats['points']} pts
 
 ⚔️ H2H :
-{home_wins}V
-{draws}N
-{away_wins}V
+{home_wins}V - {draws}N - {away_wins}V
 
-📈 Forme récente :
+✅ BTTS : {btts_final}%
 
-🏠 {home_stats['points']} points
+⚽ Over 2.5 : {over25_final}%
 
-🛫 {away_stats['points']} points
-
-💰 Cotes :
-
-1 = {home_odd}
-
-X = {draw_odd}
-
-2 = {away_odd}
-
-✅ BTTS :
-{btts_final}%
-
-⚽ Over 2.5 :
-{over25_final}%
-
-🎲 Score Exact :
-
+🎲 Score Exact recommandé :
 {scores[0][0]}
 
 🎯 Buteurs probables :
 
-{buteurs[0]['joueur']}
-{buteurs[1]['joueur']}
-{buteurs[2]['joueur']}
+{buteurs[0]['joueur'] if len(buteurs) > 0 else '-'}
+
+{buteurs[1]['joueur'] if len(buteurs) > 1 else '-'}
+
+{buteurs[2]['joueur'] if len(buteurs) > 2 else '-'}
 
 🤖 Conclusion :
 
@@ -721,8 +780,6 @@ Victoire domicile probable.
 BTTS conseillé.
 
 Over 2.5 conseillé.
-
-Confiance IA :
-{round(home_prob,1)}%
 """
+
 st.info(analyse)
