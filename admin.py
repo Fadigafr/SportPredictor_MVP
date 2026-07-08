@@ -1,49 +1,71 @@
 import streamlit as st
+import pandas as pd
+
+from database import get_conn
 
 def admin_page():
 
-    st.header("👑 Dashboard Admin")
+    st.header("👑 Administration")
 
-    admin_menu = st.selectbox(
-        "Administration",
+    menu = st.selectbox(
+        "Menu",
         [
             "📊 Dashboard",
             "👥 Utilisateurs",
-            "📜 Historique",
-            "⚙️ Paramètres"
+            "📜 Historique"
         ]
     )
 
-    if admin_menu == "📊 Dashboard":
+    conn = get_conn()
 
-        c1,c2,c3,c4 = st.columns(4)
+    if menu == "📊 Dashboard":
 
-        c1.metric("Utilisateurs", 0)
-        c2.metric("VIP", 0)
-        c3.metric("Matchs", 0)
-        c4.metric("Prédictions", 0)
+        users = pd.read_sql_query(
+            "SELECT * FROM users",
+            conn
+        )
 
-elif menu == "👑 Admin":
+        preds = pd.read_sql_query(
+            "SELECT * FROM predictions",
+            conn
+        )
 
-    st.title("👑 Administration")
+        c1,c2 = st.columns(2)
 
-    admin_menu = st.selectbox(
-        "Administration",
-        [
-            "📊 Dashboard",
-            "👥 Utilisateurs",
-            "💎 VIP",
-            "📜 Historique Prédictions",
-            "🔔 Notifications",
-            "⚙️ Paramètres"
-        ]
-    )
+        c1.metric(
+            "Utilisateurs",
+            len(users)
+        )
 
-if admin_menu == "📊 Dashboard":
+        c2.metric(
+            "Prédictions",
+            len(preds)
+        )
 
-    c1,c2,c3,c4 = st.columns(4)
+    elif menu == "👥 Utilisateurs":
 
-    c1.metric("Utilisateurs", 125)
-    c2.metric("VIP", 17)
-    c3.metric("Matchs Analysés", 5420)
-    c4.metric("Prédictions", 18350)
+        users = pd.read_sql_query(
+            "SELECT * FROM users",
+            conn
+        )
+
+        st.dataframe(
+            users,
+            width="stretch"
+        )
+
+    elif menu == "📜 Historique":
+
+        hist = pd.read_sql_query(
+            """
+            SELECT *
+            FROM predictions
+            ORDER BY id DESC
+            """,
+            conn
+        )
+
+        st.dataframe(
+            hist,
+            width="stretch"
+        )
