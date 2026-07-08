@@ -352,5 +352,33 @@ if rows:
 else:
 
     st.warning(
-        "Aucune donnée H2H disponible."
+        "Aucune donnée H2H disponible"
     )
+
+st.header("🤖 Analyse IA")
+
+st.info(f"""
+🏟 Match : {match_name}
+
+📈 Forme domicile : {home_stats['points']} pts
+
+📈 Forme extérieur : {away_stats['points']} pts
+
+⚔️ H2H :
+{home_wins}V - {draws}N - {away_wins}V
+
+✅ BTTS : {btts_final}%
+
+⚽ Over 2.5 : {over25_final}%
+
+🎲 Score Exact recommandé :
+{scores[0][0]}
+
+🤖 Recommandation :
+
+✅ Victoire domicile probable
+
+✅ BTTS conseillé
+
+✅ Over 2.5 conseillé
+""")
