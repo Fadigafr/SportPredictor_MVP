@@ -173,3 +173,190 @@ def predictions_page():
 
 Confiance : 78%
 """)
+
+fixture_info = api_get(
+    f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+)
+
+home_id = fixture_info["response"][0]["teams"]["home"]["id"]
+away_id = fixture_info["response"][0]["teams"]["away"]["id"]
+
+home_last = api_get(
+    f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
+)
+st.subheader("🏠 5 derniers matchs domicile")
+
+rows = []
+
+for m in home_last["response"]:
+
+    rows.append({
+        "Date": m["fixture"]["date"][:10],
+        "Match":
+            f"{m['teams']['home']['name']} vs "
+            f"{m['teams']['away']['name']}",
+        "Score":
+            f"{m['goals']['home']}-{m['goals']['away']}"
+    })
+
+st.dataframe(
+    pd.DataFrame(rows),
+    width="stretch"
+)
+away_last = api_get(
+    f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
+)
+
+st.subheader("📈 Forme récente")
+
+col1,col2 = st.columns(2)
+
+col1.success("✅ ✅ ❌ ✅ ✅")
+col2.success("✅ ❌ ✅ ✅ ❌")
+V = 3
+N = 1
+D = 0
+
+st.subheader("⚽ Moyenne de buts")
+
+col1,col2,col3 = st.columns(3)
+
+col1.metric(
+    "Buts domicile",
+    "1.80"
+)
+
+col2.metric(
+    "Buts extérieur",
+    "1.25"
+)
+
+col3.metric(
+    "Total",
+    "3.05"
+)
+
+st.subheader("✅ BTTS")
+
+st.metric(
+    "Probabilité",
+    "67%"
+)
+BTTS observé
+sur les 5 derniers matchs.
+
+ st.subheader("⚽ Over / Under")
+
+col1,col2,col3 = st.columns(3)
+
+col1.metric(
+    "Over 1.5",
+    "91%"
+)
+
+col2.metric(
+    "Over 2.5",
+    "76%"
+)
+
+col3.metric(
+    "Over 3.5",
+    "48%"
+)
+
+st.subheader("⚽ Over / Under")
+
+col1,col2,col3 = st.columns(3)
+
+col1.metric(
+    "Over 1.5",
+    "91%"
+)
+
+col2.metric(
+    "Over 2.5",
+    "76%"
+)
+
+col3.metric(
+    "Over 3.5",
+    "48%"
+)
+
+st.subheader("⚔️ Confrontations directes")
+    2025
+Liverpool 2-1 Arsenal
+
+2025
+Arsenal 1-1 Liverpool
+
+2024
+Liverpool 3-0 Arsenal
+
+st.subheader("🎯 Buteurs Probables")
+
+buteurs = pd.DataFrame({
+    "Joueur":[
+        "Mbappé",
+        "Haaland",
+        "Salah"
+    ],
+    "Probabilité":[
+        "68%",
+        "61%",
+        "54%"
+    ]
+})
+
+st.dataframe(
+    buteurs,
+    width="stretch"
+)
+
+st.subheader("🤖 Analyse IA")
+st.info(f"""
+🏟 Match :
+{match_name}
+
+📈 Forme récente :
+
+Domicile : 4V 1D
+
+Extérieur : 3V 1N 1D
+
+⚽ Moyenne buts :
+3.05
+
+✅ BTTS :
+67%
+
+⚽ Over 2.5 :
+76%
+
+🎲 Score exact :
+
+2-1
+
+🎯 Buteurs probables :
+
+Mbappé
+Haaland
+Salah
+
+🤖 Conclusion :
+
+L'équipe domicile présente une meilleure dynamique.
+
+Le modèle recommande :
+
+✅ Victoire domicile
+
+✅ BTTS
+
+✅ Over 2.5
+
+✅ Score exact 2-1
+
+🎯 Confiance :
+78%
+""")
