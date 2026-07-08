@@ -423,3 +423,176 @@ away_stats = calcul_forme(
     away_last5,
     away_id
 )
+
+st.metric(
+    "Points Domicile",
+    home_stats["points"]
+)
+
+st.metric(
+    "Points Extérieur",
+    away_stats["points"]
+)
+
+def calcul_btts(matches):
+
+    total = len(matches["response"])
+    ok = 0
+
+    for m in matches["response"]:
+
+        if (
+            m["goals"]["home"] > 0
+            and
+            m["goals"]["away"] > 0
+        ):
+
+            ok += 1
+
+    return round(
+        (ok / total) * 100,
+        1
+    )
+    home_btts = calcul_btts(home_last5)
+away_btts = calcul_btts(away_last5)
+
+btts_final = round(
+    (home_btts + away_btts)/2,
+    1
+)
+
+def calcul_over25(matches):
+
+    total = len(matches["response"])
+    ok = 0
+
+    for m in matches["response"]:
+
+        buts = (
+            m["goals"]["home"]
+            +
+            m["goals"]["away"]
+        )
+
+        if buts >= 3:
+            ok += 1
+
+    return round(
+        ok/total*100,
+        1
+    )
+
+h2h = api_get(
+ *  f"https://v3.football.api-sports*io/fixtures/headtohead?h2h={home_i*}-{away_id}"
+)
+st.subheader("⚔️ *istorique H2H")
+
+rows = []
+
+for ga*e in h2h["response"][:10]:
+
+    ro*s.append({
+        "Date":
+       *game["fixture"]["date"][:10],
+
+   *    "Match":
+        (
+           *game["teams"]["home"]["name"]
+    *       + " vs "
+            +
+    *       game["teams"]["away"]["name*]
+        ),
+
+        "Score":
+   *    (
+            str(game["goals"*["home"])
+            + "-"
+      *     +
+            str(game["goals*]["away"])
+        )
+    })
+
+st.da*aframe(
+    pd.DataFrame(rows),
+  * width="stretch"
+)
+home_wins = 0
+away_wins = 0
+draws * 0
+
+for game in h2h["response"]:
+
+*   hg = game["goals"]["home"]
+    *g = game["goals"]["away"]
+
+    if *g > ag:
+        home_wins += 1
+
+  * elif hg < ag:
+        away_wins +* 1
+
+    else:
+        draws += 1
+ *
+ col1,col*,col3 = st.columns(3)
+
+col1.metric*
+    "🏠 Victoires",
+    home_wins*)
+
+col2.metric(
+    "🤝 Nuls",
+   *draws
+)
+
+col3.metric(
+    "🛫 Vict*ires",
+    away_wins
+)
+
+home_avg = (
+    home_stats["buts*marques"] / 5
+)
+
+away_avg = (
+    away_stats["buts_marques"] / 5
+)
+
+poisson(
+    home_avg,
+    h
+)
+*
+poisson(
+    away_avg,
+    a
+)
+
+st.info(f"""
+🏠 Forme domicile :
+{home_stats['points']} points
+
+🛫 Forme extérieur :
+{away_stats['points']} points
+
+⚽ BTTS :
+{btts_final}%
+
+⚽ Over 2.5 :
+{over25_final}%
+
+⚔️ H2H :
+{home_wins}V - {draws}N - {away_wins}V
+
+🎲 Score Exact :
+{scores[0][0]}
+
+🤖 Recommandation :
+
+Victoire domicile probable
+
+BTTS conseillé
+
+Over 2.5 conseillé
+""")
+ 
