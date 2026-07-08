@@ -596,3 +596,140 @@ BTTS conseillé
 Over 2.5 conseillé
 """)
  
+odds = api_get(
+    f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+)
+st.subheader("💰 Cotes Bookmakers")
+
+col1,col2,col3 = st.columns(3)
+
+col1.metric("🏠 1", "1.85")
+col2.metric("🤝 X", "3.40")
+col3.metric("🛫 2", "4.10")
+
+home_odd = 1.85
+draw_odd = 3.40
+away_odd = 4.10
+
+home_prob = round((1/home_odd)*100,1)
+draw_prob = round((1/draw_odd)*100,1)
+away_prob = round((1/away_odd)*100,1)
+forme_home = home_stats["points"]
+forme_away = away_stats["points"]
+
+ia_score_home = (
+    home_prob * 0.5
+    +
+    forme_home * 2
+)
+
+ia_score_away = (
+    away_prob * 0.5
+    +
+    forme_away * 2
+)
+
+players = api_get(
+    f"https://v3.football.api-sports.io/players?team={home_id}&season=2026"
+)
+players_away = api_get(
+    f"https://v3.football.api-sports.io/players?team={away_id}&season=2026"
+)
+
+buteurs = []
+
+for p in players["response"]:
+
+    stats = p["statistics"][0]
+
+    buts = (
+        stats["goals"]["total"]
+        or 0
+    )
+
+    buteurs.append({
+        "joueur":
+        p["player"]["name"],
+
+        "buts":
+        buts
+    })
+buteurs = sorted(
+    buteurs,
+    key=lambda x:x["buts"],
+    reverse=True
+)
+
+st.subheader(
+    "🎯 Buteurs Probables"
+)
+
+top = pd.DataFrame(
+    buteurs[:5]
+)
+
+st.dataframe(
+    top,
+    width="stretch"
+)
+
+prob = round(
+    (buts / matchs_joues)
+    * 100,
+    1
+)
+
+st.subheader(
+    "🤖 Analyse IA Finale"
+)
+analyse = f"""
+🏟 Match :
+{match_name}
+
+⚔️ H2H :
+{home_wins}V
+{draws}N
+{away_wins}V
+
+📈 Forme récente :
+
+🏠 {home_stats['points']} points
+
+🛫 {away_stats['points']} points
+
+💰 Cotes :
+
+1 = {home_odd}
+
+X = {draw_odd}
+
+2 = {away_odd}
+
+✅ BTTS :
+{btts_final}%
+
+⚽ Over 2.5 :
+{over25_final}%
+
+🎲 Score Exact :
+
+{scores[0][0]}
+
+🎯 Buteurs probables :
+
+{buteurs[0]['joueur']}
+{buteurs[1]['joueur']}
+{buteurs[2]['joueur']}
+
+🤖 Conclusion :
+
+Victoire domicile probable.
+
+BTTS conseillé.
+
+Over 2.5 conseillé.
+
+Confiance IA :
+{round(home_prob,1)}%
+"""
+st.info(analyse)
