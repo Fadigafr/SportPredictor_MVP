@@ -3,9 +3,10 @@ import pandas as pd
 
 from database import get_conn
 
+
 def admin_page():
 
-    st.header("👑 Administration")
+    st.title("👑 Administration")
 
     menu = st.selectbox(
         "Menu",
