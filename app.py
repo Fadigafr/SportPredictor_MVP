@@ -226,7 +226,7 @@ elif menu == "Calendrier":
             width="stretch"
         )
 
-     if matchs:
+    if matchs:
 
     match_name = st.selectbox(
         "⚽ Choisir un match",
