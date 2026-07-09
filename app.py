@@ -278,17 +278,22 @@ for m in fixtures.get("response", []):
 
         if fixture.get("response"):
 
-            home_team = (
-                fixture["response"][0]["teams"]["home"]["name"]
-            )
-
-            away_team = (
-                fixture["response"][0]["teams"]["away"]["name"]
-            )
+            home_team = fixture["response"][0]["teams"]["home"]["name"]
+            away_team = fixture["response"][0]["teams"]["away"]["name"]
 
             st.subheader(
                 f"{home_team} vs {away_team}"
             )
+
+            st.info(
+                "✅ Match prêt pour l'analyse IA."
+            )
+
+    else:
+
+        st.info(
+            "Sélectionnez un match pour lancer l'analyse."
+        )
 
             st.info(
                 "✅ Match prêt pour l'analyse IA.\n\n"
