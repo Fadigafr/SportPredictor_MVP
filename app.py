@@ -57,10 +57,7 @@ login()
 
 if os.path.exists("assets/logo.png"):
 
-    st.sidebar.image(
-        "assets/logo.png",
-        width=120
-    )
+    st.sidebar.markdown("## 🏆 SPORT PREDICTOR")
 
 else:
 
