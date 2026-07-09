@@ -1,13 +1,19 @@
-sportpredictor_mvp/
-
-app.py
-predictions.py
-admin.py
-auth.py
-database.py
-api_football.py
-
-assets/
+📁 sportpredictor_mvp
 │
-└── logo.png
+├── 📄 app.py
+├── 📄 auth.py
+├── 📄 admin.py
+├── 📄 predictions.py
+├── 📄 api_football.py
+├── 📄 database.py
+│
+├── 📁 assets
+│   ├── 🖼️ logo.png
+│   ├── 🖼️ splash.png
+│   └── 🖼️ background.jpg
+│
+├── 📁 .streamlit
+│   └── ⚙️ config.toml
+│
+└── 📄 requirements.txt
 
