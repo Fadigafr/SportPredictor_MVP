@@ -1,0 +1,12 @@
+sportpredictor_mvp/
+
+app.py
+predictions.py
+admin.py
+auth.py
+database.py
+api_football.py
+
+assets/
+│
+└── logo.png
