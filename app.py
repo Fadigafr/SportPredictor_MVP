@@ -1,136 +1,49 @@
 import streamlit as st
 import pandas as pd
 
-from database import init_db
 from auth import login
-from api_football import api_get
-from predictions import predictions_page
 from admin import admin_page
-
-import time
-import streamlit as st
-
-placeholder = st.empty()
-
-placeholder.markdown("""
-<div style="
-text-align:center;
-padding-top:180px;
-">
-assets/logo.png
-<h1 style='color:#FFD700;'>
-SPORT PREDICTOR ULTRA PRO IA
-</h1>
-<p style='color:white;'>
-Chargement de l'Intelligence Artificielle...
-</p>
-</div>
-""", unsafe_allow_html=True)
-
-time.sleep(3)
-
-placeholder.empty()
-
-st.markdown("""
-<style>
-
-@keyframes zoomLogo {
-    0%{
-        transform:scale(0.5);
-        opacity:0;
-    }
-
-    100%{
-        transform:scale(1);
-        opacity:1;
-    }
-}
-
-.logo-animation{
-    animation:zoomLogo 2s ease-in-out;
-}
-
-</style>
-""", unsafe_allow_html=True)
-placeholder.markdown(f"""
-<div align="center">
-
-assets/logo.png
-
-<h1 style="color:#FFD700;">
-SPORT PREDICTOR ULTRA PRO IA
-</h1>
-
-</div>
-""",
-unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-
-.stApp{
-
-background:
-linear-gradient(
-135deg,
-#0D1117,
-#0F172A,
-#111827
-);
-
-color:white;
-
-}
-
-</style>
-""",
-unsafe_allow_html=True)
-st.markdown("""
-<div style="
-text-align:center;
-color:#00E5FF;
-font-size:18px;
-">
-
-⚽ Football • 📊 Statistiques • 🤖 IA
-
-</div>
-""",
-unsafe_allow_html=True)
-
-progress = st.progress(0)
-
-for i in range(100):
-    time.sleep(0.02)
-    progress.progress(i + 1)
-
-progress.empty()
+from predictions import predictions_page
+from api_football import api_get
+from database import init_db
 
 # =====================================================
-# INITIALISATION
+# CONFIG
 # =====================================================
-
-init_db()
-
-st.set_page_config(
-    page_title="SPORT PREDICTOR ULTRA PRO 2026",
-    layout="wide"
-)
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
     page_icon="assets/logo.png",
     layout="wide"
 )
-# =====================================================
-# SESSION
-# =====================================================
 
-if "user" not in st.session_state:
-    st.session_state.user = None
+init_db()
 
 # =====================================================
-# AUTHENTIFICATION
+# STYLE
+# =====================================================
+
+st.markdown("""
+<style>
+
+.stApp{
+    background: linear-gradient(
+    135deg,
+    #0D1117,
+    #111827,
+    #0F172A
+    );
+}
+
+h1,h2,h3{
+    color:#FFD700;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# LOGIN
 # =====================================================
 
 login()
@@ -139,38 +52,28 @@ login()
 # SIDEBAR
 # =====================================================
 
-st.sidebar.title("🏆 SPORT PREDICTOR")
+st.sidebar.image(
+    "assets/logo.png",
+    width=120
+)
 
-if st.session_state.user:
-
-    st.sidebar.success(
-        f"✅ {st.session_state.user}"
-    )
-
-    if st.sidebar.button("🚪 Déconnexion"):
-
-        st.session_state.user = None
-        st.rerun()
-
-# =====================================================
-# MENU
-# =====================================================
+st.sidebar.title(
+    "SPORT PREDICTOR"
+)
 
 menu = st.sidebar.radio(
     "Navigation",
     [
-        "🏠 Accueil",
-        "🔴 Matchs Live",
-        "📅 Calendrier",
-        "🏆 Compétitions",
-        "📊 Classements",
-        "👥 Joueurs",
-        "🎯 Top Buteurs",
-        "⚔️ H2H",
-        "📈 Prédictions",
-        "🤖 Analyse IA du Jour",
-        "🔔 Notifications",
-        "👑 Admin"
+        "Accueil",
+        "Matchs Live",
+        "Calendrier",
+        "Analyse IA du Jour",
+        "Classements",
+        "Joueurs",
+        "Top Buteurs",
+        "H2H",
+        "Prédictions",
+        "Admin"
     ]
 )
 
@@ -178,46 +81,50 @@ menu = st.sidebar.radio(
 # ACCUEIL
 # =====================================================
 
-if menu == "🏠 Accueil":
+if menu == "Accueil":
 
-    st.title("🏆 SPORT PREDICTOR ULTRA PRO 2026")
+    st.title(
+        "SPORT PREDICTOR ULTRA PRO IA"
+    )
 
     c1, c2, c3, c4 = st.columns(4)
 
     c1.metric("Précision IA", "78%")
-    c2.metric("Matchs analysés", "3 250")
-    c3.metric("Prédictions", "18 750")
-    c4.metric("Ligues", "500+")
+    c2.metric("Ligues", "500+")
+    c3.metric("Matchs", "10 000+")
+    c4.metric("Prédictions", "24 000+")
 
     st.markdown("---")
 
-    st.subheader("🔥 Top fonctionnalités")
+    st.subheader(
+        "Bienvenue"
+    )
 
-    st.write("""
-    ✅ Matchs Live
+    st.info("""
+Analyse avancée :
 
-    ✅ Calendrier intelligent
+• H2H
 
-    ✅ H2H automatique
+• BTTS
 
-    ✅ Cotes Bookmakers
+• Over/Under
 
-    ✅ BTTS
+• Score Exact
 
-    ✅ Over/Under
+• Buteurs
 
-    ✅ Score Exact Poisson
+• Cotes Bookmakers
 
-    ✅ Analyse IA
-    """)
+• Intelligence Artificielle
+""")
 
 # =====================================================
-# LIVE
+# MATCHS LIVE
 # =====================================================
 
-elif menu == "🔴 Matchs Live":
+elif menu == "Matchs Live":
 
-    st.title("🔴 Matchs Live")
+    st.title("Matchs Live")
 
     data = api_get(
         "https://v3.football.api-sports.io/fixtures?live=all"
@@ -229,18 +136,18 @@ elif menu == "🔴 Matchs Live":
 
         rows.append({
             "Match":
-                f"{m['teams']['home']['name']} vs "
-                f"{m['teams']['away']['name']}",
+            f"{m['teams']['home']['name']} vs "
+            f"{m['teams']['away']['name']}",
 
             "Score":
-                f"{m['goals']['home']} - "
-                f"{m['goals']['away']}",
+            f"{m['goals']['home']} - "
+            f"{m['goals']['away']}",
 
             "Minute":
-                m["fixture"]["status"]["elapsed"],
+            m["fixture"]["status"]["elapsed"],
 
             "Compétition":
-                m["league"]["name"]
+            m["league"]["name"]
         })
 
     if rows:
@@ -252,18 +159,40 @@ elif menu == "🔴 Matchs Live":
 
     else:
 
-        st.info("Aucun match en direct.")
+        st.warning(
+            "Aucun match en direct."
+        )
 
 # =====================================================
-# CALENDRIER
+# CALENDRIER + COMPETITIONS
 # =====================================================
 
-elif menu == "📅 Calendrier":
+elif menu == "Calendrier":
 
-    st.title("📅 Calendrier")
+    st.title(
+        "Calendrier & Compétitions"
+    )
+
+    competitions = {
+        "Ligue 1": 61,
+        "Premier League": 39,
+        "LaLiga": 140,
+        "Bundesliga": 78,
+        "Serie A": 135,
+        "Champions League": 2,
+        "Europa League": 3,
+        "Conference League": 848
+    }
+
+    competition = st.selectbox(
+        "Compétition",
+        list(competitions.keys())
+    )
+
+    league_id = competitions[competition]
 
     fixtures = api_get(
-        "https://v3.football.api-sports.io/fixtures?next=50"
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
     )
 
     matchs = {}
@@ -271,179 +200,168 @@ elif menu == "📅 Calendrier":
 
     for m in fixtures.get("response", []):
 
-        match = (
+        fixture_id = m["fixture"]["id"]
+
+        match_name = (
             f"{m['teams']['home']['name']} vs "
             f"{m['teams']['away']['name']}"
         )
 
-        matchs[match] = m["fixture"]["id"]
+        matchs[match_name] = fixture_id
 
         rows.append({
             "Date":
-                m["fixture"]["date"][:16],
-
-            "Compétition":
-                m["league"]["name"],
+            m["fixture"]["date"][:16],
 
             "Match":
-                match
+            match_name
         })
 
-    st.dataframe(
-        pd.DataFrame(rows),
-        width="stretch"
-    )
+    if rows:
 
-    if matchs:
+        st.dataframe(
+            pd.DataFrame(rows),
+            width="stretch"
+        )
 
-        match_name = st.selectbox(
-            "⚽ Sélection du match",
+        selected_match = st.selectbox(
+            "Choisir un match",
             list(matchs.keys())
         )
 
-        fixture_id = matchs[match_name]
+        fixture_id = matchs[selected_match]
 
-        st.success(
-            f"Match sélectionné : {match_name}"
+        st.session_state[
+            "fixture_id"
+        ] = fixture_id
+
+# =====================================================
+# ANALYSE IA DU JOUR
+# =====================================================
+
+elif menu == "Analyse IA du Jour":
+
+    st.title(
+        "Top 5 Analyses IA"
+    )
+
+    analyses = [
+
+        {
+            "match":"Liverpool vs Arsenal",
+            "confidence":82,
+            "score":"2-1"
+        },
+
+        {
+            "match":"Real Madrid vs Atletico",
+            "confidence":80,
+            "score":"2-0"
+        },
+
+        {
+            "match":"Bayern vs Dortmund",
+            "confidence":79,
+            "score":"3-1"
+        },
+
+        {
+            "match":"PSG vs Marseille",
+            "confidence":78,
+            "score":"2-1"
+        },
+
+        {
+            "match":"Inter vs Milan",
+            "confidence":76,
+            "score":"1-1"
+        }
+    ]
+
+    for a in analyses:
+
+        st.markdown("---")
+
+        st.subheader(
+            a["match"]
         )
 
-# =====================================================
-# COMPÉTITIONS
-# =====================================================
+        c1, c2 = st.columns(2)
 
-elif menu == "🏆 Compétitions":
+        c1.metric(
+            "Confiance",
+            f"{a['confidence']}%"
+        )
 
-    st.title("🏆 Compétitions")
-
-    leagues = api_get(
-        "https://v3.football.api-sports.io/leagues"
-    )
-
-    rows = []
-
-    for l in leagues.get("response", []):
-
-        rows.append({
-            "Compétition":
-                l["league"]["name"],
-
-            "Pays":
-                l["country"]["name"]
-        })
-
-    st.dataframe(
-        pd.DataFrame(rows),
-        width="stretch"
-    )
+        c2.metric(
+            "Score IA",
+            a["score"]
+        )
 
 # =====================================================
 # CLASSEMENTS
 # =====================================================
 
-elif menu == "📊 Classements":
+elif menu == "Classements":
 
-    st.title("📊 Classements")
+    st.title(
+        "Classements"
+    )
 
     st.info(
-        "Module standings prêt à connecter."
+        "Module standings à connecter."
     )
 
 # =====================================================
 # JOUEURS
 # =====================================================
 
-elif menu == "👥 Joueurs":
+elif menu == "Joueurs":
 
-    st.title("👥 Joueurs")
+    st.title("Joueurs")
 
     st.info(
-        "Module players prêt."
+        "Module joueurs."
     )
 
 # =====================================================
 # BUTEURS
 # =====================================================
 
-elif menu == "🎯 Top Buteurs":
+elif menu == "Top Buteurs":
 
-    st.title("🎯 Top Buteurs")
+    st.title("Top Buteurs")
 
     st.info(
-        "Module topscorers prêt."
+        "Module buteurs."
     )
 
 # =====================================================
 # H2H
 # =====================================================
 
-elif menu == "⚔️ H2H":
+elif menu == "H2H":
 
-    st.title("⚔️ Historique H2H")
+    st.title(
+        "Historique H2H"
+    )
 
     st.info(
-        "Module face-à-face dynamique."
+        "Module H2H."
     )
 
 # =====================================================
 # PREDICTIONS
 # =====================================================
 
-elif menu == "📈 Prédictions":
+elif menu == "Prédictions":
 
     predictions_page()
-
-# =====================================================
-# IA DU JOUR
-# =====================================================
-
-elif menu == "🤖 Analyse IA du Jour":
-
-    st.title("🤖 Top 5 Prédictions IA")
-
-    analyses = [
-        ["PSG vs Monaco", "71%", "2-1"],
-        ["Liverpool vs Arsenal", "68%", "2-1"],
-        ["Real Madrid vs Bilbao", "54%", "3-1"],
-        ["Bayern vs Leverkusen", "73%", "2-2"],
-        ["Inter vs Milan", "66%", "1-1"]
-    ]
-
-    for match, btts, score in analyses:
-
-        st.subheader(match)
-
-        c1, c2 = st.columns(2)
-
-        c1.metric(
-            "BTTS",
-            btts
-        )
-
-        c2.metric(
-            "Score Exact",
-            score
-        )
-
-        st.divider()
-
-# =====================================================
-# NOTIFICATIONS
-# =====================================================
-
-elif menu == "🔔 Notifications":
-
-    st.title("🔔 Notifications")
-
-    st.checkbox("🔴 Début match")
-    st.checkbox("⚽ But")
-    st.checkbox("🟥 Carton rouge")
-    st.checkbox("💰 Changement cote")
-    st.checkbox("🤖 Nouvelle analyse IA")
 
 # =====================================================
 # ADMIN
 # =====================================================
 
-elif menu == "👑 Admin":
+elif menu == "Admin":
 
     admin_page()
