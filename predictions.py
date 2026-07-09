@@ -102,6 +102,9 @@ def calcul_over25(matches):
 def predictions_page():
 
     st.title("📈 Centre de Prédictions")
+    # H2H
+    # Score Exact
+    # Analyse IA
 
     # =====================================================
     # COMPÉTITION
