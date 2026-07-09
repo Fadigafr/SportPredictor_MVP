@@ -226,21 +226,47 @@ elif menu == "Calendrier":
             width="stretch"
         )
 
-        if matchs:
+     if matchs:
 
     match_name = st.selectbox(
-        "Choisir un match",
-        list(matchs.keys())
+        "⚽ Choisir un match",
+        options=list(matchs.keys()),
+        index=None,
+        placeholder="Sélectionnez un match"
     )
 
-    if match_name:
+    if match_name is not None:
 
-        fixture_id = matchs[match_name]
+        fixture_id = matchs.get(match_name)
 
-        st.session_state[
-            "fixture_id"
-        ] = fixture_id
+        if fixture_id:
 
+            st.session_state["fixture_id"] = fixture_id
+
+            st.success(
+                f"Match sélectionné : {match_name}"
+            )
+
+else:
+
+    st.warning(
+        "Aucun match disponible."
+    )
+    if "fixture_id" in st.session_state:
+
+    fixture_id = st.session_state["fixture_id"]
+
+    # Statistiques
+    # H2H
+    # Odds
+    # BTTS
+    # Analyse IA
+
+else:
+
+    st.info(
+        "Sélectionnez un match pour lancer l'analyse."
+    )
 # =====================================================
 # ANALYSE IA DU JOUR
 # =====================================================
