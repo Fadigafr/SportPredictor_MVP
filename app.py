@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import os
 
 from auth import login
 from admin import admin_page
@@ -54,10 +55,16 @@ login()
 # SIDEBAR
 # =====================================================
 
-st.sidebar.image(
-    "assets/logo.png",
-    width=120
-)
+if os.path.exists("assets/logo.png"):
+
+    st.sidebar.image(
+        "assets/logo.png",
+        width=120
+    )
+
+else:
+
+    st.sidebar.markdown("## 🏆"))
 
 st.sidebar.title(
     "SPORT PREDICTOR"
@@ -172,7 +179,6 @@ elif menu == "Matchs Live":
 elif menu == "Calendrier":
 
     st.title("Calendrier & Compétitions")
-
     competitions = {
         "Ligue 1": 61,
         "Premier League": 39,
@@ -192,8 +198,7 @@ elif menu == "Calendrier":
     league_id = competitions[competition]
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
-    )
+       f"...league={league_id}&season=2026&next=50"
 
     matchs = {}
     rows = []
