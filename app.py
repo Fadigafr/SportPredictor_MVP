@@ -17,7 +17,10 @@ st.set_page_config(
     layout="wide"
 )
 
-init_db()
+st.sidebar.image(
+    "assets/logo.png",
+    width=120
+)
 
 # =====================================================
 # STYLE
@@ -224,12 +227,16 @@ elif menu == "Calendrier":
             width="stretch"
         )
 
-        selected_match = st.selectbox(
-            "Choisir un match",
-            list(matchs.keys())
-        )
+        if matchs:
 
-        fixture_id = matchs[selected_match]
+    match_name = st.selectbox(
+        "Choisir un match",
+        list(matchs.keys())
+    )
+
+    if match_name:
+
+        fixture_id = matchs[match_name]
 
         st.session_state[
             "fixture_id"
