@@ -304,22 +304,26 @@ elif menu == "Calendrier":
                 "✅ Match prêt pour l'analyse IA."
             )
 
-    else:
+    if "fixture_id" in st.session_state:
 
-        st.info(
-            "Sélectionnez un match pour lancer l'analyse."
+        fixture_id = st.session_state["fixture_id"]
+
+        fixture = api_get(
+            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
         )
+
+        if fixture.get("response"):
+
+            home_team = fixture["response"][0]["teams"]["home"]["name"]
+            away_team = fixture["response"][0]["teams"]["away"]["name"]
+
+            st.subheader(
+                f"{home_team} vs {away_team}"
+            )
 
             st.info(
                 "✅ Match prêt pour l'analyse IA.\n\n"
-                "Ouvrez le menu 'Prédictions' pour afficher :\n"
-                "- Statistiques\n"
-                "- H2H\n"
-                "- BTTS\n"
-                "- Over/Under\n"
-                "- Score Exact\n"
-                "- Cotes Bookmakers\n"
-                "- Analyse IA"
+                "Ouvrez le menu 'Prédictions' pour lancer l'analyse complète."
             )
 
     else:
