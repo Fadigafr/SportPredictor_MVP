@@ -14,7 +14,7 @@ from database import init_db
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
-    page_icon="🏆",
+    page_icon="assets/logo.png",
     layout="wide"
 )
 
@@ -57,9 +57,10 @@ login()
 
 if os.path.exists("assets/logo.png"):
 
-    st.sidebar.markdown(
-    "## 🏆 SPORT PREDICTOR"
-)
+    st.sidebar.image(
+        "assets/logo.png",
+        width=120
+    )
 
 else:
 
