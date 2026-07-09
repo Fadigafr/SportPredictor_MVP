@@ -258,6 +258,10 @@ elif menu == "Calendrier":
             "Aucun match disponible."
         )
 
+    # =====================================================
+    # MATCH SELECTIONNE
+    # =====================================================
+
     if "fixture_id" in st.session_state:
 
         fixture_id = st.session_state["fixture_id"]
@@ -282,9 +286,14 @@ elif menu == "Calendrier":
 
             st.info(
                 "✅ Match prêt pour l'analyse IA.\n\n"
-                "Ouvrez maintenant le menu 'Prédictions' "
-                "pour consulter les statistiques, H2H, "
-                "cotes bookmakers et analyses IA."
+                "Ouvrez le menu 'Prédictions' pour afficher :\n"
+                "- Statistiques\n"
+                "- H2H\n"
+                "- BTTS\n"
+                "- Over/Under\n"
+                "- Score Exact\n"
+                "- Cotes Bookmakers\n"
+                "- Analyse IA"
             )
 
     else:
