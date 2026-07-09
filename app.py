@@ -64,7 +64,7 @@ if os.path.exists("assets/logo.png"):
 
 else:
 
-    st.sidebar.markdown("## 🏆"))
+    st.sidebar.markdown("## 🏆")
 
 st.sidebar.title(
     "SPORT PREDICTOR"
