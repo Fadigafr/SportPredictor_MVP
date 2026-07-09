@@ -192,8 +192,8 @@ elif menu == "Calendrier":
     league_id = competitions[competition]
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
-    )
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
+)
 
     matchs = {}
     rows = []
@@ -241,6 +241,10 @@ elif menu == "Calendrier":
                 st.success(
                     f"Match sélectionné : {match_name}"
                 )
+        if st.button("📈 Analyser ce match"):
+
+    st.session_state["selected_match"] = fixture_id
+    st.switch_page("app.py")        
 
     else:
 
@@ -250,10 +254,27 @@ elif menu == "Calendrier":
 
     if "fixture_id" in st.session_state:
 
-        fixture_id = st.session_state["fixture_id"]
+    fixture_id = st.session_state["fixture_id"]
+
+    st.success(
+        f"✅ Match sélectionné : {fixture_id}"
+    )
+
+    fixture = api_get(
+        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+    )
+
+    if fixture.get("response"):
+
+        home_team = fixture["response"][0]["teams"]["home"]["name"]
+        away_team = fixture["response"][0]["teams"]["away"]["name"]
+
+        st.subheader(
+            f"{home_team} vs {away_team}"
+        )
 
         st.info(
-            f"Fixture sélectionnée : {fixture_id}"
+            "Vous pouvez maintenant consulter les statistiques, H2H, cotes bookmakers et les prédictions IA depuis le menu Prédictions."
         )
 
         # =====================================================
