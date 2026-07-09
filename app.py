@@ -197,27 +197,28 @@ elif menu == "Calendrier":
 
     league_id = competitions[competition]
 
-    fixtures = api_get(
-       f"...league={league_id}&season=2026&next=50"
+fixtures = api_get(
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
+)
 
-    matchs = {}
-    rows = []
+matchs = {}
+rows = []
 
-    for m in fixtures.get("response", []):
+for m in fixtures.get("response", []):
 
-        fixture_id = m["fixture"]["id"]
+    fixture_id = m["fixture"]["id"]
 
-        match_name = (
-            f"{m['teams']['home']['name']} vs "
-            f"{m['teams']['away']['name']}"
-        )
+    match_name = (
+        f"{m['teams']['home']['name']} vs "
+        f"{m['teams']['away']['name']}"
+    )
 
-        matchs[match_name] = fixture_id
+    matchs[match_name] = fixture_id
 
-        rows.append({
-            "Date": m["fixture"]["date"][:16],
-            "Match": match_name
-        })
+    rows.append({
+        "Date": m["fixture"]["date"][:16],
+        "Match": match_name
+    })
 
     if rows:
 
