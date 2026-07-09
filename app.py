@@ -179,6 +179,7 @@ elif menu == "Matchs Live":
 elif menu == "Calendrier":
 
     st.title("Calendrier & Compétitions")
+
     competitions = {
         "Ligue 1": 61,
         "Premier League": 39,
@@ -197,28 +198,28 @@ elif menu == "Calendrier":
 
     league_id = competitions[competition]
 
-fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
-)
-
-matchs = {}
-rows = []
-
-for m in fixtures.get("response", []):
-
-    fixture_id = m["fixture"]["id"]
-
-    match_name = (
-        f"{m['teams']['home']['name']} vs "
-        f"{m['teams']['away']['name']}"
+    fixtures = api_get(
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
     )
 
-    matchs[match_name] = fixture_id
+    matchs = {}
+    rows = []
 
-    rows.append({
-        "Date": m["fixture"]["date"][:16],
-        "Match": match_name
-    })
+    for m in fixtures.get("response", []):
+
+        fixture_id = m["fixture"]["id"]
+
+        match_name = (
+            f"{m['teams']['home']['name']} vs "
+            f"{m['teams']['away']['name']}"
+        )
+
+        matchs[match_name] = fixture_id
+
+        rows.append({
+            "Date": m["fixture"]["date"][:16],
+            "Match": match_name
+        })
 
     if rows:
 
@@ -231,37 +232,52 @@ for m in fixtures.get("response", []):
 
         match_name = st.selectbox(
             "⚽ Choisir un match",
-            options=list(matchs.keys()),
-            index=None,
-            placeholder="Sélectionnez un match"
+            options=list(matchs.keys())
         )
 
-        if match_name is not None:
+        if match_name:
 
-            fixture_id = matchs.get(match_name)
+            fixture_id = matchs[match_name]
 
-            if fixture_id:
+            st.session_state["fixture_id"] = fixture_id
 
-                st.session_state["fixture_id"] = fixture_id
-
-                st.success(
-                    f"✅ Match sélectionné : {match_name}"
-                )
-
-                if st.button("📈 Analyser ce match"):
-
-                    st.session_state[
-                        "selected_match"
-                    ] = fixture_id
-
-                    st.success(
-                        "Analyse envoyée au module IA."
-                    )
+            st.success(
+                f"✅ Match sélectionné : {match_name}"
+            )
 
     else:
 
         st.warning(
             "Aucun match disponible."
+        )
+
+    if "fixture_id" in st.session_state:
+
+        fixture_id = st.session_state["fixture_id"]
+
+        fixture = api_get(
+            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+        )
+
+        if fixture.get("response"):
+
+            home_team = fixture["response"][0]["teams"]["home"]["name"]
+
+            away_team = fixture["response"][0]["teams"]["away"]["name"]
+
+            st.subheader(
+                f"{home_team} vs {away_team}"
+            )
+
+            st.info(
+                "✅ Match prêt pour l'analyse IA.\n\n"
+                "Ouvrez le menu 'Prédictions' pour lancer l'analyse complète."
+            )
+
+    else:
+
+        st.info(
+            "Sélectionnez un match pour lancer l'analyse."
         )
 
     # =====================================================
