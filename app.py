@@ -260,46 +260,31 @@ elif menu == "Calendrier":
 
     if "fixture_id" in st.session_state:
 
-    fixture_id = st.session_state["fixture_id"]
+        fixture_id = st.session_state["fixture_id"]
 
-    fixture = api_get(
-        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
-    )
-
-    if fixture.get("response"):
-
-        home_team = (
-            fixture["response"][0]["teams"]["home"]["name"]
+        fixture = api_get(
+            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
         )
 
-        away_team = (
-            fixture["response"][0]["teams"]["away"]["name"]
-        )
+        if fixture.get("response"):
 
-        st.subheader(
-            f"{home_team} vs {away_team}"
-        )
+            home_team = (
+                fixture["response"][0]["teams"]["home"]["name"]
+            )
 
-        st.info(
-            "✅ Match prêt pour l'analyse IA.\n\n"
-            "Ouvrez maintenant le menu Prédictions."
-        )
+            away_team = (
+                fixture["response"][0]["teams"]["away"]["name"]
+            )
 
-else:
+            st.subheader(
+                f"{home_team} vs {away_team}"
+            )
 
-    st.info(
-        "Sélectionnez un match pour lancer l'analyse."
-    )
+            st.info(
                 "✅ Match prêt pour l'analyse IA.\n\n"
-                "Ouvrez maintenant le menu "
-                "'Prédictions' pour afficher :\n"
-                "- Statistiques\n"
-                "- H2H\n"
-                "- BTTS\n"
-                "- Over/Under\n"
-                "- Score Exact Poisson\n"
-                "- Cotes Bookmakers\n"
-                "- Analyse IA"
+                "Ouvrez maintenant le menu 'Prédictions' "
+                "pour consulter les statistiques, H2H, "
+                "cotes bookmakers et analyses IA."
             )
 
     else:
