@@ -13,13 +13,12 @@ from database import init_db
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
-    page_icon="assets/logo.png",
+    page_icon="🏆",
     layout="wide"
 )
 
-st.sidebar.image(
-    "assets/logo.png",
-    width=120
+st.sidebar.markdown(
+    "## 🏆 SPORT PREDICTOR"
 )
 
 # =====================================================
