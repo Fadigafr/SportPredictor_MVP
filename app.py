@@ -236,14 +236,19 @@ elif menu == "Calendrier":
 
             if fixture_id:
 
-                st.session_state["fixture_id"] = fixture_id
+    st.session_state["fixture_id"] = fixture_id
 
-                st.success(
-                    f"Match sélectionné : {match_name}"
-                )
-        if st.button("📈 Analyser ce match"):
+    st.success(
+        f"Match sélectionné : {match_name}"
+    )
 
-    st.session_state["selected_match"] = fixture_id
+    if st.button("📈 Analyser ce match"):
+
+        st.session_state["selected_match"] = fixture_id
+
+        st.info(
+            "Match envoyé au module de prédiction."
+        )
     st.switch_page("app.py")        
 
     else:
