@@ -171,9 +171,7 @@ elif menu == "Matchs Live":
 
 elif menu == "Calendrier":
 
-    st.title(
-        "Calendrier & Compétitions"
-    )
+    st.title("Calendrier & Compétitions")
 
     competitions = {
         "Ligue 1": 61,
@@ -212,11 +210,8 @@ elif menu == "Calendrier":
         matchs[match_name] = fixture_id
 
         rows.append({
-            "Date":
-            m["fixture"]["date"][:16],
-
-            "Match":
-            match_name
+            "Date": m["fixture"]["date"][:16],
+            "Match": match_name
         })
 
     if rows:
@@ -228,45 +223,66 @@ elif menu == "Calendrier":
 
     if matchs:
 
-    match_name = st.selectbox(
-        "⚽ Choisir un match",
-        options=list(matchs.keys()),
-        index=None,
-        placeholder="Sélectionnez un match"
-    )
+        match_name = st.selectbox(
+            "⚽ Choisir un match",
+            options=list(matchs.keys()),
+            index=None,
+            placeholder="Sélectionnez un match"
+        )
 
-    if match_name is not None:
+        if match_name is not None:
 
-        fixture_id = matchs.get(match_name)
+            fixture_id = matchs.get(match_name)
 
-        if fixture_id:
+            if fixture_id:
 
-            st.session_state["fixture_id"] = fixture_id
+                st.session_state["fixture_id"] = fixture_id
 
-            st.success(
-                f"Match sélectionné : {match_name}"
-            )
+                st.success(
+                    f"Match sélectionné : {match_name}"
+                )
 
-else:
+    else:
 
-    st.warning(
-        "Aucun match disponible."
-    )
+        st.warning(
+            "Aucun match disponible."
+        )
+
     if "fixture_id" in st.session_state:
 
-    fixture_id = st.session_state["fixture_id"]
+        fixture_id = st.session_state["fixture_id"]
 
-    # Statistiques
-    # H2H
-    # Odds
-    # BTTS
-    # Analyse IA
+        st.info(
+            f"Fixture sélectionnée : {fixture_id}"
+        )
 
-else:
+        # =====================================================
+        # Statistiques
+        # =====================================================
 
-    st.info(
-        "Sélectionnez un match pour lancer l'analyse."
-    )
+        # stats = api_get(...)
+
+        # =====================================================
+        # H2H
+        # =====================================================
+
+        # h2h = api_get(...)
+
+        # =====================================================
+        # Odds
+        # =====================================================
+
+        # odds = api_get(...)
+
+        # =====================================================
+        # Analyse IA
+        # =====================================================
+
+    else:
+
+        st.info(
+            "Sélectionnez un match pour lancer l'analyse."
+        )
 # =====================================================
 # ANALYSE IA DU JOUR
 # =====================================================
