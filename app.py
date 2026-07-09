@@ -7,6 +7,105 @@ from api_football import api_get
 from predictions import predictions_page
 from admin import admin_page
 
+import time
+import streamlit as st
+
+placeholder = st.empty()
+
+placeholder.markdown("""
+<div style="
+text-align:center;
+padding-top:180px;
+">
+assets/logo.png
+<h1 style='color:#FFD700;'>
+SPORT PREDICTOR ULTRA PRO IA
+</h1>
+<p style='color:white;'>
+Chargement de l'Intelligence Artificielle...
+</p>
+</div>
+""", unsafe_allow_html=True)
+
+time.sleep(3)
+
+placeholder.empty()
+
+st.markdown("""
+<style>
+
+@keyframes zoomLogo {
+    0%{
+        transform:scale(0.5);
+        opacity:0;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.logo-animation{
+    animation:zoomLogo 2s ease-in-out;
+}
+
+</style>
+""", unsafe_allow_html=True)
+placeholder.markdown(f"""
+<div align="center">
+
+assets/logo.png
+
+<h1 style="color:#FFD700;">
+SPORT PREDICTOR ULTRA PRO IA
+</h1>
+
+</div>
+""",
+unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+
+.stApp{
+
+background:
+linear-gradient(
+135deg,
+#0D1117,
+#0F172A,
+#111827
+);
+
+color:white;
+
+}
+
+</style>
+""",
+unsafe_allow_html=True)
+st.markdown("""
+<div style="
+text-align:center;
+color:#00E5FF;
+font-size:18px;
+">
+
+⚽ Football • 📊 Statistiques • 🤖 IA
+
+</div>
+""",
+unsafe_allow_html=True)
+
+progress = st.progress(0)
+
+for i in range(100):
+    time.sleep(0.02)
+    progress.progress(i + 1)
+
+progress.empty()
+
 # =====================================================
 # INITIALISATION
 # =====================================================
@@ -18,6 +117,11 @@ st.set_page_config(
     layout="wide"
 )
 
+st.set_page_config(
+    page_title="SPORT PREDICTOR ULTRA PRO IA",
+    page_icon="assets/logo.png",
+    layout="wide"
+)
 # =====================================================
 # SESSION
 # =====================================================
