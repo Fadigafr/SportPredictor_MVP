@@ -381,9 +381,9 @@ else:
     over25_result = total_goals >= 3
     under25_result = total_goals < 3
 
-home_prob = 0
-draw_prob = 0
-away_prob = 0
+    home_prob = 0
+    draw_prob = 0
+    away_prob = 0
 
 for score, prob in scores:
 
@@ -418,58 +418,50 @@ c3.metric(
     f"{round(away_prob,1)}%"
 )
 
-    # =====================================================
-    # BUTEURS PROBABLES
-    # =====================================================
-  def get_top_scorers(team_id):
+# =====================================================
+# BUTEURS PROBABLES
+# =====================================================
 
-    players = api_get(
-        f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
-    )
+    def get_top_scorers(team_id):
 
-    scorers = []
+        players = api_get(
+            f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
+        )
 
-    for player in players.get("response", []):
+        scorers = []
 
-        try:
+        for player in players.get("response", []):
 
-            stats = player["statistics"][0]
+            try:
 
-            goals = stats["goals"]["total"] or 0
-            appearances = stats["games"]["appearences"] or 1
-            minutes = stats["games"]["minutes"] or 0
+                stats = player["statistics"][0]
 
-            score = (
+                goals = stats["goals"]["total"] or 0
+                appearances = stats["games"]["appearences"] or 1
+                minutes = stats["games"]["minutes"] or 0
 
-                goals * 0.60 +
+                score = (
+                    goals * 0.60
+                    + appearances * 0.20
+                    + (minutes / 90) * 0.20
+                )
 
-                appearances * 0.20 +
+                scorers.append({
+                    "name": player["player"]["name"],
+                    "score": score
+                })
 
-                (minutes / 90) * 0.20
+            except:
+                pass
 
-            )
+        return sorted(
+            scorers,
+            key=lambda x: x["score"],
+            reverse=True
+        )[:3]
 
-            scorers.append({
-
-                "name":
-                player["player"]["name"],
-
-                "score":
-                score
-
-            })
-
-        except:
-            pass
-
-    return sorted(
-        scorers,
-        key=lambda x: x["score"],
-        reverse=True
-    )[:3]
-
-      home_scorers = get_top_scorers(home_id)
-away_scorers = get_top_scorers(away_id)
+    home_scorers = get_top_scorers(home_id)
+    away_scorers = get_top_scorers(away_id)
 
 st.header("🥅 Buteurs Probables")
 
@@ -494,8 +486,6 @@ with col2:
         st.write(
             f"⚽ {p['name']}"
         )
-        
-    st.header("🥅 Buteurs Probables")
 
     players = api_get(
         f"https://v3.football.api-sports.io/players?team={home_id}&season=2026"
@@ -563,11 +553,10 @@ with col2:
     ) * 100
 
     bookmaker_score = book_home
-    scorer_score = min(
-    (
-        len(home_scorers) * 30
-    ),
-    100
+ scorer_score = min(
+        len(home_scorers) * 30,
+        100
+    )
 )
     domicile_score = 80
 
