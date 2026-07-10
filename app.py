@@ -209,78 +209,59 @@ elif menu == "Calendrier":
             sorted(filtered)
         )
 
-        league_id = competitions[competition]["id"]
+if competition:
 
-        fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=20"
-)
+    league_id = competitions[competition]["id"]
 
-        st.write("League ID :", league_id)
+    fixtures = api_get(
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
+    )
 
-st.write("Réponse API :")
+    response = fixtures.get("response", [])
 
-st.json(fixtures)
+    st.write(
+        f"📊 Matchs trouvés : {len(response)}"
+    )
 
-        matchs = {}
-        rows = []
+    matchs = {}
+    rows = []
 
-        for m in response:
+    for m in response:
 
-            home = m["teams"]["home"]["name"]
-            away = m["teams"]["away"]["name"]
+        home = m["teams"]["home"]["name"]
+        away = m["teams"]["away"]["name"]
 
-            match_name = f"{home} vs {away}"
+        match_name = f"{home} vs {away}"
 
-            fixture_id = m["fixture"]["id"]
+        fixture_id = m["fixture"]["id"]
 
-            matchs[match_name] = fixture_id
+        matchs[match_name] = fixture_id
 
-            rows.append({
-
-                "Date": m["fixture"]["date"][:16],
-
-                "Domicile": home,
-
-                "Extérieur": away,
-
-                "Stade": (
-                    m["fixture"]["venue"]["name"]
-                    if m["fixture"]["venue"]
-                    else "N/A"
-                )
-
-            })
-
-        if rows:
-
-            df = pd.DataFrame(rows)
-
-            st.dataframe(
-                df,
-                use_container_width=True,
-                hide_index=True
+        rows.append({
+            "Date": m["fixture"]["date"][:16],
+            "Match": match_name,
+            "Stade": (
+                m["fixture"]["venue"]["name"]
+                if m["fixture"]["venue"]
+                else "N/A"
             )
+        })
 
-            match_name = st.selectbox(
-                "⚽ Choisir un match",
-                list(matchs.keys())
-            )
+    if rows:
 
-            if match_name:
+        df = pd.DataFrame(rows)
 
-                fixture_id = matchs[match_name]
+        st.dataframe(
+            df,
+            use_container_width=True,
+            hide_index=True
+        )
 
-                st.session_state["fixture_id"] = fixture_id
+    else:
 
-                st.success(
-                    "✅ Match sélectionné pour l'analyse IA"
-                )
-
-        else:
-
-            st.warning(
-                "Aucun match trouvé pour cette compétition."
-            )
+        st.warning(
+            "Aucun match trouvé."
+        )
 
     if "fixture_id" in st.session_state:
 
