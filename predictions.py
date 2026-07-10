@@ -276,7 +276,22 @@ def predictions_page():
         (home_over25 + away_over25) / 2,
         1
     )
+    
+    home_score > 0 and away_score > 0
+    btts = (
+    predicted_home_goals > 0
+    and
+    predicted_away_goals > 0
+)
 
+    total_goals =
+    home_goals +
+    away_goals
+if total_goals > 2.5:
+    over25 = True
+else:
+    over25 = False
+    
     col1, col2 = st.columns(2)
 
     col1.metric(
@@ -401,6 +416,23 @@ def predictions_page():
 
     st.table(scores[:10])
 
+    top_scores = [
+
+    ("1-0", 19),
+    ("1-1", 17),
+    ("2-0", 15),
+    ("2-1", 12)
+
+]
+    1-0
+    BTTS = NON
+
+Over 2.5 = NON
+
+Under 2.5 = OUI
+
+Résultat = Domicile
+
     # =====================================================
     # ANALYSE IA
     # =====================================================
@@ -432,3 +464,31 @@ def predictions_page():
 
 ✅ Over 2.5 conseillé
 """)
+
+player_score = (
+
+    buts_saison * 0.5
+    +
+    buts_5_matchs * 0.3
+    +
+    temps_de_jeu * 0.2
+
+)
+
+sorted(players)
+
+AI_INDEX = (
+
+    forme_5_matchs * 0.25
+    +
+    h2h * 0.15
+    +
+    poisson * 0.25
+    +
+    bookmakers * 0.15
+    +
+    domicile * 0.10
+    +
+    buteurs * 0.10
+
+)
