@@ -212,41 +212,21 @@ elif menu == "Calendrier":
 
     st.title("Calendrier & Compétitions")
 
-    fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=100"
-)
+    competitions = {
+        "Ligue 1": 61,
+        "Premier League": 39,
+        "LaLiga": 140,
+        "Bundesliga": 78,
+        "Serie A": 135,
+        "Champions League": 2,
+        "Europa League": 3,
+        "Conference League": 848
+    }
 
-competitions = {}
-
-for league in leagues.get("response", []):
-
-    name = (
-        f"{league['country']['name']} - "
-        f"{league['league']['name']}"
-    )
-
-    competitions[name] = (
-        league["league"]["id"]
-    )
     competition = st.selectbox(
-    "🏆 Compétition",
-    sorted(competitions.keys())
-)
-    search = st.text_input(
-    "🔍 Rechercher une compétition"
-)
-    filtered = [
-
-    c for c in competitions.keys()
-
-    if search.lower()
-    in c.lower()
-
-]
-    competition = st.selectbox(
-    "Compétition",
-    filtered
-)
+        "Choisir une compétition",
+        list(competitions.keys())
+    )
 
     league_id = competitions[competition]
 
@@ -261,10 +241,10 @@ for league in leagues.get("response", []):
 
         fixture_id = m["fixture"]["id"]
 
-        match_name = (
-            f"{m['teams']['home']['name']} vs "
-            f"{m['teams']['away']['name']}"
-        )
+        home = m["teams"]["home"]["name"]
+        away = m["teams"]["away"]["name"]
+
+        match_name = f"{home} vs {away}"
 
         matchs[match_name] = fixture_id
 
@@ -280,27 +260,23 @@ for league in leagues.get("response", []):
             width="stretch"
         )
 
-    if matchs:
+        if matchs:
 
-        match_name = st.selectbox(
-            "⚽ Choisir un match",
-            options=list(matchs.keys())
-        )
+    match_name = st.selectbox(
+        "Choisir un match",
+        list(matchs.keys())
+    )
 
-        if match_name:
+    if match_name:
 
-            fixture_id = matchs[match_name]
+        fixture_id = matchs[match_name]
 
-            st.session_state["fixture_id"] = fixture_id
-
-            st.success(
-                f"✅ Match sélectionné : {match_name}"
-            )
+        st.session_state["fixture_id"] = fixture_id
 
     else:
 
         st.warning(
-            "Aucun match disponible."
+            "Aucun match programmé."
         )
 
     if "fixture_id" in st.session_state:
@@ -332,6 +308,13 @@ for league in leagues.get("response", []):
             "Sélectionnez un match pour lancer l'analyse."
         )
 
+    elif menu == "Analyse IA du Jour":
+
+    st.title("Analyse IA du Jour")
+
+    st.info(
+        "Module Analyse IA."
+    )
     # =====================================================
     # MATCH SELECTIONNE
     # =====================================================
