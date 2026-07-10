@@ -198,35 +198,33 @@ elif menu == "Calendrier":
     )
 
     filtered = [
-
         c for c in competitions.keys()
-
         if search.lower() in c.lower()
-
     ]
 
-    competition = st.selectbox(
-        "🏆 Compétition",
-        sorted(filtered)
-    )
+    if filtered:
 
-    if competition:
+        competition = st.selectbox(
+            "🏆 Compétition",
+            sorted(filtered)
+        )
 
         league_id = competitions[competition]["id"]
 
         fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
-)
+            f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
+        )
 
-st.write(
-    "Nombre de matchs trouvés :",
-    len(fixtures.get("response", []))
-)
+        response = fixtures.get("response", [])
 
-rows = []
-matchs = {}
+        st.write(
+            f"📊 Matchs trouvés : {len(response)}"
+        )
 
-for m in fixtures.get("response", []):
+        matchs = {}
+        rows = []
+
+        for m in response:
 
             home = m["teams"]["home"]["name"]
             away = m["teams"]["away"]["name"]
@@ -240,7 +238,11 @@ for m in fixtures.get("response", []):
             rows.append({
 
                 "Date": m["fixture"]["date"][:16],
-                "Match": match_name,
+
+                "Domicile": home,
+
+                "Extérieur": away,
+
                 "Stade": (
                     m["fixture"]["venue"]["name"]
                     if m["fixture"]["venue"]
@@ -260,7 +262,7 @@ for m in fixtures.get("response", []):
             )
 
             match_name = st.selectbox(
-                "Choisir un match",
+                "⚽ Choisir un match",
                 list(matchs.keys())
             )
 
