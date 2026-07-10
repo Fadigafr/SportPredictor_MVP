@@ -214,7 +214,7 @@ elif menu == "Calendrier":
         league_id = competitions[competition]
 
         fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
 )
 
         matchs = {}
@@ -233,29 +233,47 @@ elif menu == "Calendrier":
 
             rows.append({
 
-                "Date":
-                m["fixture"]["date"][:16],
+    "Date": m["fixture"]["date"][:16],
 
-                "Match":
-                match_name,
+    "Pays": country,
 
-                "Stade":
-                (
-                    m["fixture"]["venue"]["name"]
-                    if m["fixture"]["venue"]
-                    else "N/A"
-                )
+    "Compétition": league_name,
 
-            })
+    "Domicile": m["teams"]["home"]["name"],
+
+    "Extérieur": m["teams"]["away"]["name"],
+
+    "Stade": (
+        m["fixture"]["venue"]["name"]
+        if m["fixture"]["venue"]
+        else "N/A"
+    )
+
+})
 
         if rows:
 
-            df = pd.DataFrame(rows)
+df = pd.DataFrame(rows)
 
-            st.dataframe(
-                df,
-                use_container_width=True
-            )
+st.dataframe(
+    df,
+    use_container_width=True,
+    hide_index=True
+)
+match_name = st.selectbox(
+    "Choisir un match",
+    list(matchs.keys())
+)
+
+if match_name:
+
+    st.session_state["fixture_id"] = (
+        matchs[match_name]
+    )
+
+    st.success(
+        "✅ Match sélectionné pour l'analyse IA"
+    )
 
             match_name = st.selectbox(
                 "Choisir un match",
