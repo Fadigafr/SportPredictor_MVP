@@ -219,8 +219,6 @@ else:
         "Aucune Value Bet détectée"
     )
 
-
-
     # =====================================================
     # FORME 5 MATCHS
     # =====================================================
@@ -422,43 +420,46 @@ c3.metric(
 # BUTEURS PROBABLES
 # =====================================================
 
-    def get_top_scorers(team_id):
+def get_top_scorers(team_id):
 
-        players = api_get(
-            f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
-        )
+    players = api_get(
+        f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
+    )
 
-        scorers = []
+    scorers = []
 
-        for player in players.get("response", []):
+    for player in players.get("response", []):
 
-            try:
+        try:
 
-                stats = player["statistics"][0]
+            stats = player["statistics"][0]
 
-                goals = stats["goals"]["total"] or 0
-                appearances = stats["games"]["appearences"] or 1
-                minutes = stats["games"]["minutes"] or 0
+            goals = stats["goals"]["total"] or 0
+            appearances = stats["games"]["appearences"] or 1
+            minutes = stats["games"]["minutes"] or 0
 
-                score = (
-                    goals * 0.60
-                    + appearances * 0.20
-                    + (minutes / 90) * 0.20
-                )
+            score = (
+                goals * 0.6
+                +
+                appearances * 0.2
+                +
+                (minutes / 90) * 0.2
+            )
 
-                scorers.append({
-                    "name": player["player"]["name"],
-                    "score": score
-                })
+            scorers.append({
+                "name": player["player"]["name"],
+                "score": score
+            })
 
-            except:
-                pass
+        except:
+            pass
 
-        return sorted(
-            scorers,
-            key=lambda x: x["score"],
-            reverse=True
-        )[:3]
+    scorers.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    return scorers[:3]
 
     home_scorers = get_top_scorers(home_id)
     away_scorers = get_top_scorers(away_id)
