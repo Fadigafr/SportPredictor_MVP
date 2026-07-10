@@ -8,33 +8,23 @@ from predictions import predictions_page
 from api_football import api_get
 from database import init_db
 
-# =====================================================
-# CONFIG
-# =====================================================
+init_db()
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
-    page_icon="assets/logo.png",
+    page_icon="🏆",
     layout="wide"
 )
-
-st.sidebar.markdown(
-    "## 🏆 SPORT PREDICTOR"
-)
-
-# =====================================================
-# STYLE
-# =====================================================
 
 st.markdown("""
 <style>
 
 .stApp{
     background: linear-gradient(
-    135deg,
-    #0D1117,
-    #111827,
-    #0F172A
+        135deg,
+        #0D1117,
+        #111827,
+        #0F172A
     );
 }
 
@@ -45,62 +35,29 @@ h1,h2,h3{
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================================
-# LOGIN
-# =====================================================
-
 login()
 
 # =====================================================
 # SIDEBAR
 # =====================================================
 
-import os
-
 logo_path = "assets/logo.png"
 
-if os.path.isfile(logo_path):
-
+if os.path.exists(logo_path):
     st.sidebar.image(
         logo_path,
         width=180
     )
-# update logo
 
-else:
+    col1, col2, col3 = st.columns([1,2,1])
 
-    st.sidebar.markdown(
-        "## 🏆 SPORT PREDICTOR"
-    )
+    with col2:
+        st.image(
+            logo_path,
+            width=220
+        )
 
-st.sidebar.markdown(
-    """
-    <div style="text-align:center;">
-    """,
-    unsafe_allow_html=True
-)
-
-st.sidebar.image(
-    "assets/logo.png",
-    width=180
-)
-
-st.sidebar.markdown(
-    "</div>",
-    unsafe_allow_html=True
-)
-
-col1, col2, col3 = st.columns([1,2,1])
-
-with col2:
-    st.image(
-        "assets/logo.png",
-        width=220
-    )
-    
-st.sidebar.title(
-    "SPORT PREDICTOR"
-)
+st.sidebar.title("SPORT PREDICTOR")
 
 menu = st.sidebar.radio(
     "Navigation",
@@ -260,25 +217,39 @@ elif menu == "Calendrier":
             width="stretch"
         )
 
-        if matchs:
+        match_name = st.selectbox(
+            "Choisir un match",
+            list(matchs.keys())
+        )
 
-    match_name = st.selectbox(
-        "Choisir un match",
-        list(matchs.keys())
-    )
+        if match_name:
 
-    if match_name:
+            fixture_id = matchs[match_name]
 
-        fixture_id = matchs[match_name]
+            st.session_state["fixture_id"] = fixture_id
 
-        st.session_state["fixture_id"] = fixture_id
+            fixture = api_get(
+                f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+            )
+
+            if fixture.get("response"):
+
+                home_team = fixture["response"][0]["teams"]["home"]["name"]
+                away_team = fixture["response"][0]["teams"]["away"]["name"]
+
+                st.subheader(
+                    f"{home_team} vs {away_team}"
+                )
+
+                st.success(
+                    "✅ Match prêt pour l'analyse IA"
+                )
 
     else:
 
         st.warning(
             "Aucun match programmé."
         )
-
     if "fixture_id" in st.session_state:
 
         fixture_id = st.session_state["fixture_id"]
@@ -308,13 +279,6 @@ elif menu == "Calendrier":
             "Sélectionnez un match pour lancer l'analyse."
         )
 
-    elif menu == "Analyse IA du Jour":
-
-    st.title("Analyse IA du Jour")
-
-    st.info(
-        "Module Analyse IA."
-    )
     # =====================================================
     # MATCH SELECTIONNE
     # =====================================================
