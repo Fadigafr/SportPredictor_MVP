@@ -215,11 +215,11 @@ elif menu == "Calendrier":
             f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
         )
 
-        response = fixtures.get("response", [])
+        st.write("League ID :", league_id)
 
-        st.write(
-            f"📊 Matchs trouvés : {len(response)}"
-        )
+st.write("Réponse API :")
+
+st.json(fixtures)
 
         matchs = {}
         rows = []
