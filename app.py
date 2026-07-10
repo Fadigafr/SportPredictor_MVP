@@ -14,7 +14,7 @@ from database import init_db
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
-    page_icon="🏆",
+    page_icon="assets/logo.png",
     layout="wide"
 )
 
@@ -73,6 +73,31 @@ else:
         "## 🏆 SPORT PREDICTOR"
     )
 
+st.sidebar.markdown(
+    """
+    <div style="text-align:center;">
+    """,
+    unsafe_allow_html=True
+)
+
+st.sidebar.image(
+    "assets/logo.png",
+    width=180
+)
+
+st.sidebar.markdown(
+    "</div>",
+    unsafe_allow_html=True
+)
+
+col1, col2, col3 = st.columns([1,2,1])
+
+with col2:
+    st.image(
+        "assets/logo.png",
+        width=220
+    )
+    
 st.sidebar.title(
     "SPORT PREDICTOR"
 )
