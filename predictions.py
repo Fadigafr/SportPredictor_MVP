@@ -73,6 +73,37 @@ def calcul_btts(matches):
 
     return round((ok / total) * 100, 1)
 
+odds = api_get(
+    f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+)
+home_odd = None
+draw_odd = None
+away_odd = None
+
+try:
+
+    bookmaker = odds["response"][0]
+
+    bets = bookmaker["bookmakers"][0]["bets"]
+
+    for bet in bets:
+
+        if bet["name"] == "Match Winner":
+
+            home_odd = float(bet["values"][0]["odd"])
+            draw_odd = float(bet["values"][1]["odd"])
+            away_odd = float(bet["values"][2]["odd"])
+
+except:
+    pass
+
+st.header("💰 Cotes")
+
+c1, c2, c3 = st.columns(3)
+
+c1.metric("1", home_odd)
+c2.metric("N", draw_odd)
+c3.metric("2", away_odd)
 
 def calcul_over25(matches):
 
@@ -134,6 +165,35 @@ def predictions_page():
     st.subheader(
         f"{home_team} vs {away_team}"
     )
+
+    book_home = round(
+    (1 / home_odd) * 100,
+    1
+)
+
+book_draw = round(
+    (1 / draw_odd) * 100,
+    1
+)
+
+book_away = round(
+    (1 / away_odd) * 100,
+    1
+)
+
+if value > 10:
+
+    st.success(
+        f"✅ VALUE BET détecté (+{round(value,1)}%)"
+    )
+
+else:
+
+    st.info(
+        "Aucune Value Bet détectée"
+    )
+
+
 
     # =====================================================
     # FORME 5 MATCHS
@@ -295,10 +355,120 @@ def predictions_page():
     over25_result = total_goals >= 3
     under25_result = total_goals < 3
 
+home_prob = 0
+draw_prob = 0
+away_prob = 0
+
+for score, prob in scores:
+
+    h = int(score.split("-")[0])
+    a = int(score.split("-")[1])
+
+    if h > a:
+        home_prob += prob
+
+    elif h == a:
+        draw_prob += prob
+
+    else:
+        away_prob += prob
+
+st.header("📊 Probabilités IA")
+
+c1, c2, c3 = st.columns(3)
+
+c1.metric(
+    "Victoire Domicile",
+    f"{round(home_prob,1)}%"
+)
+
+c2.metric(
+    "Nul",
+    f"{round(draw_prob,1)}%"
+)
+
+c3.metric(
+    "Victoire Extérieur",
+    f"{round(away_prob,1)}%"
+)
+
     # =====================================================
     # BUTEURS PROBABLES
     # =====================================================
+  def get_top_scorers(team_id):
 
+    players = api_get(
+        f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
+    )
+
+    scorers = []
+
+    for player in players.get("response", []):
+
+        try:
+
+            stats = player["statistics"][0]
+
+            goals = stats["goals"]["total"] or 0
+            appearances = stats["games"]["appearences"] or 1
+            minutes = stats["games"]["minutes"] or 0
+
+            score = (
+
+                goals * 0.60 +
+
+                appearances * 0.20 +
+
+                (minutes / 90) * 0.20
+
+            )
+
+            scorers.append({
+
+                "name":
+                player["player"]["name"],
+
+                "score":
+                score
+
+            })
+
+        except:
+            pass
+
+    return sorted(
+        scorers,
+        key=lambda x: x["score"],
+        reverse=True
+    )[:3]
+
+      home_scorers = get_top_scorers(home_id)
+away_scorers = get_top_scorers(away_id)
+
+st.header("🥅 Buteurs Probables")
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.subheader(home_team)
+
+    for p in home_scorers:
+
+        st.write(
+            f"⚽ {p['name']}"
+        )
+
+with col2:
+
+    st.subheader(away_team)
+
+    for p in away_scorers:
+
+        st.write(
+            f"⚽ {p['name']}"
+        )
+        
     st.header("🥅 Buteurs Probables")
 
     players = api_get(
@@ -366,8 +536,13 @@ def predictions_page():
         )
     ) * 100
 
-    bookmaker_score = 70
-    scorer_score = 75
+    bookmaker_score = book_home
+    scorer_score = min(
+    (
+        len(home_scorers) * 30
+    ),
+    100
+)
     domicile_score = 80
 
     ai_index = round(
@@ -399,6 +574,33 @@ def predictions_page():
 
     else:
         level = "❌ RISQUE ÉLEVÉ"
+
+      st.header("🚀 SPORT PREDICTOR IA V2")
+
+st.metric(
+    "AI INDEX",
+    f"{ai_index}/100"
+)
+
+st.success(level)
+
+st.markdown(f"""
+### Pronostic Final
+
+✅ Score exact : **{predicted_score}**
+
+✅ BTTS : **{'OUI' if btts_result else 'NON'}**
+
+✅ Over 2.5 : **{'OUI' if over25_result else 'NON'}**
+
+✅ Under 2.5 : **{'OUI' if under25_result else 'NON'}**
+
+🏠 Probabilité domicile : **{round(home_prob,1)}%**
+
+🤝 Probabilité nul : **{round(draw_prob,1)}%**
+
+✈️ Probabilité extérieur : **{round(away_prob,1)}%**
+""")
 
     # =====================================================
     # ANALYSE IA
