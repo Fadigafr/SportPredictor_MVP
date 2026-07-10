@@ -514,3 +514,72 @@ form_score = (
     (wins * 3 + draws)
     / 15
 ) * 100
+
+st.subheader("🤖 Analyse IA")
+
+st.metric(
+    "AI INDEX",
+    f"{ai_index}/100"
+)
+
+st.success(
+    get_ai_level(ai_index)
+)
+
+st.subheader("🤖 Analyse IA")
+
+st.metric(
+    "AI INDEX",
+    f"{ai_index}/100"
+)
+
+st.success(
+    get_ai_level(ai_index)
+)
+probable_scorers = [
+
+    {
+        "name":"Mohamed Salah",
+        "probability":47
+    },
+
+    {
+        "name":"Darwin Nunez",
+        "probability":32
+    },
+
+    {
+        "name":"Luis Diaz",
+        "probability":18
+    }
+]
+
+st.subheader("📊 Résultat IA")
+
+st.metric(
+    "AI INDEX",
+    f"{ai_index}/100"
+)
+
+st.success(
+    get_ai_level(ai_index)
+)
+
+st.write(
+    f"Score Exact : "
+    f"{predicted_home_goals}-{predicted_away_goals}"
+)
+
+st.write(
+    f"BTTS : {'✅ OUI' if btts_result else '❌ NON'}"
+)
+
+st.write(
+    f"Over 2.5 : "
+    f"{'✅ OUI' if ou_result['over25'] else '❌ NON'}"
+)
+
+st.write(
+    f"Under 2.5 : "
+    f"{'✅ OUI' if ou_result['under25'] else '❌ NON'}"
+)
