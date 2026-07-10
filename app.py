@@ -228,30 +228,27 @@ matchs = {}
 
 for m in fixtures.get("response", []):
 
-    home = m["teams"]["home"]["name"]
-    away = m["teams"]["away"]["name"]
+            home = m["teams"]["home"]["name"]
+            away = m["teams"]["away"]["name"]
 
-    match_name = f"{home} vs {away}"
+            match_name = f"{home} vs {away}"
 
-    fixture_id = m["fixture"]["id"]
+            fixture_id = m["fixture"]["id"]
 
-    matchs[match_name] = fixture_id
+            matchs[match_name] = fixture_id
 
-    rows.append({
+            rows.append({
 
-        "Date": m["fixture"]["date"][:16],
+                "Date": m["fixture"]["date"][:16],
+                "Match": match_name,
+                "Stade": (
+                    m["fixture"]["venue"]["name"]
+                    if m["fixture"]["venue"]
+                    else "N/A"
+                )
 
-        "Match": match_name,
+            })
 
-        "Stade": (
-            m["fixture"]["venue"]["name"]
-            if m["fixture"]["venue"]
-            else "N/A"
-        )
-
-    })
-st.write("Nombre de lignes :", len(rows))
-        
         if rows:
 
             df = pd.DataFrame(rows)
@@ -273,27 +270,9 @@ st.write("Nombre de lignes :", len(rows))
 
                 st.session_state["fixture_id"] = fixture_id
 
-                fixture = api_get(
-                    f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+                st.success(
+                    "✅ Match sélectionné pour l'analyse IA"
                 )
-
-                if fixture.get("response"):
-
-                    home_team = (
-                        fixture["response"][0]["teams"]["home"]["name"]
-                    )
-
-                    away_team = (
-                        fixture["response"][0]["teams"]["away"]["name"]
-                    )
-
-                    st.subheader(
-                        f"{home_team} vs {away_team}"
-                    )
-
-                    st.success(
-                        "✅ Match prêt pour l'analyse IA"
-                    )
 
         else:
 
