@@ -170,110 +170,134 @@ elif menu == "Calendrier":
     st.title("Calendrier & Compétitions")
 
     leagues = api_get(
-    "https://v3.football.api-sports.io/leagues"
-)
+        "https://v3.football.api-sports.io/leagues"
+    )
 
-competitions = {}
+    competitions = {}
 
-for league in leagues.get("response", []):
+    for league in leagues.get("response", []):
 
-    try:
+        try:
 
-        country = league["country"]["name"]
+            country = league["country"]["name"]
 
-        league_name = league["league"]["name"]
+            league_name = league["league"]["name"]
 
-        full_name = f"{country} - {league_name}"
+            full_name = f"{country} - {league_name}"
 
-        competitions[full_name] = (
-            league["league"]["id"]
-        )
-
-    except:
-        pass
-
-search = st.text_input(
-    "🔍 Rechercher une compétition"
-)
-
-filtered = [
-
-    c for c in competitions.keys()
-
-    if search.lower() in c.lower()
-
-]
-
-competition = st.selectbox(
-    "🏆 Compétition",
-    sorted(filtered)
-)
-
-league_id = competitions[competition]
-
-    fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=100"
-)
-
-    matchs = {}
-    rows = []
-
-for m in fixtures.get("response", []):
-
-    rows.append({
-
-        "Date":
-        m["fixture"]["date"][:16],
-
-        "Match":
-        f"{m['teams']['home']['name']} vs "
-        f"{m['teams']['away']['name']}",
-
-        "Stade":
-        m["fixture"]["venue"]["name"]
-
-    })
-
-df = pd.DataFrame(rows)
-
-st.dataframe(
-    df,
-    use_container_width=True
-)
-
-        match_name = st.selectbox(
-            "Choisir un match",
-            list(matchs.keys())
-        )
-
-        if match_name:
-
-            fixture_id = matchs[match_name]
-
-            st.session_state["fixture_id"] = fixture_id
-
-            fixture = api_get(
-                f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+            competitions[full_name] = (
+                league["league"]["id"]
             )
 
-            if fixture.get("response"):
+        except:
+            pass
 
-                home_team = fixture["response"][0]["teams"]["home"]["name"]
-                away_team = fixture["response"][0]["teams"]["away"]["name"]
+    search = st.text_input(
+        "🔍 Rechercher une compétition"
+    )
 
-                st.subheader(
-                    f"{home_team} vs {away_team}"
-                )
+    filtered = [
 
-                st.success(
-                    "✅ Match prêt pour l'analyse IA"
-                )
+        c for c in competitions.keys()
 
-    else:
+        if search.lower() in c.lower()
 
-        st.warning(
-            "Aucun match programmé."
+    ]
+
+    competition = st.selectbox(
+        "🏆 Compétition",
+        sorted(filtered)
+    )
+
+    if competition:
+
+        league_id = competitions[competition]
+
+        fixtures = api_get(
+            f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=100"
         )
+
+        matchs = {}
+        rows = []
+
+        for m in fixtures.get("response", []):
+
+            match_name = (
+                f"{m['teams']['home']['name']} vs "
+                f"{m['teams']['away']['name']}"
+            )
+
+            fixture_id = m["fixture"]["id"]
+
+            matchs[match_name] = fixture_id
+
+            rows.append({
+
+                "Date":
+                m["fixture"]["date"][:16],
+
+                "Match":
+                match_name,
+
+                "Stade":
+                (
+                    m["fixture"]["venue"]["name"]
+                    if m["fixture"]["venue"]
+                    else "N/A"
+                )
+
+            })
+
+        if rows:
+
+            df = pd.DataFrame(rows)
+
+            st.dataframe(
+                df,
+                use_container_width=True
+            )
+
+            match_name = st.selectbox(
+                "Choisir un match",
+                list(matchs.keys())
+            )
+
+            if match_name:
+
+                fixture_id = matchs[match_name]
+
+                st.session_state["fixture_id"] = fixture_id
+
+                fixture = api_get(
+                    f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+                )
+
+                if fixture.get("response"):
+
+                    home_team = (
+                        fixture["response"][0]
+                        ["teams"]["home"]["name"]
+                    )
+
+                    away_team = (
+                        fixture["response"][0]
+                        ["teams"]["away"]["name"]
+                    )
+
+                    st.subheader(
+                        f"{home_team} vs {away_team}"
+                    )
+
+                    st.success(
+                        "✅ Match prêt pour l'analyse IA"
+                    )
+
+        else:
+
+            st.warning(
+                "Aucun match programmé."
+            )
+
     if "fixture_id" in st.session_state:
 
         fixture_id = st.session_state["fixture_id"]
@@ -284,9 +308,15 @@ st.dataframe(
 
         if fixture.get("response"):
 
-            home_team = fixture["response"][0]["teams"]["home"]["name"]
+            home_team = (
+                fixture["response"][0]
+                ["teams"]["home"]["name"]
+            )
 
-            away_team = fixture["response"][0]["teams"]["away"]["name"]
+            away_team = (
+                fixture["response"][0]
+                ["teams"]["away"]["name"]
+            )
 
             st.subheader(
                 f"{home_team} vs {away_team}"
