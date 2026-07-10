@@ -215,43 +215,43 @@ elif menu == "Calendrier":
         league_id = competitions[competition]["id"]
 
         fixtures = api_get(
-            f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
+)
+
+st.write(
+    "Nombre de matchs trouvés :",
+    len(fixtures.get("response", []))
+)
+
+rows = []
+matchs = {}
+
+for m in fixtures.get("response", []):
+
+    home = m["teams"]["home"]["name"]
+    away = m["teams"]["away"]["name"]
+
+    match_name = f"{home} vs {away}"
+
+    fixture_id = m["fixture"]["id"]
+
+    matchs[match_name] = fixture_id
+
+    rows.append({
+
+        "Date": m["fixture"]["date"][:16],
+
+        "Match": match_name,
+
+        "Stade": (
+            m["fixture"]["venue"]["name"]
+            if m["fixture"]["venue"]
+            else "N/A"
         )
 
-        matchs = {}
-        rows = []
-
-        for m in fixtures.get("response", []):
-
-            match_name = (
-                f"{m['teams']['home']['name']} vs "
-                f"{m['teams']['away']['name']}"
-            )
-
-            fixture_id = m["fixture"]["id"]
-
-            matchs[match_name] = fixture_id
-
-            rows.append({
-
-                "Date":
-                m["fixture"]["date"][:16],
-
-                "Domicile":
-                m["teams"]["home"]["name"],
-
-                "Extérieur":
-                m["teams"]["away"]["name"],
-
-                "Stade":
-                (
-                    m["fixture"]["venue"]["name"]
-                    if m["fixture"]["venue"]
-                    else "N/A"
-                )
-
-            })
-
+    })
+st.write("Nombre de lignes :", len(rows))
+        
         if rows:
 
             df = pd.DataFrame(rows)
