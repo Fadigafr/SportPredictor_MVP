@@ -181,13 +181,9 @@ for league in leagues.get("response", []):
 
         country = league["country"]["name"]
 
-        league_name = (
-            league["league"]["name"]
-        )
+        league_name = league["league"]["name"]
 
-        full_name = (
-            f"{country} - {league_name}"
-        )
+        full_name = f"{country} - {league_name}"
 
         competitions[full_name] = (
             league["league"]["id"]
@@ -196,10 +192,6 @@ for league in leagues.get("response", []):
     except:
         pass
 
-   competition = st.selectbox(
-    "🏆 Compétition",
-    sorted(competitions.keys())
-)
 search = st.text_input(
     "🔍 Rechercher une compétition"
 )
@@ -214,10 +206,10 @@ filtered = [
 
 competition = st.selectbox(
     "🏆 Compétition",
-    filtered
+    sorted(filtered)
 )
 
-    league_id = competitions[competition]
+league_id = competitions[competition]
 
     fixtures = api_get(
     f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=100"
