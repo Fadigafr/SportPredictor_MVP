@@ -73,37 +73,63 @@ def calcul_btts(matches):
 
     return round((ok / total) * 100, 1)
 
+# =====================================================
+# COTES TEMPS REEL
+# =====================================================
+
+st.header("💰 Cotes Bookmakers")
+
 odds = api_get(
     f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
 )
+
 home_odd = None
 draw_odd = None
 away_odd = None
 
 try:
 
-    bookmaker = odds["response"][0]
+    bookmakers = odds["response"][0]["bookmakers"]
 
-    bets = bookmaker["bookmakers"][0]["bets"]
+    for bookmaker in bookmakers:
 
-    for bet in bets:
+        for bet in bookmaker["bets"]:
 
-        if bet["name"] == "Match Winner":
+            if bet["name"] == "Match Winner":
 
-            home_odd = float(bet["values"][0]["odd"])
-            draw_odd = float(bet["values"][1]["odd"])
-            away_odd = float(bet["values"][2]["odd"])
+                home_odd = float(
+                    bet["values"][0]["odd"]
+                )
 
-except:
+                draw_odd = float(
+                    bet["values"][1]["odd"]
+                )
+
+                away_odd = float(
+                    bet["values"][2]["odd"]
+                )
+
+                break
+
+except Exception:
+
     pass
 
-st.header("💰 Cotes")
+if home_odd:
 
-c1, c2, c3 = st.columns(3)
+    c1, c2, c3 = st.columns(3)
 
-c1.metric("1", home_odd)
-c2.metric("N", draw_odd)
-c3.metric("2", away_odd)
+    c1.metric("🏠 1", home_odd)
+    c2.metric("🤝 N", draw_odd)
+    c3.metric("✈️ 2", away_odd)
+
+    book_home = round((1 / home_odd) * 100, 1)
+    book_draw = round((1 / draw_odd) * 100, 1)
+    book_away = round((1 / away_odd) * 100, 1)
+
+else:
+
+    st.warning("Cotes indisponibles.")
 
 def calcul_over25(matches):
 
@@ -602,6 +628,24 @@ st.markdown(f"""
 ✈️ Probabilité extérieur : **{round(away_prob,1)}%**
 """)
 
+st.header("🔥 Value Bet")
+
+if home_odd:
+
+    value = ai_index - book_home
+
+    if value > 10:
+
+        st.success(
+            f"✅ VALUE BET détectée (+{round(value,1)}%)"
+        )
+
+    else:
+
+        st.info(
+            "Aucune value bet détectée"
+        )
+        
     # =====================================================
     # ANALYSE IA
     # =====================================================
