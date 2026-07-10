@@ -212,21 +212,41 @@ elif menu == "Calendrier":
 
     st.title("Calendrier & Compétitions")
 
-    competitions = {
-        "Ligue 1": 61,
-        "Premier League": 39,
-        "LaLiga": 140,
-        "Bundesliga": 78,
-        "Serie A": 135,
-        "Champions League": 2,
-        "Europa League": 3,
-        "Conference League": 848
-    }
+    fixtures = api_get(
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=100"
+)
 
-    competition = st.selectbox(
-        "Compétition",
-        list(competitions.keys())
+competitions = {}
+
+for league in leagues.get("response", []):
+
+    name = (
+        f"{league['country']['name']} - "
+        f"{league['league']['name']}"
     )
+
+    competitions[name] = (
+        league["league"]["id"]
+    )
+    competition = st.selectbox(
+    "🏆 Compétition",
+    sorted(competitions.keys())
+)
+    search = st.text_input(
+    "🔍 Rechercher une compétition"
+)
+    filtered = [
+
+    c for c in competitions.keys()
+
+    if search.lower()
+    in c.lower()
+
+]
+    competition = st.selectbox(
+    "Compétition",
+    filtered
+)
 
     league_id = competitions[competition]
 
