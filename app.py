@@ -169,53 +169,85 @@ elif menu == "Calendrier":
 
     st.title("Calendrier & Compétitions")
 
-    competitions = {
-        "Ligue 1": 61,
-        "Premier League": 39,
-        "LaLiga": 140,
-        "Bundesliga": 78,
-        "Serie A": 135,
-        "Champions League": 2,
-        "Europa League": 3,
-        "Conference League": 848
-    }
+    leagues = api_get(
+    "https://v3.football.api-sports.io/leagues"
+)
 
-    competition = st.selectbox(
-        "Choisir une compétition",
-        list(competitions.keys())
-    )
+competitions = {}
+
+for league in leagues.get("response", []):
+
+    try:
+
+        country = league["country"]["name"]
+
+        league_name = (
+            league["league"]["name"]
+        )
+
+        full_name = (
+            f"{country} - {league_name}"
+        )
+
+        competitions[full_name] = (
+            league["league"]["id"]
+        )
+
+    except:
+        pass
+
+   competition = st.selectbox(
+    "🏆 Compétition",
+    sorted(competitions.keys())
+)
+search = st.text_input(
+    "🔍 Rechercher une compétition"
+)
+
+filtered = [
+
+    c for c in competitions.keys()
+
+    if search.lower() in c.lower()
+
+]
+
+competition = st.selectbox(
+    "🏆 Compétition",
+    filtered
+)
 
     league_id = competitions[competition]
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=50"
-    )
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2026&next=100"
+)
 
     matchs = {}
     rows = []
 
-    for m in fixtures.get("response", []):
+for m in fixtures.get("response", []):
 
-        fixture_id = m["fixture"]["id"]
+    rows.append({
 
-        home = m["teams"]["home"]["name"]
-        away = m["teams"]["away"]["name"]
+        "Date":
+        m["fixture"]["date"][:16],
 
-        match_name = f"{home} vs {away}"
+        "Match":
+        f"{m['teams']['home']['name']} vs "
+        f"{m['teams']['away']['name']}",
 
-        matchs[match_name] = fixture_id
+        "Stade":
+        m["fixture"]["venue"]["name"]
 
-        rows.append({
-            "Date": m["fixture"]["date"][:16],
-            "Match": match_name
-        })
+    })
 
-    if rows:
+df = pd.DataFrame(rows)
 
-        st.dataframe(
-            pd.DataFrame(rows),
-            width="stretch"
-        )
+st.dataframe(
+    df,
+    use_container_width=True
+)
 
         match_name = st.selectbox(
             "Choisir un match",
