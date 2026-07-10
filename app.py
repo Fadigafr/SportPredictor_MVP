@@ -212,8 +212,8 @@ elif menu == "Calendrier":
         league_id = competitions[competition]["id"]
 
         fixtures = api_get(
-            f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
-        )
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=20"
+)
 
         st.write("League ID :", league_id)
 
