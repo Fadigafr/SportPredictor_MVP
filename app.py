@@ -180,14 +180,15 @@ elif menu == "Calendrier":
         try:
 
             country = league["country"]["name"]
-
             league_name = league["league"]["name"]
 
             full_name = f"{country} - {league_name}"
 
-            competitions[full_name] = (
-                league["league"]["id"]
-            )
+            competitions[full_name] = {
+                "id": league["league"]["id"],
+                "country": country,
+                "league": league_name
+            }
 
         except:
             pass
@@ -211,11 +212,11 @@ elif menu == "Calendrier":
 
     if competition:
 
-        league_id = competitions[competition]
+        league_id = competitions[competition]["id"]
 
         fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
-)
+            f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
+        )
 
         matchs = {}
         rows = []
@@ -233,64 +234,33 @@ elif menu == "Calendrier":
 
             rows.append({
 
-    "Date": m["fixture"]["date"][:16],
+                "Date":
+                m["fixture"]["date"][:16],
 
-    "Pays": country,
+                "Domicile":
+                m["teams"]["home"]["name"],
 
-    "Compétition": league_name,
+                "Extérieur":
+                m["teams"]["away"]["name"],
 
-    "Domicile": m["teams"]["home"]["name"],
+                "Stade":
+                (
+                    m["fixture"]["venue"]["name"]
+                    if m["fixture"]["venue"]
+                    else "N/A"
+                )
 
-    "Extérieur": m["teams"]["away"]["name"],
+            })
 
-    "Stade": (
-        m["fixture"]["venue"]["name"]
-        if m["fixture"]["venue"]
-        else "N/A"
-    )
+        if rows:
 
-})
+            df = pd.DataFrame(rows)
 
-if rows:
-
-    df = pd.DataFrame(rows)
-
-    st.dataframe(
-        df,
-        use_container_width=True,
-        hide_index=True
-    )
-
-    match_name = st.selectbox(
-        "Choisir un match",
-        list(matchs.keys())
-    )
-
-    if match_name:
-
-        fixture_id = matchs[match_name]
-
-        st.session_state["fixture_id"] = fixture_id
-
-        st.success(
-            "✅ Match sélectionné pour l'analyse IA"
-        )
-
-else:
-
-    st.warning(
-        "Aucun match trouvé pour cette compétition."
-    )
-
-if match_name:
-
-    st.session_state["fixture_id"] = (
-        matchs[match_name]
-    )
-
-    st.success(
-        "✅ Match sélectionné pour l'analyse IA"
-    )
+            st.dataframe(
+                df,
+                use_container_width=True,
+                hide_index=True
+            )
 
             match_name = st.selectbox(
                 "Choisir un match",
@@ -310,13 +280,11 @@ if match_name:
                 if fixture.get("response"):
 
                     home_team = (
-                        fixture["response"][0]
-                        ["teams"]["home"]["name"]
+                        fixture["response"][0]["teams"]["home"]["name"]
                     )
 
                     away_team = (
-                        fixture["response"][0]
-                        ["teams"]["away"]["name"]
+                        fixture["response"][0]["teams"]["away"]["name"]
                     )
 
                     st.subheader(
@@ -330,37 +298,14 @@ if match_name:
         else:
 
             st.warning(
-                "Aucun match programmé."
+                "Aucun match trouvé pour cette compétition."
             )
 
     if "fixture_id" in st.session_state:
 
-        fixture_id = st.session_state["fixture_id"]
-
-        fixture = api_get(
-            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+        st.info(
+            "✅ Match sélectionné. Ouvrez maintenant le menu 'Prédictions'."
         )
-
-        if fixture.get("response"):
-
-            home_team = (
-                fixture["response"][0]
-                ["teams"]["home"]["name"]
-            )
-
-            away_team = (
-                fixture["response"][0]
-                ["teams"]["away"]["name"]
-            )
-
-            st.subheader(
-                f"{home_team} vs {away_team}"
-            )
-
-            st.info(
-                "✅ Match prêt pour l'analyse IA.\n\n"
-                "Ouvrez le menu 'Prédictions' pour lancer l'analyse complète."
-            )
 
     else:
 
