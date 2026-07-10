@@ -251,19 +251,36 @@ elif menu == "Calendrier":
 
 })
 
-        if rows:
+if rows:
 
-df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
 
-st.dataframe(
-    df,
-    use_container_width=True,
-    hide_index=True
-)
-match_name = st.selectbox(
-    "Choisir un match",
-    list(matchs.keys())
-)
+    st.dataframe(
+        df,
+        use_container_width=True,
+        hide_index=True
+    )
+
+    match_name = st.selectbox(
+        "Choisir un match",
+        list(matchs.keys())
+    )
+
+    if match_name:
+
+        fixture_id = matchs[match_name]
+
+        st.session_state["fixture_id"] = fixture_id
+
+        st.success(
+            "✅ Match sélectionné pour l'analyse IA"
+        )
+
+else:
+
+    st.warning(
+        "Aucun match trouvé pour cette compétition."
+    )
 
 if match_name:
 
