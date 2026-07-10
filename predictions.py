@@ -350,6 +350,7 @@ else:
             width="stretch"
         )
 
+        
         col1, col2, col3 = st.columns(3)
 
         col1.metric(
@@ -492,3 +493,24 @@ AI_INDEX = (
     buteurs * 0.10
 
 )
+
+if ai_index >= 85:
+    niveau = "🔥 ELITE BET"
+
+elif ai_index >= 70:
+    niveau = "✅ BET FORT"
+
+elif ai_index >= 55:
+    niveau = "⚠️ BET MOYEN"
+
+else:
+    niveau = "❌ RISQUE ÉLEVÉ"
+
+wins = 3
+draws = 1
+losses = 1
+
+form_score = (
+    (wins * 3 + draws)
+    / 15
+) * 100
