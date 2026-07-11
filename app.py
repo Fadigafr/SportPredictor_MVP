@@ -169,106 +169,25 @@ elif menu == "Calendrier":
 
     st.title("📅 Calendrier & Compétitions")
 
-    competitions = {
+leagues = api_get(
+    "https://v3.football.api-sports.io/leagues"
+)
+    competitions = {}
 
-    # Angleterre
-    "Premier League": 39,
-    "Championship": 40,
-    "FA Cup": 45,
-    "EFL Cup": 48,
+for item in leagues.get("response", []):
 
-    # Espagne
-    "La Liga": 140,
-    "La Liga 2": 141,
-    "Copa del Rey": 143,
+    league = item["league"]["name"]
+    country = item["country"]["name"]
 
-    # France
-    "Ligue 1": 61,
-    "Ligue 2": 62,
-    "Coupe de France": 66,
-
-    # Allemagne
-    "Bundesliga": 78,
-    "Bundesliga 2": 79,
-    "DFB Pokal": 81,
-
-    # Italie
-    "Serie A": 135,
-    "Serie B": 136,
-    "Coppa Italia": 137,
-
-    # Portugal
-    "Primeira Liga": 94,
-    "Liga Portugal 2": 95,
-
-    # Pays-Bas
-    "Eredivisie": 88,
-    "KNVB Cup": 90,
-
-    # Belgique
-    "Jupiler Pro League": 144,
-
-    # Turquie
-    "Super Lig": 203,
-
-    # Suisse
-    "Swiss Super League": 207,
-
-    # Autriche
-    "Austrian Bundesliga": 218,
-
-    # Ecosse
-    "Scottish Premiership": 179,
-
-    # Danemark
-    "Superliga": 119,
-
-    # Norvège
-    "Eliteserien": 103,
-
-    # Suède
-    "Allsvenskan": 113,
-
-    # Brésil
-    "Serie A Brésil": 71,
-    "Serie B Brésil": 72,
-    "Copa do Brasil": 73,
-
-    # Argentine
-    "Liga Profesional": 128,
-
-    # USA
-    "MLS": 253,
-
-    # Mexique
-    "Liga MX": 262,
-
-    # Arabie Saoudite
-    "Saudi Pro League": 307,
-
-    # Afrique
-    "CAF Champions League": 12,
-    "CAF Confederation Cup": 20,
-
-    # UEFA
-    "Champions League": 2,
-    "Europa League": 3,
-    "Conference League": 848,
-    "UEFA Super Cup": 531,
-    "Nations League": 5,
-
-    # International
-    "FIFA World Cup": 1,
-    "Euro": 4,
-    "Copa America": 9,
-    "African Cup of Nations": 6,
-
-}
+    competitions[
+        f"{country} - {league}"
+    ] = item["league"]["id"]
 
     competition = st.selectbox(
-        "🏆 Compétition",
-        list(competitions.keys())
-    )
+    "🏆 Compétition",
+    sorted(competitions.keys()),
+    key="competition_select"
+)
 
     league_id = competitions[competition]
 
