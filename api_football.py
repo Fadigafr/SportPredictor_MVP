@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 
-API_KEY = st.secrets["API_KEY"]
+API_KEY = st.secrets["5e4720fc37318c8dd95d856f2aaaebb1"]
 
 def api_get(url):
 
