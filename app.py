@@ -170,47 +170,79 @@ elif menu == "Calendrier":
     st.title("📅 Calendrier & Compétitions")
 
     competitions = {
-    "Premier League": 39,
-    "La Liga": 140,
-    "Ligue 1": 61,
-    "Bundesliga": 78,
-    "Serie A": 135,
-    "Champions League": 2
-}
-
+        "Premier League": 39,
+        "La Liga": 140,
+        "Ligue 1": 61,
+        "Bundesliga": 78,
+        "Serie A": 135,
+        "Champions League": 2
+    }
 
     competition = st.selectbox(
         "🏆 Compétition",
         list(competitions.keys())
     )
 
-league_id = competitions[competition]
+    league_id = competitions[competition]
 
-fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-)
-st.write("League ID :", league_id)
+    fixtures = api_get(
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+    )
 
-fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-)
+    response = fixtures.get("response", [])
 
-st.json(fixtures)
+    st.write(
+        f"📊 Matchs trouvés : {len(response)}"
+    )
 
-response = fixtures.get("response", [])
+    rows = []
+    matchs = {}
 
-st.success(
-    f"{len(response)} matchs récupérés"
-)
-st.write("League ID =", league_id)
+    for m in response:
 
-st.write("URL =")
+        home = m["teams"]["home"]["name"]
+        away = m["teams"]["away"]["name"]
 
-st.code(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-)
+        match_name = f"{home} vs {away}"
 
-st.json(fixtures)
+        fixture_id = m["fixture"]["id"]
+
+        matchs[match_name] = fixture_id
+
+        rows.append({
+            "Date": m["fixture"]["date"][:16],
+            "Match": match_name
+        })
+
+    if rows:
+
+        df = pd.DataFrame(rows)
+
+        st.dataframe(
+            df,
+            width="stretch"
+        )
+
+        selected_match = st.selectbox(
+            "⚽ Choisir un match",
+            list(matchs.keys())
+        )
+
+        if selected_match:
+
+            st.session_state["fixture_id"] = (
+                matchs[selected_match]
+            )
+
+            st.success(
+                "✅ Match sélectionné"
+            )
+
+    else:
+
+        st.warning(
+            "Aucun match trouvé."
+        )
 
     rows = []
     matchs = {}
