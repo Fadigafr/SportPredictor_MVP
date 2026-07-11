@@ -214,14 +214,15 @@ if competition:
     league_id = competitions[competition]["id"]
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=100"
-    )
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2025"
+)
 
-    response = fixtures.get("response", [])
+    response = fixtures.get("response", [])[:100]
 
     st.write(
-        f"📊 Matchs trouvés : {len(response)}"
-    )
+    "League ID sélectionné :",
+    league_id
+)
 
     matchs = {}
     rows = []
