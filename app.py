@@ -186,9 +186,7 @@ elif menu == "Calendrier":
 
 league_id = competitions[competition]
 
-fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=20"
-)
+f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50")
 
 response = fixtures.get("response", [])
 
