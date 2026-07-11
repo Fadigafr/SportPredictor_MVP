@@ -170,13 +170,14 @@ elif menu == "Calendrier":
     st.title("📅 Calendrier & Compétitions")
 
     competitions = {
-        "England - Premier League": 39,
-        "Spain - La Liga": 140,
-        "France - Ligue 1": 61,
-        "Germany - Bundesliga": 78,
-        "Italy - Serie A": 135,
-        "UEFA Champions League": 2
-    }
+    "Premier League": 39,
+    "La Liga": 140,
+    "Ligue 1": 61,
+    "Bundesliga": 78,
+    "Serie A": 135,
+    "Champions League": 2
+}
+
 
     competition = st.selectbox(
         "🏆 Compétition",
@@ -186,14 +187,23 @@ elif menu == "Calendrier":
     league_id = competitions[competition]
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-    )
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+)
 
     response = fixtures.get("response", [])
 
     st.write(
         f"📊 Matchs trouvés : {len(response)}"
     )
+    st.write("League ID =", league_id)
+
+st.write("URL =")
+
+st.code(
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+)
+
+st.json(fixtures)
 
     rows = []
     matchs = {}
