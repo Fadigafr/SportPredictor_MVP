@@ -1,4 +1,5 @@
 import requests
+import streamlit as st
 
 API_KEY = st.secrets["API_KEY"]
 
@@ -18,8 +19,8 @@ def api_get(url):
 
         return response.json()
 
-    except Exception:
+    except Exception as e:
 
-        return {
-            "response": []
-        }
+        print(e)
+
+        return {"response": []}
