@@ -272,11 +272,6 @@ elif menu == "Calendrier":
             width="stretch"
         )
 
-        selected_match = st.selectbox(
-            "⚽ Choisir un match",
-            list(matchs.keys())
-        )
-
         if selected_match:
 
             st.session_state["fixture_id"] = (
