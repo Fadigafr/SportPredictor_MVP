@@ -162,32 +162,32 @@ elif menu == "Matchs Live":
         )
 
 # =====================================================
-# CALENDRIER + COMPETITIONS
+# CALENDRIER ET COMPÉTITIONS
 # =====================================================
-
 elif menu == "Calendrier":
 
     st.title("📅 Calendrier & Compétitions")
 
-leagues = api_get(
-    "https://v3.football.api-sports.io/leagues"
-)
+    leagues = api_get(
+        "https://v3.football.api-sports.io/leagues"
+    )
+
     competitions = {}
 
-for item in leagues.get("response", []):
+    for item in leagues.get("response", []):
 
-    league = item["league"]["name"]
-    country = item["country"]["name"]
+        league = item["league"]["name"]
+        country = item["country"]["name"]
 
-    competitions[
-        f"{country} - {league}"
-    ] = item["league"]["id"]
+        competitions[
+            f"{country} - {league}"
+        ] = item["league"]["id"]
 
     competition = st.selectbox(
-    "🏆 Compétition",
-    sorted(competitions.keys()),
-    key="competition_select"
-)
+        "🏆 Compétition",
+        sorted(competitions.keys()),
+        key="competition_select"
+    )
 
     league_id = competitions[competition]
 
@@ -209,9 +209,9 @@ for item in leagues.get("response", []):
         home = m["teams"]["home"]["name"]
         away = m["teams"]["away"]["name"]
 
-        match_name = f"{home} vs {away}"
-
         fixture_id = m["fixture"]["id"]
+
+        match_name = f"{home} vs {away}"
 
         matchs[match_name] = fixture_id
 
@@ -231,14 +231,13 @@ for item in leagues.get("response", []):
 
         selected_match = st.selectbox(
             "⚽ Choisir un match",
-            list(matchs.keys())
+            list(matchs.keys()),
+            key="match_select"
         )
 
         if selected_match:
 
-            st.session_state["fixture_id"] = (
-                matchs[selected_match]
-            )
+            st.session_state["fixture_id"] = matchs[selected_match]
 
             st.success(
                 "✅ Match sélectionné"
@@ -250,49 +249,6 @@ for item in leagues.get("response", []):
             "Aucun match trouvé."
         )
 
-    rows = []
-    matchs = {}
-
-    for m in response:
-
-        home = m["teams"]["home"]["name"]
-        away = m["teams"]["away"]["name"]
-
-        fixture_id = m["fixture"]["id"]
-
-        match_name = f"{home} vs {away}"
-
-        matchs[match_name] = fixture_id
-
-        rows.append({
-            "Date": m["fixture"]["date"][:16],
-            "Match": match_name
-        })
-
-    if len(rows) > 0:
-
-        df = pd.DataFrame(rows)
-
-        st.dataframe(
-            df,
-            width="stretch"
-        )
-
-        if selected_match:
-
-            st.session_state["fixture_id"] = (
-                matchs[selected_match]
-            )
-
-            st.success(
-                "✅ Match sélectionné"
-            )
-
-    else:
-
-        st.warning(
-            "Aucun match trouvé."
-        )
     if "fixture_id" in st.session_state:
 
         st.info(
