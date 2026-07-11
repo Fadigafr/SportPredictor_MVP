@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "5e4720fc37318c8dd95d856f2aaaebb1"
+API_KEY = st.secrets["API_KEY"]
 
 def api_get(url):
 
