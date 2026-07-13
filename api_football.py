@@ -5,9 +5,6 @@ API_KEY = st.secrets["API_KEY"]
 
 
 def api_get(url):
-    """
-    Fonction générique pour appeler API-Football
-    """
 
     try:
 
