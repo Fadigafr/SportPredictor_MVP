@@ -3,18 +3,27 @@ import streamlit as st
 
 API_KEY = st.secrets["API_KEY"]
 
+
 def api_get(url):
 
-    headers = {
-        "x-apisports-key": API_KEY
-    }
+    try:
 
-    response = requests.get(
-        url,
-        headers=headers,
-        timeout=30
-    )
+        headers = {
+            "x-apisports-key": API_KEY
+        }
 
-    return response.json()
-st.write(response.status_code)
-st.write(response.text[:500])
+        response = requests.get(
+            url,
+            headers=headers,
+            timeout=30
+        )
+
+        return response.json()
+
+    except Exception as e:
+
+        st.error(f"Erreur API : {e}")
+
+        return {
+            "response": []
+        }
