@@ -209,6 +209,12 @@ elif menu == "Calendrier":
     fixtures = api_get(
         f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
     )
+    st.write("League ID =", league_id)
+
+    st.write(
+    "Nombre de matchs :",
+    len(fixtures.get("response", []))
+)
 
     response = fixtures.get("response", [])
 
@@ -273,24 +279,28 @@ elif menu == "Calendrier":
 
     if "fixture_id" in st.session_state:
 
-        fixture_id = st.session_state["fixture_id"]
+    fixture_id = st.session_state["fixture_id"]
 
-        fixture = api_get(
-            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+    fixture = api_get(
+        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+    )
+
+    if fixture.get("response"):
+
+        game = fixture["response"][0]
+
+        home_team = game["teams"]["home"]["name"]
+        away_team = game["teams"]["away"]["name"]
+
+        st.subheader(
+            f"{home_team} vs {away_team}"
         )
 
-        if fixture.get("response"):
+else:
 
-            home_team = fixture["response"][0]["teams"]["home"]["name"]
-            away_team = fixture["response"][0]["teams"]["away"]["name"]
-
-            st.subheader(
-                f"{home_team} vs {away_team}"
-            )
-
-            st.info(
-                "✅ Match prêt pour l'analyse IA."
-            )
+    st.info(
+        "Sélectionnez un match dans le calendrier."
+    )
 
     if "fixture_id" in st.session_state:
 
@@ -300,16 +310,16 @@ elif menu == "Calendrier":
             f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
         )
 
-        if fixture.get("response"):
+    if fixture.get("response"):
 
-            home_team = fixture["response"][0]["teams"]["home"]["name"]
-            away_team = fixture["response"][0]["teams"]["away"]["name"]
+        home_team = fixture["response"][0]["teams"]["home"]["name"]
+        away_team = fixture["response"][0]["teams"]["away"]["name"]
 
-            st.subheader(
+        st.subheader(
                 f"{home_team} vs {away_team}"
             )
 
-            st.info(
+        st.info(
                 "✅ Match prêt pour l'analyse IA.\n\n"
                 "Ouvrez le menu 'Prédictions' pour lancer l'analyse complète."
             )
