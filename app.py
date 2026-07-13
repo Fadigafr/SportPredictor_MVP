@@ -237,81 +237,51 @@ else:
         "Sélectionnez un match pour lancer l'analyse."
     )
     # =====================================================
-    # MATCH SELECTIONNE
-    # =====================================================
+# MATCH SELECTIONNE
+# =====================================================
 
-    if "fixture_id" in st.session_state:
-        fixture_id = st.session_state["fixture_id"]
+if "fixture_id" in st.session_state:
 
-        st.info(
-        "✅ Match sélectionné. Ouvrez maintenant le menu 'Prédictions'."
-    )
+    fixture_id = st.session_state["fixture_id"]
 
-    else:
-
-        st.info(
-               "Sélectionnez un match pour lancer l'analyse."
-    )
-
-    if "fixture_id" in st.session_state:
-
-        fixture_id = st.session_state["fixture_id"]
-
-        fixture = api_get(
-            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
-        )
-
-    if fixture.get("response"):
-
-        home_team = fixture["response"][0]["teams"]["home"]["name"]
-        away_team = fixture["response"][0]["teams"]["away"]["name"]
-
-        st.subheader(
-                f"{home_team} vs {away_team}"
-            )
-
-        st.info(
-                "✅ Match prêt pour l'analyse IA.\n\n"
-                "Ouvrez le menu 'Prédictions' pour lancer l'analyse complète."
-            )
-
-    else:
-
-        st.info(
-            "Sélectionnez un match pour lancer l'analyse."
-        )
-        
-        fixture = api_get(
+    fixture = api_get(
         f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
 
-    game = fixture["response"][0]
+    if fixture.get("response"):
 
-    home_team = game["teams"]["home"]["name"]
-    away_team = game["teams"]["away"]["name"]
+        game = fixture["response"][0]
 
-    home_id = game["teams"]["home"]["id"]
-    away_id = game["teams"]["away"]["id"]
+        home_team = game["teams"]["home"]["name"]
+        away_team = game["teams"]["away"]["name"]
 
-    st.subheader(
-        f"{home_team} vs {away_team}"
-    )
-    home_last5 = api_get(
-        f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
-    )
+        home_id = game["teams"]["home"]["id"]
+        away_id = game["teams"]["away"]["id"]
 
-    away_last5 = api_get(
-        f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
-    )
+        st.subheader(
+            f"{home_team} vs {away_team}"
+        )
 
-    home_points, home_goals = calcul_forme(
-        home_last5,
-        home_id
-    )
+        st.success(
+            "✅ Match prêt pour l'analyse IA"
+        )
 
-    away_points, away_goals = calcul_forme(
-        away_last5,
-        away_id
+        st.info(
+            "Ouvrez maintenant le menu 'Prédictions'."
+        )
+
+        home_last5 = api_get(
+            f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
+        )
+
+        away_last5 = api_get(
+            f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
+        )
+
+else:
+
+    st.info(
+        "Sélectionnez un match pour lancer l'analyse."
     )
         
 # =====================================================
