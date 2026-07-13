@@ -184,16 +184,18 @@ elif menu == "Calendrier":
 
     league_id = competitions[competition]
 
-    fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=20"
-    )
+fixtures = api_get(
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=20"
+)
 
-    response = fixtures.get("response", [])
+st.json(fixtures)
 
-    if not response:
-        st.warning("Aucun match trouvé.")
-        st.json(fixtures)
-        st.stop()
+response = fixtures.get("response", [])
+
+if len(response) == 0:
+
+    st.warning("Aucun match trouvé.")
+    st.stop()
 
     rows = {}
 
