@@ -372,40 +372,6 @@ def poisson(lmbda, k):
     over25_result = total_goals >= 3
     under25_result = total_goals < 3
 
-        home_avg = max(
-        home_goals / 5,
-        0.1
-    )
-
-    away_avg = max(
-        away_goals / 5,
-        0.1
-    )
-
-    scores = []
-
-    for h in range(6):
-
-        for a in range(6):
-
-            prob = (
-                poisson(home_avg, h)
-                *
-                poisson(away_avg, a)
-                * 100
-            )
-
-            scores.append(
-                (f"{h}-{a}", prob)
-            )
-
-    scores.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    predicted_score = scores[0][0]
-
     # =====================================================
     # BUTEURS PROBABLES
     # =====================================================
@@ -622,42 +588,3 @@ def get_top_scorers(team_id):
     # ANALYSE IA
     # =====================================================
 
-elif menu == "Analyse IA du Jour":
-
-    st.header("🤖 Analyse IA")
-
-    st.metric(
-        "AI INDEX",
-        f"{ai_index}/100"
-    )
-
-    st.success(level)
-
-    st.info(f"""
-Match : {home_team} vs {away_team}
-
-Score Exact : {predicted_score}
-
-BTTS : {'OUI' if btts_result else 'NON'}
-
-Over 2.5 : {'OUI' if over25_result else 'NON'}
-
-Under 2.5 : {'OUI' if under25_result else 'NON'}
-
-Forme domicile : {home_stats['points']} pts
-
-Forme extérieur : {away_stats['points']} pts
-
-H2H : {home_wins}V - {draws}N - {away_wins}V
-""")
-
-st.header("🚀 Analyse IA")
-
-    st.metric(
-        "AI INDEX",
-        f"{ai_index}/100"
-    )
-
-    st.success(
-        f"Score Exact IA : {predicted_score}"
-    )
