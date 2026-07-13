@@ -204,75 +204,38 @@ elif menu == "Calendrier":
         list(competitions.keys())
     )
 
-    league_id = competitions[competition]
+    if "fixture_id" in st.session_state:
 
-    fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+        fixture_id = st.session_state["fixture_id"]
+
+        fixture = api_get(
+            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
-    st.write("League ID =", league_id)
 
-    st.write(
-    "Nombre de matchs :",
-    len(fixtures.get("response", []))
-)
+    if fixture.get("response"):
 
-    response = fixtures.get("response", [])
+        game = fixture["response"][0]
 
-    rows = []
-    matchs = {}
+        home_team = game["teams"]["home"]["name"]
+        away_team = game["teams"]["away"]["name"]
 
-    for m in response:
-
-        home = m["teams"]["home"]["name"]
-        away = m["teams"]["away"]["name"]
-
-        fixture_id = m["fixture"]["id"]
-
-        match_name = f"{home} vs {away}"
-
-        matchs[match_name] = fixture_id
-
-        rows.append({
-
-            "Date":
-            m["fixture"]["date"][:16],
-
-            "Match":
-            match_name
-
-        })
-
-    if rows:
-
-        df = pd.DataFrame(rows)
-
-        st.dataframe(
-            df,
-            use_container_width=True
+        st.subheader(
+            f"{home_team} vs {away_team}"
         )
 
-        selected_match = st.selectbox(
-            "⚽ Choisir un match",
-            list(matchs.keys()),
-            key="calendar_match"
+        st.success(
+            "✅ Match prêt pour l'analyse IA"
         )
 
-        if selected_match:
-
-            st.session_state["fixture_id"] = (
-                matchs[selected_match]
-            )
-
-            st.success(
-                "✅ Match sélectionné"
-            )
-
-    else:
-
-        st.warning(
-            "Aucun match trouvé."
+        st.info(
+            "Ouvrez maintenant le menu 'Prédictions'."
         )
 
+else:
+
+    st.info(
+        "Sélectionnez un match pour lancer l'analyse."
+    )
     # =====================================================
     # MATCH SELECTIONNE
     # =====================================================
