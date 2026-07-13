@@ -166,37 +166,15 @@ elif menu == "Matchs Live":
 # =====================================================
 elif menu == "Calendrier":
 
-    st.title("📅 Calendrier & Compétitions")
+    st.title("📅 Calendrier")
 
     competitions = {
-
         "Premier League": 39,
-        "Championship": 40,
-        "FA Cup": 45,
-
         "La Liga": 140,
-        "Copa del Rey": 143,
-
         "Ligue 1": 61,
-        "Ligue 2": 62,
-        "Coupe de France": 66,
-
         "Bundesliga": 78,
-        "DFB Pokal": 81,
-
         "Serie A": 135,
-        "Coppa Italia": 137,
-
-        "Champions League": 2,
-        "Europa League": 3,
-        "Conference League": 848,
-
-        "CAN": 6,
-        "Coupe du Monde": 1,
-
-        "MLS": 253,
-        "Liga MX": 262,
-        "Saudi Pro League": 307
+        "Champions League": 2
     }
 
     competition = st.selectbox(
@@ -204,17 +182,61 @@ elif menu == "Calendrier":
         list(competitions.keys())
     )
 
-    if "fixture_id" in st.session_state:
+    league_id = competitions[competition]
 
-    st.info(
-        "✅ Match sélectionné. Ouvrez maintenant le menu 'Prédictions'."
+    fixtures = api_get(
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
     )
 
-else:
+    response = fixtures.get("response", [])
 
-    st.info(
-        "Sélectionnez un match pour lancer l'analyse."
-    )
+    rows = []
+    matchs = {}
+
+    for m in response:
+
+        match_name = (
+            f"{m['teams']['home']['name']} vs "
+            f"{m['teams']['away']['name']}"
+        )
+
+        fixture_id = m["fixture"]["id"]
+
+        matchs[match_name] = fixture_id
+
+        rows.append({
+            "Date": m["fixture"]["date"][:16],
+            "Match": match_name
+        })
+
+    if rows:
+
+        st.dataframe(
+            pd.DataFrame(rows),
+            use_container_width=True
+        )
+
+        selected_match = st.selectbox(
+            "⚽ Choisir un match",
+            list(matchs.keys()),
+            key="calendar_match"
+        )
+
+        if selected_match:
+
+            st.session_state["fixture_id"] = (
+                matchs[selected_match]
+            )
+
+            st.success(
+                "✅ Match sélectionné"
+            )
+
+    else:
+
+        st.warning(
+            "Aucun match trouvé."
+        )
         
 # =====================================================
 # ANALYSE IA DU JOUR
