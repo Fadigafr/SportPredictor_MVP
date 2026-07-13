@@ -278,7 +278,6 @@ elif menu == "Calendrier":
     # =====================================================
 
     if "fixture_id" in st.session_state:
-
         fixture_id = st.session_state["fixture_id"]
 
         st.info(
