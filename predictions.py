@@ -300,77 +300,75 @@ def calcul_forme(matches, team_id):
     c3.metric("✈️", away_wins)
 
     # =====================================================
-    # POISSON
-    # =====================================================
+# POISSON
+# =====================================================
+
 def poisson(lmbda, k):
 
     return (
         lmbda ** k *
         exp(-lmbda)
     ) / factorial(k)
-    
-    st.header("🎲 Score Exact Poisson")
 
-    home_avg = max(
-        home_stats["buts_marques"] / 5,
-        0.1
-    )
 
-    away_avg = max(
-        away_stats["buts_marques"] / 5,
-        0.1
-    )
+home_avg = max(
+    home_stats["buts_marques"] / 5,
+    0.1
+)
 
-    scores = []
+away_avg = max(
+    away_stats["buts_marques"] / 5,
+    0.1
+)
 
-    for h in range(6):
+scores = []
 
-        for a in range(6):
+for h in range(6):
 
-            prob = (
-                poisson(home_avg, h)
-                *
-                poisson(away_avg, a)
-                * 100
+    for a in range(6):
+
+        prob = (
+            poisson(home_avg, h)
+            *
+            poisson(away_avg, a)
+            * 100
+        )
+
+        scores.append(
+            (
+                f"{h}-{a}",
+                round(prob, 2)
             )
+        )
 
-            scores.append(
-                (
-                    f"{h}-{a}",
-                    round(prob, 2)
-                )
-            )
+scores.sort(
+    key=lambda x: x[1],
+    reverse=True
+)
 
-    scores.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
+predicted_score = scores[0][0]
 
-    st.table(scores[:10])
+predicted_home_goals = int(
+    predicted_score.split("-")[0]
+)
 
-    predicted_score = scores[0][0]
+predicted_away_goals = int(
+    predicted_score.split("-")[1]
+)
 
-    predicted_home_goals = int(
-        predicted_score.split("-")[0]
-    )
+btts_result = (
+    predicted_home_goals > 0
+    and
+    predicted_away_goals > 0
+)
 
-    predicted_away_goals = int(
-        predicted_score.split("-")[1]
-    )
+total_goals = (
+    predicted_home_goals +
+    predicted_away_goals
+)
 
-    btts_result = (
-        predicted_home_goals > 0
-        and
-        predicted_away_goals > 0
-    )
-
-    total_goals = (
-        predicted_home_goals +
-        predicted_away_goals
-    )
-
-    over25_result = total_goals >= 3
-    under25_result = total_goals < 3
+over25_result = total_goals >= 3
+under25_result = total_goals < 3
 
     # =====================================================
     # BUTEURS PROBABLES
@@ -391,15 +389,13 @@ def get_top_scorers(team_id):
 
             goals = stats["goals"]["total"] or 0
 
-            score = goals * 10
-
             scorers.append({
 
                 "name":
                 player["player"]["name"],
 
                 "score":
-                score
+                goals
 
             })
 
@@ -588,3 +584,23 @@ def get_top_scorers(team_id):
     # ANALYSE IA
     # =====================================================
 
+       st.header("🚀 Analyse IA")
+
+st.metric(
+    "AI INDEX",
+    f"{ai_index}/100"
+)
+
+st.success(level)
+
+st.write(
+    f"🎯 Score Exact : {predicted_score}"
+)
+
+st.write(
+    f"⚽ BTTS : {'OUI' if btts_result else 'NON'}"
+)
+
+st.write(
+    f"📈 Over 2.5 : {'OUI' if over25_result else 'NON'}"
+)
