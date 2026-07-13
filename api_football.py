@@ -3,9 +3,6 @@ import streamlit as st
 
 API_KEY = st.secrets["API_KEY"]
 
-BASE_URL = "https://v3.football.api-sports.io"
-
-
 def api_get(url):
 
     try:
@@ -24,8 +21,6 @@ def api_get(url):
 
     except Exception as e:
 
-        st.error(f"Erreur API : {e}")
+        st.error(str(e))
 
-        return {
-            "response": []
-        }
+        return {"response": []}
