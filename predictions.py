@@ -337,6 +337,40 @@ def poisson(lmbda, k):
     over25_result = total_goals >= 3
     under25_result = total_goals < 3
 
+        home_avg = max(
+        home_goals / 5,
+        0.1
+    )
+
+    away_avg = max(
+        away_goals / 5,
+        0.1
+    )
+
+    scores = []
+
+    for h in range(6):
+
+        for a in range(6):
+
+            prob = (
+                poisson(home_avg, h)
+                *
+                poisson(away_avg, a)
+                * 100
+            )
+
+            scores.append(
+                (f"{h}-{a}", prob)
+            )
+
+    scores.sort(
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    predicted_score = scores[0][0]
+
     # =====================================================
     # BUTEURS PROBABLES
     # =====================================================
