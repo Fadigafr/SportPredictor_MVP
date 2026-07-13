@@ -289,8 +289,6 @@ else:
 # ANALYSE IA DU JOUR
 # =====================================================
 
-elif menu == "Analyse IA du Jour":
-
     st.title(
         "Top 5 Analyses IA"
     )
