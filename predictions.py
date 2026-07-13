@@ -459,6 +459,18 @@ def get_top_scorers(team_id):
             f"⚽ {player['name']}"
         )
 
+    st.subheader(
+        "🥅 Buteurs Probables"
+    )
+
+    home_scorers = get_top_scorers(home_id)
+
+    for p in home_scorers:
+
+        st.write(
+            f"⚽ {p['name']}"
+        )
+        
     # =====================================================
     # AI INDEX
     # =====================================================
@@ -480,9 +492,19 @@ def get_top_scorers(team_id):
         )
     ) * 100
 
+    poisson_score = 80
+
+    form_score = (
+        home_points / 15
+    ) * 100
+
+    h2h_score = 70
+
     bookmaker_score = 70
-    scorer_score = 75
-    domicile_score = 80
+
+    scorer_score = 70
+
+    home_score = 80
 
     ai_index = round(
 
@@ -496,7 +518,7 @@ def get_top_scorers(team_id):
 
         scorer_score * 0.10 +
 
-        domicile_score * 0.10,
+        home_score * 0.10,
 
         1
 
@@ -513,6 +535,53 @@ def get_top_scorers(team_id):
 
     else:
         level = "❌ RISQUE ÉLEVÉ"
+
+    odds = api_get(
+        f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+    )
+
+    home_odd = None
+
+    try:
+
+        bets = (
+            odds["response"][0]
+            ["bookmakers"][0]
+            ["bets"]
+        )
+
+        for bet in bets:
+
+            if bet["name"] == "Match Winner":
+
+                home_odd = float(
+                    bet["values"][0]["odd"]
+                )
+
+                draw_odd = float(
+                    bet["values"][1]["odd"]
+                )
+
+                away_odd = float(
+                    bet["values"][2]["odd"]
+                )
+
+                break
+
+    except:
+        pass
+
+    if home_odd:
+
+        st.subheader(
+            "💰 Cotes Bookmakers"
+        )
+
+        c1, c2, c3 = st.columns(3)
+
+        c1.metric("1", home_odd)
+        c2.metric("N", draw_odd)
+        c3.metric("2", away_odd)
 
     # =====================================================
     # ANALYSE IA
@@ -544,3 +613,14 @@ Forme extérieur : {away_stats['points']} pts
 
 H2H : {home_wins}V - {draws}N - {away_wins}V
 """)
+
+st.header("🚀 Analyse IA")
+
+    st.metric(
+        "AI INDEX",
+        f"{ai_index}/100"
+    )
+
+    st.success(
+        f"Score Exact IA : {predicted_score}"
+    )
