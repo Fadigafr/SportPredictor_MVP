@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-from math import exp, factorial
+
+from math import exp
+from math import factorial
 
 from api_football import api_get
-
 
 # =====================================================
 # OUTILS
@@ -103,15 +104,18 @@ def calcul_over25(matches):
 
 def predictions_page():
 
-    st.title("📈 Centre de Prédictions IA")
+    st.title("🤖 SPORT PREDICTOR IA")
 
-    fixture_id = st.session_state.get("fixture_id")
+    fixture_id = st.session_state.get(
+        "fixture_id"
+    )
 
     if not fixture_id:
 
         st.warning(
             "Sélectionnez un match dans Calendrier."
         )
+
         return
 
     fixture = api_get(
@@ -138,7 +142,39 @@ def predictions_page():
     # =====================================================
     # FORME 5 MATCHS
     # =====================================================
+def calcul_forme(matches, team_id):
 
+    points = 0
+    buts_marques = 0
+
+    for match in matches.get("response", []):
+
+        home_id = match["teams"]["home"]["id"]
+
+        hg = match["goals"]["home"] or 0
+        ag = match["goals"]["away"] or 0
+
+        if home_id == team_id:
+
+            buts_marques += hg
+
+            if hg > ag:
+                points += 3
+
+            elif hg == ag:
+                points += 1
+
+        else:
+
+            buts_marques += ag
+
+            if ag > hg:
+                points += 3
+
+            elif ag == hg:
+                points += 1
+
+    return points, buts_marques
     home_last5 = api_get(
         f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
     )
@@ -231,7 +267,13 @@ def predictions_page():
     # =====================================================
     # POISSON
     # =====================================================
+def poisson(lmbda, k):
 
+    return (
+        lmbda ** k *
+        exp(-lmbda)
+    ) / factorial(k)
+    
     st.header("🎲 Score Exact Poisson")
 
     home_avg = max(
@@ -298,7 +340,45 @@ def predictions_page():
     # =====================================================
     # BUTEURS PROBABLES
     # =====================================================
+def get_top_scorers(team_id):
 
+    players = api_get(
+        f"https://v3.football.api-sports.io/players?team={team_id}&season=2025"
+    )
+
+    scorers = []
+
+    for player in players.get("response", []):
+
+        try:
+
+            stats = player["statistics"][0]
+
+            goals = stats["goals"]["total"] or 0
+
+            score = goals * 10
+
+            scorers.append({
+
+                "name":
+                player["player"]["name"],
+
+                "score":
+                score
+
+            })
+
+        except:
+            pass
+
+    scorers = sorted(
+        scorers,
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    return scorers[:3]
+    
     st.header("🥅 Buteurs Probables")
 
     players = api_get(
