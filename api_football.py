@@ -39,3 +39,11 @@ def api_get(url):
         return {
             "response": []
         }
+
+response = requests.get(
+    url,
+    headers=headers,
+    timeout=30
+)
+
+st.write(response.status_code)
