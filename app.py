@@ -247,43 +247,6 @@ else:
     st.info(
         "Sélectionnez un match pour lancer l'analyse."
     )
-
-# =====================================================
-# MATCH SELECTIONNE
-# =====================================================
-
-if "fixture_id" in st.session_state:
-
-    fixture_id = st.session_state["fixture_id"]
-
-    fixture = api_get(
-        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
-    )
-
-    if fixture.get("response"):
-
-        game = fixture["response"][0]
-
-        home_team = game["teams"]["home"]["name"]
-        away_team = game["teams"]["away"]["name"]
-
-        st.subheader(
-            f"{home_team} vs {away_team}"
-        )
-
-        st.success(
-            "✅ Match prêt pour l'analyse IA"
-        )
-
-        st.info(
-            "Ouvrez maintenant le menu 'Prédictions'."
-        )
-
-else:
-
-    st.info(
-        "Sélectionnez un match pour lancer l'analyse."
-    )
         
 # =====================================================
 # ANALYSE IA DU JOUR
