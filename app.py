@@ -185,10 +185,8 @@ elif menu == "Calendrier":
     league_id = competitions[competition]
 
     fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2025"
-)
-
-st.json(fixtures)
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2025"
+    )
 
     response = fixtures.get("response", [])
 
@@ -217,22 +215,6 @@ st.json(fixtures)
             pd.DataFrame(rows),
             use_container_width=True
         )
-
-        selected_match = st.selectbox(
-            "⚽ Choisir un match",
-            list(matchs.keys()),
-            key="calendar_match"
-        )
-
-        if selected_match:
-
-            st.session_state["fixture_id"] = (
-                matchs[selected_match]
-            )
-
-            st.success(
-                "✅ Match sélectionné"
-            )
 
     else:
 
