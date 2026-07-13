@@ -168,25 +168,40 @@ elif menu == "Calendrier":
 
     st.title("📅 Calendrier & Compétitions")
 
-    leagues = api_get(
-        "https://v3.football.api-sports.io/leagues"
-    )
+    competitions = {
 
-    competitions = {}
+        "Premier League": 39,
+        "Championship": 40,
+        "FA Cup": 45,
 
-    for item in leagues.get("response", []):
+        "La Liga": 140,
+        "Copa del Rey": 143,
 
-        league = item["league"]["name"]
-        country = item["country"]["name"]
+        "Ligue 1": 61,
+        "Ligue 2": 62,
+        "Coupe de France": 66,
 
-        competitions[
-            f"{country} - {league}"
-        ] = item["league"]["id"]
+        "Bundesliga": 78,
+        "DFB Pokal": 81,
+
+        "Serie A": 135,
+        "Coppa Italia": 137,
+
+        "Champions League": 2,
+        "Europa League": 3,
+        "Conference League": 848,
+
+        "CAN": 6,
+        "Coupe du Monde": 1,
+
+        "MLS": 253,
+        "Liga MX": 262,
+        "Saudi Pro League": 307
+    }
 
     competition = st.selectbox(
         "🏆 Compétition",
-        sorted(competitions.keys()),
-        key="competition_select"
+        list(competitions.keys())
     )
 
     league_id = competitions[competition]
@@ -196,10 +211,6 @@ elif menu == "Calendrier":
     )
 
     response = fixtures.get("response", [])
-
-    st.write(
-        f"📊 Matchs trouvés : {len(response)}"
-    )
 
     rows = []
     matchs = {}
@@ -216,8 +227,13 @@ elif menu == "Calendrier":
         matchs[match_name] = fixture_id
 
         rows.append({
-            "Date": m["fixture"]["date"][:16],
-            "Match": match_name
+
+            "Date":
+            m["fixture"]["date"][:16],
+
+            "Match":
+            match_name
+
         })
 
     if rows:
@@ -226,18 +242,20 @@ elif menu == "Calendrier":
 
         st.dataframe(
             df,
-            width="stretch"
+            use_container_width=True
         )
 
         selected_match = st.selectbox(
             "⚽ Choisir un match",
             list(matchs.keys()),
-            key="match_select"
+            key="calendar_match"
         )
 
         if selected_match:
 
-            st.session_state["fixture_id"] = matchs[selected_match]
+            st.session_state["fixture_id"] = (
+                matchs[selected_match]
+            )
 
             st.success(
                 "✅ Match sélectionné"
@@ -247,18 +265,6 @@ elif menu == "Calendrier":
 
         st.warning(
             "Aucun match trouvé."
-        )
-
-    if "fixture_id" in st.session_state:
-
-        st.info(
-            "✅ Match sélectionné. Ouvrez maintenant le menu 'Prédictions'."
-        )
-
-    else:
-
-        st.info(
-            "Sélectionnez un match pour lancer l'analyse."
         )
 
     # =====================================================
