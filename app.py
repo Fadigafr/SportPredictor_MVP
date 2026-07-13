@@ -184,12 +184,8 @@ elif menu == "Calendrier":
 
     league_id = competitions[competition]
 
-    from datetime import datetime
-
-year = datetime.now().year
-
-fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season={year}"
+    fixtures = api_get(
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=20"
 )
 
     response = fixtures.get("response", [])
