@@ -212,6 +212,14 @@ elif menu == "Calendrier":
             f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
 
+    if "fixture_id" in st.session_state:
+
+    fixture_id = st.session_state["fixture_id"]
+
+    fixture = api_get(
+        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+    )
+
     if fixture.get("response"):
 
         game = fixture["response"][0]
@@ -240,12 +248,7 @@ else:
         "Sélectionnez un match pour lancer l'analyse."
     )
 
-else:
-
-    st.info(
-        "Sélectionnez un match pour lancer l'analyse."
-    )
-    # =====================================================
+# =====================================================
 # MATCH SELECTIONNE
 # =====================================================
 
