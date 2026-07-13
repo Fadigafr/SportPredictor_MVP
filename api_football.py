@@ -3,7 +3,6 @@ import streamlit as st
 
 API_KEY = st.secrets["API_KEY"]
 
-
 def api_get(url):
 
     try:
@@ -21,7 +20,7 @@ def api_get(url):
         if response.status_code != 200:
 
             st.error(
-                f"Erreur API {response.status_code}"
+                f"Erreur API : {response.status_code}"
             )
 
             return {
@@ -39,11 +38,3 @@ def api_get(url):
         return {
             "response": []
         }
-
-response = requests.get(
-    url,
-    headers=headers,
-    timeout=30
-)
-
-st.write(response.status_code)
