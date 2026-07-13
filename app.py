@@ -206,18 +206,21 @@ elif menu == "Calendrier":
 
     if "fixture_id" in st.session_state:
 
-        fixture_id = st.session_state["fixture_id"]
+    fixture_id = st.session_state["fixture_id"]
 
-        fixture = api_get(
-            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+    fixture = api_get(
+        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
 
-    fixture = api_get(...)
+    if fixture.get("response"):
 
         game = fixture["response"][0]
 
         home_team = game["teams"]["home"]["name"]
         away_team = game["teams"]["away"]["name"]
+
+        home_id = game["teams"]["home"]["id"]
+        away_id = game["teams"]["away"]["id"]
 
         st.subheader(
             f"{home_team} vs {away_team}"
@@ -230,6 +233,12 @@ elif menu == "Calendrier":
         st.info(
             "Ouvrez maintenant le menu 'Prédictions'."
         )
+
+else:
+
+    st.info(
+        "Sélectionnez un match pour lancer l'analyse."
+    )
 
 else:
 
