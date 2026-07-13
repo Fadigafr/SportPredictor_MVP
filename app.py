@@ -187,7 +187,9 @@ elif menu == "Calendrier":
     fixtures = api_get(
     f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=20"
 )
+    st.write("League ID :", league_id)
 
+st.json(fixtures)
     response = fixtures.get("response", [])
 
     rows = []
