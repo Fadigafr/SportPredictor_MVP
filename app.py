@@ -212,7 +212,7 @@ elif menu == "Calendrier":
             f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
 
-    if fixture.get("response"):
+    fixture = api_get(...)
 
         game = fixture["response"][0]
 
