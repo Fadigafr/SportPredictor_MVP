@@ -228,41 +228,40 @@ elif menu == "Calendrier":
 
 elif menu == "Analyse IA du Jour":
 
-    st.title(
-        "Top 5 Analyses IA"
-    )
+    st.title("Top 5 Analyses IA")
 
     analyses = [
 
         {
-            "match":"Liverpool vs Arsenal",
-            "confidence":82,
-            "score":"2-1"
+            "match": "Liverpool vs Arsenal",
+            "confidence": 82,
+            "score": "2-1"
         },
 
         {
-            "match":"Real Madrid vs Atletico",
-            "confidence":80,
-            "score":"2-0"
+            "match": "Real Madrid vs Atletico",
+            "confidence": 80,
+            "score": "2-0"
         },
 
         {
-            "match":"Bayern vs Dortmund",
-            "confidence":79,
-            "score":"3-1"
+            "match": "Bayern vs Dortmund",
+            "confidence": 79,
+            "score": "3-1"
         },
 
         {
-            "match":"PSG vs Marseille",
-            "confidence":78,
-            "score":"2-1"
+            "match": "PSG vs Marseille",
+            "confidence": 78,
+            "score": "2-1"
         },
 
         {
-            "match":"Inter vs Milan",
-            "confidence":76,
-            "score":"1-1"
+            "match": "Inter vs Milan",
+            "confidence": 76,
+            "score": "1-1"
         }
+
     ]
 
     for a in analyses:
@@ -284,45 +283,6 @@ elif menu == "Analyse IA du Jour":
             "Score IA",
             a["score"]
         )
-
-        st.header("🤖 Analyse IA")
-
-    st.metric(
-        "AI INDEX",
-        f"{ai_index}/100"
-    )
-
-    st.success(level)
-
-    st.info(f"""
-Match : {home_team} vs {away_team}
-
-Score Exact : {predicted_score}
-
-BTTS : {'OUI' if btts_result else 'NON'}
-
-Over 2.5 : {'OUI' if over25_result else 'NON'}
-
-Under 2.5 : {'OUI' if under25_result else 'NON'}
-
-Forme domicile : {home_stats['points']} pts
-
-Forme extérieur : {away_stats['points']} pts
-
-H2H : {home_wins}V - {draws}N - {away_wins}V
-""")
-
-st.header("🚀 Analyse IA")
-
-    st.metric(
-        "AI INDEX",
-        f"{ai_index}/100"
-    )
-
-    st.success(
-        f"Score Exact IA : {predicted_score}"
-    )
-
 # =====================================================
 # CLASSEMENTS
 # =====================================================
