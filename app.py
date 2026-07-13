@@ -284,10 +284,10 @@ elif menu == "Calendrier":
         "✅ Match sélectionné. Ouvrez maintenant le menu 'Prédictions'."
     )
 
-else:
+    else:
 
-    st.info(
-        "Sélectionnez un match pour lancer l'analyse."
+        st.info(
+               "Sélectionnez un match pour lancer l'analyse."
     )
 
     if "fixture_id" in st.session_state:
@@ -350,28 +350,6 @@ else:
         away_last5,
         away_id
     )
-    
-        # =====================================================
-        # Statistiques
-        # =====================================================
-
-        # stats = api_get(...)
-
-        # =====================================================
-        # H2H
-        # =====================================================
-
-        # h2h = api_get(...)
-
-        # =====================================================
-        # Odds
-        # =====================================================
-
-        # odds = api_get(...)
-
-        # =====================================================
-        # Analyse IA
-        # =====================================================
         
 # =====================================================
 # ANALYSE IA DU JOUR
