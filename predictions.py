@@ -587,6 +587,8 @@ def get_top_scorers(team_id):
     # ANALYSE IA
     # =====================================================
 
+elif menu == "Analyse IA du Jour":
+
     st.header("🤖 Analyse IA")
 
     st.metric(
