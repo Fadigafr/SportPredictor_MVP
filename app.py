@@ -214,10 +214,10 @@ elif menu == "Calendrier":
 
     if "fixture_id" in st.session_state:
 
-    fixture_id = st.session_state["fixture_id"]
+        fixture_id = st.session_state["fixture_id"]
 
-    fixture = api_get(
-        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+        fixture = api_get(
+            f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
 
     if fixture.get("response"):
