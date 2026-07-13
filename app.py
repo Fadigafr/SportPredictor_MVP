@@ -267,9 +267,6 @@ if "fixture_id" in st.session_state:
         home_team = game["teams"]["home"]["name"]
         away_team = game["teams"]["away"]["name"]
 
-        home_id = game["teams"]["home"]["id"]
-        away_id = game["teams"]["away"]["id"]
-
         st.subheader(
             f"{home_team} vs {away_team}"
         )
@@ -280,14 +277,6 @@ if "fixture_id" in st.session_state:
 
         st.info(
             "Ouvrez maintenant le menu 'Prédictions'."
-        )
-
-        home_last5 = api_get(
-            f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
-        )
-
-        away_last5 = api_get(
-            f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
         )
 
 else:
