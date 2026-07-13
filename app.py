@@ -185,41 +185,42 @@ elif menu == "Calendrier":
     league_id = competitions[competition]
 
     fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2024"
-)
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&season=2024"
+    )
 
     response = fixtures.get("response", [])
 
-if len(response) == 0:
+    if not response:
 
-    st.warning("Aucun match trouvé.")
-    st.stop()
+        st.warning("Aucun match trouvé.")
 
-    rows = {}
+    else:
 
-    for match in response:
+        matchs = {}
 
-        fixture_id = match["fixture"]["id"]
+        for m in response:
 
-        match_name = (
-            f"{match['teams']['home']['name']} vs "
-            f"{match['teams']['away']['name']}"
+            match_name = (
+                f"{m['teams']['home']['name']} vs "
+                f"{m['teams']['away']['name']}"
+            )
+
+            fixture_id = m["fixture"]["id"]
+
+            matchs[match_name] = fixture_id
+
+        selected_match = st.selectbox(
+            "⚽ Match",
+            list(matchs.keys())
         )
 
-        rows[match_name] = fixture_id
+        if st.button("Analyser"):
 
-    selected_match = st.selectbox(
-        "⚽ Match",
-        list(rows.keys())
-    )
+            st.session_state["fixture_id"] = matchs[selected_match]
 
-    if st.button("Analyser"):
-
-        st.session_state["fixture_id"] = rows[selected_match]
-
-        st.success(
-            f"Match sélectionné : {selected_match}"
-        )
+            st.success(
+                f"Match sélectionné : {selected_match}"
+            )
         
 # =====================================================
 # ANALYSE IA DU JOUR
