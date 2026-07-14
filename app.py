@@ -170,18 +170,102 @@ elif menu == "Calendrier":
     st.title("📅 Calendrier")
 
     competitions = {
-        "Premier League": 39,
-        "La Liga": 140,
-        "Serie A": 135,
-        "Bundesliga": 78,
-        "Ligue 1": 61,
-        "Champions League": 2
-    }
+
+    # ANGLETERRE
+    "England - Premier League": 39,
+    "England - Championship": 40,
+    "England - FA Cup": 45,
+    "England - EFL Cup": 48,
+
+    # ESPAGNE
+    "Spain - La Liga": 140,
+    "Spain - Segunda": 141,
+    "Spain - Copa del Rey": 143,
+
+    # ITALIE
+    "Italy - Serie A": 135,
+    "Italy - Serie B": 136,
+    "Italy - Coppa Italia": 137,
+
+    # ALLEMAGNE
+    "Germany - Bundesliga": 78,
+    "Germany - Bundesliga 2": 79,
+    "Germany - DFB Pokal": 81,
+
+    # FRANCE
+    "France - Ligue 1": 61,
+    "France - Ligue 2": 62,
+    "France - Coupe de France": 66,
+
+    # PORTUGAL
+    "Portugal - Primeira Liga": 94,
+
+    # PAYS-BAS
+    "Netherlands - Eredivisie": 88,
+
+    # BELGIQUE
+    "Belgium - Jupiler Pro League": 144,
+
+    # TURQUIE
+    "Turkey - Super Lig": 203,
+
+    # ECOSSE
+    "Scotland - Premiership": 179,
+
+    # SUISSE
+    "Switzerland - Super League": 207,
+
+    # AUTRICHE
+    "Austria - Bundesliga": 218,
+
+    # DANEMARK
+    "Denmark - Superliga": 119,
+
+    # NORVEGE
+    "Norway - Eliteserien": 103,
+
+    # SUEDE
+    "Sweden - Allsvenskan": 113,
+
+    # BRESIL
+    "Brazil - Serie A": 71,
+    "Brazil - Serie B": 72,
+    "Brazil - Copa do Brasil": 76,
+
+    # ARGENTINE
+    "Argentina - Liga Profesional": 128,
+
+    # MLS
+    "USA - Major League Soccer": 253,
+
+    # ARABIE SAOUDITE
+    "Saudi Arabia - Pro League": 307,
+
+    # AFRIQUE
+    "CAF Champions League": 12,
+    "CAF Confederation Cup": 20,
+    "Africa Cup of Nations": 6,
+
+    # INTERNATIONAL
+    "UEFA Champions League": 2,
+    "UEFA Europa League": 3,
+    "UEFA Conference League": 848,
+    "UEFA Nations League": 5,
+    "Euro Championship": 4,
+    "FIFA World Cup": 1,
+    "World Cup Qualification Europe": 32,
+
+    # AMERIQUE DU SUD
+    "Copa Libertadores": 13,
+    "Copa Sudamericana": 11,
+    "Copa America": 9
+}
 
     competition = st.selectbox(
-        "🏆 Compétition",
-        list(competitions.keys())
-    )
+    "🏆 Compétition",
+    sorted(competitions.keys())
+)
+
 
     league_id = competitions[competition]
 
