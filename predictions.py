@@ -22,7 +22,6 @@ def poisson(lmbda, k):
 
 def calcul_forme(matches, team_id):
 
-    fixtures?team={team_id}&last=5
     points = 0
     buts_marques = 0
 
