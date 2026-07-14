@@ -217,11 +217,11 @@ elif menu == "Matchs Live":
 
 elif menu == "Analyse IA du Jour":
 
-else:
+    else:
 
-    st.warning(
-        "Aucun match trouvé."
-    )
+        st.warning(
+            "Aucun match trouvé."
+        )
 
 # =====================================================
 # ANALYSE IA DU JOUR
