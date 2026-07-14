@@ -36,7 +36,7 @@ def calcul_forme(matches, team_id):
 
             buts_marques += hg
 
-            if hg > ag:
+            if ag > hg:
                 points += 3
 
             elif hg == ag:
@@ -192,9 +192,9 @@ def predictions_page():
     )
 
     btts_result = (
-        predicted_home_goals > 0
-        and predicted_away_goals > 0
-    )
+    predicted_home_goals > 0
+    and predicted_away_goals > 0
+)
 
     total_goals = (
         predicted_home_goals
