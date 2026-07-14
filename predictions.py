@@ -125,7 +125,7 @@ def predictions_page():
         if hg > ag:
             home_h2h_wins += 1
 
-        elif ag > hg:
+        if ag > hg:
             away_h2h_wins += 1
 
         else:
@@ -265,9 +265,9 @@ def predictions_page():
     )
 
     btts_result = (
-    predicted_home_goals > 0
-    and predicted_away_goals > 0
-)
+        predicted_home_goals > 0
+        and predicted_away_goals > 0
+    )
 
     total_goals = (
         predicted_home_goals
@@ -277,31 +277,46 @@ def predictions_page():
     over25_result = total_goals >= 3
 
     # =====================================================
-    # AI INDEX AVANCE
+    # AI INDEX V3.2
     # =====================================================
 
-ai_index = min(
-    100,
-    round(
-        (
-            home_stats["points"]
-            + away_stats["points"]
-        ) * 3,
-        1
+    form_score = (
+        home_stats["points"]
+        + away_stats["points"]
     )
-)
 
-if ai_index >= 85:
-    level = "ELITE BET"
+    h2h_score = abs(
+        home_h2h_wins - away_h2h_wins
+    ) * 5
 
-elif ai_index >= 70:
-    level = "BET FORT"
+    ranking_score = max(
+        0,
+        20 - abs(home_rank - away_rank)
+    )
 
-elif ai_index >= 55:
-    level = "BET MOYEN"
+    ai_index = min(
+        100,
+        round(
+            (
+                form_score
+                + h2h_score
+                + ranking_score
+            ) * 1.5,
+            1
+        )
+    )
 
-else:
-    level = "RISQUE"
+    if ai_index >= 90:
+        level = "ELITE BET"
+
+    elif ai_index >= 75:
+        level = "BET FORT"
+
+    elif ai_index >= 60:
+        level = "BET MOYEN"
+
+    else:
+        level = "RISQUE"
 
     # =====================================================
     # RESULTATS
