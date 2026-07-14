@@ -140,12 +140,12 @@ def predictions_page():
     # =====================================================
 
     home_last5 = api_get(
-        f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
-    )
+    f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
+)
 
-    away_last5 = api_get(
-        f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
-    )
+away_last5 = api_get(
+    f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
+)
 
     home_stats = calcul_forme(
         home_last5,
@@ -245,8 +245,8 @@ def predictions_page():
     try:
 
         odds = api_get(
-            f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
-        )
+    f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+)
 
         bets = (
             odds["response"][0]
