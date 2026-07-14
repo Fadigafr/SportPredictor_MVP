@@ -306,6 +306,20 @@ def predictions_page():
 
     over25_result = total_goals >= 3
 
+    home_bonus = 0
+
+if home_rank < away_rank:
+    home_bonus += 5
+
+if home_stats["points"] > away_stats["points"]:
+    home_bonus += 5
+
+if home_h2h_wins > away_h2h_wins:
+    home_bonus += 5
+
+home_win_prob += home_bonus
+away_win_prob -= home_bonus
+
     # =====================================================
     # AI INDEX V3.2
     # =====================================================
