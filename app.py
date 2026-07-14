@@ -223,40 +223,51 @@ elif menu == "Calendrier":
 
     st.title("📅 Calendrier")
 
-    leagues = api_get(
-    "https://v3.football.api-sports.io/leagues"
-)
+    competitions = {
 
-competitions = {}
+        "England - Premier League": {
+            "id": 39,
+            "logo": "https://media.api-sports.io/football/leagues/39.png"
+        },
 
-for league in leagues.get("response", []):
+        "Spain - La Liga": {
+            "id": 140,
+            "logo": "https://media.api-sports.io/football/leagues/140.png"
+        },
 
-    name = (
-        f"{league['country']['name']} - "
-        f"{league['league']['name']}"
-    )
+        "Italy - Serie A": {
+            "id": 135,
+            "logo": "https://media.api-sports.io/football/leagues/135.png"
+        },
 
-    competitions[name] = {
-        "id": league["league"]["id"],
-        "logo": league["league"]["logo"]
-    }
+        "Germany - Bundesliga": {
+            "id": 78,
+            "logo": "https://media.api-sports.io/football/leagues/78.png"
+        },
+
+        "France - Ligue 1": {
+            "id": 61,
+            "logo": "https://media.api-sports.io/football/leagues/61.png"
+        },
+
+        "UEFA Champions League": {
+            "id": 2,
+            "logo": "https://media.api-sports.io/football/leagues/2.png"
+        }
+
     }
 
     competition = st.selectbox(
-    "🏆 Compétition",
-    sorted(competitions.keys())
-)
+        "🏆 Compétition",
+        sorted(competitions.keys())
+    )
 
     league_id = competitions[competition]["id"]
 
     st.image(
-    competitions[competition]["logo"],
-    width=120
-)
-
-st.markdown(
-    f"### {competition}"
-)
+        competitions[competition]["logo"],
+        width=120
+    )
 
     fixtures = api_get(
         f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
