@@ -144,7 +144,7 @@ def predictions_page():
     f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
 )
 
-away_last5 = api_get(
+    away_last5 = api_get(
     f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
 )
 
