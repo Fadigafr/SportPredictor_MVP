@@ -396,6 +396,60 @@ elif menu == "Classements":
         "Module standings à connecter."
     )
 
+    league_id = game["league"]["id"]
+season = game["league"]["season"]
+
+standings = api_get(
+    f"https://v3.football.api-sports.io/standings?league={league_id}&season={season}"
+)
+home_rank = "-"
+away_rank = "-"
+
+try:
+
+    table = standings["response"][0]["league"]["standings"][0]
+
+    for team in table:
+
+        if team["team"]["id"] == home_id:
+            home_rank = team["rank"]
+
+        if team["team"]["id"] == away_id:
+            away_rank = team["rank"]
+
+except:
+    pass
+
+    st.subheader("📈 Forme")
+
+c1, c2 = st.columns(2)
+
+c1.metric(
+    home_team,
+    f"{home_stats['points']}/15"
+)
+
+c2.metric(
+    away_team,
+    f"{away_stats['points']}/15"
+)
+
+if (
+    isinstance(home_rank, int)
+    and isinstance(away_rank, int)
+):
+
+    ranking_gap = abs(
+        home_rank - away_rank
+    )
+
+    ranking_score = min(
+        ranking_gap * 5,
+        100
+    )
+
+else:
+    ranking_score = 50
 # =====================================================
 # JOUEURS
 # =====================================================
@@ -436,7 +490,10 @@ elif menu == "H2H":
     st.info(
         "Module H2H."
     )
-
+    h2h_score = min(
+    100,
+    home_h2h_wins * 10
+)
 # =====================================================
 # PREDICTIONS
 # =====================================================
