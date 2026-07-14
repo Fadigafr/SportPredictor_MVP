@@ -211,9 +211,13 @@ elif menu == "Calendrier":
     league_id = competitions[competition]["id"]
 
     st.image(
-        competitions[competition]["logo"],
-        width=120
-    )
+    competitions[competition]["logo"],
+    width=120
+)
+
+st.markdown(
+    f"### {competition}"
+)
 
     fixtures = api_get(
         f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
@@ -241,29 +245,41 @@ elif menu == "Calendrier":
                 st.image(home_logo, width=50)
 
             with col2:
+
+        league_name = match["league"]["name"]
                 st.markdown(
-                    f"""
+    f"""
+<b>{league_name}</b><br>
+📅 {date_match}
+""",
+    unsafe_allow_html=True
+)
+
+            with st.container():
+
+    c1, c2, c3 = st.columns([1,4,1])
+
+    c1.image(home_logo, width=60)
+
+    c2.markdown(
+        f"""
 ### {home} vs {away}
+
+🏆 {league_name}
 
 📅 {date_match}
 """
-                )
+    )
 
-            with col3:
-                st.image(away_logo, width=50)
+    c3.image(away_logo, width=60)
 
-            if st.button(
-                f"Analyser {home} vs {away}",
-                key=f"fixture_{fixture_id}"
-            ):
+    if st.button(
+        f"Analyser",
+        key=f"fixture_{fixture_id}"
+    ):
+        st.session_state["fixture_id"] = fixture_id
 
-                st.session_state["fixture_id"] = fixture_id
-
-                st.success(
-                    f"Match sélectionné : {home} vs {away}"
-                )
-
-            st.divider()
+    st.divider()
 
     else:
 
