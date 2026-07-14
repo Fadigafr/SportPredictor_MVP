@@ -170,36 +170,50 @@ elif menu == "Calendrier":
     st.title("📅 Calendrier")
 
     competitions = {
-    "England - Premier League": {
-        "id": 39,
-        "logo": "https://media.api-sports.io/football/leagues/39.png"
-    },
 
-    "Spain - La Liga": {
-        "id": 140,
-        "logo": "https://media.api-sports.io/football/leagues/140.png"
-    },
+        "England - Premier League": {
+            "id": 39,
+            "logo": "https://media.api-sports.io/football/leagues/39.png"
+        },
 
-    "France - Ligue 1": {
-        "id": 61,
-        "logo": "https://media.api-sports.io/football/leagues/61.png"
+        "Spain - La Liga": {
+            "id": 140,
+            "logo": "https://media.api-sports.io/football/leagues/140.png"
+        },
+
+        "Italy - Serie A": {
+            "id": 135,
+            "logo": "https://media.api-sports.io/football/leagues/135.png"
+        },
+
+        "Germany - Bundesliga": {
+            "id": 78,
+            "logo": "https://media.api-sports.io/football/leagues/78.png"
+        },
+
+        "France - Ligue 1": {
+            "id": 61,
+            "logo": "https://media.api-sports.io/football/leagues/61.png"
+        },
+
+        "UEFA Champions League": {
+            "id": 2,
+            "logo": "https://media.api-sports.io/football/leagues/2.png"
+        }
+
     }
-}
 
     competition = st.selectbox(
-    "🏆 Compétition",
-    list(competitions.keys())
-)
+        "🏆 Compétition",
+        sorted(competitions.keys())
+    )
 
-league_id = competitions[competition]["id"]
+    league_id = competitions[competition]["id"]
 
-st.image(
-    competitions[competition]["logo"],
-    width=100
-)
-
-
-    league_id = competitions[competition]
+    st.image(
+        competitions[competition]["logo"],
+        width=120
+    )
 
     fixtures = api_get(
         f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
@@ -209,62 +223,53 @@ st.image(
 
     if response:
 
-        matchs = {}
-
         for match in response:
 
-    home = match["teams"]["home"]["name"]
-    away = match["teams"]["away"]["name"]
+            home = match["teams"]["home"]["name"]
+            away = match["teams"]["away"]["name"]
 
-    home_logo = match["teams"]["home"]["logo"]
-    away_logo = match["teams"]["away"]["logo"]
+            home_logo = match["teams"]["home"]["logo"]
+            away_logo = match["teams"]["away"]["logo"]
 
-    date_match = match["fixture"]["date"][:16]
+            date_match = match["fixture"]["date"][:16]
 
-    c1, c2, c3 = st.columns([1,4,1])
+            fixture_id = match["fixture"]["id"]
 
-    with c1:
-        st.image(home_logo, width=45)
+            col1, col2, col3 = st.columns([1, 4, 1])
 
-    with c2:
-        st.markdown(
-            f"""
-            **{home} vs {away}**
+            with col1:
+                st.image(home_logo, width=50)
 
-            📅 {date_match}
-            """
+            with col2:
+                st.markdown(
+                    f"""
+### {home} vs {away}
+
+📅 {date_match}
+"""
+                )
+
+            with col3:
+                st.image(away_logo, width=50)
+
+            if st.button(
+                f"Analyser {home} vs {away}",
+                key=f"fixture_{fixture_id}"
+            ):
+
+                st.session_state["fixture_id"] = fixture_id
+
+                st.success(
+                    f"Match sélectionné : {home} vs {away}"
+                )
+
+            st.divider()
+
+    else:
+
+        st.warning(
+            "Aucun match trouvé."
         )
-
-    with c3:
-        st.image(away_logo, width=45)
-
-    if st.button(
-        f"Analyser {home} vs {away}",
-        key=str(match["fixture"]["id"])
-    ):
-
-        st.session_state["fixture_id"] = (
-            match["fixture"]["id"]
-        )
-
-    st.divider()
-leagues = api_get(
-    "https://v3.football.api-sports.io/leagues"
-)
-
-competitions = {}
-
-for league in leagues.get("response", []):
-
-    name = (
-        f"{league['country']['name']} - "
-        f"{league['league']['name']}"
-    )
-
-    competitions[name] = {
-        "id": league["league"]["id"],
-        "logo": league["league"]["logo"]
-    }
         
 # =====================================================
 # ANALYSE IA DU JOUR
