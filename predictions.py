@@ -15,6 +15,7 @@ def poisson(lmbda, k):
         * exp(-lmbda)
     ) / factorial(k)
 
+
 # =====================================================
 # FORME EQUIPE
 # =====================================================
@@ -56,6 +57,7 @@ def calcul_forme(matches, team_id):
         "buts_marques": buts_marques
     }
 
+
 # =====================================================
 # BUTEURS
 # =====================================================
@@ -63,12 +65,7 @@ def calcul_forme(matches, team_id):
 def get_top_scorers(team_id):
 
     return []
-    
-    score_joueur = (
-    goals * 0.6 +
-    rating * 0.3 +
-    appearances * 0.1
-)
+
 
 # =====================================================
 # PAGE PRINCIPALE
@@ -108,76 +105,9 @@ def predictions_page():
     home_id = game["teams"]["home"]["id"]
     away_id = game["teams"]["away"]["id"]
 
-    h2h = api_get(
-    f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}&last=10"
-)
-
-home_h2h_wins = 0
-away_h2h_wins = 0
-draws = 0
-
-for match in h2h.get("response", []):
-
-    hg = match["goals"]["home"] or 0
-    ag = match["goals"]["away"] or 0
-
-    if hg > ag:
-        home_h2h_wins += 1
-
-    elif ag > hg:
-        away_h2h_wins += 1
-
-    else:
-        draws += 1
-
-    st.subheader("📊 Historique H2H")
-
-c1, c2, c3 = st.columns(3)
-
-c1.metric(home_team, home_h2h_wins)
-c2.metric("Nuls", draws)
-c3.metric(away_team, away_h2h_wins)
-
-    league_id = game["league"]["id"]
-season = game["league"]["season"]
-
-standings = api_get(
-    f"https://v3.football.api-sports.io/standings?league={league_id}&season={season}"
-)
-
-home_rank = "-"
-away_rank = "-"
-
-try:
-
-    table = standings["response"][0]["league"]["standings"][0]
-
-    for team in table:
-
-        if team["team"]["id"] == home_id:
-            home_rank = team["rank"]
-
-        if team["team"]["id"] == away_id:
-            away_rank = team["rank"]
-
-except:
-    pass
-
-     st.subheader("🏆 Classement")
-
-c1, c2 = st.columns(2)
-
-c1.metric(home_team, home_rank)
-c2.metric(away_team, away_rank)
-
-    odds = api_get(
-    f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
-)
-
-    value = (
-    probabilite_ia -
-    probabilite_bookmaker
-)
+    st.subheader(
+        f"{home_team} vs {away_team}"
+    )
 
     # =====================================================
     # FORME
@@ -277,69 +207,28 @@ c2.metric(away_team, away_rank)
     # AI INDEX SIMPLE
     # =====================================================
 
-    form_score = (
-    (
-        home_stats["points"]
-        + away_stats["points"]
-    ) / 30
-) * 100
-
-h2h_score = min(
-    home_h2h_wins * 10,
-    100
-)
-
-if (
-    isinstance(home_rank, int)
-    and isinstance(away_rank, int)
-):
-
-    ranking_score = min(
-        abs(home_rank - away_rank) * 5,
-        100
+    ai_index = min(
+        100,
+        round(
+            (
+                home_stats["points"]
+                + away_stats["points"]
+            ) * 3,
+            1
+        )
     )
 
-else:
+    if ai_index >= 85:
+        level = "ELITE BET"
 
-    ranking_score = 50
+    elif ai_index >= 70:
+        level = "BET FORT"
 
-poisson_score = min(
-    scores[0][1] * 5,
-    100
-)
+    elif ai_index >= 55:
+        level = "BET MOYEN"
 
-home_score = 60
-
-ai_index = round(
-
-    form_score * 0.30
-
-    + h2h_score * 0.25
-
-    + ranking_score * 0.20
-
-    + poisson_score * 0.15
-
-    + home_score * 0.10,
-
-    1
-)
-
-if ai_index >= 85:
-
-    level = "🔥 ELITE BET"
-
-elif ai_index >= 75:
-
-    level = "✅ BET FORT"
-
-elif ai_index >= 60:
-
-    level = "⚠️ BET MOYEN"
-
-else:
-
-    level = "❌ RISQUE"
+    else:
+        level = "RISQUE"
 
     # =====================================================
     # RESULTATS
