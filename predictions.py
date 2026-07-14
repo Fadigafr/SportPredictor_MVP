@@ -3,6 +3,7 @@ from math import exp, factorial
 
 from api_football import api_get
 
+
 # =====================================================
 # POISSON
 # =====================================================
@@ -13,6 +14,7 @@ def poisson(lmbda, k):
         (lmbda ** k)
         * exp(-lmbda)
     ) / factorial(k)
+
 
 # =====================================================
 # FORME EQUIPE
@@ -54,7 +56,7 @@ def calcul_forme(matches, team_id):
         "points": points,
         "buts_marques": buts_marques
     }
-    
+
 
 # =====================================================
 # BUTEURS
@@ -63,8 +65,8 @@ def calcul_forme(matches, team_id):
 def get_top_scorers(team_id):
 
     players = api_get(
-    f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
-)
+        f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
+    )
 
     scorers = []
 
@@ -84,8 +86,7 @@ def get_top_scorers(team_id):
         except:
             pass
 
-    scorers = sorted(
-        scorers,
+    scorers.sort(
         key=lambda x: x["score"],
         reverse=True
     )
@@ -104,7 +105,7 @@ def predictions_page():
     if "fixture_id" not in st.session_state:
 
         st.warning(
-            "Sélectionnez un match dans le Calendrier."
+            "Sélectionnez un match dans le calendrier."
         )
 
         return
@@ -138,12 +139,12 @@ def predictions_page():
     # =====================================================
 
     home_last5 = api_get(
-    f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
-)
+        f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
+    )
 
     away_last5 = api_get(
-    f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
-)
+        f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
+    )
 
     home_stats = calcul_forme(
         home_last5,
@@ -154,6 +155,20 @@ def predictions_page():
         away_last5,
         away_id
     )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            "Points Forme Domicile",
+            home_stats["points"]
+        )
+
+    with col2:
+        st.metric(
+            "Points Forme Extérieur",
+            away_stats["points"]
+        )
 
     # =====================================================
     # POISSON
@@ -177,8 +192,7 @@ def predictions_page():
 
             prob = (
                 poisson(home_avg, h)
-                *
-                poisson(away_avg, a)
+                * poisson(away_avg, a)
                 * 100
             )
 
@@ -206,14 +220,12 @@ def predictions_page():
 
     btts_result = (
         predicted_home_goals > 0
-        and
-        predicted_away_goals > 0
+        and predicted_away_goals > 0
     )
 
     total_goals = (
         predicted_home_goals
-        +
-        predicted_away_goals
+        + predicted_away_goals
     )
 
     over25_result = total_goals >= 3
@@ -222,19 +234,17 @@ def predictions_page():
     # BUTEURS
     # =====================================================
 
-    st.subheader(
-        "🥅 Buteurs Probables"
-    )
+    st.subheader("🥅 Buteurs Probables")
 
-    home_scorers = get_top_scorers(
-        home_id
-    )
+    scorers = get_top_scorers(home_id)
 
-    for p in home_scorers:
+    if scorers:
 
-        st.write(
-            f"⚽ {p['name']}"
-        )
+        for player in scorers:
+
+            st.write(
+                f"⚽ {player['name']}"
+            )
 
     # =====================================================
     # COTES
@@ -243,35 +253,34 @@ def predictions_page():
     try:
 
         odds = api_get(
-    f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
-)
-
-        odds?fixture={fixture_id}
-        bets = (
-            odds["response"][0]
-            ["bookmakers"][0]
-            ["bets"]
+            f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
         )
 
-        for bet in bets:
+        bookmakers = odds.get("response", [])
 
-            if bet["name"] == "Match Winner":
+        if bookmakers:
 
-                home_odd = bet["values"][0]["odd"]
-                draw_odd = bet["values"][1]["odd"]
-                away_odd = bet["values"][2]["odd"]
+            bets = bookmakers[0]["bookmakers"][0]["bets"]
 
-                st.subheader(
-                    "💰 Cotes Bookmakers"
-                )
+            for bet in bets:
 
-                c1, c2, c3 = st.columns(3)
+                if bet["name"] == "Match Winner":
 
-                c1.metric("1", home_odd)
-                c2.metric("N", draw_odd)
-                c3.metric("2", away_odd)
+                    home_odd = bet["values"][0]["odd"]
+                    draw_odd = bet["values"][1]["odd"]
+                    away_odd = bet["values"][2]["odd"]
 
-                break
+                    st.subheader(
+                        "💰 Cotes Bookmakers"
+                    )
+
+                    c1, c2, c3 = st.columns(3)
+
+                    c1.metric("1", home_odd)
+                    c2.metric("N", draw_odd)
+                    c3.metric("2", away_odd)
+
+                    break
 
     except:
         pass
@@ -281,39 +290,30 @@ def predictions_page():
     # =====================================================
 
     ai_index = min(
-    100,
-    round(
-        (
-            home_stats["points"] +
-            away_stats["points"]
-        ) * 3,
-        1
+        100,
+        round(
+            (
+                home_stats["points"]
+                + away_stats["points"]
+            ) * 3,
+            1
+        )
     )
-)
 
-if ai_index >= 85:
-    level = "🔥 ELITE BET"
+    if ai_index >= 85:
+        level = "🔥 ELITE BET"
 
-elif ai_index >= 70:
-    level = "✅ BET FORT"
+    elif ai_index >= 70:
+        level = "✅ BET FORT"
 
-elif ai_index >= 55:
-    level = "⚠️ BET MOYEN"
+    elif ai_index >= 55:
+        level = "⚠️ BET MOYEN"
 
-else:
-    level = "❌ RISQUE ÉLEVÉ"
-
-st.header("🚀 Analyse IA")
-
-st.metric(
-    "AI INDEX",
-    f"{ai_index}/100"
-)
-
-st.info(level)
+    else:
+        level = "❌ RISQUE ÉLEVÉ"
 
     # =====================================================
-    # RESULTAT FINAL
+    # RESULTATS
     # =====================================================
 
     st.header("🚀 Analyse IA")
@@ -323,8 +323,10 @@ st.info(level)
         f"{ai_index}/100"
     )
 
+    st.info(level)
+
     st.success(
-        f"🎯 Score Exact : {predicted_score}"
+        f"🎯 Score Exact Prévu : {predicted_score}"
     )
 
     st.write(
