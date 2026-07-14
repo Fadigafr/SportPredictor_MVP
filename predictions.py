@@ -121,14 +121,16 @@ def predictions_page():
         hg = match["goals"]["home"] or 0
         ag = match["goals"]["away"] or 0
 
-        if hg > ag:
-            home_h2h_wins += 1
+    if hg > ag:
+        home_h2h_wins += 1
 
-        if ag > hg:
-            away_h2h_wins += 1
+    elif ag > hg:
+        away_h2h_wins += 1
 
-        else:
-            draws += 1
+    else:
+        draws += 1       
+
+
 
     st.subheader("Historique H2H")
 
@@ -307,17 +309,17 @@ def predictions_page():
 
     home_bonus = 0
 
-if home_rank < away_rank:
-    home_bonus += 5
+    if home_rank < away_rank:
+        home_bonus += 5
 
-if home_stats["points"] > away_stats["points"]:
-    home_bonus += 5
+    if home_stats["points"] > away_stats["points"]:
+        home_bonus += 5
 
-if home_h2h_wins > away_h2h_wins:
-    home_bonus += 5
+    if home_h2h_wins > away_h2h_wins:
+        home_bonus += 5
 
-home_win_prob += home_bonus
-away_win_prob -= home_bonus
+    home_win_prob += home_bonus
+    away_win_prob -= home_bonus
 
     # =====================================================
     # AI INDEX V3.2
