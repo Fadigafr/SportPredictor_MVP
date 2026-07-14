@@ -65,6 +65,15 @@ def calcul_forme(matches, team_id):
 def get_top_scorers(team_id):
 
     return []
+    goals
+    rating
+    appearances
+    minutes
+    score_joueur = (
+    goals * 0.6 +
+    rating * 0.3 +
+    appearances * 0.1
+)
 
 
 # =====================================================
@@ -167,6 +176,22 @@ c1, c2 = st.columns(2)
 c1.metric(home_team, home_rank)
 c2.metric(away_team, away_rank)
 
+    odds = api_get(
+    f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+)
+1 | N | 2
+
+1.85 | 3.60 | 4.20
+
+    value = (
+    probabilite_ia -
+    probabilite_bookmaker
+)
+✅ VALUE BET
+
+ou
+
+❌ PAS DE VALUE
 
     # =====================================================
     # FORME
