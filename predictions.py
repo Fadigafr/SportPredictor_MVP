@@ -15,7 +15,6 @@ def poisson(lmbda, k):
         * exp(-lmbda)
     ) / factorial(k)
 
-
 # =====================================================
 # FORME EQUIPE
 # =====================================================
@@ -57,7 +56,6 @@ def calcul_forme(matches, team_id):
         "buts_marques": buts_marques
     }
 
-
 # =====================================================
 # BUTEURS
 # =====================================================
@@ -71,7 +69,6 @@ def get_top_scorers(team_id):
     rating * 0.3 +
     appearances * 0.1
 )
-
 
 # =====================================================
 # PAGE PRINCIPALE
@@ -184,11 +181,6 @@ c2.metric(away_team, away_rank)
     probabilite_ia -
     probabilite_bookmaker
 )
-✅ VALUE BET
-
-ou
-
-❌ PAS DE VALUE
 
     # =====================================================
     # FORME
