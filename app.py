@@ -277,40 +277,40 @@ elif menu == "Calendrier":
 
     if response:
 
-        for match in response:
+    for match in response:
 
-    fixture_id = match["fixture"]["id"]
+        fixture_id = match["fixture"]["id"]
 
-    home = match["teams"]["home"]["name"]
-    away = match["teams"]["away"]["name"]
+        home = match["teams"]["home"]["name"]
+        away = match["teams"]["away"]["name"]
 
-    home_logo = match["teams"]["home"]["logo"]
-    away_logo = match["teams"]["away"]["logo"]
+        home_logo = match["teams"]["home"]["logo"]
+        away_logo = match["teams"]["away"]["logo"]
 
-    league_logo = match["league"]["logo"]
-    league_name = match["league"]["name"]
+        league_logo = match["league"]["logo"]
+        league_name = match["league"]["name"]
 
-    date_match = match["fixture"]["date"][:16]
+        date_match = match["fixture"]["date"][:16]
 
-    st.image(
-        league_logo,
-        width=80
-    )
-
-    st.markdown(
-        f"<h4 style='color:#FFD700'>{league_name}</h4>",
-        unsafe_allow_html=True
-    )
-
-    c1, c2, c3 = st.columns([1,4,1])
-
-    with c1:
-        st.image(home_logo, width=70)
-
-    with c2:
+        st.image(
+            league_logo,
+            width=80
+        )
 
         st.markdown(
-            f"""
+            f"<h4 style='color:#FFD700'>{league_name}</h4>",
+            unsafe_allow_html=True
+        )
+
+        c1, c2, c3 = st.columns([1, 4, 1])
+
+        with c1:
+            st.image(home_logo, width=70)
+
+        with c2:
+
+            st.markdown(
+                f"""
 <div class='match-card'>
 
 <p class='match-title'>
@@ -323,30 +323,31 @@ elif menu == "Calendrier":
 
 </div>
 """,
-            unsafe_allow_html=True
-        )
+                unsafe_allow_html=True
+            )
 
-    with c3:
-        st.image(away_logo, width=70)
+        with c3:
+            st.image(away_logo, width=70)
 
-    if st.button(
-        f"🔍 Analyser {home} vs {away}",
-        key=f"fixture_{fixture_id}"
-    ):
+        if st.button(
+            f"🔍 Analyser {home} vs {away}",
+            key=f"fixture_{fixture_id}"
+        ):
 
-        st.session_state["fixture_id"] = fixture_id
+            st.session_state["fixture_id"] = fixture_id
 
-        st.success(
-            f"Match sélectionné : {home} vs {away}"
-        )
+            st.success(
+                f"Match sélectionné : {home} vs {away}"
+            )
 
-    st.divider()
+        st.divider()
 
-    else:
+else:
 
-        st.warning(
-            "Aucun match trouvé."
-        )
+    st.warning(
+        "Aucun match trouvé."
+    )
+
         
 # =====================================================
 # ANALYSE IA DU JOUR
