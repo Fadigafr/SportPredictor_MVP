@@ -36,7 +36,7 @@ def calcul_forme(matches, team_id):
 
             buts_marques += hg
 
-            if ag > hg:
+            if hg > ag:
                 points += 3
 
             elif hg == ag:
