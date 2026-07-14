@@ -418,6 +418,10 @@ elif menu == "Top Buteurs":
 # H2H
 # =====================================================
 
+# =====================================================
+# H2H
+# =====================================================
+
 elif menu == "H2H":
 
     st.title("Historique H2H")
@@ -425,7 +429,7 @@ elif menu == "H2H":
     st.info(
         "Le module H2H sera intégré dans predictions.py V3."
     )
-    )
+    
     h2h_score = min(
     100,
     home_h2h_wins * 10
