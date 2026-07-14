@@ -286,7 +286,57 @@ def predictions_page():
     home_win_prob = round(home_win_prob, 1)
     draw_prob = round(draw_prob, 1)
     away_win_prob = round(away_win_prob, 1)
-    
+
+# =====================================================
+# V4.2 - DOUBLE CHANCE
+# =====================================================
+
+double_1x = round(
+    home_win_prob + draw_prob,
+    1
+)
+
+double_x2 = round(
+    draw_prob + away_win_prob,
+    1
+)
+
+double_12 = round(
+    home_win_prob + away_win_prob,
+    1
+)
+
+# =====================================================
+# V4.2 - BTTS %
+# =====================================================
+
+btts_yes = min(
+    100,
+    round(
+        (home_avg + away_avg) * 25,
+        1
+    )
+)
+
+btts_no = round(
+    100 - btts_yes,
+    1
+)
+
+# =====================================================
+# V4.2 - OVER / UNDER
+# =====================================================
+
+goal_expectancy = home_avg + away_avg
+
+over15 = min(100, round(goal_expectancy * 35, 1))
+over25 = min(100, round(goal_expectancy * 25, 1))
+over35 = min(100, round(goal_expectancy * 15, 1))
+
+under15 = round(100 - over15, 1)
+under25 = round(100 - over25, 1)
+under35 = round(100 - over35, 1)
+
     predicted_home_goals = int(
         predicted_score.split("-")[0]
     )
@@ -459,6 +509,47 @@ def predictions_page():
     st.info(
         f"Niveau de confiance : {confidence_level}"
     )
+
+    # =====================================================
+    # DOUBLE CHANCE
+    # =====================================================
+
+    st.subheader("🎯 Double Chance")
+
+        dc1, dc2, dc3 = st.columns(3)
+
+        dc1.metric("1X", f"{double_1x}%")
+        dc2.metric("X2", f"{double_x2}%")
+        dc3.metric("12", f"{double_12}%")
+
+    # =====================================================
+    # BTTS %
+    # =====================================================
+
+    st.subheader("⚽ BTTS")
+
+        b1, b2 = st.columns(2)
+
+        b1.metric("BTTS OUI", f"{btts_yes}%")
+        b2.metric("BTTS NON", f"{btts_no}%")
+
+    # =====================================================
+    # OVER / UNDER
+    # =====================================================
+
+    st.subheader("📈 Over / Under")
+
+        o1, o2, o3 = st.columns(3)
+
+        o1.metric("Over 1.5", f"{over15}%")
+        o2.metric("Over 2.5", f"{over25}%")
+        o3.metric("Over 3.5", f"{over35}%")
+
+        u1, u2, u3 = st.columns(3)
+
+        u1.metric("Under 1.5", f"{under15}%")
+        u2.metric("Under 2.5", f"{under25}%")
+        u3.metric("Under 3.5", f"{under35}%")
 
     st.success(
         f"Score Exact Prévu : {predicted_score}"
