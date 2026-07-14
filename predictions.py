@@ -63,7 +63,7 @@ def calcul_forme(matches, team_id):
 def get_top_scorers(team_id):
 
     players = api_get(
-    f"https://v3.football.api-sports.io/players?team={home_id}&season=2026"
+    f"https://v3.football.api-sports.io/players?team={team_id}&season=2026"
 )
 
     scorers = []
@@ -280,21 +280,15 @@ def predictions_page():
     # AI INDEX
     # =====================================================
 
-    ai_index = round(
-
-    poisson_score * 0.25 +
-
-    form_score * 0.25 +
-
-    h2h_score * 0.15 +
-
-    bookmaker_score * 0.15 +
-
-    scorer_score * 0.10 +
-
-    home_score * 0.10,
-
-    1
+    ai_index = min(
+    100,
+    round(
+        (
+            home_stats["points"] +
+            away_stats["points"]
+        ) * 3,
+        1
+    )
 )
 
 if ai_index >= 85:
@@ -308,6 +302,15 @@ elif ai_index >= 55:
 
 else:
     level = "❌ RISQUE ÉLEVÉ"
+
+st.header("🚀 Analyse IA")
+
+st.metric(
+    "AI INDEX",
+    f"{ai_index}/100"
+)
+
+st.info(level)
 
     # =====================================================
     # RESULTAT FINAL
