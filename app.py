@@ -223,50 +223,48 @@ elif menu == "Calendrier":
 
     st.title("📅 Calendrier")
 
-    competitions = {
+    leagues_data = api_get(
+        "https://v3.football.api-sports.io/leagues"
+    )
 
-        leagues_data = api_get(
-    "https://v3.football.api-sports.io/leagues"
-)
+    competitions = {}
 
-competitions = {}
+    for league in leagues_data.get("response", []):
 
-for league in leagues_data.get("response", []):
+        try:
 
-    try:
+            league_id = league["league"]["id"]
 
-        league_id = league["league"]["id"]
+            league_name = league["league"]["name"]
 
-        league_name = league["league"]["name"]
+            country = league["country"]["name"]
 
-        country = league["country"]["name"]
+            logo = league["league"]["logo"]
 
-        logo = league["league"]["logo"]
+            competitions[
+                f"{country} - {league_name}"
+            ] = {
+                "id": league_id,
+                "logo": logo
+            }
 
-        competitions[
-            f"{country} - {league_name}"
-        ] = {
-            "id": league_id,
-            "logo": logo
-        }
-
-    except:
-        pass
+        except:
+            pass
 
     competition = st.selectbox(
-    "🏆 Compétition",
-    sorted(competitions.keys())
-)
+        "🏆 Compétition",
+        sorted(competitions.keys())
+    )
 
-league_id = competitions[competition]["id"]
+    league_id = competitions[competition]["id"]
 
-st.image(
-    competitions[competition]["logo"],
-    width=100
-)
+    st.image(
+        competitions[competition]["logo"],
+        width=100
+    )
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/standings?league={league_id}&season=2026
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
     )
 
     response = fixtures.get("response", [])
@@ -287,48 +285,28 @@ st.image(
             home_logo = match["teams"]["home"]["logo"]
             away_logo = match["teams"]["away"]["logo"]
 
-            league_logo = match["league"]["logo"]
-            league_name = match["league"]["name"]
-
             date_match = match["fixture"]["date"][:16]
-
-            st.image(
-                league_logo,
-                width=80
-            )
-
-            st.markdown(
-                f"<h4 style='color:#FFD700'>{league_name}</h4>",
-                unsafe_allow_html=True
-            )
 
             c1, c2, c3 = st.columns([1, 4, 1])
 
             with c1:
-                st.image(home_logo, width=70)
+                st.image(home_logo, width=60)
 
             with c2:
 
                 st.markdown(
                     f"""
-<div class='match-card'>
-<p class='match-title'>
-{home} vs {away}
-</p>
+### {home} vs {away}
 
-<p class='match-date'>
 📅 {date_match}
-</p>
-</div>
-""",
-                    unsafe_allow_html=True
+"""
                 )
 
             with c3:
-                st.image(away_logo, width=70)
+                st.image(away_logo, width=60)
 
             if st.button(
-                f"🔍 Analyser {home} vs {away}",
+                f"🔍 Analyser",
                 key=f"fixture_{fixture_id}"
             ):
 
