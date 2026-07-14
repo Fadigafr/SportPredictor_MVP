@@ -264,8 +264,8 @@ elif menu == "Calendrier":
     )
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-    )
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+)
 
     response = fixtures.get("response", [])
 
@@ -413,10 +413,6 @@ elif menu == "Top Buteurs":
     st.info(
         "Module buteurs."
     )
-
-# =====================================================
-# H2H
-# =====================================================
 
 # =====================================================
 # H2H
