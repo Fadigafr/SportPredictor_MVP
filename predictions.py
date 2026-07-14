@@ -22,6 +22,7 @@ def poisson(lmbda, k):
 
 def calcul_forme(matches, team_id):
 
+    fixtures?team={team_id}&last=5
     points = 0
     buts_marques = 0
 
@@ -56,7 +57,7 @@ def calcul_forme(matches, team_id):
         "points": points,
         "buts_marques": buts_marques
     }
-
+    
 
 # =====================================================
 # BUTEURS
@@ -238,6 +239,8 @@ away_last5 = api_get(
             f"⚽ {p['name']}"
         )
 
+        players?team={team_id}&season=2026
+
     # =====================================================
     # COTES
     # =====================================================
@@ -248,6 +251,7 @@ away_last5 = api_get(
     f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
 )
 
+        odds?fixture={fixture_id}
         bets = (
             odds["response"][0]
             ["bookmakers"][0]
