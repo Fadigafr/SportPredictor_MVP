@@ -439,21 +439,25 @@ away_win_prob -= home_bonus
     # BADGE CONFIANCE
     # =====================================================
 
-if confidence >= 85:
-    st.success("🔥 Confiance TRÈS ÉLEVÉE")
+    if confidence >= 85:
+        confidence_level = "🔥 TRÈS ÉLEVÉE"
+        st.success("🔥 Confiance TRÈS ÉLEVÉE")
 
-elif confidence >= 70:
-    st.success("✅ Confiance ÉLEVÉE")
+    elif confidence >= 70:
+        confidence_level = "✅ ÉLEVÉE"
+        st.success("✅ Confiance ÉLEVÉE")
 
-elif confidence >= 55:
-    st.warning("⚠️ Confiance MOYENNE")
+    elif confidence >= 55:
+        confidence_level = "⚠️ MOYENNE"
+        st.warning("⚠️ Confiance MOYENNE")
 
-else:
-    st.error("❌ Confiance FAIBLE")
+    else:
+        confidence_level = "❌ FAIBLE"
+        st.error("❌ Confiance FAIBLE")
 
-st.info(
-    f"Niveau de confiance : {confidence_level}"
-)
+    st.info(
+        f"Niveau de confiance : {confidence_level}"
+    )
 
     st.success(
         f"Score Exact Prévu : {predicted_score}"
