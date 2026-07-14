@@ -170,100 +170,32 @@ elif menu == "Calendrier":
     st.title("📅 Calendrier")
 
     competitions = {
+    "England - Premier League": {
+        "id": 39,
+        "logo": "https://media.api-sports.io/football/leagues/39.png"
+    },
 
-    # ANGLETERRE
-    "England - Premier League": 39,
-    "England - Championship": 40,
-    "England - FA Cup": 45,
-    "England - EFL Cup": 48,
+    "Spain - La Liga": {
+        "id": 140,
+        "logo": "https://media.api-sports.io/football/leagues/140.png"
+    },
 
-    # ESPAGNE
-    "Spain - La Liga": 140,
-    "Spain - Segunda": 141,
-    "Spain - Copa del Rey": 143,
-
-    # ITALIE
-    "Italy - Serie A": 135,
-    "Italy - Serie B": 136,
-    "Italy - Coppa Italia": 137,
-
-    # ALLEMAGNE
-    "Germany - Bundesliga": 78,
-    "Germany - Bundesliga 2": 79,
-    "Germany - DFB Pokal": 81,
-
-    # FRANCE
-    "France - Ligue 1": 61,
-    "France - Ligue 2": 62,
-    "France - Coupe de France": 66,
-
-    # PORTUGAL
-    "Portugal - Primeira Liga": 94,
-
-    # PAYS-BAS
-    "Netherlands - Eredivisie": 88,
-
-    # BELGIQUE
-    "Belgium - Jupiler Pro League": 144,
-
-    # TURQUIE
-    "Turkey - Super Lig": 203,
-
-    # ECOSSE
-    "Scotland - Premiership": 179,
-
-    # SUISSE
-    "Switzerland - Super League": 207,
-
-    # AUTRICHE
-    "Austria - Bundesliga": 218,
-
-    # DANEMARK
-    "Denmark - Superliga": 119,
-
-    # NORVEGE
-    "Norway - Eliteserien": 103,
-
-    # SUEDE
-    "Sweden - Allsvenskan": 113,
-
-    # BRESIL
-    "Brazil - Serie A": 71,
-    "Brazil - Serie B": 72,
-    "Brazil - Copa do Brasil": 76,
-
-    # ARGENTINE
-    "Argentina - Liga Profesional": 128,
-
-    # MLS
-    "USA - Major League Soccer": 253,
-
-    # ARABIE SAOUDITE
-    "Saudi Arabia - Pro League": 307,
-
-    # AFRIQUE
-    "CAF Champions League": 12,
-    "CAF Confederation Cup": 20,
-    "Africa Cup of Nations": 6,
-
-    # INTERNATIONAL
-    "UEFA Champions League": 2,
-    "UEFA Europa League": 3,
-    "UEFA Conference League": 848,
-    "UEFA Nations League": 5,
-    "Euro Championship": 4,
-    "FIFA World Cup": 1,
-    "World Cup Qualification Europe": 32,
-
-    # AMERIQUE DU SUD
-    "Copa Libertadores": 13,
-    "Copa Sudamericana": 11,
-    "Copa America": 9
+    "France - Ligue 1": {
+        "id": 61,
+        "logo": "https://media.api-sports.io/football/leagues/61.png"
+    }
 }
 
     competition = st.selectbox(
     "🏆 Compétition",
-    sorted(competitions.keys())
+    list(competitions.keys())
+)
+
+league_id = competitions[competition]["id"]
+
+st.image(
+    competitions[competition]["logo"],
+    width=100
 )
 
 
@@ -281,34 +213,58 @@ elif menu == "Calendrier":
 
         for match in response:
 
-            fixture_id = match["fixture"]["id"]
+    home = match["teams"]["home"]["name"]
+    away = match["teams"]["away"]["name"]
 
-            match_name = (
-                f"{match['fixture']['date'][:16]} | "
-                f"{match['teams']['home']['name']} vs "
-                f"{match['teams']['away']['name']}"
-            )
+    home_logo = match["teams"]["home"]["logo"]
+    away_logo = match["teams"]["away"]["logo"]
 
-            matchs[match_name] = fixture_id
+    date_match = match["fixture"]["date"][:16]
 
-        selected_match = st.selectbox(
-            "⚽ Match",
-            list(matchs.keys())
+    c1, c2, c3 = st.columns([1,4,1])
+
+    with c1:
+        st.image(home_logo, width=45)
+
+    with c2:
+        st.markdown(
+            f"""
+            **{home} vs {away}**
+
+            📅 {date_match}
+            """
         )
 
-        if st.button("Analyser"):
+    with c3:
+        st.image(away_logo, width=45)
 
-            st.session_state["fixture_id"] = matchs[selected_match]
+    if st.button(
+        f"Analyser {home} vs {away}",
+        key=str(match["fixture"]["id"])
+    ):
 
-            st.success(
-                f"Match sélectionné : {selected_match}"
-            )
-
-    else:
-
-        st.warning(
-            "Aucun match trouvé."
+        st.session_state["fixture_id"] = (
+            match["fixture"]["id"]
         )
+
+    st.divider()
+leagues = api_get(
+    "https://v3.football.api-sports.io/leagues"
+)
+
+competitions = {}
+
+for league in leagues.get("response", []):
+
+    name = (
+        f"{league['country']['name']} - "
+        f"{league['league']['name']}"
+    )
+
+    competitions[name] = {
+        "id": league["league"]["id"],
+        "logo": league["league"]["logo"]
+    }
         
 # =====================================================
 # ANALYSE IA DU JOUR
