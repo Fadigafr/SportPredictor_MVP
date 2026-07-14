@@ -105,21 +105,17 @@ def predictions_page():
     home_id = game["teams"]["home"]["id"]
     away_id = game["teams"]["away"]["id"]
 
-    st.subheader(
-        f"{home_team} vs {away_team}"
-    )
+    # =====================================================
+    # H2H
+    # =====================================================
 
-# =====================================================
-# H2H
-# =====================================================
-
-h2h = api_get(
-    f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}&last=10"
+    h2h = api_get(
+        f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}&last=10"
 )
 
-home_h2h_wins = 0
-away_h2h_wins = 0
-draws = 0
+   home_h2h_wins = 0
+   away_h2h_wins = 0
+   draws = 0
 
 for match in h2h.get("response", []):
 
@@ -142,6 +138,10 @@ c1, c2, c3 = st.columns(3)
 c1.metric(home_team, home_h2h_wins)
 c2.metric("Nuls", draws)
 c3.metric(away_team, away_h2h_wins)
+
+    st.subheader(
+        f"{home_team} vs {away_team}"
+    )
 
     # =====================================================
     # FORME
