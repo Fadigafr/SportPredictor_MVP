@@ -173,9 +173,6 @@ c2.metric(away_team, away_rank)
     odds = api_get(
     f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
 )
-1 | N | 2
-
-1.85 | 3.60 | 4.20
 
     value = (
     probabilite_ia -
