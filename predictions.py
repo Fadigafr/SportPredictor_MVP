@@ -298,6 +298,18 @@ away_last5 = api_get(
     1
 )
 
+if ai_index >= 85:
+    level = "🔥 ELITE BET"
+
+elif ai_index >= 70:
+    level = "✅ BET FORT"
+
+elif ai_index >= 55:
+    level = "⚠️ BET MOYEN"
+
+else:
+    level = "❌ RISQUE ÉLEVÉ"
+
 
     # =====================================================
     # RESULTAT FINAL
