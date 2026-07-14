@@ -144,6 +144,45 @@ def predictions_page():
     )
 
     # =====================================================
+    # CLASSEMENT
+    # =====================================================
+
+    league_id = game["league"]["id"]
+    season = game["league"]["season"]
+
+    home_rank = 99
+    away_rank = 99
+
+    standings = api_get(
+        f"https://v3.football.api-sports.io/standings?league={league_id}&season={season}"
+    )
+
+    if standings.get("response"):
+
+        table = standings["response"][0]["league"]["standings"][0]
+
+        for team in table:
+
+            if team["team"]["id"] == home_id:
+                home_rank = team["rank"]
+
+            if team["team"]["id"] == away_id:
+                away_rank = team["rank"]
+
+        st.subheader("🏆 Classement")
+
+        col1, col2 = st.columns(2)
+
+        col1.metric(
+            home_team,
+            f"{home_rank}e"
+        )
+
+        col2.metric(
+            away_team,
+            f"{away_rank}e"
+        )
+    # =====================================================
     # FORME
     # =====================================================
 
