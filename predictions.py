@@ -256,6 +256,36 @@ def predictions_page():
 
     predicted_score = scores[0][0]
 
+    # =====================================================
+    # PROBABILITES 1N2
+    # =====================================================
+
+    home_win_prob = 0
+    draw_prob = 0
+    away_win_prob = 0
+
+    for h in range(6):
+        for a in range(6):
+
+            prob = (
+                poisson(home_avg, h)
+                * poisson(away_avg, a)
+                * 100
+            )
+
+            if h > a:
+                home_win_prob += prob
+
+            elif h == a:
+                draw_prob += prob
+
+            else:
+                away_win_prob += prob
+
+    home_win_prob = round(home_win_prob, 1)
+    draw_prob = round(draw_prob, 1)
+    away_win_prob = round(away_win_prob, 1)
+    
     predicted_home_goals = int(
         predicted_score.split("-")[0]
     )
@@ -306,6 +336,36 @@ def predictions_page():
         )
     )
 
+    # =====================================================
+    # PARI RECOMMANDE
+    # =====================================================
+
+    best_prob = max(
+        home_win_prob,
+        draw_prob,
+        away_win_prob
+    )
+
+    if best_prob == home_win_prob:
+
+        recommended_bet = f"Victoire {home_team}"
+
+    elif best_prob == away_win_prob:
+
+        recommended_bet = f"Victoire {away_team}"
+
+    else:
+
+        recommended_bet = "Match Nul"
+
+    confidence = round(
+        (
+            best_prob * 0.6
+            + ai_index * 0.4
+        ),
+        1
+    )
+    
     if ai_index >= 90:
         level = "ELITE BET"
 
@@ -331,6 +391,36 @@ def predictions_page():
 
     st.info(level)
 
+    st.subheader("📊 Probabilités 1N2")
+
+    c1, c2, c3 = st.columns(3)
+
+    c1.metric(
+        home_team,
+        f"{home_win_prob}%"
+    )
+
+    c2.metric(
+        "Nul",
+        f"{draw_prob}%"
+    )
+
+    c3.metric(
+        away_team,
+        f"{away_win_prob}%"
+    )
+
+    st.subheader("🎯 Pari Recommandé")
+
+    st.success(
+        recommended_bet
+    )
+
+    st.metric(
+        "Confiance IA",
+        f"{confidence}%"
+    )
+    
     st.success(
         f"Score Exact Prévu : {predicted_score}"
     )
