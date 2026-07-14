@@ -280,53 +280,28 @@ if standings.get("response"):
     # AI INDEX AVANCE
     # =====================================================
 
-form_score = (
-    home_stats["points"]
-    + away_stats["points"]
-)
-
-h2h_score = abs(
-    home_h2h_wins - away_h2h_wins
-) * 5
-
-ranking_score = max(
-    0,
-    20 - abs(home_rank - away_rank)
-)
-
-poisson_score = min(
-    20,
+ai_index = min(
+    100,
     round(
-        max(home_avg, away_avg) * 4
+        (
+            home_stats["points"]
+            + away_stats["points"]
+        ) * 3,
+        1
     )
 )
 
-home_advantage = 10
+if ai_index >= 85:
+    level = "ELITE BET"
 
-ai_index = round(
-    (
-        form_score * 0.30
-        + h2h_score * 0.20
-        + ranking_score * 0.25
-        + poisson_score * 0.15
-        + home_advantage * 0.10
-    ) * 2,
-    1
-)
+elif ai_index >= 70:
+    level = "BET FORT"
 
-ai_index = min(100, ai_index)
-
-if ai_index >= 90:
-    level = "🔥 ELITE BET"
-
-elif ai_index >= 75:
-    level = "✅ BET FORT"
-
-elif ai_index >= 60:
-    level = "⚠️ BET MOYEN"
+elif ai_index >= 55:
+    level = "BET MOYEN"
 
 else:
-    level = "❌ RISQUE"
+    level = "RISQUE"
 
     # =====================================================
     # RESULTATS
