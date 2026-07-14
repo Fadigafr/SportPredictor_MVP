@@ -3,7 +3,6 @@ from math import exp, factorial
 
 from api_football import api_get
 
-
 # =====================================================
 # POISSON
 # =====================================================
@@ -14,7 +13,6 @@ def poisson(lmbda, k):
         (lmbda ** k)
         * exp(-lmbda)
     ) / factorial(k)
-
 
 # =====================================================
 # FORME EQUIPE
@@ -310,7 +308,6 @@ elif ai_index >= 55:
 
 else:
     level = "❌ RISQUE ÉLEVÉ"
-
 
     # =====================================================
     # RESULTAT FINAL
