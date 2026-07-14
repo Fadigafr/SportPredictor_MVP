@@ -319,28 +319,68 @@ c3.metric(away_team, away_h2h_wins)
     # AI INDEX
     # =====================================================
 
-    ai_index = min(
-        100,
-        round(
-            (
-                home_stats["points"]
-                + away_stats["points"]
-            ) * 3,
-            1
-        )
+    form_score = (
+    (
+        home_stats["points"]
+        +
+        away_stats["points"]
+    )
+    / 30
+) * 100
+
+poisson_score = min(
+    scores[0][1] * 5,
+    100
+)
+
+home_score = 60
+
+bookmaker_score = 60
+
+ai_index = round(
+
+    (
+        form_score * 0.25
     )
 
+    + (
+        h2h_score * 0.20
+    )
+
+    + (
+        ranking_score * 0.20
+    )
+
+    + (
+        bookmaker_score * 0.15
+    )
+
+    + (
+        poisson_score * 0.10
+    )
+
+    + (
+        home_score * 0.10
+    ),
+
+    1
+)
+
     if ai_index >= 85:
-        level = "🔥 ELITE BET"
 
-    elif ai_index >= 70:
-        level = "✅ BET FORT"
+    level = "🔥 ELITE BET"
 
-    elif ai_index >= 55:
-        level = "⚠️ BET MOYEN"
+elif ai_index >= 75:
 
-    else:
-        level = "❌ RISQUE ÉLEVÉ"
+    level = "✅ BET FORT"
+
+elif ai_index >= 65:
+
+    level = "⚠️ BET MOYEN"
+
+else:
+
+    level = "❌ RISQUE"
 
     # =====================================================
     # RESULTATS
