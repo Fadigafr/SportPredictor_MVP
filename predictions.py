@@ -64,8 +64,8 @@ def calcul_forme(matches, team_id):
 
 def get_top_scorers(team_id):
 
-    standings = api_get(
-    f"https://v3.football.api-sports.io/standings?league={league_id}&season=2026"
+    players = api_get(
+    f"https://v3.football.api-sports.io/players?team={home_id}&season=2026"
 )
 
     scorers = []
@@ -281,23 +281,23 @@ away_last5 = api_get(
     # AI INDEX
     # =====================================================
 
-    form_score = (
-        home_stats["points"] / 15
-    ) * 100
-
-    poisson_score = min(
-        scores[0][1] * 5,
-        100
-    )
-
     ai_index = round(
-        (
-            form_score * 0.5
-            +
-            poisson_score * 0.5
-        ),
-        1
-    )
+
+    poisson_score * 0.25 +
+
+    form_score * 0.25 +
+
+    h2h_score * 0.15 +
+
+    bookmaker_score * 0.15 +
+
+    scorer_score * 0.10 +
+
+    home_score * 0.10,
+
+    1
+)
+
 
     # =====================================================
     # RESULTAT FINAL
