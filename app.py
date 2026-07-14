@@ -270,12 +270,12 @@ elif menu == "Calendrier":
     )
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-    )
+    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+)
 
-    response = fixtures.get("response", [])
+response = fixtures.get("response", [])
 
-    if response:
+if response:
 
     for match in response:
 
