@@ -64,9 +64,9 @@ def calcul_forme(matches, team_id):
 
 def get_top_scorers(team_id):
 
-    players = api_get(
-        f"https://v3.football.api-sports.io/players?team={team_id}&season=2025"
-    )
+    standings = api_get(
+    f"https://v3.football.api-sports.io/standings?league={league_id}&season=2026"
+)
 
     scorers = []
 
