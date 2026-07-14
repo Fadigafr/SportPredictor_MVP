@@ -164,6 +164,7 @@ elif menu == "Matchs Live":
 # =====================================================
 # CALENDRIER ET COMPÉTITIONS
 # =====================================================
+
 elif menu == "Calendrier":
 
     st.title("📅 Calendrier")
@@ -185,43 +186,45 @@ elif menu == "Calendrier":
     league_id = competitions[competition]
 
     fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-)
+        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+    )
 
     response = fixtures.get("response", [])
 
-if response:
+    if response:
 
-    matchs = {}
+        matchs = {}
 
-    for match in response:
+        for match in response:
 
-        fixture_id = match["fixture"]["id"]
+            fixture_id = match["fixture"]["id"]
 
-        match_name = (
-            f"{match['fixture']['date'][:16]} | "
-            f"{match['teams']['home']['name']} vs "
-            f"{match['teams']['away']['name']}"
+            match_name = (
+                f"{match['fixture']['date'][:16]} | "
+                f"{match['teams']['home']['name']} vs "
+                f"{match['teams']['away']['name']}"
+            )
+
+            matchs[match_name] = fixture_id
+
+        selected_match = st.selectbox(
+            "⚽ Match",
+            list(matchs.keys())
         )
 
-        matchs[match_name] = fixture_id
+        if st.button("Analyser"):
 
-    selected_match = st.selectbox(
-        "⚽ Match",
-        list(matchs.keys())
-    )
+            st.session_state["fixture_id"] = matchs[selected_match]
 
-    if st.button("Analyser"):
+            st.success(
+                f"Match sélectionné : {selected_match}"
+            )
 
-        st.session_state["fixture_id"] = matchs[selected_match]
+    else:
 
-        st.success(
-            f"Match sélectionné : {selected_match}"
+        st.warning(
+            "Aucun match trouvé."
         )
-
-else:
-
-    st.warning("Aucun match trouvé.")
         
 # =====================================================
 # ANALYSE IA DU JOUR
