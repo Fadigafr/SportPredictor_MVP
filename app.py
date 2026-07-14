@@ -225,52 +225,48 @@ elif menu == "Calendrier":
 
     competitions = {
 
-        "England - Premier League": {
-            "id": 39,
-            "logo": "https://media.api-sports.io/football/leagues/39.png"
-        },
+        leagues_data = api_get(
+    "https://v3.football.api-sports.io/leagues"
+)
 
-        "Spain - La Liga": {
-            "id": 140,
-            "logo": "https://media.api-sports.io/football/leagues/140.png"
-        },
+competitions = {}
 
-        "Italy - Serie A": {
-            "id": 135,
-            "logo": "https://media.api-sports.io/football/leagues/135.png"
-        },
+for league in leagues_data.get("response", []):
 
-        "Germany - Bundesliga": {
-            "id": 78,
-            "logo": "https://media.api-sports.io/football/leagues/78.png"
-        },
+    try:
 
-        "France - Ligue 1": {
-            "id": 61,
-            "logo": "https://media.api-sports.io/football/leagues/61.png"
-        },
+        league_id = league["league"]["id"]
 
-        "UEFA Champions League": {
-            "id": 2,
-            "logo": "https://media.api-sports.io/football/leagues/2.png"
+        league_name = league["league"]["name"]
+
+        country = league["country"]["name"]
+
+        logo = league["league"]["logo"]
+
+        competitions[
+            f"{country} - {league_name}"
+        ] = {
+            "id": league_id,
+            "logo": logo
         }
 
-    }
+    except:
+        pass
 
     competition = st.selectbox(
-        "🏆 Compétition",
-        sorted(competitions.keys())
-    )
+    "🏆 Compétition",
+    sorted(competitions.keys())
+)
 
-    league_id = competitions[competition]["id"]
+league_id = competitions[competition]["id"]
 
-    st.image(
-        competitions[competition]["logo"],
-        width=120
-    )
+st.image(
+    competitions[competition]["logo"],
+    width=100
+)
 
     fixtures = api_get(
-        f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+        f"https://v3.football.api-sports.io/standings?league={league_id}&season=2026
     )
 
     response = fixtures.get("response", [])
