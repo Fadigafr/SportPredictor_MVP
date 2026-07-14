@@ -139,45 +139,6 @@ def predictions_page():
     c2.metric("Nuls", draws)
     c3.metric(away_team, away_h2h_wins)
 
-    # =====================================================
-    # CLASSEMENT
-    # =====================================================
-
-league_id = game["league"]["id"]
-season = game["league"]["season"]
-
-standings = api_get(
-    f"https://v3.football.api-sports.io/standings?league={league_id}&season={season}"
-)
-
-home_rank = 99
-away_rank = 99
-
-if standings.get("response"):
-
-    table = standings["response"][0]["league"]["standings"][0]
-
-    for team in table:
-
-        if team["team"]["id"] == home_id:
-            home_rank = team["rank"]
-
-        if team["team"]["id"] == away_id:
-            away_rank = team["rank"]
-
-    st.subheader("🏆 Classement")
-
-    c1, c2 = st.columns(2)
-
-    c1.metric(
-        home_team,
-        f"{home_rank}e"
-    )
-
-    c2.metric(
-        away_team,
-        f"{away_rank}e"
-    )
     st.subheader(
         f"{home_team} vs {away_team}"
     )
