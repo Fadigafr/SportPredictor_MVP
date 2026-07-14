@@ -37,6 +37,60 @@ h1,h2,h3{
 
 login()
 
+st.markdown("""
+<style>
+
+/* Boutons */
+
+.stButton > button {
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        #FFD700,
+        #FFB800
+    );
+    color: black;
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    padding: 12px;
+}
+
+.stButton > button:hover {
+    background: linear-gradient(
+        90deg,
+        #FFF176,
+        #FFD700
+    );
+    transform: scale(1.02);
+}
+
+/* Carte Match */
+
+.match-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,215,0,0.3);
+}
+
+.match-title {
+    color: #FFD700;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.match-date {
+    text-align: center;
+    color: white;
+}
+
+</style>
+""",
+unsafe_allow_html=True)
+
 # =====================================================
 # SIDEBAR
 # =====================================================
@@ -169,44 +223,29 @@ elif menu == "Calendrier":
 
     st.title("📅 Calendrier")
 
-    competitions = {
+    leagues = api_get(
+    "https://v3.football.api-sports.io/leagues"
+)
 
-        "England - Premier League": {
-            "id": 39,
-            "logo": "https://media.api-sports.io/football/leagues/39.png"
-        },
+competitions = {}
 
-        "Spain - La Liga": {
-            "id": 140,
-            "logo": "https://media.api-sports.io/football/leagues/140.png"
-        },
+for league in leagues.get("response", []):
 
-        "Italy - Serie A": {
-            "id": 135,
-            "logo": "https://media.api-sports.io/football/leagues/135.png"
-        },
+    name = (
+        f"{league['country']['name']} - "
+        f"{league['league']['name']}"
+    )
 
-        "Germany - Bundesliga": {
-            "id": 78,
-            "logo": "https://media.api-sports.io/football/leagues/78.png"
-        },
-
-        "France - Ligue 1": {
-            "id": 61,
-            "logo": "https://media.api-sports.io/football/leagues/61.png"
-        },
-
-        "UEFA Champions League": {
-            "id": 2,
-            "logo": "https://media.api-sports.io/football/leagues/2.png"
-        }
-
+    competitions[name] = {
+        "id": league["league"]["id"],
+        "logo": league["league"]["logo"]
+    }
     }
 
     competition = st.selectbox(
-        "🏆 Compétition",
-        sorted(competitions.keys())
-    )
+    "🏆 Compétition",
+    sorted(competitions.keys())
+)
 
     league_id = competitions[competition]["id"]
 
@@ -229,55 +268,66 @@ st.markdown(
 
         for match in response:
 
-            home = match["teams"]["home"]["name"]
-            away = match["teams"]["away"]["name"]
+    fixture_id = match["fixture"]["id"]
 
-            home_logo = match["teams"]["home"]["logo"]
-            away_logo = match["teams"]["away"]["logo"]
+    home = match["teams"]["home"]["name"]
+    away = match["teams"]["away"]["name"]
 
-            date_match = match["fixture"]["date"][:16]
+    home_logo = match["teams"]["home"]["logo"]
+    away_logo = match["teams"]["away"]["logo"]
 
-            fixture_id = match["fixture"]["id"]
+    league_logo = match["league"]["logo"]
+    league_name = match["league"]["name"]
 
-            col1, col2, col3 = st.columns([1, 4, 1])
+    date_match = match["fixture"]["date"][:16]
 
-            with col1:
-                st.image(home_logo, width=50)
+    st.image(
+        league_logo,
+        width=80
+    )
 
-            with col2:
-
-        league_name = match["league"]["name"]
-                st.markdown(
-    f"""
-<b>{league_name}</b><br>
-📅 {date_match}
-""",
-    unsafe_allow_html=True
-)
-
-            with st.container():
+    st.markdown(
+        f"<h4 style='color:#FFD700'>{league_name}</h4>",
+        unsafe_allow_html=True
+    )
 
     c1, c2, c3 = st.columns([1,4,1])
 
-    c1.image(home_logo, width=60)
+    with c1:
+        st.image(home_logo, width=70)
 
-    c2.markdown(
-        f"""
-### {home} vs {away}
+    with c2:
 
-🏆 {league_name}
+        st.markdown(
+            f"""
+<div class='match-card'>
 
+<p class='match-title'>
+{home} vs {away}
+</p>
+
+<p class='match-date'>
 📅 {date_match}
-"""
-    )
+</p>
 
-    c3.image(away_logo, width=60)
+</div>
+""",
+            unsafe_allow_html=True
+        )
+
+    with c3:
+        st.image(away_logo, width=70)
 
     if st.button(
-        f"Analyser",
+        f"🔍 Analyser {home} vs {away}",
         key=f"fixture_{fixture_id}"
     ):
+
         st.session_state["fixture_id"] = fixture_id
+
+        st.success(
+            f"Match sélectionné : {home} vs {away}"
+        )
 
     st.divider()
 
