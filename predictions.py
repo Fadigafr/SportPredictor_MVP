@@ -65,10 +65,7 @@ def calcul_forme(matches, team_id):
 def get_top_scorers(team_id):
 
     return []
-    goals
-    rating
-    appearances
-    minutes
+    
     score_joueur = (
     goals * 0.6 +
     rating * 0.3 +
