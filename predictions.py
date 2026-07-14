@@ -420,7 +420,27 @@ def predictions_page():
         "Confiance IA",
         f"{confidence}%"
     )
-    
+
+    # =====================================================
+    # BADGE CONFIANCE
+    # =====================================================
+
+if confidence >= 85:
+    st.success("🔥 Confiance TRÈS ÉLEVÉE")
+
+elif confidence >= 70:
+    st.success("✅ Confiance ÉLEVÉE")
+
+elif confidence >= 55:
+    st.warning("⚠️ Confiance MOYENNE")
+
+else:
+    st.error("❌ Confiance FAIBLE")
+
+st.info(
+    f"Niveau de confiance : {confidence_level}"
+)
+
     st.success(
         f"Score Exact Prévu : {predicted_score}"
     )
