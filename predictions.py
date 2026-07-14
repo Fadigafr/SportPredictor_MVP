@@ -104,8 +104,8 @@ def predictions_page():
 
     home_id = game["teams"]["home"]["id"]
     away_id = game["teams"]["away"]["id"]
-   
-st.subheader(
+
+    st.subheader(
         f"{home_team} vs {away_team}"
     )
 
