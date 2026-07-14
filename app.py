@@ -385,6 +385,9 @@ elif menu == "Analyse IA du Jour":
 
 elif menu == "Classements":
 
+    standings = api_get(
+    f"https://v3.football.api-sports.io/standings?league={league_id}&season=2026"
+)
     st.title(
         "Classements"
     )
@@ -423,6 +426,9 @@ elif menu == "Top Buteurs":
 
 elif menu == "H2H":
 
+    h2h = api_get(
+    f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}"
+)
     st.title(
         "Historique H2H"
     )
