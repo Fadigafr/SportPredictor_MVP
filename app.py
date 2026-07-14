@@ -430,10 +430,6 @@ elif menu == "H2H":
         "Le module H2H sera intégré dans predictions.py V3."
     )
     
-    h2h_score = min(
-    100,
-    home_h2h_wins * 10
-)
 # =====================================================
 # PREDICTIONS
 # =====================================================
