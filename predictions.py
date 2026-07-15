@@ -151,18 +151,15 @@ def predictions_page():
     home_stats = calcul_forme(home_last5, home_id)
     away_stats = calcul_forme(away_last5, away_id)
 
-    home_avg = max(
-        home_stats["buts_marques"] / 5,
-        0.1
-    )
+    adjusted_home_avg = home_avg
+    adjusted_away_avg = away_avg
 
-    away_avg = max(
-        away_stats["buts_marques"] / 5,
-        0.1
-    )
-    
-    
+    if home_strength > away_strength:
+        adjusted_home_avg += 0.5
 
+    elif away_strength > home_strength:
+        adjusted_away_avg += 0.5
+    
     # =====================================================
     # FORCE IA V5
     # =====================================================
@@ -205,8 +202,8 @@ def predictions_page():
     )
 
     away_avg = away_avg * (
-        away_strength / 100
-    )
+    away_strength / 100
+)
 
     # =====================================================
     # POISSON
@@ -225,11 +222,11 @@ def predictions_page():
             )
 
             scores.append(
-                (
-                    f"{h}-{a}",
-                    round(prob, 2)
-                )
-            )
+    (
+        f"{h}-{a}",
+        round(prob, 2)
+    )
+)
 
     if home_win_prob > away_win_prob:
 
