@@ -155,27 +155,27 @@ def predictions_page():
     # POISSON
     # =====================================================
 
-if home_strength > away_strength:
+    if home_strength > away_strength:
 
-    adjusted_home_avg += 0.50
+        adjusted_home_avg += 0.50
 
-elif away_strength > home_strength:
+    elif away_strength > home_strength:
 
-    adjusted_away_avg += 0.50
-    home_avg = max(
-        home_stats["buts_marques"] / 5,
-        0.1
-    )
+        adjusted_away_avg += 0.50
+        home_avg = max(
+            home_stats["buts_marques"] / 5,
+            0.1
+        )
 
-    away_avg = max(
-        away_stats["buts_marques"] / 5,
-        0.1
-    )
+        away_avg = max(
+            away_stats["buts_marques"] / 5,
+            0.1
+        )
 
-    adjusted_home_avg = home_avg
-    adjusted_away_avg = away_avg
+        adjusted_home_avg = home_avg
+        adjusted_away_avg = away_avg
 
-    scores = []
+        scores = []
 
     for h in range(6):
 
