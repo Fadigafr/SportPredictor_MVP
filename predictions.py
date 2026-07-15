@@ -204,14 +204,8 @@ def predictions_page():
             0.1
         )
 
-        adjusted_home_avg = home_avg
-        adjusted_away_avg = away_avg
-
-    if home_strength > away_strength:
-        adjusted_home_avg += 0.5
-
-    elif away_strength > home_strength:
-        adjusted_away_avg += 0.5
+    poisson(home_avg, h)
+    poisson(away_avg, a)
 
     scores = []
 
