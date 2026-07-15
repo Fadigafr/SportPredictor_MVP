@@ -226,13 +226,6 @@ def predictions_page():
         adjusted_away_avg = away_avg
 
     # =====================================================
-    # SCORE EXACT IA V5.1
-    # =====================================================
-
-    adjusted_home_avg = home_avg
-    adjusted_away_avg = away_avg
-
-    # =====================================================
     # AJUSTEMENT DES MOYENNES DE BUTS
     # =====================================================
 
