@@ -187,44 +187,15 @@ def predictions_page():
 
     home_strength += 8
 
-    if home_strength > away_strength:
+    adjusted_home_avg = home_avg
+    adjusted_away_avg = away_avg
 
-        adjusted_home_avg += 0.50
+    if home_strength > away_strength:
+        adjusted_home_avg += 0.5
 
     elif away_strength > home_strength:
-
-        adjusted_away_avg += 0.50
-        home_avg = max(
-            home_stats["buts_marques"] / 5,
-            0.1
-        )
-
-        away_avg = max(
-            away_stats["buts_marques"] / 5,
-            0.1
-        )
-
-    poisson(home_avg, h)
-    poisson(away_avg, a)
-
-    scores = []
-
-    for h in range(6):
-
-        for a in range(6):
-
-            prob = (
-                poisson(adjusted_home_avg, h)
-                * poisson(adjusted_away_avg, a)
-                * 100
-            )
-
-            scores.append(
-                (
-                    f"{h}-{a}",
-                    round(prob, 2)
-                )
-                       
+        adjusted_away_avg += 0.5
+                      
     # =====================================================
     # AJUSTEMENT DES MOYENNES DE BUTS
     # =====================================================
@@ -236,7 +207,6 @@ def predictions_page():
     away_avg = away_avg * (
         away_strength / 100
     )
-)
 
     # =====================================================
     # POISSON
