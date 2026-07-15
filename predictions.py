@@ -271,14 +271,16 @@ def predictions_page():
     away_factor = away_strength / total_strength
 
     home_win_prob = round(
-        home_win_prob * home_factor * 2,
-        1
-    )
+    home_win_prob
+    + (home_strength - 50) * 0.8,
+    1
+)
 
     away_win_prob = round(
-        away_win_prob * away_factor * 2,
-        1
-    )
+    away_win_prob
+    + (away_strength - 50) * 0.8,
+    1
+)
 
     draw_prob = round(
         max(
@@ -287,6 +289,23 @@ def predictions_page():
         ),
         1
     )
+    if home_rank < away_rank:
+        home_win_prob += 8
+
+    elif away_rank < home_rank:
+        away_win_prob += 8
+
+    if home_stats["points"] > away_stats["points"]:
+        home_win_prob += 5
+
+    elif away_stats["points"] > home_stats["points"]:
+        away_win_prob += 5
+
+    if home_h2h_wins > away_h2h_wins:
+        home_win_prob += 3
+
+    elif away_h2h_wins > home_h2h_wins:
+        away_win_prob += 3
 
     # =====================================================
     # AI INDEX
