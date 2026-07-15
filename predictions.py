@@ -218,71 +218,41 @@ def predictions_page():
     )
 
     # =====================================================
-    # FORCE EQUIPES
+    # FORCE IA V5
     # =====================================================
 
     home_strength = 50
     away_strength = 50
 
-# Forme
+    # Forme
+
     home_strength += home_stats["points"]
     away_strength += away_stats["points"]
 
-# Classement
-if home_rank < away_rank:
-    home_strength += 15
-else:
-    away_strength += 15
+    # Classement
 
-# H2H
-if home_h2h_wins > away_h2h_wins:
-    home_strength += 10
+    if home_rank < away_rank:
+        home_strength += 15
 
-elif away_h2h_wins > home_h2h_wins:
-    away_strength += 10
+    elif away_rank < home_rank:
+        away_strength += 15
 
-# Avantage domicile
+    # H2H
+
+    if home_h2h_wins > away_h2h_wins:
+        home_strength += 10
+
+    elif away_h2h_wins > home_h2h_wins:
+        away_strength += 10
+
+    # Avantage domicile
+
     home_strength += 8
 
-    # =====================================================
-    # POISSON
-    # =====================================================
+    # Production offensive
 
-    home_avg = max(
-        home_stats["buts_marques"] / 5,
-        0.1
-    )
-
-    away_avg = max(
-        away_stats["buts_marques"] / 5,
-        0.1
-    )
-
-    scores = []
-
-    for h in range(6):
-
-        for a in range(6):
-
-            prob = (
-                poisson(home_avg, h)
-                * poisson(away_avg, a)
-                * 100
-            )
-
-            scores.append(
-                (
-                    f"{h}-{a}",
-                    round(prob, 2)
-                )
-            )
-
-    scores.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    predicted_score = scores[0][0]
+    home_strength += round(home_avg * 2)
+    away_strength += round(away_avg * 2)
 
     # =====================================================
     # PROBABILITES 1N2
@@ -293,6 +263,7 @@ elif away_h2h_wins > home_h2h_wins:
     away_win_prob = 0
 
     for h in range(6):
+
         for a in range(6):
 
             prob = (
@@ -310,51 +281,41 @@ elif away_h2h_wins > home_h2h_wins:
             else:
                 away_win_prob += prob
 
-    home_win_prob = round(home_win_prob, 1)
-    draw_prob = round(draw_prob, 1)
-    away_win_prob = round(away_win_prob, 1)
+    total_strength = (
+        home_strength
+        + away_strength
+    )
 
-    # =====================================================
-    # AJUSTEMENT IA V5
-    # =====================================================
+    home_factor = (
+        home_strength
+        / total_strength
+    )
 
-        total_strength = (
-            home_strength
-            + away_strength
-        )
+    away_factor = (
+        away_strength
+        / total_strength
+    )
 
-        home_factor = (
-            home_strength
-            / total_strength
-        )
-
-        away_factor = (
-            away_strength
-            / total_strength
-        )
-
-       home_win_prob = round(
-        home_win_prob * home_factor * 1.5,
+    home_win_prob = round(
+        home_win_prob * home_factor * 2,
         1
     )
 
     away_win_prob = round(
-        away_win_prob * away_factor * 1.5,
+        away_win_prob * away_factor * 2,
         1
     )
 
     draw_prob = round(
-        100
-        - home_win_prob
-        - away_win_prob,
+        max(
+            0,
+            100 - home_win_prob - away_win_prob
+        ),
         1
     )
 
-if draw_prob < 0:
-    draw_prob = 0
-
     # =====================================================
-    # V4.2 - DOUBLE CHANCE
+    # DOUBLE CHANCE
     # =====================================================
 
     double_1x = round(
@@ -373,7 +334,21 @@ if draw_prob < 0:
     )
 
     # =====================================================
-    # V4.2 - BTTS %
+    # SCORE EXACT
+    # =====================================================
+
+    predicted_score = scores[0][0]
+
+    predicted_home_goals = int(
+        predicted_score.split("-")[0]
+    )
+
+    predicted_away_goals = int(
+        predicted_score.split("-")[1]
+    )
+
+    # =====================================================
+    # BTTS
     # =====================================================
 
     btts_yes = min(
@@ -390,70 +365,109 @@ if draw_prob < 0:
     )
 
     # =====================================================
-    # OVER / UNDER
+    # OVER UNDER
     # =====================================================
 
-    goal_expectancy = home_avg + away_avg
-
-    over15 = min(100, round(goal_expectancy * 35, 1))
-    over25 = min(100, round(goal_expectancy * 25, 1))
-    over35 = min(100, round(goal_expectancy * 15, 1))
-
-    under15 = round(100 - over15, 1)
-    under25 = round(100 - over25, 1)
-    under35 = round(100 - over35, 1)
-    predicted_home_goals = int(
-        predicted_score.split("-")[0]
+    goal_expectancy = (
+        home_avg + away_avg
     )
 
-    predicted_away_goals = int(
-        predicted_score.split("-")[1]
+    over15 = min(
+        100,
+        round(goal_expectancy * 35, 1)
     )
 
-    btts_result = (
-        predicted_home_goals > 0
-        and predicted_away_goals > 0
+    over25 = min(
+        100,
+        round(goal_expectancy * 25, 1)
     )
 
-    total_goals = (
-        predicted_home_goals
-        + predicted_away_goals
+    over35 = min(
+        100,
+        round(goal_expectancy * 15, 1)
     )
 
-    over25_result = total_goals >= 3
+    under15 = round(
+        100 - over15,
+        1
+    )
 
-    home_bonus = 0
+    under25 = round(
+        100 - over25,
+        1
+    )
 
-    if home_rank < away_rank:
-        home_bonus += 5
+    under35 = round(
+        100 - over35,
+        1
+    )
 
-    if home_stats["points"] > away_stats["points"]:
-        home_bonus += 5
+    # =====================================================
+    # AI INDEX V5
+    # =====================================================
 
-    if home_h2h_wins > away_h2h_wins:
-        home_bonus += 5
+    form_score = (
+        home_stats["points"]
+        + away_stats["points"]
+    )
 
-    home_win_prob += home_bonus
-    away_win_prob -= home_bonus
+    ranking_score = max(
+        0,
+        20 - abs(
+            home_rank - away_rank
+        )
+    )
+
+    h2h_score = abs(
+        home_h2h_wins
+        - away_h2h_wins
+    ) * 5
+
+    strength_score = (
+        home_strength
+        + away_strength
+    ) / 4
+
+    ai_index = min(
+        100,
+        round(
+            (
+                form_score * 0.30
+                + ranking_score * 0.25
+                + h2h_score * 0.15
+                + strength_score * 0.30
+            ),
+            1
+        )
+    )
 
     # =====================================================
     # PARI RECOMMANDE
     # =====================================================
 
     best_prob = max(
-    home_win_prob,
-    draw_prob,
-    away_win_prob
-)
+        home_win_prob,
+        draw_prob,
+        away_win_prob
+    )
 
-if best_prob == home_win_prob:
-    recommended_bet = f"Victoire {home_team}"
+    if best_prob == home_win_prob:
 
-elif best_prob == away_win_prob:
-    recommended_bet = f"Victoire {away_team}"
+        recommended_bet = (
+            f"Victoire {home_team}"
+        )
 
-else:
-    recommended_bet = "Match Nul"
+    elif best_prob == away_win_prob:
+
+        recommended_bet = (
+            f"Victoire {away_team}"
+        )
+
+    else:
+
+        recommended_bet = (
+            "Match Nul"
+        )
 
     confidence = round(
         (
@@ -462,7 +476,11 @@ else:
         ),
         1
     )
-    
+
+    # =====================================================
+    # NIVEAU IA
+    # =====================================================
+
     if ai_index >= 90:
         level = "ELITE BET"
 
@@ -474,159 +492,3 @@ else:
 
     else:
         level = "RISQUE"
-
-    # =====================================================
-    # RESULTATS
-    # =====================================================
-
-    st.header("🚀 Analyse IA")
-
-    st.metric(
-        "AI INDEX",
-        f"{ai_index}/100"
-    )
-
-    st.info(level)
-
-    st.subheader("📊 Probabilités 1N2")
-
-    c1, c2, c3 = st.columns(3)
-
-    c1.metric(
-        home_team,
-        f"{home_win_prob}%"
-    )
-
-    c2.metric(
-        "Nul",
-        f"{draw_prob}%"
-    )
-
-    c3.metric(
-        away_team,
-        f"{away_win_prob}%"
-    )
-
-    st.subheader("🎯 Pari Recommandé")
-
-    st.success(
-        recommended_bet
-    )
-
-    # =====================================================
-    # ANALYSE IA
-    # =====================================================
-
-analysis_points = []
-
-if home_rank < away_rank:
-    analysis_points.append(
-        f"{home_team} mieux classé"
-    )
-
-if home_stats["points"] > away_stats["points"]:
-    analysis_points.append(
-        f"{home_team} meilleure forme"
-    )
-
-if home_h2h_wins > away_h2h_wins:
-    analysis_points.append(
-        f"{home_team} domine le H2H"
-    )
-
-analysis_points.append(
-    "Avantage du terrain"
-)
-
-st.subheader("🧠 Analyse IA")
-
-for point in analysis_points:
-    st.write(f"✅ {point}")
-    
-    st.metric(
-        "Confiance IA",
-        f"{confidence}%"
-    )
-
-    # =====================================================
-    # BADGE CONFIANCE
-    # =====================================================
-
-    if confidence >= 85:
-        confidence_level = "🔥 TRÈS ÉLEVÉE"
-        st.success("🔥 Confiance TRÈS ÉLEVÉE")
-
-    elif confidence >= 70:
-        confidence_level = "✅ ÉLEVÉE"
-        st.success("✅ Confiance ÉLEVÉE")
-
-    elif confidence >= 55:
-        confidence_level = "⚠️ MOYENNE"
-        st.warning("⚠️ Confiance MOYENNE")
-
-    else:
-        confidence_level = "❌ FAIBLE"
-        st.error("❌ Confiance FAIBLE")
-
-    st.info(
-        f"Niveau de confiance : {confidence_level}"
-    )
-
-    # =====================================================
-    # DOUBLE CHANCE
-    # =====================================================
-
-    st.subheader("🎯 Double Chance")
-
-    dc1, dc2, dc3 = st.columns(3)
-
-    dc1.metric("1X", f"{double_1x}%")
-    dc2.metric("X2", f"{double_x2}%")
-    dc3.metric("12", f"{double_12}%")
-
-    # =====================================================
-    # BTTS %
-    # =====================================================
-
-    st.subheader("⚽ BTTS")
-
-    b1, b2 = st.columns(2)
-
-    b1.metric("BTTS OUI", f"{btts_yes}%")
-    b2.metric("BTTS NON", f"{btts_no}%")
-
-    # =====================================================
-    # OVER / UNDER
-    # =====================================================
-
-    st.subheader("📈 Over / Under")
-
-    o1, o2, o3 = st.columns(3)
-
-    o1.metric("Over 1.5", f"{over15}%")
-    o2.metric("Over 2.5", f"{over25}%")
-    o3.metric("Over 3.5", f"{over35}%")
-
-    u1, u2, u3 = st.columns(3)
-
-    u1.metric("Under 1.5", f"{under15}%")
-    u2.metric("Under 2.5", f"{under25}%")
-    u3.metric("Under 3.5", f"{under35}%")
-
-    st.success(
-        f"Score Exact Prévu : {predicted_score}"
-    )
-
-    st.write(
-        f"BTTS : {'OUI' if btts_result else 'NON'}"
-    )
-
-    st.write(
-        f"Over 2.5 : {'OUI' if over25_result else 'NON'}"
-    )
-
-    st.subheader(
-        "Top 10 Scores Probables"
-    )
-
-    st.table(scores[:10])
