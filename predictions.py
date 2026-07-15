@@ -308,6 +308,31 @@ def predictions_page():
         away_win_prob += 3
 
     # =====================================================
+    # NORMALISATION 1N2
+    # =====================================================
+
+    total_prob = (
+        home_win_prob
+        + draw_prob
+        + away_win_prob
+    )
+
+    home_win_prob = round(
+        (home_win_prob / total_prob) * 100,
+        1
+    )
+
+    draw_prob = round(
+        (draw_prob / total_prob) * 100,
+        1
+    )
+
+    away_win_prob = round(
+        (away_win_prob / total_prob) * 100,
+        1
+    )
+
+    # =====================================================
     # AI INDEX
     # =====================================================
 
