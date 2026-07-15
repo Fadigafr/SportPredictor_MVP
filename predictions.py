@@ -218,36 +218,71 @@ def predictions_page():
     )
 
     # =====================================================
+    # POISSON
+    # =====================================================
+
+    home_avg = max(
+        home_stats["buts_marques"] / 5,
+        0.1
+    )
+
+   away_avg = max(
+        away_stats["buts_marques"] / 5,
+        0.1
+    )
+
+scores = []
+
+for h in range(6):
+
+    for a in range(6):
+
+        prob = (
+            poisson(home_avg, h)
+            * poisson(away_avg, a)
+            * 100
+        )
+
+        scores.append(
+            (
+                f"{h}-{a}",
+                round(prob, 2)
+            )
+        )
+
+    scores.sort(
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    predicted_score = scores[0][0]
+
+    # =====================================================
     # FORCE IA V5
     # =====================================================
 
     home_strength = 50
     away_strength = 50
 
-    # Forme
-
     home_strength += home_stats["points"]
     away_strength += away_stats["points"]
 
-    # Classement
+if home_rank < away_rank:
+    home_strength += 15
 
-    if home_rank < away_rank:
-        home_strength += 15
+elif away_rank < home_rank:
+    away_strength += 15
 
-    elif away_rank < home_rank:
-        away_strength += 15
+if home_h2h_wins > away_h2h_wins:
+    home_strength += 10
 
-    # H2H
-
-    if home_h2h_wins > away_h2h_wins:
-        home_strength += 10
-
-    elif away_h2h_wins > home_h2h_wins:
-        away_strength += 10
-
-    # Avantage domicile
+elif away_h2h_wins > home_h2h_wins:
+    away_strength += 10
 
     home_strength += 8
+
+    home_strength += home_stats["buts_marques"]
+    away_strength += away_stats["buts_marques"]
 
     # =====================================================
     # PROBABILITES 1N2
@@ -257,39 +292,29 @@ def predictions_page():
     draw_prob = 0
     away_win_prob = 0
 
-    for h in range(6):
+for h in range(6):
 
-        for a in range(6):
+    for a in range(6):
 
-            prob = (
-                poisson(home_avg, h)
-                * poisson(away_avg, a)
-                * 100
-            )
+        prob = (
+            poisson(home_avg, h)
+            * poisson(away_avg, a)
+            * 100
+        )
 
-            if h > a:
-                home_win_prob += prob
+        if h > a:
+            home_win_prob += prob
 
-            elif h == a:
-                draw_prob += prob
+        elif h == a:
+            draw_prob += prob
 
-            else:
-                away_win_prob += prob
+        else:
+            away_win_prob += prob
 
-    total_strength = (
-        home_strength
-        + away_strength
-    )
+    total_strength = home_strength + away_strength
 
-    home_factor = (
-        home_strength
-        / total_strength
-    )
-
-    away_factor = (
-        away_strength
-        / total_strength
-    )
+    home_factor = home_strength / total_strength
+    away_factor = away_strength / total_strength
 
     home_win_prob = round(
         home_win_prob * home_factor * 2,
@@ -301,14 +326,13 @@ def predictions_page():
         1
     )
 
-    draw_prob = round(
-        max(
-            0,
-            100 - home_win_prob - away_win_prob
-        ),
+    draw_prob = max(
+        0,
+        round(
+        100 - home_win_prob - away_win_prob,
         1
     )
-
+)
     # =====================================================
     # DOUBLE CHANCE
     # =====================================================
