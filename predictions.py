@@ -437,36 +437,6 @@ if draw_prob < 0:
     away_win_prob -= home_bonus
 
     # =====================================================
-    # AI INDEX V3.2
-    # =====================================================
-
-    form_score = (
-        home_stats["points"]
-        + away_stats["points"]
-    )
-
-    h2h_score = abs(
-        home_h2h_wins - away_h2h_wins
-    ) * 5
-
-    ranking_score = max(
-        0,
-        20 - abs(home_rank - away_rank)
-    )
-
-    ai_index = min(
-        100,
-        round(
-            (
-                form_score
-                + h2h_score
-                + ranking_score
-            ) * 1.5,
-            1
-        )
-    )
-
-    # =====================================================
     # PARI RECOMMANDE
     # =====================================================
 
@@ -543,6 +513,36 @@ else:
         recommended_bet
     )
 
+    # =====================================================
+    # ANALYSE IA
+    # =====================================================
+
+analysis_points = []
+
+if home_rank < away_rank:
+    analysis_points.append(
+        f"{home_team} mieux classé"
+    )
+
+if home_stats["points"] > away_stats["points"]:
+    analysis_points.append(
+        f"{home_team} meilleure forme"
+    )
+
+if home_h2h_wins > away_h2h_wins:
+    analysis_points.append(
+        f"{home_team} domine le H2H"
+    )
+
+analysis_points.append(
+    "Avantage du terrain"
+)
+
+st.subheader("🧠 Analyse IA")
+
+for point in analysis_points:
+    st.write(f"✅ {point}")
+    
     st.metric(
         "Confiance IA",
         f"{confidence}%"
