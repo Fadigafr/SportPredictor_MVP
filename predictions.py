@@ -397,6 +397,49 @@ def predictions_page():
         1
     )
 
+    c2.metric(
+    f"Forme {away_team}",
+    f"{away_stats['points']}/15"
+)
+
+    # =====================================================
+    # POISSON
+    # =====================================================
+
+    home_avg = max(
+        home_stats["buts_marques"] / 5,
+        0.1
+    )
+
+    away_avg = max(
+        away_stats["buts_marques"] / 5,
+        0.1
+    )
+
+    scores = []
+
+    for h in range(6):
+
+        for a in range(6):
+
+            prob = (
+                poisson(home_avg, h)
+                * poisson(away_avg, a)
+                * 100
+            )
+
+            scores.append(
+                (
+                    f"{h}-{a}",
+                    round(prob, 2)
+                )
+            )
+
+    scores.sort(
+        key=lambda x: x[1],
+        reverse=True
+    )
+
     # =====================================================
     # AI INDEX V5
     # =====================================================
