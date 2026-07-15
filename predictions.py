@@ -249,11 +249,6 @@ def predictions_page():
 
     home_strength += 8
 
-    # Production offensive
-
-    home_strength += round(home_avg * 2)
-    away_strength += round(away_avg * 2)
-
     # =====================================================
     # PROBABILITES 1N2
     # =====================================================
