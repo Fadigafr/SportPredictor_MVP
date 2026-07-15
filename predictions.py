@@ -155,26 +155,6 @@ def predictions_page():
     # POISSON
     # =====================================================
 
-    if home_strength > away_strength:
-
-        adjusted_home_avg += 0.50
-
-    elif away_strength > home_strength:
-
-        adjusted_away_avg += 0.50
-        home_avg = max(
-            home_stats["buts_marques"] / 5,
-            0.1
-        )
-
-        away_avg = max(
-            away_stats["buts_marques"] / 5,
-            0.1
-        )
-
-        adjusted_home_avg = home_avg
-        adjusted_away_avg = away_avg
-
         scores = []
 
     for h in range(6):
@@ -225,6 +205,39 @@ def predictions_page():
 
     home_strength += 8
 
+    if home_strength > away_strength:
+
+        adjusted_home_avg += 0.50
+
+    elif away_strength > home_strength:
+
+        adjusted_away_avg += 0.50
+        home_avg = max(
+            home_stats["buts_marques"] / 5,
+            0.1
+        )
+
+        away_avg = max(
+            away_stats["buts_marques"] / 5,
+            0.1
+        )
+
+        adjusted_home_avg = home_avg
+        adjusted_away_avg = away_avg
+
+    # =====================================================
+    # SCORE EXACT IA V5.1
+    # =====================================================
+
+    adjusted_home_avg = home_avg
+    adjusted_away_avg = away_avg
+
+    if home_strength > away_strength:
+        adjusted_home_avg += 0.50
+
+    elif away_strength > home_strength:
+        adjusted_away_avg += 0.50
+        
     # =====================================================
     # AJUSTEMENT DES MOYENNES DE BUTS
     # =====================================================
@@ -250,8 +263,8 @@ def predictions_page():
         for a in range(6):
 
             prob = (
-                poisson(home_avg, h)
-                * poisson(away_avg, a)
+                poisson(adjusted_home_avg, h)
+                * poisson(adjusted_away_avg, a)
                 * 100
             )
 
