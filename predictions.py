@@ -308,8 +308,7 @@ def predictions_page():
     )
 
     draw_prob = max(draw_prob, 10)
-    )
-    
+
     if home_rank < away_rank:
         home_win_prob += 8
 
@@ -327,7 +326,6 @@ def predictions_page():
 
     elif away_h2h_wins > home_h2h_wins:
         away_win_prob += 3
-
     # =====================================================
     # NORMALISATION 1N2
     # =====================================================
