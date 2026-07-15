@@ -9,15 +9,11 @@ from api_football import api_get
 # =====================================================
 
 def poisson(lmbda, k):
-
-    return (
-        (lmbda ** k)
-        * exp(-lmbda)
-    ) / factorial(k)
+    return ((lmbda ** k) * exp(-lmbda)) / factorial(k)
 
 
 # =====================================================
-# FORME EQUIPE
+# FORME
 # =====================================================
 
 def calcul_forme(matches, team_id):
@@ -57,29 +53,17 @@ def calcul_forme(matches, team_id):
         "buts_marques": buts_marques
     }
 
-# =====================================================
-# BUTEURS
-# =====================================================
-
-def get_top_scorers(team_id):
-
-    return []
-
 
 # =====================================================
-# PAGE PRINCIPALE
+# PAGE PREDICTION
 # =====================================================
 
 def predictions_page():
 
-    st.title("🤖 SPORT PREDICTOR IA")
+    st.title("SPORT PREDICTOR ULTRA PRO IA V5")
 
     if "fixture_id" not in st.session_state:
-
-        st.warning(
-            "Sélectionnez un match dans le calendrier."
-        )
-
+        st.warning("Sélectionnez un match.")
         return
 
     fixture_id = st.session_state["fixture_id"]
@@ -89,11 +73,7 @@ def predictions_page():
     )
 
     if not fixture.get("response"):
-
-        st.error(
-            "Impossible de récupérer le match."
-        )
-
+        st.error("Match introuvable")
         return
 
     game = fixture["response"][0]
@@ -108,13 +88,13 @@ def predictions_page():
     # H2H
     # =====================================================
 
-    h2h = api_get(
-        f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}&last=10"
-    )
-
     home_h2h_wins = 0
     away_h2h_wins = 0
     draws = 0
+
+    h2h = api_get(
+        f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}&last=10"
+    )
 
     for match in h2h.get("response", []):
 
@@ -128,31 +108,17 @@ def predictions_page():
             away_h2h_wins += 1
 
         else:
-            draws += 1       
-
-
-
-    st.subheader("Historique H2H")
-
-    c1, c2, c3 = st.columns(3)
-
-    c1.metric(home_team, home_h2h_wins)
-    c2.metric("Nuls", draws)
-    c3.metric(away_team, away_h2h_wins)
-
-    st.subheader(
-        f"{home_team} vs {away_team}"
-    )
+            draws += 1
 
     # =====================================================
     # CLASSEMENT
     # =====================================================
 
-    league_id = game["league"]["id"]
-    season = game["league"]["season"]
-
     home_rank = 99
     away_rank = 99
+
+    league_id = game["league"]["id"]
+    season = game["league"]["season"]
 
     standings = api_get(
         f"https://v3.football.api-sports.io/standings?league={league_id}&season={season}"
@@ -170,19 +136,6 @@ def predictions_page():
             if team["team"]["id"] == away_id:
                 away_rank = team["rank"]
 
-        st.subheader("🏆 Classement")
-
-        col1, col2 = st.columns(2)
-
-        col1.metric(
-            home_team,
-            f"{home_rank}e"
-        )
-
-        col2.metric(
-            away_team,
-            f"{away_rank}e"
-        )
     # =====================================================
     # FORME
     # =====================================================
@@ -195,236 +148,8 @@ def predictions_page():
         f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
     )
 
-    home_stats = calcul_forme(
-        home_last5,
-        home_id
-    )
-
-    away_stats = calcul_forme(
-        away_last5,
-        away_id
-    )
-
-    c1, c2 = st.columns(2)
-
-    c1.metric(
-        f"Forme {home_team}",
-        f"{home_stats['points']}/15"
-    )
-
-    c2.metric(
-        f"Forme {away_team}",
-        f"{away_stats['points']}/15"
-    )
-
-    # =====================================================
-    # POISSON
-    # =====================================================
-
-    home_avg = max(
-        home_stats["buts_marques"] / 5,
-        0.1
-    )
-
-   away_avg = max(
-        away_stats["buts_marques"] / 5,
-        0.1
-    )
-
-scores = []
-
-for h in range(6):
-
-    for a in range(6):
-
-        prob = (
-            poisson(home_avg, h)
-            * poisson(away_avg, a)
-            * 100
-        )
-
-        scores.append(
-            (
-                f"{h}-{a}",
-                round(prob, 2)
-            )
-        )
-
-    scores.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    predicted_score = scores[0][0]
-
-    # =====================================================
-    # FORCE IA V5
-    # =====================================================
-
-    home_strength = 50
-    away_strength = 50
-
-    home_strength += home_stats["points"]
-    away_strength += away_stats["points"]
-
-if home_rank < away_rank:
-    home_strength += 15
-
-elif away_rank < home_rank:
-    away_strength += 15
-
-if home_h2h_wins > away_h2h_wins:
-    home_strength += 10
-
-elif away_h2h_wins > home_h2h_wins:
-    away_strength += 10
-
-    home_strength += 8
-
-    home_strength += home_stats["buts_marques"]
-    away_strength += away_stats["buts_marques"]
-
-    # =====================================================
-    # PROBABILITES 1N2
-    # =====================================================
-
-    home_win_prob = 0
-    draw_prob = 0
-    away_win_prob = 0
-
-for h in range(6):
-
-    for a in range(6):
-
-        prob = (
-            poisson(home_avg, h)
-            * poisson(away_avg, a)
-            * 100
-        )
-
-        if h > a:
-            home_win_prob += prob
-
-        elif h == a:
-            draw_prob += prob
-
-        else:
-            away_win_prob += prob
-
-    total_strength = home_strength + away_strength
-
-    home_factor = home_strength / total_strength
-    away_factor = away_strength / total_strength
-
-    home_win_prob = round(
-        home_win_prob * home_factor * 2,
-        1
-    )
-
-    away_win_prob = round(
-        away_win_prob * away_factor * 2,
-        1
-    )
-
-    draw_prob = max(
-        0,
-        round(
-        100 - home_win_prob - away_win_prob,
-        1
-    )
-)
-    # =====================================================
-    # DOUBLE CHANCE
-    # =====================================================
-
-    double_1x = round(
-        home_win_prob + draw_prob,
-        1
-    )
-
-    double_x2 = round(
-        draw_prob + away_win_prob,
-        1
-    )
-
-    double_12 = round(
-        home_win_prob + away_win_prob,
-        1
-    )
-
-    # =====================================================
-    # SCORE EXACT
-    # =====================================================
-
-    predicted_score = scores[0][0]
-
-    predicted_home_goals = int(
-        predicted_score.split("-")[0]
-    )
-
-    predicted_away_goals = int(
-        predicted_score.split("-")[1]
-    )
-
-    # =====================================================
-    # BTTS
-    # =====================================================
-
-    btts_yes = min(
-        100,
-        round(
-            (home_avg + away_avg) * 25,
-            1
-        )
-    )
-
-    btts_no = round(
-        100 - btts_yes,
-        1
-    )
-
-    # =====================================================
-    # OVER UNDER
-    # =====================================================
-
-    goal_expectancy = (
-        home_avg + away_avg
-    )
-
-    over15 = min(
-        100,
-        round(goal_expectancy * 35, 1)
-    )
-
-    over25 = min(
-        100,
-        round(goal_expectancy * 25, 1)
-    )
-
-    over35 = min(
-        100,
-        round(goal_expectancy * 15, 1)
-    )
-
-    under15 = round(
-        100 - over15,
-        1
-    )
-
-    under25 = round(
-        100 - over25,
-        1
-    )
-
-    under35 = round(
-        100 - over35,
-        1
-    )
-
-    c2.metric(
-    f"Forme {away_team}",
-    f"{away_stats['points']}/15"
-)
+    home_stats = calcul_forme(home_last5, home_id)
+    away_stats = calcul_forme(away_last5, away_id)
 
     # =====================================================
     # POISSON
@@ -464,41 +189,93 @@ for h in range(6):
         reverse=True
     )
 
+    predicted_score = scores[0][0]
+
     # =====================================================
-    # AI INDEX V5
+    # FORCE IA V5
     # =====================================================
 
-    form_score = (
-        home_stats["points"]
-        + away_stats["points"]
+    home_strength = 50
+    away_strength = 50
+
+    home_strength += home_stats["points"]
+    away_strength += away_stats["points"]
+
+    if home_rank < away_rank:
+        home_strength += 15
+
+    elif away_rank < home_rank:
+        away_strength += 15
+
+    if home_h2h_wins > away_h2h_wins:
+        home_strength += 10
+
+    elif away_h2h_wins > home_h2h_wins:
+        away_strength += 10
+
+    home_strength += 8
+
+    # =====================================================
+    # PROBABILITES 1N2
+    # =====================================================
+
+    home_win_prob = 0
+    draw_prob = 0
+    away_win_prob = 0
+
+    for h in range(6):
+
+        for a in range(6):
+
+            prob = (
+                poisson(home_avg, h)
+                * poisson(away_avg, a)
+                * 100
+            )
+
+            if h > a:
+                home_win_prob += prob
+
+            elif h == a:
+                draw_prob += prob
+
+            else:
+                away_win_prob += prob
+
+    total_strength = home_strength + away_strength
+
+    home_factor = home_strength / total_strength
+    away_factor = away_strength / total_strength
+
+    home_win_prob = round(
+        home_win_prob * home_factor * 2,
+        1
     )
 
-    ranking_score = max(
-        0,
-        20 - abs(
-            home_rank - away_rank
-        )
+    away_win_prob = round(
+        away_win_prob * away_factor * 2,
+        1
     )
 
-    h2h_score = abs(
-        home_h2h_wins
-        - away_h2h_wins
-    ) * 5
+    draw_prob = round(
+        max(
+            0,
+            100 - home_win_prob - away_win_prob
+        ),
+        1
+    )
 
-    strength_score = (
-        home_strength
-        + away_strength
-    ) / 4
+    # =====================================================
+    # AI INDEX
+    # =====================================================
 
     ai_index = min(
         100,
         round(
             (
-                form_score * 0.30
-                + ranking_score * 0.25
-                + h2h_score * 0.15
-                + strength_score * 0.30
-            ),
+                home_strength +
+                away_strength
+            ) / 2,
             1
         )
     )
@@ -514,22 +291,13 @@ for h in range(6):
     )
 
     if best_prob == home_win_prob:
-
-        recommended_bet = (
-            f"Victoire {home_team}"
-        )
+        recommended_bet = f"Victoire {home_team}"
 
     elif best_prob == away_win_prob:
-
-        recommended_bet = (
-            f"Victoire {away_team}"
-        )
+        recommended_bet = f"Victoire {away_team}"
 
     else:
-
-        recommended_bet = (
-            "Match Nul"
-        )
+        recommended_bet = "Match Nul"
 
     confidence = round(
         (
@@ -540,17 +308,31 @@ for h in range(6):
     )
 
     # =====================================================
-    # NIVEAU IA
+    # AFFICHAGE
     # =====================================================
 
-    if ai_index >= 90:
-        level = "ELITE BET"
+    st.metric(
+        "AI INDEX",
+        f"{ai_index}/100"
+    )
 
-    elif ai_index >= 75:
-        level = "BET FORT"
+    st.subheader("Probabilités 1N2")
 
-    elif ai_index >= 60:
-        level = "BET MOYEN"
+    c1, c2, c3 = st.columns(3)
 
-    else:
-        level = "RISQUE"
+    c1.metric(home_team, f"{home_win_prob}%")
+    c2.metric("Nul", f"{draw_prob}%")
+    c3.metric(away_team, f"{away_win_prob}%")
+
+    st.success(recommended_bet)
+
+    st.metric(
+        "Confiance IA",
+        f"{confidence}%"
+    )
+
+    st.success(
+        f"Score Exact Prévu : {predicted_score}"
+    )
+
+    st.table(scores[:10])
