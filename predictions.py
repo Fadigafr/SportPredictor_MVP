@@ -218,6 +218,33 @@ def predictions_page():
     )
 
     # =====================================================
+    # FORCE EQUIPES
+    # =====================================================
+
+    home_strength = 50
+    away_strength = 50
+
+# Forme
+    home_strength += home_stats["points"]
+    away_strength += away_stats["points"]
+
+# Classement
+if home_rank < away_rank:
+    home_strength += 15
+else:
+    away_strength += 15
+
+# H2H
+if home_h2h_wins > away_h2h_wins:
+    home_strength += 10
+
+elif away_h2h_wins > home_h2h_wins:
+    away_strength += 10
+
+# Avantage domicile
+    home_strength += 8
+
+    # =====================================================
     # POISSON
     # =====================================================
 
@@ -286,6 +313,45 @@ def predictions_page():
     home_win_prob = round(home_win_prob, 1)
     draw_prob = round(draw_prob, 1)
     away_win_prob = round(away_win_prob, 1)
+
+    # =====================================================
+    # AJUSTEMENT IA V5
+    # =====================================================
+
+        total_strength = (
+            home_strength
+            + away_strength
+        )
+
+        home_factor = (
+            home_strength
+            / total_strength
+        )
+
+        away_factor = (
+            away_strength
+            / total_strength
+        )
+
+       home_win_prob = round(
+        home_win_prob * home_factor * 1.5,
+        1
+    )
+
+    away_win_prob = round(
+        away_win_prob * away_factor * 1.5,
+        1
+    )
+
+    draw_prob = round(
+        100
+        - home_win_prob
+        - away_win_prob,
+        1
+    )
+
+if draw_prob < 0:
+    draw_prob = 0
 
     # =====================================================
     # V4.2 - DOUBLE CHANCE
@@ -405,22 +471,19 @@ def predictions_page():
     # =====================================================
 
     best_prob = max(
-        home_win_prob,
-        draw_prob,
-        away_win_prob
-    )
+    home_win_prob,
+    draw_prob,
+    away_win_prob
+)
 
-    if best_prob == home_win_prob:
+if best_prob == home_win_prob:
+    recommended_bet = f"Victoire {home_team}"
 
-        recommended_bet = f"Victoire {home_team}"
+elif best_prob == away_win_prob:
+    recommended_bet = f"Victoire {away_team}"
 
-    elif best_prob == away_win_prob:
-
-        recommended_bet = f"Victoire {away_team}"
-
-    else:
-
-        recommended_bet = "Match Nul"
+else:
+    recommended_bet = "Match Nul"
 
     confidence = round(
         (
