@@ -229,41 +229,6 @@ def predictions_page():
     )
 )
 
-    if home_win_prob > away_win_prob:
-
-        predicted_home_goals = max(
-            round(adjusted_home_avg),
-            round(adjusted_away_avg) + 1
-        )
-
-        predicted_away_goals = round(
-            adjusted_away_avg
-        )
-
-    elif away_win_prob > home_win_prob:
-
-        predicted_away_goals = max(
-            round(adjusted_away_avg),
-            round(adjusted_home_avg) + 1
-        )
-
-        predicted_home_goals = round(
-            adjusted_home_avg
-        )  
-
-    else:
-
-        predicted_home_goals = round(
-            adjusted_home_avg
-        )
-
-        predicted_away_goals = round(
-            adjusted_away_avg
-        )
-        predicted_score = (
-            f"{predicted_home_goals}-{predicted_away_goals}"
-        )
-
     # =====================================================
     # PROBABILITES 1N2
     # =====================================================
@@ -352,6 +317,45 @@ def predictions_page():
         1
     )
 
+    # =====================================================
+    # SCORE EXACT IA
+    # =====================================================
+
+    if home_win_prob > away_win_prob:
+
+        predicted_home_goals = max(
+            round(adjusted_home_avg),
+            round(adjusted_away_avg) + 1
+        )
+
+        predicted_away_goals = round(
+            adjusted_away_avg
+        )
+
+    elif away_win_prob > home_win_prob:
+
+        predicted_away_goals = max(
+            round(adjusted_away_avg),
+            round(adjusted_home_avg) + 1
+        )
+
+        predicted_home_goals = round(
+            adjusted_home_avg
+        )
+
+    else:
+
+        predicted_home_goals = round(
+            adjusted_home_avg
+        )
+
+        predicted_away_goals = round(
+            adjusted_away_avg
+        )
+
+    predicted_score = (
+        f"{predicted_home_goals}-{predicted_away_goals}"
+    )
     # =====================================================
     # AI INDEX
     # =====================================================
