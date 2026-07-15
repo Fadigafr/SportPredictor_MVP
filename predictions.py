@@ -301,7 +301,53 @@ elif away_strength > home_strength:
             1
         )
     )
+    
+    # =====================================================
+    # ANALYSE IA V5.1
+    # =====================================================
 
+    ai_reasons = []
+
+    if home_rank < away_rank:
+        ai_reasons.append(
+            f"{home_team} est mieux classé"
+        )
+
+    elif away_rank < home_rank:
+        ai_reasons.append(
+            f"{away_team} est mieux classé"
+        )
+
+    if home_stats["points"] > away_stats["points"]:
+        ai_reasons.append(
+            f"{home_team} est en meilleure forme"
+        )
+
+    elif away_stats["points"] > home_stats["points"]:
+        ai_reasons.append(
+            f"{away_team} est en meilleure forme"
+        )
+
+    if home_h2h_wins > away_h2h_wins:
+        ai_reasons.append(
+            f"H2H favorable à {home_team}"
+        )
+
+    elif away_h2h_wins > home_h2h_wins:
+        ai_reasons.append(
+            f"H2H favorable à {away_team}"
+        )
+
+    if home_avg > away_avg:
+        ai_reasons.append(
+            f"{home_team} possède la meilleure attaque récente"
+        )
+
+    elif away_avg > home_avg:
+        ai_reasons.append(
+            f"{away_team} possède la meilleure attaque récente"
+        )
+        
     # =====================================================
     # PARI RECOMMANDE
     # =====================================================
@@ -352,9 +398,22 @@ elif away_strength > home_strength:
         "Confiance IA",
         f"{confidence}%"
     )
+    
+    # =====================================================
+    # ANALYSE IA
+    # =====================================================
+
+    st.subheader("🧠 Analyse IA")
+
+    for reason in ai_reasons:
+        st.write(f"✅ {reason}")
 
     st.success(
         f"Score Exact Prévu : {predicted_score}"
     )
 
     st.table(scores[:10])
+
+    st.info(
+        f"L'IA a identifié {len(ai_reasons)} facteurs favorables."
+    )
