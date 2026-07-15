@@ -231,12 +231,40 @@ def predictions_page():
                 )
             )
 
-    predicted_home_goals = round(adjusted_home_avg)
-    predicted_away_goals = round(adjusted_away_avg)
+    if home_win_prob > away_win_prob:
 
-    predicted_score = (
-        f"{predicted_home_goals}-{predicted_away_goals}"
-    )
+        predicted_home_goals = max(
+            round(adjusted_home_avg),
+            round(adjusted_away_avg) + 1
+        )
+
+        predicted_away_goals = round(
+            adjusted_away_avg
+        )
+
+    elif away_win_prob > home_win_prob:
+
+        predicted_away_goals = max(
+            round(adjusted_away_avg),
+            round(adjusted_home_avg) + 1
+        )
+
+        predicted_home_goals = round(
+            adjusted_home_avg
+        )  
+
+    else:
+
+        predicted_home_goals = round(
+            adjusted_home_avg
+        )
+
+        predicted_away_goals = round(
+            adjusted_away_avg
+        )
+        predicted_score = (
+            f"{predicted_home_goals}-{predicted_away_goals}"
+        )
 
     # =====================================================
     # PROBABILITES 1N2
@@ -274,21 +302,17 @@ def predictions_page():
     home_win_prob
     + (home_strength - 50) * 0.8,
     1
-)
+    )
 
     away_win_prob = round(
     away_win_prob
     + (away_strength - 50) * 0.8,
     1
-)
-
-    draw_prob = round(
-        max(
-            0,
-            100 - home_win_prob - away_win_prob
-        ),
-        1
     )
+
+    draw_prob = max(draw_prob, 10)
+    )
+    
     if home_rank < away_rank:
         home_win_prob += 8
 
