@@ -40,33 +40,17 @@ def kelly(p, odd):
     HOME_WEIGHT = 0.10
     BOOK_WEIGHT = 0.30
 
-# =====================================================
-# FORMES EQUIPES
-# =====================================================
+home_form = 60
+away_form = 40
 
-    home_form = 60
-    away_form = 40
+home_rank_score = 65
+away_rank_score = 35
 
-# =====================================================
-# CLASSEMENT
-# =====================================================
+home_h2h_score = 55
+away_h2h_score = 45
 
-    home_rank_score = 65
-    away_rank_score = 35
-
-# =====================================================
-# H2H
-# =====================================================    
-
-    home_h2h_score = 55
-    away_h2h_score = 45
-
-# =====================================================
-# AVANTAGE DOMICILE
-# ===================================================== 
-
-    home_advantage = 100
-    away_advantage = 0
+home_advantage = 100
+away_advantage = 0
     
 # =====================================================
 # FONCTION IA SCORE
@@ -127,26 +111,6 @@ def predictions_page():
     st.subheader(f"{home_team} vs {away_team}")
 
     # =====================================================
-    # FORME
-    # =====================================================
-
-    home_strength = calculate_ai_strength(
-    home_form,
-    home_rank_score,
-    home_h2h_score,
-    home_advantage,
-    book_home
-    )
-
-    away_strength = calculate_ai_strength(
-    away_form,
-    away_rank_score,
-    away_h2h_score,
-    away_advantage,
-    book_away
-    )
-
-    # =====================================================
     # Cotes Bookmakers
     # =====================================================
     odd_home = 2.20
@@ -165,6 +129,28 @@ def predictions_page():
 
     book_home = (book_home / total_book) * 100
     book_away = (book_away / total_book) * 100
+    
+    # =====================================================
+    # IA STRENGTH
+    # =====================================================
+
+    home_strength = calculate_ai_strength(
+    home_form,
+    home_rank_score,
+    home_h2h_score,
+    home_advantage,
+    book_home
+    )
+
+    away_strength = calculate_ai_strength(
+    away_form,
+    away_rank_score,
+    away_h2h_score,
+    away_advantage,
+    book_away
+    )
+
+    
     
     # =====================================================
     # INDICE IA
