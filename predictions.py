@@ -453,7 +453,7 @@ def predictions_page():
 
     Niveau de risque : {risk}
     """
-    ))
+    )
 
     st.subheader("Confiance IA")
 
