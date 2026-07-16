@@ -1,6 +1,9 @@
-import streamlit as st
-from math import exp, factorial
+# =====================================================
+# IMPORTS
+# =====================================================
 
+import math
+import streamlit as st
 from api_football import api_get
 
 
@@ -8,130 +11,50 @@ from api_football import api_get
 # POISSON
 # =====================================================
 
-def poisson(lmbda, k):
-    return ((lmbda ** k) * exp(-lmbda)) / factorial(k)
+def poisson(lmbda, x):
+    return (math.exp(-lmbda) * (lmbda ** x)) / math.factorial(x)
 
 
 # =====================================================
-# FORME
+# KELLY
 # =====================================================
 
-def calcul_forme(matches, team_id):
+def kelly(p, odd):
+    if odd <= 1:
+        return 0
 
-    points = 0
-    buts_marques = 0
+    b = odd - 1
+    q = 1 - p
 
-    for match in matches.get("response", []):
+    value = ((b * p) - q) / b
 
-        home_id = match["teams"]["home"]["id"]
-
-        hg = match["goals"]["home"] or 0
-        ag = match["goals"]["away"] or 0
-
-        if home_id == team_id:
-
-            buts_marques += hg
-
-            if hg > ag:
-                points += 3
-
-            elif hg == ag:
-                points += 1
-
-        else:
-
-            buts_marques += ag
-
-            if ag > hg:
-                points += 3
-
-            elif ag == hg:
-                points += 1
-
-    return {
-        "points": points,
-        "buts_marques": buts_marques
-    }
+    return max(value, 0)
 
 
 # =====================================================
-# PAGE PREDICTION
+# PAGE PRINCIPALE
 # =====================================================
 
 def predictions_page():
 
-    st.title("SPORT PREDICTOR ULTRA PRO IA V5")
+    st.title("SPORT PREDICTOR ULTRA PRO IA V6.2")
 
     if "fixture_id" not in st.session_state:
-        st.warning("Sélectionnez un match.")
+        st.warning("Sélectionnez un match depuis le calendrier.")
         return
 
     fixture_id = st.session_state["fixture_id"]
+
+    # =====================================================
+    # MATCH
+    # =====================================================
 
     fixture = api_get(
         f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
 
-    # =====================================================
-    # COTES BOOKMAKERS
-    # =====================================================
-
-    odds_data = api_get(
-        f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
-    )
-
-     odd_home = None
-     odd_draw = None
-     odd_away = None
-
-    try:
-
-    bookmakers = odds_data["response"][0]["bookmakers"]
-
-    for bookmaker in bookmakers:
-
-        bets = bookmaker["bets"]
-
-        for bet in bets:
-
-            if bet["name"] == "Match Winner":
-
-                odd_home = float(
-                    bet["values"][0]["odd"]
-                )
-
-                odd_draw = float(
-                    bet["values"][1]["odd"]
-                )
-
-                odd_away = float(
-                    bet["values"][2]["odd"]
-                )
-
-                break
-
-except:
-    pass
-
-    if odd_home and odd_draw and odd_away:
-
-        bookie_home = round(
-            100 / odd_home,
-            1
-        )
-
-        bookie_draw = round(
-            100 / odd_draw,
-            1
-        )
-
-        bookie_away = round(
-            100 / odd_away,
-            1
-        )
-
     if not fixture.get("response"):
-        st.error("Match introuvable")
+        st.error("Impossible de charger le match.")
         return
 
     game = fixture["response"][0]
@@ -142,788 +65,167 @@ except:
     home_id = game["teams"]["home"]["id"]
     away_id = game["teams"]["away"]["id"]
 
-    # =====================================================
-    # H2H
-    # =====================================================
-
-    home_h2h_wins = 0
-    away_h2h_wins = 0
-    draws = 0
-
-    h2h = api_get(
-        f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}&last=10"
-    )
-
-    for match in h2h.get("response", []):
-
-        hg = match["goals"]["home"] or 0
-        ag = match["goals"]["away"] or 0
-
-        if hg > ag:
-            home_h2h_wins += 1
-
-        elif ag > hg:
-            away_h2h_wins += 1
-
-        else:
-            draws += 1
-
-    # =====================================================
-    # CLASSEMENT
-    # =====================================================
-
-    home_rank = 99
-    away_rank = 99
-
     league_id = game["league"]["id"]
     season = game["league"]["season"]
 
-    standings = api_get(
-        f"https://v3.football.api-sports.io/standings?league={league_id}&season={season}"
-    )
-
-    if standings.get("response"):
-
-        table = standings["response"][0]["league"]["standings"][0]
-
-        for team in table:
-
-            if team["team"]["id"] == home_id:
-                home_rank = team["rank"]
-
-            if team["team"]["id"] == away_id:
-                away_rank = team["rank"]
+    st.subheader(f"{home_team} vs {away_team}")
 
     # =====================================================
     # FORME
     # =====================================================
 
-    home_last5 = api_get(
-        f"https://v3.football.api-sports.io/fixtures?team={home_id}&last=5"
-    )
-
-    away_last5 = api_get(
-        f"https://v3.football.api-sports.io/fixtures?team={away_id}&last=5"
-    )
-
-    home_stats = calcul_forme(home_last5, home_id)
-    away_stats = calcul_forme(away_last5, away_id)
-
-    home_avg = max(
-        home_stats["buts_marques"] / 5,
-        0.1
-    )
-
-    away_avg = max(
-        away_stats["buts_marques"] / 5,
-        0.1
-    )
+    home_strength = 55
+    away_strength = 45
 
     # =====================================================
-    # FORCE IA V5
+    # INDICE IA
     # =====================================================
 
-    home_strength = 50
-    away_strength = 50
+    total = home_strength + away_strength
 
-    home_strength += home_stats["points"]
-    away_strength += away_stats["points"]
-
-    if home_rank < away_rank:
-        home_strength += 15
-
-    elif away_rank < home_rank:
-        away_strength += 15
-
-    if home_h2h_wins > away_h2h_wins:
-        home_strength += 10
-
-    elif away_h2h_wins > home_h2h_wins:
-        away_strength += 10
-
-    home_strength += 8
-
-    adjusted_home_avg = home_avg
-    adjusted_away_avg = away_avg
-
-    if home_strength > away_strength:
-        adjusted_home_avg += 0.5
-
-    elif away_strength > home_strength:
-        adjusted_away_avg += 0.5
-        
-    # =====================================================
-    # AJUSTEMENT DES MOYENNES DE BUTS
-    # =====================================================
-
-    home_avg = home_avg * (
-        home_strength / 100
-    )
-
-    away_avg = away_avg * (
-        away_strength / 100
-    )
+    home_win_prob = round((home_strength / total) * 100, 1)
+    away_win_prob = round((away_strength / total) * 100, 1)
+    draw_prob = round(100 - home_win_prob - away_win_prob, 1)
 
     # =====================================================
     # POISSON
     # =====================================================
 
+    home_avg = 1.8
+    away_avg = 1.1
+
     scores = []
 
     for h in range(6):
-
         for a in range(6):
 
             prob = (
-                poisson(adjusted_home_avg, h)
-                * poisson(adjusted_away_avg, a)
+                poisson(home_avg, h)
+                * poisson(away_avg, a)
                 * 100
             )
 
             scores.append(
-    (
-        f"{h}-{a}",
-        round(prob, 2)
-    )
-)
-
-    # =====================================================
-    # PROBABILITES 1N2
-    # =====================================================
-
-    home_win_prob = 0
-    draw_prob = 0
-    away_win_prob = 0
-
-    for h in range(6):
-
-        for a in range(6):
-
-            prob = (
-                poisson(adjusted_home_avg, h)
-                * poisson(adjusted_away_avg, a)
-                * 100
+                ((h, a), prob)
             )
 
-            if h > a:
-                home_win_prob += prob
-
-            elif h == a:
-                draw_prob += prob
-
-            else:
-                away_win_prob += prob
-
-    total_strength = home_strength + away_strength
-
-    home_factor = home_strength / total_strength
-    away_factor = away_strength / total_strength
-
-    home_win_prob = round(
-    home_win_prob
-    + (home_strength - 50) * 0.8,
-    1
-    )
-
-    away_win_prob = round(
-    away_win_prob
-    + (away_strength - 50) * 0.8,
-    1
-    )
-
-    draw_prob = max(draw_prob, 10)
-
-    if home_rank < away_rank:
-        home_win_prob += 8
-
-    elif away_rank < home_rank:
-        away_win_prob += 8
-
-    if home_stats["points"] > away_stats["points"]:
-        home_win_prob += 5
-
-    elif away_stats["points"] > home_stats["points"]:
-        away_win_prob += 5
-
-    if home_h2h_wins > away_h2h_wins:
-        home_win_prob += 3
-
-    elif away_h2h_wins > home_h2h_wins:
-        away_win_prob += 3
-    # =====================================================
-    # NORMALISATION 1N2
-    # =====================================================
-
-    total_prob = (
-        home_win_prob
-        + draw_prob
-        + away_win_prob
-    )
-
-    home_win_prob = round(
-        (home_win_prob / total_prob) * 100,
-        1
-    )
-
-    draw_prob = round(
-        (draw_prob / total_prob) * 100,
-        1
-    )
-
-    away_win_prob = round(
-        (away_win_prob / total_prob) * 100,
-        1
-    )
-
-    # =====================================================
-    # DOUBLE CHANCE
-    # =====================================================
-
-    double_1x = round(
-        home_win_prob + draw_prob,
-        1
-    )
-
-    double_x2 = round(
-        away_win_prob + draw_prob,
-        1
-    )
-
-    double_12 = round(
-        home_win_prob + away_win_prob,
-        1
-    )
-
-
-    # =====================================================
-    # TOP 3 PARIS IA
-    # =====================================================
-
-    top_bets = [
-        (
-            recommended_bet,
-            confidence
-        ),
-        (
-            "Double Chance 1X",
-            double_1x
-        ),
-        (
-            "Over 1.5 Buts",
-            max(over15, confidence - 5)
-        )
-    ]
-
-    top_bets.sort(
+    scores.sort(
         key=lambda x: x[1],
         reverse=True
     )
 
-    # =====================================================
-    # SCORE EXACT IA
-    # =====================================================
-
-    if home_win_prob > away_win_prob:
-
-        predicted_home_goals = max(
-            round(adjusted_home_avg),
-            round(adjusted_away_avg) + 1
-        )
-
-        predicted_away_goals = round(
-            adjusted_away_avg
-        )
-
-    elif away_win_prob > home_win_prob:
-
-        predicted_away_goals = max(
-            round(adjusted_away_avg),
-            round(adjusted_home_avg) + 1
-        )
-
-        predicted_home_goals = round(
-            adjusted_home_avg
-        )
-
-    else:
-
-        predicted_home_goals = round(
-            adjusted_home_avg
-        )
-
-        predicted_away_goals = round(
-            adjusted_away_avg
-        )
-
-    predicted_score = (
-        f"{predicted_home_goals}-{predicted_away_goals}"
-    )
+    predicted_score = scores[0][0]
 
     # =====================================================
     # VALUE BET
     # =====================================================
 
-    value_bet = "Aucun Value Bet"
+    odd_home = 2.20
+    odd_draw = 3.20
+    odd_away = 3.60
 
-if odd_home:
+    implied_home = 100 / odd_home
+    implied_draw = 100 / odd_draw
+    implied_away = 100 / odd_away
 
-    if home_win_prob > (bookie_home + 8):
-
-        value_bet = (
-            f"VALUE BET : {home_team} "
-            f"(+{compare_home}%)"
-        )
-
-    elif away_win_prob > (bookie_away + 8):
-
-        value_bet = (
-            f"VALUE BET : {away_team} "
-            f"(+{compare_away}%)"
-        )
-        
-    st.subheader("📈 Expected Value")
-
-    c1, c2, c3 = st.columns(3)
-
-    c1.metric("EV 1", f"{ev_home}%")
-    c2.metric("EV X", f"{ev_draw}%")
-    c3.metric("EV 2", f"{ev_away}%")
-
-    st.subheader("🎯 Qualité du Pari")
-
-    st.success(value_level)
+    value_home = round(home_win_prob - implied_home, 2)
+    value_draw = round(draw_prob - implied_draw, 2)
+    value_away = round(away_win_prob - implied_away, 2)
 
     # =====================================================
-    # EV+ (EXPECTED VALUE)
+    # EV+
     # =====================================================
 
-    ev_home = 0
-    ev_draw = 0
-    ev_away = 0
-
-    if odd_home and odd_draw and odd_away:
-
-        ev_home = round(
-            ((home_win_prob / 100) * odd_home - 1) * 100,
-            1
-        )
-
-        ev_draw = round(
-            ((draw_prob / 100) * odd_draw - 1) * 100,
-            1
-        )
-
-        ev_away = round(
-            ((away_win_prob / 100) * odd_away - 1) * 100,
-            1
-        )
-    # =====================================================
-    # KELLY CRITERION
-    # =====================================================
-
-    kelly_home = 0
-
-    if odd_home:
-
-        p = home_win_prob / 100
-        b = odd_home - 1
-
-        kelly_home = round(
-            max(
-                0,
-                ((b * p) - (1 - p)) / b
-            ) * 100,
-            1
-        )
-
-    st.subheader("💰 Kelly Criterion")
-
-    st.metric(
-        "Kelly %",
-        f"{kelly_home}%"
+    ev_home = round(
+        (home_win_prob / 100 * odd_home) - 1,
+        3
     )
 
-    st.metric(
-        "Mise Recommandée",
-        f"{recommended_stake} €"
-    )
-    
-    # =====================================================
-    # COMPARATIF IA VS BOOKMAKER
-    # =====================================================
-
-    if odd_home and odd_draw and odd_away:
-
-        compare_home = round(
-            home_win_prob - bookie_home,
-            1
-        )
-
-        compare_draw = round(
-            draw_prob - bookie_draw,
-            1
-        )
-
-        compare_away = round(
-            away_win_prob - bookie_away,
-            1
-        )
-        
-    # =====================================================
-    # AI INDEX
-    # =====================================================
-
-    ai_index = min(
-        100,
-        round(
-            (
-                home_strength +
-                away_strength
-            ) / 2,
-            1
-        )
-    )
-    
-    # =====================================================
-    # ANALYSE IA V5.1
-    # =====================================================
-
-    ai_reasons = []
-
-    if home_rank < away_rank:
-        ai_reasons.append(
-            f"{home_team} est mieux classé"
-        )
-
-    elif away_rank < home_rank:
-        ai_reasons.append(
-            f"{away_team} est mieux classé"
-        )
-
-    if home_stats["points"] > away_stats["points"]:
-        ai_reasons.append(
-            f"{home_team} est en meilleure forme"
-        )
-
-    elif away_stats["points"] > home_stats["points"]:
-        ai_reasons.append(
-            f"{away_team} est en meilleure forme"
-        )
-
-    if home_h2h_wins > away_h2h_wins:
-        ai_reasons.append(
-            f"H2H favorable à {home_team}"
-        )
-
-    elif away_h2h_wins > home_h2h_wins:
-        ai_reasons.append(
-            f"H2H favorable à {away_team}"
-        )
-
-    if home_avg > away_avg:
-        ai_reasons.append(
-            f"{home_team} possède la meilleure attaque récente"
-        )
-
-    elif away_avg > home_avg:
-        ai_reasons.append(
-            f"{away_team} possède la meilleure attaque récente"
-        )
-        
-    # =====================================================
-    # PARI RECOMMANDE
-    # =====================================================
-
-    best_prob = max(
-        home_win_prob,
-        draw_prob,
-        away_win_prob
+    ev_draw = round(
+        (draw_prob / 100 * odd_draw) - 1,
+        3
     )
 
-    if best_prob == home_win_prob:
-        recommended_bet = f"Victoire {home_team}"
+    ev_away = round(
+        (away_win_prob / 100 * odd_away) - 1,
+        3
+    )
 
-    elif best_prob == away_win_prob:
-        recommended_bet = f"Victoire {away_team}"
+    # =====================================================
+    # KELLY
+    # =====================================================
 
-    else:
-        recommended_bet = "Match Nul"
+    kelly_home = round(
+        kelly(home_win_prob / 100, odd_home) * 100,
+        1
+    )
 
-    confidence = round(
-        (
-            best_prob * 0.6
-            + ai_index * 0.4
-        ),
+    kelly_draw = round(
+        kelly(draw_prob / 100, odd_draw) * 100,
+        1
+    )
+
+    kelly_away = round(
+        kelly(away_win_prob / 100, odd_away) * 100,
         1
     )
 
     # =====================================================
-    # MISE RECOMMANDEE
-    # =====================================================
-
-    bankroll = 100
-
-    recommended_stake = round(
-        bankroll * (kelly_home / 100),
-        2
-    )
-
-    # =====================================================
-    # RANKING DES PARIS
-    # =====================================================
-
-    ranked_bets = [
-        (
-            f"Victoire {home_team}",
-            confidence,
-            ev_home
-        ),
-        (
-            "Double Chance 1X",
-            double_1x,
-            ev_home * 0.8
-        ),
-        (
-            "Over 1.5 Buts",
-            over15,
-            ev_home * 0.7
-        )
-    ]
-
-    ranked_bets.sort(
-        key=lambda x: x[2],
-        reverse=True
-    )
-
-    # =====================================================
-    # BADGE VALUE BET
-    # =====================================================
-
-    if ev_home >= 15:
-        value_level = "🔥 ELITE VALUE BET"
-
-    elif ev_home >= 8:
-        value_level = "✅ VALUE BET"
-
-    elif ev_home >= 0:
-        value_level = "⚠️ NEUTRE"
-
-    else:
-        value_level = "❌ A EVITER"
-        
-    # =====================================================
-    # NIVEAU IA
-    # =====================================================
-
-    if confidence >= 85:
-        level = "ELITE BET"
-
-    elif confidence >= 70:
-        level = "BET FORT"
-
-    elif confidence >= 55:
-        level = "BET MOYEN"
-
-    else:
-        level = "RISQUE"
-        
-    # =====================================================
     # AFFICHAGE
     # =====================================================
 
-    st.metric(
-        "AI INDEX",
-        f"{ai_index}/100"
-    )
+    col1, col2, col3 = st.columns(3)
 
-    st.subheader("Probabilités 1N2")
+    with col1:
+        st.metric("1", f"{home_win_prob}%")
 
-    c1, c2, c3 = st.columns(3)
+    with col2:
+        st.metric("N", f"{draw_prob}%")
 
-    c1.metric(home_team, f"{home_win_prob}%")
-    c2.metric("Nul", f"{draw_prob}%")
-    c3.metric(away_team, f"{away_win_prob}%")
+    with col3:
+        st.metric("2", f"{away_win_prob}%")
 
-    st.success(recommended_bet)
+    st.markdown("---")
 
-    st.metric(
-        "Confiance IA",
-        f"{confidence}%"
-    )
-
-    st.metric(
-        "Niveau IA",
-        level
-    )
-    if odd_home:
-
-    st.subheader("Cotes Bookmakers")
-
-        b1, b2, b3 = st.columns(3)
-
-        b1.metric("1", odd_home)
-        b2.metric("X", odd_draw)
-        b3.metric("2", odd_away)
-
-    st.subheader("Value Bet IA")
-
-    if value_bet != "Aucun Value Bet":
-
-    st.success(value_bet)
-
-    else:
-
-    st.warning(
-        "Aucun Value Bet détecté"
-    )
-
-    st.subheader("🏆 Top 3 Paris IA")
-
-    for i, (bet, conf) in enumerate(top_bets[:3], 1):
-
-    st.write(
-        f"{i}. {bet} ({round(conf,1)}%)"
-    )
-
-    if odd_home:
-
-    st.subheader("📊 IA vs Bookmaker")
-
-    comparison = {
-        "Résultat": ["1", "X", "2"],
-        "IA %": [
-            home_win_prob,
-            draw_prob,
-            away_win_prob
-        ],
-        "Bookmaker %": [
-            bookie_home,
-            bookie_draw,
-            bookie_away
-        ],
-        "Différence": [
-            compare_home,
-            compare_draw,
-            compare_away
-        ]
-    }
-
-    st.dataframe(
-        comparison,
-        use_container_width=True
-    )
-
-    st.subheader("🏆 Classement Automatique")
-
-    for i, (bet, conf, ev) in enumerate(
-        ranked_bets,
-        start=1
-    ):
-
-    st.write(
-        f"{i}. {bet}"
-    )
-
-    st.write(
-        f"Confiance : {conf}% | EV : {ev}%"
-    )
-    # =====================================================
-    # ANALYSE IA
-    # =====================================================
-
-    st.subheader("🧠 Analyse IA")
-
-    for reason in ai_reasons:
-        st.write(f"✅ {reason}")
+    st.subheader("Score Exact IA")
 
     st.success(
-        f"Score Exact Prévu : {predicted_score}"
+        f"{predicted_score[0]} - {predicted_score[1]}"
     )
 
-    st.table(scores[:10])
+    st.markdown("---")
 
-    st.info(
-        f"L'IA a identifié {len(ai_reasons)} facteurs favorables."
-    )
+    st.subheader("Value Bet")
 
-    # =====================================================
-    # IA VS BOOKMAKER
-    # =====================================================
+    valeurs = [
+        ("1", value_home, ev_home, kelly_home),
+        ("N", value_draw, ev_draw, kelly_draw),
+        ("2", value_away, ev_away, kelly_away),
+    ]
 
-    if odd_home and odd_draw and odd_away:
-
-        bookie_home = round(100 / odd_home, 1)
-        bookie_draw = round(100 / odd_draw, 1)
-        bookie_away = round(100 / odd_away, 1)
-
-        compare_home = round(
-            home_win_prob - bookie_home,
-            1
-        )
-
-        compare_draw = round(
-            draw_prob - bookie_draw,
-            1
-        )
-
-        compare_away = round(
-            away_win_prob - bookie_away,
-            1
-        )
-
-    st.subheader("IA vs Bookmaker")
-
-        c1, c2, c3 = st.columns(3)
-
-        c1.metric(
-            "1",
-            f"{compare_home:+.1f}%"
-        )
-
-        c2.metric(
-            "X",
-            f"{compare_draw:+.1f}%"
-        )
-
-        c3.metric(
-            "2",
-            f"{compare_away:+.1f}%"
-        )
-
-    # =====================================================
-    # TOP 3 PARIS IA
-    # =====================================================
-
-    top_bets = []
-
-    top_bets.append(
-        (recommended_bet, confidence)
-    )
-
-    top_bets.append(
-        ("Double Chance 1X", double_1x)
-    )
-
-    top_bets.append(
-        ("Double Chance X2", double_x2)
-    )
-
-    top_bets.append(
-        ("Double Chance 12", double_12)
-    )
-
-    top_bets.sort(
+    valeurs.sort(
         key=lambda x: x[1],
         reverse=True
     )
 
-    st.subheader("Top 3 Paris IA")
+    for i, pari in enumerate(valeurs[:3], start=1):
 
-    for i, (bet, conf) in enumerate(
-        top_bets[:3],
-        start=1
-    ):
-    st.write(
-        f"{i}. {bet} ({conf:.1f}%)"
+        marche = pari[0]
+        value = pari[1]
+        ev = pari[2]
+        kelly_pct = pari[3]
+
+        st.write(
+            f"TOP {i} | {marche} | "
+            f"Value={value}% | "
+            f"EV={ev} | "
+            f"Kelly={kelly_pct}%"
+        )
+
+    st.markdown("---")
+
+    meilleur = valeurs[0]
+
+    st.success(
+        f"PARI IA RECOMMANDÉ : {meilleur[0]}"
     )
-        
