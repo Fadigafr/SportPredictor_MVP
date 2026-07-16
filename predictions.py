@@ -73,17 +73,17 @@ def predictions_page():
 
     fixture_id = st.session_state["fixture_id"]
 
-home_form = 60
-away_form = 40
+    home_form = 60
+    away_form = 40
 
-home_rank_score = 65
-away_rank_score = 35
+    home_rank_score = 65
+    away_rank_score = 35
 
-home_h2h_score = 55
-away_h2h_score = 45
+    home_h2h_score = 55
+    away_h2h_score = 45
 
-home_advantage = 100
-away_advantage = 0
+    home_advantage = 100
+    away_advantage = 0
 
     # =====================================================
     # MATCH
@@ -161,8 +161,8 @@ away_advantage = 0
     draw_prob = round(100 - home_win_prob - away_win_prob, 1)
 
     total_strength = (
-    home_strength +
-    away_strength
+        home_strength +
+        away_strength
     )
 
     home_win_prob = round(
@@ -188,14 +188,14 @@ away_advantage = 0
     # =====================================================
 
     home_avg = max(
-    0.6,
-    round(home_strength / 35, 2)
-)
+        0.6,
+        round(home_strength / 35, 2)
+    )
 
     away_avg = max(
-    0.4,
-    round(away_strength / 35, 2)
-)
+        0.4,
+        round(away_strength / 35, 2)
+    )
 
     scores = []
 
@@ -235,10 +235,10 @@ away_advantage = 0
             )
 
     btts_result = (
-        "OUI"
-        if btts_prob >= 50
-        else "NON"
-    )
+    "OUI"
+    if btts_prob >= 50
+    else "NON"
+)
 
     # =====================================================
     # OVER / UNDER
@@ -321,9 +321,9 @@ away_advantage = 0
     )
 
     confidence = round(
-    abs(
-        home_win_prob -
-        away_win_prob
+        abs(
+            home_win_prob -
+            away_win_prob
         ),
         1
     )
@@ -332,7 +332,7 @@ away_advantage = 0
         95,
         confidence + 50
     )
-
+    
     # =====================================================
     # VALUE BET
     # =====================================================
