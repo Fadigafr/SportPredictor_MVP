@@ -480,7 +480,74 @@ if odd_home:
             f"VALUE BET : {away_team} "
             f"(+{compare_away}%)"
         )
+        
+    st.subheader("📈 Expected Value")
 
+    c1, c2, c3 = st.columns(3)
+
+    c1.metric("EV 1", f"{ev_home}%")
+    c2.metric("EV X", f"{ev_draw}%")
+    c3.metric("EV 2", f"{ev_away}%")
+
+    st.subheader("🎯 Qualité du Pari")
+
+    st.success(value_level)
+
+    # =====================================================
+    # EV+ (EXPECTED VALUE)
+    # =====================================================
+
+    ev_home = 0
+    ev_draw = 0
+    ev_away = 0
+
+    if odd_home and odd_draw and odd_away:
+
+        ev_home = round(
+            ((home_win_prob / 100) * odd_home - 1) * 100,
+            1
+        )
+
+        ev_draw = round(
+            ((draw_prob / 100) * odd_draw - 1) * 100,
+            1
+        )
+
+        ev_away = round(
+            ((away_win_prob / 100) * odd_away - 1) * 100,
+            1
+        )
+    # =====================================================
+    # KELLY CRITERION
+    # =====================================================
+
+    kelly_home = 0
+
+    if odd_home:
+
+        p = home_win_prob / 100
+        b = odd_home - 1
+
+        kelly_home = round(
+            max(
+                0,
+                ((b * p) - (1 - p)) / b
+            ) * 100,
+            1
+        )
+
+    st.subheader("💰 Kelly Criterion")
+
+    st.metric(
+        "Kelly %",
+        f"{kelly_home}%"
+    )
+
+    st.metric(
+        "Mise Recommandée",
+        f"{recommended_stake} €"
+    )
+    
     # =====================================================
     # COMPARATIF IA VS BOOKMAKER
     # =====================================================
@@ -591,6 +658,60 @@ if odd_home:
     )
 
     # =====================================================
+    # MISE RECOMMANDEE
+    # =====================================================
+
+    bankroll = 100
+
+    recommended_stake = round(
+        bankroll * (kelly_home / 100),
+        2
+    )
+
+    # =====================================================
+    # RANKING DES PARIS
+    # =====================================================
+
+    ranked_bets = [
+        (
+            f"Victoire {home_team}",
+            confidence,
+            ev_home
+        ),
+        (
+            "Double Chance 1X",
+            double_1x,
+            ev_home * 0.8
+        ),
+        (
+            "Over 1.5 Buts",
+            over15,
+            ev_home * 0.7
+        )
+    ]
+
+    ranked_bets.sort(
+        key=lambda x: x[2],
+        reverse=True
+    )
+
+    # =====================================================
+    # BADGE VALUE BET
+    # =====================================================
+
+    if ev_home >= 15:
+        value_level = "🔥 ELITE VALUE BET"
+
+    elif ev_home >= 8:
+        value_level = "✅ VALUE BET"
+
+    elif ev_home >= 0:
+        value_level = "⚠️ NEUTRE"
+
+    else:
+        value_level = "❌ A EVITER"
+        
+    # =====================================================
     # NIVEAU IA
     # =====================================================
 
@@ -694,7 +815,21 @@ for i, (bet, conf) in enumerate(top_bets[:3], 1):
         comparison,
         use_container_width=True
     )
-    
+
+    st.subheader("🏆 Classement Automatique")
+
+    for i, (bet, conf, ev) in enumerate(
+        ranked_bets,
+        start=1
+    ):
+
+    st.write(
+        f"{i}. {bet}"
+    )
+
+    st.write(
+        f"Confiance : {conf}% | EV : {ev}%"
+    )
     # =====================================================
     # ANALYSE IA
     # =====================================================
