@@ -34,11 +34,11 @@ def kelly(p, odd):
 # MOTEUR IA REEL
 # =====================================================
 
-    FORM_WEIGHT = 0.25
-    STANDING_WEIGHT = 0.20
-    H2H_WEIGHT = 0.15
-    HOME_WEIGHT = 0.10
-    BOOK_WEIGHT = 0.30
+FORM_WEIGHT = 0.25
+STANDING_WEIGHT = 0.20
+H2H_WEIGHT= 0.15
+HOME_WEIGHT = 0.10
+BOOK_WEIGHT = 0.30
 
 home_form = 60
 away_form = 40
@@ -219,14 +219,14 @@ def predictions_page():
 
     predicted_score = scores[0][0]
 
-    # =====================================================
-    # BTTS
-    # =====================================================
+# =====================================================
+# BTTS
+# =====================================================
 
-    btts_prob = 0
+btts_prob = 0
 
-    for h in range(1, 6):
-        for a in range(1, 6):
+for h in range(1, 6):
+    for a in range(1, 6):
 
         btts_prob += (
             poisson(home_avg, h)
@@ -234,11 +234,11 @@ def predictions_page():
             * 100
         )
 
-        btts_result = (
-            "OUI"
+btts_result = (
+    "OUI"
     if btts_prob >= 50
     else "NON"
-    )
+)
 
     # =====================================================
     # OVER / UNDER
@@ -291,6 +291,20 @@ def predictions_page():
 
         htft = "N/1"
 
+double_chance_1x = round(
+    home_win_prob + draw_prob,
+    1
+)
+
+double_chance_x2 = round(
+    away_win_prob + draw_prob,
+    1
+)
+
+double_chance_12 = round(
+    home_win_prob + away_win_prob,
+    1
+)
 
     # =====================================================
     # CONFIANCE IA
@@ -437,11 +451,11 @@ def predictions_page():
 
     st.markdown("---")
 
-    st.subheader("Marchés Complémentaires IA")
+st.subheader("Marchés Complémentaires IA")
 
-    col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-    with col1:
+with col1:
 
     st.metric(
         "BTTS",
@@ -458,7 +472,7 @@ def predictions_page():
         f"{over35_prob}%"
     )
 
-    with col2:
+with col2:
 
     st.metric(
         "Under 2.5",
@@ -474,6 +488,20 @@ def predictions_page():
         "HT/FT",
         htft
     )
+
+    st.subheader("Double Chance")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    st.metric("1X", f"{double_chance_1x}%")
+
+with c2:
+    st.metric("X2", f"{double_chance_x2}%")
+
+with c3:
+    st.metric("12", f"{double_chance_12}%")
+    
     st.subheader("Indice IA")
 
     st.progress(
