@@ -39,19 +39,7 @@ STANDING_WEIGHT = 0.20
 H2H_WEIGHT= 0.15
 HOME_WEIGHT = 0.10
 BOOK_WEIGHT = 0.30
-
-home_form = 60
-away_form = 40
-
-home_rank_score = 65
-away_rank_score = 35
-
-home_h2h_score = 55
-away_h2h_score = 45
-
-home_advantage = 100
-away_advantage = 0
-    
+   
 # =====================================================
 # FONCTION IA SCORE
 # =====================================================
@@ -84,6 +72,18 @@ def predictions_page():
         return
 
     fixture_id = st.session_state["fixture_id"]
+
+home_form = 60
+away_form = 40
+
+home_rank_score = 65
+away_rank_score = 35
+
+home_h2h_score = 55
+away_h2h_score = 45
+
+home_advantage = 100
+away_advantage = 0
 
     # =====================================================
     # MATCH
@@ -187,13 +187,17 @@ def predictions_page():
     # POISSON
     # =====================================================
 
-    home_avg = (
-        home_strength / 50
-    )
+    home_avg = max(
+    0.6,
+    round(home_strength / 35, 2)
+)
 
-    away_avg = (
-        away_strength / 50
-    )
+    away_avg = max(
+    0.4,
+    round(away_strength / 35, 2)
+)
+65 -> 1.85 buts
+35 -> 1.00 but
 
     scores = []
 
