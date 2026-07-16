@@ -233,6 +233,19 @@ def predictions_page():
 
     predicted_score = scores[0][0]
 
+    # =====================================================
+    # CONFIANCE IA
+    # =====================================================
+
+    confidence_gap = abs(
+        home_win_prob - away_win_prob
+    )
+
+    confidence_score = min(
+        95,
+        round(confidence_gap + 50)
+    )
+
     confidence = round(
     abs(
         home_win_prob -
@@ -310,6 +323,24 @@ def predictions_page():
 )
 
     # =====================================================
+    # MISE RECOMMANDEE
+    # =====================================================
+
+    recommended_stake = round(
+        max(
+            kelly_home,
+            kelly_draw,
+            kelly_away
+        ),
+        1
+    )
+
+    recommended_stake = min(
+        recommended_stake,
+        10
+    )
+
+    # =====================================================
     # Niveau du pari
     # =====================================================
 
@@ -345,6 +376,17 @@ def predictions_page():
         f"{predicted_score[0]} - {predicted_score[1]}"
     )
 
+    st.subheader("Indice IA")
+
+    st.progress(
+        confidence_score / 100
+    )
+
+    st.metric(
+        "Confiance",
+        f"{confidence_score}/100"
+    )
+
     st.markdown("---")
 
     st.subheader("Value Bet")
@@ -376,11 +418,42 @@ def predictions_page():
 
     st.markdown("---")
 
+    st.subheader("Gestion du Risque")
+
+    if confidence_score >= 85:
+        risk = "FAIBLE"
+
+    elif confidence_score >= 70:
+        risk = "MODERE"
+
+    else:
+        risk = "ELEVE"
+
+    st.write(
+        f"Risque : {risk}"
+    )
+
+    st.write(
+        f"Mise recommandee : {recommended_stake}% bankroll"
+    )
+
+    st.markdown("---")
+
     meilleur = valeurs[0]
 
     st.success(
-        f"PARI IA RECOMMANDÉ : {meilleur[0]}"
+        f"PARI IA RECOMMANDE : {meilleur[0]}"
     )
+
+    st.info(
+        f"""
+    Confiance IA : {confidence_score}/100
+
+    Mise recommandee : {recommended_stake}% bankroll
+
+    Niveau de risque : {risk}
+    """
+    ))
 
     st.subheader("Confiance IA")
 
