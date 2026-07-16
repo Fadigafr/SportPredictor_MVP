@@ -196,8 +196,6 @@ away_advantage = 0
     0.4,
     round(away_strength / 35, 2)
 )
-65 -> 1.85 buts
-35 -> 1.00 but
 
     scores = []
 
