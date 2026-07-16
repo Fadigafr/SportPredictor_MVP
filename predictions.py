@@ -220,6 +220,79 @@ def predictions_page():
     predicted_score = scores[0][0]
 
     # =====================================================
+    # BTTS
+    # =====================================================
+
+    btts_prob = 0
+
+    for h in range(1, 6):
+        for a in range(1, 6):
+
+        btts_prob += (
+            poisson(home_avg, h)
+            * poisson(away_avg, a)
+            * 100
+        )
+
+        btts_result = (
+            "OUI"
+    if btts_prob >= 50
+    else "NON"
+    )
+
+    # =====================================================
+    # OVER / UNDER
+    # =====================================================
+
+    over25_prob = 0
+    over35_prob = 0
+
+    for h in range(6):
+        for a in range(6):
+
+            p = (
+                poisson(home_avg, h)
+                * poisson(away_avg, a)
+                * 100
+            )
+
+            if (h + a) > 2:
+                over25_prob += p
+
+            if (h + a) > 3:
+                over35_prob += p
+
+    under25_prob = round(
+        100 - over25_prob,
+        1
+    )
+
+    under35_prob = round(
+        100 - over35_prob,
+        1
+    )
+
+    over25_prob = round(over25_prob, 1)
+    over35_prob = round(over35_prob, 1)
+
+    # =====================================================
+    # HT / FT
+    # =====================================================
+
+    if home_win_prob >= 60:
+
+        htft = "1/1"
+
+    elif away_win_prob >= 60:
+
+        htft = "2/2"
+
+    else:
+
+        htft = "N/1"
+
+
+    # =====================================================
     # CONFIANCE IA
     # =====================================================
 
@@ -362,6 +435,45 @@ def predictions_page():
         f"{predicted_score[0]} - {predicted_score[1]}"
     )
 
+    st.markdown("---")
+
+    st.subheader("Marchés Complémentaires IA")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+    st.metric(
+        "BTTS",
+        btts_result
+    )
+
+    st.metric(
+        "Over 2.5",
+        f"{over25_prob}%"
+    )
+
+    st.metric(
+        "Over 3.5",
+        f"{over35_prob}%"
+    )
+
+    with col2:
+
+    st.metric(
+        "Under 2.5",
+        f"{under25_prob}%"
+    )
+
+    st.metric(
+        "Under 3.5",
+        f"{under35_prob}%"
+    )
+
+    st.metric(
+        "HT/FT",
+        htft
+    )
     st.subheader("Indice IA")
 
     st.progress(
