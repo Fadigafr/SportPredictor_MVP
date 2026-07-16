@@ -457,10 +457,7 @@ for h in range(1, 6):
 
     with col1:
 
-        st.metric(
-            "BTTS",
-            btts_result
-        )
+        st.metric("BTTS", btts_result)
 
         st.metric(
             "Over 2.5",
