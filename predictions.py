@@ -30,7 +30,63 @@ def kelly(p, odd):
 
     return max(value, 0)
 
+# =====================================================
+# MOTEUR IA REEL
+# =====================================================
 
+    FORM_WEIGHT = 0.25
+    STANDING_WEIGHT = 0.20
+    H2H_WEIGHT = 0.15
+    HOME_WEIGHT = 0.10
+    BOOK_WEIGHT = 0.30
+
+# =====================================================
+# FORMES EQUIPES
+# =====================================================
+
+    home_form = 60
+    away_form = 40
+
+# =====================================================
+# CLASSEMENT
+# =====================================================
+
+    home_rank_score = 65
+    away_rank_score = 35
+
+# =====================================================
+# H2H
+# =====================================================    
+
+    home_h2h_score = 55
+    away_h2h_score = 45
+
+# =====================================================
+# AVANTAGE DOMICILE
+# ===================================================== 
+
+    home_advantage = 100
+    away_advantage = 0
+    
+# =====================================================
+# FONCTION IA SCORE
+# =====================================================
+
+def calculate_ai_strength(
+    form_score,
+    standing_score,
+    h2h_score,
+    home_advantage,
+    bookmaker_score
+):
+    return (
+        form_score * 0.25 +
+        standing_score * 0.20 +
+        h2h_score * 0.15 +
+        home_advantage * 0.10 +
+        bookmaker_score * 0.30
+    )
+    
 # =====================================================
 # PAGE PRINCIPALE
 # =====================================================
@@ -74,9 +130,42 @@ def predictions_page():
     # FORME
     # =====================================================
 
-    home_strength = 55
-    away_strength = 45
+    home_strength = calculate_ai_strength(
+    home_form,
+    home_rank_score,
+    home_h2h_score,
+    home_advantage,
+    book_home
+    )
 
+    away_strength = calculate_ai_strength(
+    away_form,
+    away_rank_score,
+    away_h2h_score,
+    away_advantage,
+    book_away
+    )
+
+    # =====================================================
+    # Cotes Bookmakers
+    # =====================================================
+    odd_home = 2.20
+    odd_draw = 3.30
+    odd_away = 3.60
+
+    book_home = (1 / odd_home)
+    book_draw = (1 / odd_draw)
+    book_away = (1 / odd_away)
+
+    total_book = (
+        book_home +
+        book_draw +
+        book_away
+    )
+
+    book_home = (book_home / total_book) * 100
+    book_away = (book_away / total_book) * 100
+    
     # =====================================================
     # INDICE IA
     # =====================================================
@@ -87,12 +176,40 @@ def predictions_page():
     away_win_prob = round((away_strength / total) * 100, 1)
     draw_prob = round(100 - home_win_prob - away_win_prob, 1)
 
+    total_strength = (
+    home_strength +
+    away_strength
+    )
+
+    home_win_prob = round(
+        home_strength / total_strength * 100,
+        1
+    )
+
+    away_win_prob = round(
+        away_strength / total_strength * 100,
+        1
+    )
+
+    draw_prob = round(
+        max(
+            10,
+            100 - home_win_prob - away_win_prob
+        ),
+        1
+    )
+
     # =====================================================
     # POISSON
     # =====================================================
 
-    home_avg = 1.8
-    away_avg = 1.1
+    home_avg = (
+        home_strength / 50
+    )
+
+    away_avg = (
+        away_strength / 50
+    )
 
     scores = []
 
@@ -115,6 +232,19 @@ def predictions_page():
     )
 
     predicted_score = scores[0][0]
+
+    confidence = round(
+    abs(
+        home_win_prob -
+        away_win_prob
+        ),
+        1
+    )
+
+    confidence_score = min(
+        95,
+        confidence + 50
+    )
 
     # =====================================================
     # VALUE BET
@@ -170,6 +300,28 @@ def predictions_page():
         1
     )
 
+    recommended_stake = round(
+    max(
+        kelly_home,
+        kelly_draw,
+        kelly_away
+    ),
+    1
+)
+
+    # =====================================================
+    # Niveau du pari
+    # =====================================================
+
+    if confidence_score >= 85:
+        risk_level = "FAIBLE"
+
+    elif confidence_score >= 70:
+        risk_level = "MOYEN"
+
+    else:
+        risk_level = "ÉLEVÉ"
+        
     # =====================================================
     # AFFICHAGE
     # =====================================================
@@ -229,3 +381,25 @@ def predictions_page():
     st.success(
         f"PARI IA RECOMMANDÉ : {meilleur[0]}"
     )
+
+    st.subheader("Confiance IA")
+
+    st.progress(
+        confidence_score / 100
+    )
+
+    st.metric(
+        "Indice de confiance",
+        f"{confidence_score}/100"
+    )
+
+    st.subheader("Gestion du risque")
+
+    st.write(
+        f"Niveau de risque : {risk_level}"
+    )
+
+    st.write(
+        f"Mise recommandée : {recommended_stake}% bankroll"
+    )
+    
