@@ -394,6 +394,31 @@ except:
         1
     )
 
+
+    # =====================================================
+    # TOP 3 PARIS IA
+    # =====================================================
+
+    top_bets = [
+        (
+            recommended_bet,
+            confidence
+        ),
+        (
+            "Double Chance 1X",
+            double_1x
+        ),
+        (
+            "Over 1.5 Buts",
+            max(over15, confidence - 5)
+        )
+    ]
+
+    top_bets.sort(
+        key=lambda x: x[1],
+        reverse=True
+    )
+
     # =====================================================
     # SCORE EXACT IA
     # =====================================================
@@ -445,15 +470,38 @@ if odd_home:
     if home_win_prob > (bookie_home + 8):
 
         value_bet = (
-            f"VALUE BET : {home_team}"
+            f"VALUE BET : {home_team} "
+            f"(+{compare_home}%)"
         )
 
     elif away_win_prob > (bookie_away + 8):
 
         value_bet = (
-            f"VALUE BET : {away_team}"
+            f"VALUE BET : {away_team} "
+            f"(+{compare_away}%)"
         )
 
+    # =====================================================
+    # COMPARATIF IA VS BOOKMAKER
+    # =====================================================
+
+    if odd_home and odd_draw and odd_away:
+
+        compare_home = round(
+            home_win_prob - bookie_home,
+            1
+        )
+
+        compare_draw = round(
+            draw_prob - bookie_draw,
+            1
+        )
+
+        compare_away = round(
+            away_win_prob - bookie_away,
+            1
+        )
+        
     # =====================================================
     # AI INDEX
     # =====================================================
@@ -611,6 +659,42 @@ else:
     d2.metric("X2", f"{double_x2}%")
     d3.metric("12", f"{double_12}%")
 
+    st.subheader("🏆 Top 3 Paris IA")
+
+for i, (bet, conf) in enumerate(top_bets[:3], 1):
+
+    st.write(
+        f"{i}. {bet} ({round(conf,1)}%)"
+    )
+
+    if odd_home:
+
+    st.subheader("📊 IA vs Bookmaker")
+
+    comparison = {
+        "Résultat": ["1", "X", "2"],
+        "IA %": [
+            home_win_prob,
+            draw_prob,
+            away_win_prob
+        ],
+        "Bookmaker %": [
+            bookie_home,
+            bookie_draw,
+            bookie_away
+        ],
+        "Différence": [
+            compare_home,
+            compare_draw,
+            compare_away
+        ]
+    }
+
+    st.dataframe(
+        comparison,
+        use_container_width=True
+    )
+    
     # =====================================================
     # ANALYSE IA
     # =====================================================
