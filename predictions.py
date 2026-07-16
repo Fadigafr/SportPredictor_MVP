@@ -767,18 +767,15 @@ if odd_home:
 
     st.subheader("Value Bet IA")
 
-if "VALUE BET" in value_bet:
+if value_bet != "Aucun Value Bet":
+
     st.success(value_bet)
 
 else:
-    st.warning(value_bet)
-    st.subheader("Double Chance")
 
-    d1, d2, d3 = st.columns(3)
-
-    d1.metric("1X", f"{double_1x}%")
-    d2.metric("X2", f"{double_x2}%")
-    d3.metric("12", f"{double_12}%")
+    st.warning(
+        "Aucun Value Bet détecté"
+    )
 
     st.subheader("🏆 Top 3 Paris IA")
 
@@ -848,3 +845,85 @@ for i, (bet, conf) in enumerate(top_bets[:3], 1):
     st.info(
         f"L'IA a identifié {len(ai_reasons)} facteurs favorables."
     )
+
+    # =====================================================
+    # IA VS BOOKMAKER
+    # =====================================================
+
+    if odd_home and odd_draw and odd_away:
+
+        bookie_home = round(100 / odd_home, 1)
+        bookie_draw = round(100 / odd_draw, 1)
+        bookie_away = round(100 / odd_away, 1)
+
+        compare_home = round(
+            home_win_prob - bookie_home,
+            1
+        )
+
+        compare_draw = round(
+            draw_prob - bookie_draw,
+            1
+        )
+
+        compare_away = round(
+            away_win_prob - bookie_away,
+            1
+        )
+
+    st.subheader("IA vs Bookmaker")
+
+        c1, c2, c3 = st.columns(3)
+
+        c1.metric(
+            "1",
+            f"{compare_home:+.1f}%"
+        )
+
+        c2.metric(
+            "X",
+            f"{compare_draw:+.1f}%"
+        )
+
+        c3.metric(
+            "2",
+            f"{compare_away:+.1f}%"
+        )
+
+    # =====================================================
+    # TOP 3 PARIS IA
+    # =====================================================
+
+    top_bets = []
+
+    top_bets.append(
+        (recommended_bet, confidence)
+    )
+
+    top_bets.append(
+        ("Double Chance 1X", double_1x)
+    )
+
+    top_bets.append(
+        ("Double Chance X2", double_x2)
+    )
+
+    top_bets.append(
+        ("Double Chance 12", double_12)
+    )
+
+    top_bets.sort(
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    st.subheader("Top 3 Paris IA")
+
+    for i, (bet, conf) in enumerate(
+        top_bets[:3],
+        start=1
+    ):
+    st.write(
+        f"{i}. {bet} ({conf:.1f}%)"
+    )
+        
