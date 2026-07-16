@@ -755,23 +755,23 @@ if odd_home:
         "Niveau IA",
         level
     )
-if odd_home:
+    if odd_home:
 
     st.subheader("Cotes Bookmakers")
 
-    b1, b2, b3 = st.columns(3)
+        b1, b2, b3 = st.columns(3)
 
-    b1.metric("1", odd_home)
-    b2.metric("X", odd_draw)
-    b3.metric("2", odd_away)
+        b1.metric("1", odd_home)
+        b2.metric("X", odd_draw)
+        b3.metric("2", odd_away)
 
     st.subheader("Value Bet IA")
 
-if value_bet != "Aucun Value Bet":
+    if value_bet != "Aucun Value Bet":
 
     st.success(value_bet)
 
-else:
+    else:
 
     st.warning(
         "Aucun Value Bet détecté"
@@ -779,7 +779,7 @@ else:
 
     st.subheader("🏆 Top 3 Paris IA")
 
-for i, (bet, conf) in enumerate(top_bets[:3], 1):
+    for i, (bet, conf) in enumerate(top_bets[:3], 1):
 
     st.write(
         f"{i}. {bet} ({round(conf,1)}%)"
