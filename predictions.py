@@ -217,13 +217,13 @@ def predictions_page():
         reverse=True
     )
 
-    predicted_score = scores[0][0]
+predicted_score = scores[0][0]
 
-# =====================================================
-# BTTS
-# =====================================================
+    # =====================================================
+    # BTTS
+    # =====================================================
 
-btts_prob = 0
+    btts_prob = 0
 
 for h in range(1, 6):
     for a in range(1, 6):
@@ -234,11 +234,11 @@ for h in range(1, 6):
             * 100
         )
 
-btts_result = (
-    "OUI"
-    if btts_prob >= 50
-    else "NON"
-)
+    btts_result = (
+        "OUI"
+        if btts_prob >= 50
+        else "NON"
+    )
 
     # =====================================================
     # OVER / UNDER
@@ -291,20 +291,20 @@ btts_result = (
 
         htft = "N/1"
 
-double_chance_1x = round(
-    home_win_prob + draw_prob,
-    1
-)
+    double_chance_1x = round(
+        home_win_prob + draw_prob,
+        1
+    )
 
-double_chance_x2 = round(
-    away_win_prob + draw_prob,
-    1
-)
+    double_chance_x2 = round(
+        away_win_prob + draw_prob,
+        1
+    )
 
-double_chance_12 = round(
-    home_win_prob + away_win_prob,
-    1
-)
+    double_chance_12 = round(
+        home_win_prob + away_win_prob,
+        1
+    )
 
     # =====================================================
     # CONFIANCE IA
@@ -451,56 +451,56 @@ double_chance_12 = round(
 
     st.markdown("---")
 
-st.subheader("Marchés Complémentaires IA")
+    st.subheader("Marchés Complémentaires IA")
 
-col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-with col1:
+    with col1:
 
-    st.metric(
-        "BTTS",
-        btts_result
-    )
+        st.metric(
+            "BTTS",
+            btts_result
+        )
 
-    st.metric(
-        "Over 2.5",
-        f"{over25_prob}%"
-    )
+        st.metric(
+            "Over 2.5",
+            f"{over25_prob}%"
+        )
 
-    st.metric(
-        "Over 3.5",
-        f"{over35_prob}%"
-    )
+        st.metric(
+            "Over 3.5",
+            f"{over35_prob}%"
+        )
 
-with col2:
+    with col2:
 
-    st.metric(
-        "Under 2.5",
-        f"{under25_prob}%"
-    )
+        st.metric(
+            "Under 2.5",
+            f"{under25_prob}%"
+        )
 
-    st.metric(
-        "Under 3.5",
-        f"{under35_prob}%"
-    )
+        st.metric(
+            "Under 3.5",
+            f"{under35_prob}%"
+        )
 
-    st.metric(
-        "HT/FT",
-        htft
-    )
+        st.metric(
+            "HT/FT",
+            htft
+        )
 
     st.subheader("Double Chance")
 
-c1, c2, c3 = st.columns(3)
+    c1, c2, c3 = st.columns(3)
 
-with c1:
-    st.metric("1X", f"{double_chance_1x}%")
+    with c1:
+        st.metric("1X", f"{double_chance_1x}%")
 
-with c2:
-    st.metric("X2", f"{double_chance_x2}%")
+    with c2:
+        st.metric("X2", f"{double_chance_x2}%")
 
-with c3:
-    st.metric("12", f"{double_chance_12}%")
+    with c3:
+        st.metric("12", f"{double_chance_12}%")
     
     st.subheader("Indice IA")
 
@@ -508,10 +508,10 @@ with c3:
         confidence_score / 100
     )
 
-    st.metric(
-        "Confiance",
-        f"{confidence_score}/100"
-    )
+        st.metric(
+            "Confiance",
+            f"{confidence_score}/100"
+        )
 
     st.markdown("---")
 
