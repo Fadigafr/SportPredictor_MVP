@@ -135,23 +135,21 @@ def predictions_page():
     # =====================================================
 
     home_strength = calculate_ai_strength(
-    home_form,
-    home_rank_score,
-    home_h2h_score,
-    home_advantage,
-    book_home
+        home_form,
+        home_rank_score,
+        home_h2h_score,
+        home_advantage,
+        book_home
     )
 
     away_strength = calculate_ai_strength(
-    away_form,
-    away_rank_score,
-    away_h2h_score,
-    away_advantage,
-    book_away
+        away_form,
+        away_rank_score,
+        away_h2h_score,
+        away_advantage,
+        book_away
     )
 
-    
-    
     # =====================================================
     # INDICE IA
     # =====================================================
@@ -217,28 +215,28 @@ def predictions_page():
         reverse=True
     )
 
-predicted_score = scores[0][0]
+    predicted_score = scores[0][0]
 
-# =====================================================
-# BTTS
-# =====================================================
+    # =====================================================
+    # BTTS
+    # =====================================================
 
     btts_prob = 0
 
-for h in range(1, 6):
-    for a in range(1, 6):
+    for h in range(1, 6):
+        for a in range(1, 6):
 
-        btts_prob += (
-            poisson(home_avg, h)
-            * poisson(away_avg, a)
-            * 100
-        )
+            btts_prob += (
+                poisson(home_avg, h)
+                * poisson(away_avg, a)
+                * 100
+            )
 
     btts_result = (
         "OUI"
         if btts_prob >= 50
         else "NON"
-    )    
+    )
 
     # =====================================================
     # OVER / UNDER
@@ -280,16 +278,17 @@ for h in range(1, 6):
     # =====================================================
 
     if home_win_prob >= 60:
-
         htft = "1/1"
 
     elif away_win_prob >= 60:
-
         htft = "2/2"
 
     else:
-
         htft = "N/1"
+
+    # =====================================================
+    # DOUBLE CHANCE
+    # =====================================================
 
     double_chance_1x = round(
         home_win_prob + draw_prob,
@@ -505,10 +504,10 @@ for h in range(1, 6):
         confidence_score / 100
     )
 
-        st.metric(
-            "Confiance",
-            f"{confidence_score}/100"
-        )
+    st.metric(
+        "Confiance",
+        f"{confidence_score}/100"
+    )
 
     st.markdown("---")
 
