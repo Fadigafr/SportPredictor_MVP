@@ -72,6 +72,64 @@ def predictions_page():
         f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
     )
 
+    # =====================================================
+    # COTES BOOKMAKERS
+    # =====================================================
+
+    odds_data = api_get(
+        f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+    )
+
+     odd_home = None
+     odd_draw = None
+     odd_away = None
+
+    try:
+
+    bookmakers = odds_data["response"][0]["bookmakers"]
+
+    for bookmaker in bookmakers:
+
+        bets = bookmaker["bets"]
+
+        for bet in bets:
+
+            if bet["name"] == "Match Winner":
+
+                odd_home = float(
+                    bet["values"][0]["odd"]
+                )
+
+                odd_draw = float(
+                    bet["values"][1]["odd"]
+                )
+
+                odd_away = float(
+                    bet["values"][2]["odd"]
+                )
+
+                break
+
+except:
+    pass
+
+    if odd_home and odd_draw and odd_away:
+
+        bookie_home = round(
+            100 / odd_home,
+            1
+        )
+
+        bookie_draw = round(
+            100 / odd_draw,
+            1
+        )
+
+        bookie_away = round(
+            100 / odd_away,
+            1
+        )
+
     if not fixture.get("response"):
         st.error("Match introuvable")
         return
@@ -318,6 +376,25 @@ def predictions_page():
     )
 
     # =====================================================
+    # DOUBLE CHANCE
+    # =====================================================
+
+    double_1x = round(
+        home_win_prob + draw_prob,
+        1
+    )
+
+    double_x2 = round(
+        away_win_prob + draw_prob,
+        1
+    )
+
+    double_12 = round(
+        home_win_prob + away_win_prob,
+        1
+    )
+
+    # =====================================================
     # SCORE EXACT IA
     # =====================================================
 
@@ -356,6 +433,27 @@ def predictions_page():
     predicted_score = (
         f"{predicted_home_goals}-{predicted_away_goals}"
     )
+
+    # =====================================================
+    # VALUE BET
+    # =====================================================
+
+    value_bet = "Aucun Value Bet"
+
+if odd_home:
+
+    if home_win_prob > (bookie_home + 8):
+
+        value_bet = (
+            f"VALUE BET : {home_team}"
+        )
+
+    elif away_win_prob > (bookie_away + 8):
+
+        value_bet = (
+            f"VALUE BET : {away_team}"
+        )
+
     # =====================================================
     # AI INDEX
     # =====================================================
@@ -445,6 +543,22 @@ def predictions_page():
     )
 
     # =====================================================
+    # NIVEAU IA
+    # =====================================================
+
+    if confidence >= 85:
+        level = "ELITE BET"
+
+    elif confidence >= 70:
+        level = "BET FORT"
+
+    elif confidence >= 55:
+        level = "BET MOYEN"
+
+    else:
+        level = "RISQUE"
+        
+    # =====================================================
     # AFFICHAGE
     # =====================================================
 
@@ -467,7 +581,36 @@ def predictions_page():
         "Confiance IA",
         f"{confidence}%"
     )
-    
+
+    st.metric(
+        "Niveau IA",
+        level
+    )
+if odd_home:
+
+    st.subheader("Cotes Bookmakers")
+
+    b1, b2, b3 = st.columns(3)
+
+    b1.metric("1", odd_home)
+    b2.metric("X", odd_draw)
+    b3.metric("2", odd_away)
+
+    st.subheader("Value Bet IA")
+
+if "VALUE BET" in value_bet:
+    st.success(value_bet)
+
+else:
+    st.warning(value_bet)
+    st.subheader("Double Chance")
+
+    d1, d2, d3 = st.columns(3)
+
+    d1.metric("1X", f"{double_1x}%")
+    d2.metric("X2", f"{double_x2}%")
+    d3.metric("12", f"{double_12}%")
+
     # =====================================================
     # ANALYSE IA
     # =====================================================
