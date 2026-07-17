@@ -338,10 +338,10 @@ def predictions_page():
             )
 
     btts_result = (
-    "OUI"
-    if btts_prob >= 50
-    else "NON"
-)
+        "OUI"
+        if btts_prob >= 50
+        else "NON"
+    )
 
     # =====================================================
     # OVER / UNDER
@@ -491,13 +491,13 @@ def predictions_page():
     )
 
     recommended_stake = round(
-    max(
-        kelly_home,
-        kelly_draw,
-        kelly_away
-    ),
-    1
-)
+        max(
+            kelly_home,
+            kelly_draw,
+            kelly_away
+        ),
+        1
+    )
 
     # =====================================================
     # MISE RECOMMANDEE
@@ -703,3 +703,11 @@ def predictions_page():
         f"Mise recommandée : {recommended_stake}% bankroll"
     )
     
+    st.write("Forme domicile :", home_form)
+    st.write("Forme extérieur :", away_form)
+
+    st.write("Classement domicile :", home_rank_score)
+    st.write("Classement extérieur :", away_rank_score)
+
+    st.write("H2H domicile :", home_h2h_score)
+    st.write("H2H extérieur :", away_h2h_score)
