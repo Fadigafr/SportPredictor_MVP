@@ -222,41 +222,6 @@ def predictions_page():
 
     fixture_id = st.session_state["fixture_id"]
 
-    league_id = game["league"]["id"]
-    season = game["league"]["season"]
-
-    try:
-
-        home_scorers = get_top_scorers(
-            home_id,
-            season
-        )
-
-        away_scorers = get_top_scorers(
-            away_id,
-            season
-        )
-
-    except Exception:
-
-    home_scorers = []
-    away_scorers = []
-
-    all_scorers = home_scorers + away_scorers
-
-    all_scorers.sort(
-        key=lambda x: x["score"],
-        reverse=True
-    )
-
-    if all_scorers:
-
-        probable_scorer = all_scorers[0]["name"]
-
-    else:
-
-        probable_scorer = "Non disponible"
-
     # =====================================================
     # MATCH
     # =====================================================
@@ -279,6 +244,38 @@ def predictions_page():
 
     league_id = game["league"]["id"]
     season = game["league"]["season"]
+
+    try:
+
+    home_scorers = get_top_scorers(
+        home_id,
+        season
+    )
+
+    away_scorers = get_top_scorers(
+        away_id,
+        season
+    )
+
+    except Exception:
+
+        home_scorers = []
+        away_scorers = []
+
+    all_scorers = home_scorers + away_scorers
+
+    all_scorers.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    if all_scorers:
+
+        probable_scorer = all_scorers[0]["name"]
+
+    else:
+
+        probable_scorer = "Non disponible"
 
     home_form = calculate_form(home_id)
     away_form = calculate_form(away_id)
