@@ -347,6 +347,28 @@ def predictions_page():
 
         st.error(f"Erreur Odds : {e}")
 
+    st.write(
+        f"📊 Cotes Bookmakers : "
+        f"{odd_home} | "
+        f"{odd_draw} | "
+        f"{odd_away}"
+    )
+
+    if (
+        home_win_prob > away_win_prob
+        and odd_home < odd_away
+    ):
+
+        st.success(
+            "✅ IA et Bookmakers sont alignés"
+        )
+
+    else:
+
+        st.warning(
+            "⚠️ Désaccord IA / Bookmakers"
+        )
+
     # =====================================================
     # Conversion bookmakers
     # =====================================================
@@ -387,7 +409,56 @@ def predictions_page():
 
     st.write("Force domicile :", round(home_strength, 2))
     st.write("Force extérieur :", round(away_strength, 2))
-    
+
+    # =====================================================
+    # ANALYSE IA PREMIUM
+    # =====================================================
+
+    home_bonus = 0
+    away_bonus = 0
+
+    reasons = []
+
+    # Forme
+
+    if home_form > away_form:
+
+        home_bonus += 10
+        reasons.append(
+            f"✅ Forme récente favorable à {home_team}"
+        )
+
+    elif away_form > home_form:
+
+        away_bonus += 10
+        reasons.append(
+            f"✅ Forme récente favorable à {away_team}"
+        )
+
+    # Classement
+
+    if home_rank < away_rank:
+
+        home_bonus += 10
+        reasons.append(
+            f"✅ Classement favorable à {home_team}"
+        )
+
+    elif away_rank < home_rank:
+
+        away_bonus += 10
+        reasons.append(
+            f"✅ Classement favorable à {away_team}"
+        )
+
+    # Domicile
+
+    home_bonus += 5
+
+    reasons.append(
+        f"✅ Avantage domicile pour {home_team}"
+    )
+
     # =====================================================
     # INDICE IA
     # =====================================================
@@ -601,6 +672,25 @@ def predictions_page():
         95,
         confidence + 50
     )
+
+    confidence_score = min(
+    95,
+    round(
+        abs(home_strength - away_strength) * 1.5
+    )
+)  
+
+    if home_win_prob > away_win_prob:
+
+        ia_favorite = home_team
+
+    elif away_win_prob > home_win_prob:
+
+        ia_favorite = away_team
+
+    else:
+
+        ia_favorite = "Match équilibré"
     
     # =====================================================
     # VALUE BET
@@ -700,6 +790,23 @@ def predictions_page():
     # AFFICHAGE
     # =====================================================
 
+    st.markdown("---")
+
+    st.subheader("🧠 Analyse IA Premium")
+
+    st.success(
+        f"🎯 Favori IA : {ia_favorite}"
+    )
+
+    st.metric(
+        "Indice de confiance",
+        f"{confidence_score}/100"
+    )
+
+    for reason in reasons:
+
+        st.write(reason)
+        
     col1, col2, col3 = st.columns(3)
 
     with col1:
