@@ -347,25 +347,12 @@ def predictions_page():
 
         st.error(f"Erreur Odds : {e}")
 
-    if (
-        home_win_prob > away_win_prob
-        and odd_home < odd_away
-    ):
-
-        st.success(
-            "✅ IA et Bookmakers sont alignés"
-        )
-
-    else:
-
-        st.warning(
-            "⚠️ Désaccord IA / Bookmakers"
-        )
-
     st.write(
         f"📊 Cotes : "
         f"{odd_home} | "
         f"{odd_draw} | "
+        f"{odd_away}"
+    )
 
     # =====================================================
     # Conversion bookmakers
@@ -435,14 +422,14 @@ def predictions_page():
 
     # Classement
 
-    if home_rank < away_rank:
+    if home_rank_score > away_rank_score:
 
         home_bonus += 10
         reasons.append(
             f"✅ Classement favorable à {home_team}"
         )
 
-    elif away_rank < home_rank:
+    elif away_rank_score > home_rank_score:
 
         away_bonus += 10
         reasons.append(
@@ -489,6 +476,30 @@ def predictions_page():
         ),
         1
     )
+
+    if (
+        home_win_prob > away_win_prob
+        and odd_home < odd_away
+    ):
+
+        st.success(
+            "✅ IA et Bookmakers alignés"
+        )
+
+    elif (
+        away_win_prob > home_win_prob
+        and odd_away < odd_home
+    ):
+
+        st.success(
+            "✅ IA et Bookmakers alignés"
+        )
+
+    else:
+
+        st.warning(
+            "⚠️ Désaccord IA / Bookmakers"
+        )
 
     # =====================================================
     # POISSON
@@ -816,88 +827,6 @@ def predictions_page():
     with col3:
         st.metric("2", f"{away_win_prob}%")
         
-    # =====================================================
-    # ANALYSE IA PREMIUM V6.7
-    # =====================================================
-
-    st.markdown("---")
-    st.subheader("🧠 Analyse IA Premium")
-
-    if home_win_prob > away_win_prob:
-        ia_favorite = home_team
-    else:
-        ia_favorite = away_team
-
-    confidence_score = round(
-        max(home_win_prob, away_win_prob)
-    )
-
-    st.success(
-        f"🎯 Favori IA : {ia_favorite}"
-    )
-
-    st.metric(
-        "Indice IA",
-        f"{confidence_score}/100"
-    )
-
-    if home_strength > away_strength:
-
-        st.write(
-            f"✅ Force globale favorable à {home_team}"
-        )
-
-    else:
-
-        st.write(
-            f"✅ Force globale favorable à {away_team}"
-        )
-
-     if home_rank < away_rank:
-
-        st.write(
-            f"✅ Classement favorable à {home_team}"
-        )
-
-    elif away_rank < home_rank:
-
-        st.write(
-            f"✅ Classement favorable à {away_team}"
-        )
-
-    st.write(
-        f"✅ Avantage domicile pour {home_team}"
-    )
-
-    st.write(
-        f"📊 Cotes marché : "
-        f"{odd_home} | {odd_draw} | {odd_away}"
-    )
-
-    if (
-        home_win_prob > away_win_prob
-        and odd_home < odd_away
-    ):
-
-    st.success(
-        "✅ IA et Bookmakers alignés"
-    )
-
-elif (
-    away_win_prob > home_win_prob
-    and odd_away < odd_home
-):
-
-    st.success(
-        "✅ IA et Bookmakers alignés"
-    )
-
-else:
-
-    st.warning(
-        "⚠️ Désaccord IA / Bookmakers"
-    )
-
 # =====================================================
 # SCORE EXACT IA
 # =====================================================
