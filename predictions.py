@@ -208,27 +208,39 @@ def get_top_scorers(team_id, season):
 
     return players[:3]
     
+# =====================================================
+# PAGE PRINCIPALE
+# =====================================================
+
+def predictions_page():
+
+    st.title("SPORT PREDICTOR ULTRA PRO IA V6.2")
+
+    if "fixture_id" not in st.session_state:
+        st.warning("Sélectionnez un match depuis le calendrier.")
+        return
+
+    fixture_id = st.session_state["fixture_id"]
+
     league_id = game["league"]["id"]
     season = game["league"]["season"]
 
         try:
 
             home_scorers = get_top_scorers(
-            home_id,
-            season
-        )
+                home_id,
+                season
+            )
 
             away_scorers = get_top_scorers(
-            away_id,
-            season
-        )
+                away_id,
+                season
+            )
 
-        except:
+        except Exception:
 
-        home_scorers = []
-        away_scorers = []
-
-    probable_scorer = "Non disponible"
+    home_scorers = []
+    away_scorers = []
 
     all_scorers = home_scorers + away_scorers
 
@@ -244,46 +256,6 @@ def get_top_scorers(team_id, season):
     else:
 
         probable_scorer = "Non disponible"
-
-        home_scorers = get_top_scorers(
-        home_id,
-            season
-        )
-
-        away_scorers = get_top_scorers(
-            away_id,
-            season
-        )
-
-    all_scorers = (
-        home_scorers +
-        away_scorers
-    )
-
-    all_scorers.sort(
-        key=lambda x: x["score"],
-        reverse=True
-    )
-
-    probable_scorer = (
-        all_scorers[0]["name"]
-        if all_scorers
-        else "Non disponible"
-    )
-    
-# =====================================================
-# PAGE PRINCIPALE
-# =====================================================
-
-def predictions_page():
-
-    st.title("SPORT PREDICTOR ULTRA PRO IA V6.2")
-
-    if "fixture_id" not in st.session_state:
-        st.warning("Sélectionnez un match depuis le calendrier.")
-        return
-
-    fixture_id = st.session_state["fixture_id"]
 
     # =====================================================
     # MATCH
@@ -794,47 +766,47 @@ def predictions_page():
 
     st.markdown("---")
 
-st.subheader("⚽ Buteurs Probables IA")
+    st.subheader("⚽ Buteurs Probables IA")
 
-c1, c2 = st.columns(2)
+    c1, c2 = st.columns(2)
 
-with c1:
+    with c1:
 
-    st.write(f"### {home_team}")
+        st.write(f"### {home_team}")
 
-    if home_scorers:
+        if home_scorers:
 
-        for player in home_scorers:
+            for player in home_scorers:
 
-            st.write(
-                f"⚽ {player['name']} "
-                f"({player['goals']} buts)"
-            )
+                st.write(
+                    f"⚽ {player['name']} "
+                    f"({player['goals']} buts)"
+                )
 
-    else:
+        else:
 
-        st.write("Aucune donnée")
+            st.write("Aucune donnée")
 
-with c2:
+    with c2:
 
-    st.write(f"### {away_team}")
+        st.write(f"### {away_team}")
 
-    if away_scorers:
+        if away_scorers:
 
-        for player in away_scorers:
+            for player in away_scorers:
 
-            st.write(
-                f"⚽ {player['name']} "
-                f"({player['goals']} buts)"
-            )
+                st.write(
+                    f"⚽ {player['name']} "
+                    f"({player['goals']} buts)"
+                )
 
-    else:
+        else:
 
-        st.write("Aucune donnée")
+            st.write("Aucune donnée")
 
-st.success(
-    f"🎯 Buteur probable du match : {probable_scorer}"
-)
+    st.success(
+        f"🎯 Buteur probable du match : {probable_scorer}"
+    )
 
     st.markdown("---")
 
