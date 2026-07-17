@@ -757,38 +757,39 @@ def predictions_page():
             f"EV={ev} | "
             f"Kelly={kelly_pct}%"
         )
+
     st.markdown("---")
 
-    st.subheader("⚽ Buteurs Probables")
+    st.subheader("⚽ Buteurs Probables IA")
 
-    col1, col2 = st.columns(2)
+    c1, c2 = st.columns(2)
 
-    with col1:
+    with c1:
 
         st.write(f"### {home_team}")
 
-        for i, player in enumerate(home_scorers, start=1):
+        for player in home_scorers:
 
             st.write(
-                f"{i}. {player['name']} "
+                f"⚽ {player['name']} "
                 f"({player['goals']} buts)"
             )
 
-    with col2:
+    with c2:
 
         st.write(f"### {away_team}")
 
-        for i, player in enumerate(away_scorers, start=1):
+        for player in away_scorers:
 
             st.write(
-                f"{i}. {player['name']} "
+                f"⚽ {player['name']} "
                 f"({player['goals']} buts)"
             )
 
     st.success(
-        f"⚽ Buteur probable du match : {probable_scorer}"
+        f"🎯 Buteur probable du match : {probable_scorer}"
     )
-    
+
     st.markdown("---")
 
     st.subheader("Gestion du Risque")
