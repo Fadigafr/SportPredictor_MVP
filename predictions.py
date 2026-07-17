@@ -311,8 +311,6 @@ def predictions_page():
             f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
         )
 
-        st.write(odds_data)
-
         if odds_data.get("response"):
 
             bookmakers = odds_data["response"][0]["bookmakers"]
