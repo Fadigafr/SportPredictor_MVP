@@ -300,9 +300,8 @@ def predictions_page():
     # =====================================================
     # Cotes Bookmakers
     # =====================================================
-    odd_home = 2.20
-    odd_draw = 3.30
-    odd_away = 3.60
+    
+    /odds?fixture={fixture_id}
 
     book_home = (1 / odd_home)
     book_draw = (1 / odd_draw)
