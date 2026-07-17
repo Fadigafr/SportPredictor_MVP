@@ -212,6 +212,21 @@ def predictions_page():
     away_advantage = 0
 
     st.subheader(f"{home_team} vs {away_team}")
+
+    st.write("### DEBUG IA")
+
+    st.write("Forme domicile :", home_form)
+    st.write("Forme extérieur :", away_form)
+
+    st.write("Classement domicile :", home_rank_score)
+    st.write("Classement extérieur :", away_rank_score)
+
+    st.write("H2H domicile :", home_h2h_score)
+    st.write("H2H extérieur :", away_h2h_score)
+
+    st.write("Force domicile :", round(home_strength, 2))
+    st.write("Force extérieur :", round(away_strength, 2))
+
     
     # =====================================================
     # Cotes Bookmakers
@@ -290,14 +305,16 @@ def predictions_page():
     # POISSON
     # =====================================================
 
-    home_avg = max(
-        0.6,
-        round(home_strength / 35, 2)
+    home_avg = (
+        (home_form / 100) * 1.4 +
+        (home_rank_score / 100) * 0.8 +
+        0.5
     )
 
-    away_avg = max(
-        0.4,
-        round(away_strength / 35, 2)
+    away_avg = (
+        (away_form / 100) * 1.2 +
+        (away_rank_score / 100) * 0.7 +
+        0.3
     )
 
     scores = []
