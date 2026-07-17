@@ -350,16 +350,6 @@ def predictions_page():
         st.error(f"Erreur Odds : {e}")
 
     # =====================================================
-    # DEBUG
-    # =====================================================
-
-    st.subheader("DEBUG ODDS")
-
-    st.write("HOME =", odd_home)
-    st.write("DRAW =", odd_draw)
-    st.write("AWAY =", odd_away)
-
-    # =====================================================
     # Conversion bookmakers
     # =====================================================
 
@@ -376,10 +366,6 @@ def predictions_page():
     book_home = (book_home / total_book) * 100
     book_draw = (book_draw / total_book) * 100
     book_away = (book_away / total_book) * 100
-
-    st.write("BOOK HOME =", round(book_home, 2))
-    st.write("BOOK DRAW =", round(book_draw, 2))
-    st.write("BOOK AWAY =", round(book_away, 2))
     
     # =====================================================
     # IA STRENGTH
@@ -633,16 +619,6 @@ def predictions_page():
     value_home = round(home_win_prob - implied_home, 2)
     value_draw = round(draw_prob - implied_draw, 2)
     value_away = round(away_win_prob - implied_away, 2)
-
-    st.subheader("DEBUG VALUE BET")
-
-    st.write("ODD HOME =", odd_home)
-    st.write("ODD DRAW =", odd_draw)
-    st.write("ODD AWAY =", odd_away)
-
-    st.write("IA HOME =", home_win_prob)
-    st.write("IA DRAW =", draw_prob)
-    st.write("IA AWAY =", away_win_prob)
 
     # =====================================================
     # EV+
