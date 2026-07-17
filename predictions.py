@@ -301,75 +301,75 @@ def predictions_page():
     # Cotes Bookmakers API-Football
     # =====================================================
 
-odd_home = 2.20
-odd_draw = 3.20
-odd_away = 3.60
+    odd_home = 2.20
+    odd_draw = 3.20
+    odd_away = 3.60
 
-try:
+    try:
 
-    odds_data = api_get(
-        f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+        odds_data = api_get(
+            f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+        )
+
+        st.write(odds_data)
+
+        if odds_data.get("response"):
+
+            bookmakers = odds_data["response"][0]["bookmakers"]
+
+            for bookmaker in bookmakers:
+
+                st.write("BOOKMAKER :", bookmaker["name"])
+
+                for bet in bookmaker["bets"]:
+
+                    st.write("MARCHE :", bet["name"])
+
+                    if bet["name"] == "Match Winner":
+
+                        odd_home = float(bet["values"][0]["odd"])
+                        odd_draw = float(bet["values"][1]["odd"])
+                        odd_away = float(bet["values"][2]["odd"])
+
+                        st.success("✅ ODDS API TROUVÉES")
+
+                        st.write("HOME :", odd_home)
+                        st.write("DRAW :", odd_draw)
+                        st.write("AWAY :", odd_away)
+
+                        break
+
+    except Exception as e:
+
+        st.error(f"Erreur Odds : {e}")
+
+    # =====================================================
+    # DEBUG
+    # =====================================================
+
+    st.subheader("DEBUG ODDS")
+
+    st.write("HOME =", odd_home)
+    st.write("DRAW =", odd_draw)
+    st.write("AWAY =", odd_away)
+
+    # =====================================================
+    # Conversion bookmakers
+    # =====================================================
+
+    book_home = (1 / odd_home)
+    book_draw = (1 / odd_draw)
+    book_away = (1 / odd_away)
+
+    total_book = (
+        book_home +
+        book_draw +
+        book_away
     )
 
-    st.write(odds_data)
-
-    if odds_data.get("response"):
-
-        bookmakers = odds_data["response"][0]["bookmakers"]
-
-        for bookmaker in bookmakers:
-
-            st.write("BOOKMAKER :", bookmaker["name"])
-
-            for bet in bookmaker["bets"]:
-
-                st.write("MARCHE :", bet["name"])
-
-                if bet["name"] == "Match Winner":
-
-                    odd_home = float(bet["values"][0]["odd"])
-                    odd_draw = float(bet["values"][1]["odd"])
-                    odd_away = float(bet["values"][2]["odd"])
-
-                    st.success("✅ ODDS API TROUVÉES")
-
-                    st.write("HOME :", odd_home)
-                    st.write("DRAW :", odd_draw)
-                    st.write("AWAY :", odd_away)
-
-                    break
-
-except Exception as e:
-
-    st.error(f"Erreur Odds : {e}")
-
-# =====================================================
-# DEBUG
-# =====================================================
-
-st.subheader("DEBUG ODDS")
-
-st.write("HOME =", odd_home)
-st.write("DRAW =", odd_draw)
-st.write("AWAY =", odd_away)
-
-# =====================================================
-# Conversion bookmakers
-# =====================================================
-
-book_home = (1 / odd_home)
-book_draw = (1 / odd_draw)
-book_away = (1 / odd_away)
-
-total_book = (
-    book_home +
-    book_draw +
-    book_away
-)
-
-book_home = (book_home / total_book) * 100
-book_draw = (book_draw / total_book) * 100
-book_away = (book_away / total_book) * 100
+    book_home = (book_home / total_book) * 100
+    book_draw = (book_draw / total_book) * 100
+    book_away = (book_away / total_book) * 100
     
     # =====================================================
     # IA STRENGTH
