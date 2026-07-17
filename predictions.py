@@ -121,38 +121,6 @@ def get_ranking_scores(league_id, season, home_id, away_id):
     away_score = max(0, 100 - away_rank * 4)
 
     return home_score, away_score
-    
-# =====================================================
-# PAGE PRINCIPALE
-# =====================================================
-
-def predictions_page():
-
-    st.title("SPORT PREDICTOR ULTRA PRO IA V6.2")
-
-    if "fixture_id" not in st.session_state:
-        st.warning("Sélectionnez un match depuis le calendrier.")
-        return
-
-    fixture_id = st.session_state["fixture_id"]
-
-    home_form = calculate_form(home_id)
-    away_form = calculate_form(away_id)
-
-    home_rank_score, away_rank_score = get_ranking_scores(
-       league_id,
-       season,
-        home_id,
-        away_id
-    )
-
-    home_h2h_score, away_h2h_score = calculate_h2h(
-        home_id,
-        away_id
-    )
-
-    home_advantage = 100
-    away_advantage = 0
 
 def calculate_h2h(home_id, away_id):
 
@@ -187,6 +155,20 @@ def calculate_h2h(home_id, away_id):
         round(home_wins / total * 100, 1),
         round(away_wins / total * 100, 1)
     )
+    
+# =====================================================
+# PAGE PRINCIPALE
+# =====================================================
+
+def predictions_page():
+
+    st.title("SPORT PREDICTOR ULTRA PRO IA V6.2")
+
+    if "fixture_id" not in st.session_state:
+        st.warning("Sélectionnez un match depuis le calendrier.")
+        return
+
+    fixture_id = st.session_state["fixture_id"]
 
     # =====================================================
     # MATCH
@@ -211,8 +193,26 @@ def calculate_h2h(home_id, away_id):
     league_id = game["league"]["id"]
     season = game["league"]["season"]
 
-    st.subheader(f"{home_team} vs {away_team}")
+    home_form = calculate_form(home_id)
+    away_form = calculate_form(away_id)
 
+    home_rank_score, away_rank_score = get_ranking_scores(
+       league_id,
+       season,
+        home_id,
+        away_id
+    )
+
+    home_h2h_score, away_h2h_score = calculate_h2h(
+        home_id,
+        away_id
+    )
+
+    home_advantage = 100
+    away_advantage = 0
+
+    st.subheader(f"{home_team} vs {away_team}")
+    
     # =====================================================
     # Cotes Bookmakers
     # =====================================================
