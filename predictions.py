@@ -306,17 +306,25 @@ def predictions_page():
     # =====================================================
 
     home_avg = (
-        (home_form / 100) * 1.4 +
-        (home_rank_score / 100) * 0.8 +
-        0.5
+        (home_form / 100) * 1.8 +
+        (home_rank_score / 100) * 1.0 +
+        (home_h2h_score / 100) * 0.5 +
+        0.4
     )
 
     away_avg = (
-        (away_form / 100) * 1.2 +
-        (away_rank_score / 100) * 0.7 +
-        0.3
+        (away_form / 100) * 1.6 +
+        (away_rank_score / 100) * 0.8 +
+        (away_h2h_score / 100) * 0.4 +
+        0.2
     )
 
+    if home_strength > away_strength + 15:
+        home_avg += 0.5
+
+    elif away_strength > home_strength + 15:
+        away_avg += 0.5
+        
     scores = []
 
     for h in range(6):
@@ -338,6 +346,27 @@ def predictions_page():
     )
 
     predicted_score = scores[0][0]
+
+    predicted_home_goals = predicted_score[0]
+    predicted_away_goals = predicted_score[1]
+
+    if home_win_prob > away_win_prob:
+
+    if predicted_home_goals <= predicted_away_goals:
+        predicted_home_goals = predicted_away_goals + 1
+
+    elif away_win_prob > home_win_prob:
+
+    if predicted_away_goals <= predicted_home_goals:
+        predicted_away_goals = predicted_home_goals + 1
+
+    predicted_score = (
+        predicted_home_goals,
+        predicted_away_goals
+    )
+
+    st.write("Home Avg :", round(home_avg,2))
+    st.write("Away Avg :", round(away_avg,2))
 
     # =====================================================
     # BTTS
