@@ -247,15 +247,15 @@ def predictions_page():
 
     try:
 
-    home_scorers = get_top_scorers(
-        home_id,
-        season
-    )
+        home_scorers = get_top_scorers(
+            home_id,
+            season
+        )
 
-    away_scorers = get_top_scorers(
-        away_id,
-        season
-    )
+        away_scorers = get_top_scorers(
+            away_id,
+            season
+        )
 
 except Exception:
 
