@@ -257,10 +257,10 @@ def predictions_page():
         season
     )
 
-    except Exception:
+except Exception:
 
-        home_scorers = []
-        away_scorers = []
+    home_scorers = []
+    away_scorers = []
 
     all_scorers = home_scorers + away_scorers
 
