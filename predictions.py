@@ -224,10 +224,6 @@ def predictions_page():
     st.write("H2H domicile :", home_h2h_score)
     st.write("H2H extérieur :", away_h2h_score)
 
-    st.write("Force domicile :", round(home_strength, 2))
-    st.write("Force extérieur :", round(away_strength, 2))
-
-    
     # =====================================================
     # Cotes Bookmakers
     # =====================================================
@@ -268,6 +264,9 @@ def predictions_page():
         book_away
     )
 
+    st.write("Force domicile :", round(home_strength, 2))
+    st.write("Force extérieur :", round(away_strength, 2))
+    
     # =====================================================
     # INDICE IA
     # =====================================================
@@ -352,13 +351,13 @@ def predictions_page():
 
     if home_win_prob > away_win_prob:
 
-    if predicted_home_goals <= predicted_away_goals:
-        predicted_home_goals = predicted_away_goals + 1
+        if predicted_home_goals <= predicted_away_goals:
+            predicted_home_goals = predicted_away_goals + 1
 
     elif away_win_prob > home_win_prob:
 
-    if predicted_away_goals <= predicted_home_goals:
-        predicted_away_goals = predicted_home_goals + 1
+        if predicted_away_goals <= predicted_home_goals:
+            predicted_away_goals = predicted_home_goals + 1
 
     predicted_score = (
         predicted_home_goals,
