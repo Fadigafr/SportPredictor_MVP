@@ -768,16 +768,20 @@ def predictions_page():
 
         st.write(f"### {home_team}")
 
-        for player in home_scorers:
+        if home_scorers:
+
+            for player in home_scorers:
 
             st.write(
                 f"⚽ {player['name']} "
                 f"({player['goals']} buts)"
             )
 
-    with c2:
+    else:
 
-        st.write(f"### {away_team}")
+        st.write("Aucune donnée")
+
+    if away_scorers:
 
         for player in away_scorers:
 
@@ -785,7 +789,8 @@ def predictions_page():
                 f"⚽ {player['name']} "
                 f"({player['goals']} buts)"
             )
-
+    st.subheader("⚽ Buteurs Probables IA")
+...
     st.success(
         f"🎯 Buteur probable du match : {probable_scorer}"
     )
