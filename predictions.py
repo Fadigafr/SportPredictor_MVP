@@ -310,6 +310,7 @@ def predictions_page():
         odds_data = api_get(
             f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
         )
+        st.write(odds_data)
 
         if odds_data.get("response"):
 
@@ -334,6 +335,12 @@ def predictions_page():
     book_draw = (1 / odd_draw)
     book_away = (1 / odd_away)
 
+    st.subheader("DEBUG ODDS")
+
+    st.write(odd_home)
+    st.write(odd_draw)
+    st.write(odd_away)
+    
     total_book = (
         book_home +
         book_draw +
