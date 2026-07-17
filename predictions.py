@@ -294,17 +294,6 @@ def predictions_page():
 
     st.subheader(f"{home_team} vs {away_team}")
 
-    st.write("### DEBUG IA")
-
-    st.write("Forme domicile :", home_form)
-    st.write("Forme extérieur :", away_form)
-
-    st.write("Classement domicile :", home_rank_score)
-    st.write("Classement extérieur :", away_rank_score)
-
-    st.write("H2H domicile :", home_h2h_score)
-    st.write("H2H extérieur :", away_h2h_score)
-
     # =====================================================
     # Cotes Bookmakers
     # =====================================================
