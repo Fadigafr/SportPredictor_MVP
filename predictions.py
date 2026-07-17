@@ -211,6 +211,8 @@ def get_top_scorers(team_id, season):
     league_id = game["league"]["id"]
     season = game["league"]["season"]
 
+    try:
+
     home_scorers = get_top_scorers(
         home_id,
         season
@@ -220,6 +222,38 @@ def get_top_scorers(team_id, season):
         away_id,
         season
     )
+
+except:
+
+    home_scorers = []
+    away_scorers = []
+
+    probable_scorer = "Non disponible"
+
+    all_scorers = home_scorers + away_scorers
+
+    all_scorers.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    if all_scorers:
+
+        probable_scorer = all_scorers[0]["name"]
+
+    else:
+
+        probable_scorer = "Non disponible"
+
+        home_scorers = get_top_scorers(
+        home_id,
+            season
+        )
+
+        away_scorers = get_top_scorers(
+            away_id,
+            season
+        )
 
     all_scorers = (
         home_scorers +
@@ -760,17 +794,17 @@ def predictions_page():
 
     st.markdown("---")
 
-    st.subheader("⚽ Buteurs Probables IA")
+st.subheader("⚽ Buteurs Probables IA")
 
-    c1, c2 = st.columns(2)
+c1, c2 = st.columns(2)
 
-    with c1:
+with c1:
 
-        st.write(f"### {home_team}")
+    st.write(f"### {home_team}")
 
-        if home_scorers:
+    if home_scorers:
 
-            for player in home_scorers:
+        for player in home_scorers:
 
             st.write(
                 f"⚽ {player['name']} "
@@ -781,6 +815,10 @@ def predictions_page():
 
         st.write("Aucune donnée")
 
+with c2:
+
+    st.write(f"### {away_team}")
+
     if away_scorers:
 
         for player in away_scorers:
@@ -789,11 +827,14 @@ def predictions_page():
                 f"⚽ {player['name']} "
                 f"({player['goals']} buts)"
             )
-    st.subheader("⚽ Buteurs Probables IA")
-...
-    st.success(
-        f"🎯 Buteur probable du match : {probable_scorer}"
-    )
+
+    else:
+
+        st.write("Aucune donnée")
+
+st.success(
+    f"🎯 Buteur probable du match : {probable_scorer}"
+)
 
     st.markdown("---")
 
