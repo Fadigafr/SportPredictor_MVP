@@ -318,6 +318,14 @@ def predictions_page():
 
             for bookmaker in bookmakers:
 
+                 for bookmaker in bookmakers:
+
+                     st.write("BOOKMAKER :", bookmaker["name"])
+
+                     for bet in bookmaker["bets"]:
+
+                         st.write("MARCHE :", bet["name"])
+
                 for bet in bookmaker["bets"]:
 
                     if bet["name"] == "Match Winner":
