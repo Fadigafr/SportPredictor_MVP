@@ -155,6 +155,87 @@ def calculate_h2h(home_id, away_id):
         round(home_wins / total * 100, 1),
         round(away_wins / total * 100, 1)
     )
+
+def get_top_scorers(team_id, season):
+
+    data = api_get(
+        f"https://v3.football.api-sports.io/players?team={team_id}&season={season}"
+    )
+
+    if not data.get("response"):
+        return []
+
+    players = []
+
+    for player in data["response"]:
+
+        try:
+            name = player["player"]["name"]
+
+            goals = player["statistics"][0]["goals"]["total"] or 0
+
+            appearances = (
+                player["statistics"][0]["games"]["appearences"]
+                or 1
+            )
+
+            shots = (
+                player["statistics"][0]["shots"]["total"]
+                or 0
+            )
+
+            score = (
+                goals * 5 +
+                shots * 0.3 +
+                appearances * 0.1
+            )
+
+            players.append(
+                {
+                    "name": name,
+                    "goals": goals,
+                    "score": score
+                }
+            )
+
+        except:
+            pass
+
+    players.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    return players[:3]
+    
+    league_id = game["league"]["id"]
+    season = game["league"]["season"]
+
+    home_scorers = get_top_scorers(
+        home_id,
+        season
+    )
+
+    away_scorers = get_top_scorers(
+        away_id,
+        season
+    )
+
+    all_scorers = (
+        home_scorers +
+        away_scorers
+    )
+
+    all_scorers.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    probable_scorer = (
+        all_scorers[0]["name"]
+        if all_scorers
+        else "Non disponible"
+    )
     
 # =====================================================
 # PAGE PRINCIPALE
@@ -687,7 +768,38 @@ def predictions_page():
             f"EV={ev} | "
             f"Kelly={kelly_pct}%"
         )
+    st.markdown("---")
 
+    st.subheader("⚽ Buteurs Probables")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.write(f"### {home_team}")
+
+        for i, player in enumerate(home_scorers, start=1):
+
+            st.write(
+                f"{i}. {player['name']} "
+                f"({player['goals']} buts)"
+            )
+
+    with col2:
+
+        st.write(f"### {away_team}")
+
+        for i, player in enumerate(away_scorers, start=1):
+
+            st.write(
+                f"{i}. {player['name']} "
+                f"({player['goals']} buts)"
+            )
+
+    st.success(
+        f"⚽ Buteur probable du match : {probable_scorer}"
+    )
+    
     st.markdown("---")
 
     st.subheader("Gestion du Risque")
