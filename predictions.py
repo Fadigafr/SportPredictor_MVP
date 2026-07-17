@@ -225,19 +225,19 @@ def predictions_page():
     league_id = game["league"]["id"]
     season = game["league"]["season"]
 
-        try:
+    try:
 
-            home_scorers = get_top_scorers(
-                home_id,
-                season
-            )
+        home_scorers = get_top_scorers(
+            home_id,
+            season
+        )
 
-            away_scorers = get_top_scorers(
-                away_id,
-                season
-            )
+        away_scorers = get_top_scorers(
+            away_id,
+            season
+        )
 
-        except Exception:
+    except Exception:
 
     home_scorers = []
     away_scorers = []
