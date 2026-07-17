@@ -298,10 +298,37 @@ def predictions_page():
     st.subheader(f"{home_team} vs {away_team}")
 
     # =====================================================
-    # Cotes Bookmakers
+    # Cotes Bookmakers API-Football
     # =====================================================
-    
-    /odds?fixture={fixture_id}
+
+    odd_home = 2.20
+    odd_draw = 3.20
+    odd_away = 3.60
+
+    try:
+
+        odds_data = api_get(
+            f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+        )
+
+        if odds_data.get("response"):
+
+            bookmakers = odds_data["response"][0]["bookmakers"]
+
+            for bookmaker in bookmakers:
+
+                for bet in bookmaker["bets"]:
+
+                    if bet["name"] == "Match Winner":
+
+                        odd_home = float(bet["values"][0]["odd"])
+                        odd_draw = float(bet["values"][1]["odd"])
+                        odd_away = float(bet["values"][2]["odd"])
+
+                        break
+
+    except Exception:
+        pass
 
     book_home = (1 / odd_home)
     book_draw = (1 / odd_draw)
@@ -314,6 +341,7 @@ def predictions_page():
     )
 
     book_home = (book_home / total_book) * 100
+    book_draw = (book_draw / total_book) * 100
     book_away = (book_away / total_book) * 100
     
     # =====================================================
