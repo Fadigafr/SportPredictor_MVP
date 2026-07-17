@@ -58,6 +58,69 @@ def calculate_ai_strength(
         home_advantage * 0.10 +
         bookmaker_score * 0.30
     )
+
+def calculate_form(team_id):
+
+    data = api_get(
+        f"https://v3.football.api-sports.io/fixtures?team={team_id}&last=5"
+    )
+
+    if not data.get("response"):
+        return 50
+
+    points = 0
+
+    for match in data["response"]:
+
+        home_id = match["teams"]["home"]["id"]
+        winner = match["teams"]["home"]["winner"]
+
+        if team_id == home_id:
+
+            if winner is True:
+                points += 3
+            elif winner is None:
+                points += 1
+
+        else:
+
+            away_winner = match["teams"]["away"]["winner"]
+
+            if away_winner is True:
+                points += 3
+            elif away_winner is None:
+                points += 1
+
+    return round((points / 15) * 100, 1)
+
+def get_ranking_scores(league_id, season, home_id, away_id):
+
+    standings = api_get(
+        f"https://v3.football.api-sports.io/standings?league={league_id}&season={season}"
+    )
+
+    home_rank = 10
+    away_rank = 10
+
+    try:
+
+        table = standings["response"][0]["league"]["standings"][0]
+
+        for team in table:
+
+            if team["team"]["id"] == home_id:
+                home_rank = team["rank"]
+
+            if team["team"]["id"] == away_id:
+                away_rank = team["rank"]
+
+    except:
+        pass
+
+    home_score = max(0, 100 - home_rank * 4)
+    away_score = max(0, 100 - away_rank * 4)
+
+    return home_score, away_score
     
 # =====================================================
 # PAGE PRINCIPALE
@@ -73,17 +136,57 @@ def predictions_page():
 
     fixture_id = st.session_state["fixture_id"]
 
-    home_form = 60
-    away_form = 40
+    home_form = calculate_form(home_id)
+    away_form = calculate_form(away_id)
 
-    home_rank_score = 65
-    away_rank_score = 35
+    home_rank_score, away_rank_score = get_ranking_scores(
+       league_id,
+       season,
+        home_id,
+        away_id
+    )
 
-    home_h2h_score = 55
-    away_h2h_score = 45
+    home_h2h_score, away_h2h_score = calculate_h2h(
+        home_id,
+        away_id
+    )
 
     home_advantage = 100
     away_advantage = 0
+
+def calculate_h2h(home_id, away_id):
+
+    h2h = api_get(
+        f"https://v3.football.api-sports.io/fixtures/headtohead?h2h={home_id}-{away_id}&last=10"
+    )
+
+    home_wins = 0
+    away_wins = 0
+
+    if h2h.get("response"):
+
+        for match in h2h["response"]:
+
+            if match["teams"]["home"]["winner"]:
+
+                if match["teams"]["home"]["id"] == home_id:
+                    home_wins += 1
+                else:
+                    away_wins += 1
+
+            elif match["teams"]["away"]["winner"]:
+
+                if match["teams"]["away"]["id"] == home_id:
+                    home_wins += 1
+                else:
+                    away_wins += 1
+
+    total = max(home_wins + away_wins, 1)
+
+    return (
+        round(home_wins / total * 100, 1),
+        round(away_wins / total * 100, 1)
+    )
 
     # =====================================================
     # MATCH
