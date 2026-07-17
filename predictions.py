@@ -335,11 +335,11 @@ def predictions_page():
                         odd_away = float(bet["values"][2]["odd"])
 
                         break
-    st.success("ODDS API TROUVEES")
+                        st.success("ODDS API TROUVEES")
 
-    st.write("HOME :", odd_home)
-    st.write("DRAW :", odd_draw)
-    st.write("AWAY :", odd_away)
+                        st.write("HOME :", odd_home)
+                        st.write("DRAW :", odd_draw)
+                        st.write("AWAY :", odd_away)
     
     except Exception:
         pass
