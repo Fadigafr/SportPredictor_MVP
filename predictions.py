@@ -317,31 +317,33 @@ def predictions_page():
 
             bookmakers = odds_data["response"][0]["bookmakers"]
 
+            home_odds = []
+            draw_odds = []
+            away_odds = []
+
             for bookmaker in bookmakers:
-
-                if bookmaker["name"] == "Bet365":
-
-                     ...
-
-                st.write("BOOKMAKER :", bookmaker["name"])
 
                 for bet in bookmaker["bets"]:
 
-                    st.write("MARCHE :", bet["name"])
-
                     if bet["name"] == "Match Winner":
 
-                        odd_home = float(bet["values"][0]["odd"])
-                        odd_draw = float(bet["values"][1]["odd"])
-                        odd_away = float(bet["values"][2]["odd"])
+                        home_odds.append(
+                            float(bet["values"][0]["odd"])
+                        )
 
-                        st.success("✅ ODDS API TROUVÉES")
+                        draw_odds.append(
+                            float(bet["values"][1]["odd"])
+                        )
 
-                        st.write("HOME :", odd_home)
-                        st.write("DRAW :", odd_draw)
-                        st.write("AWAY :", odd_away)
+                        away_odds.append(
+                            float(bet["values"][2]["odd"])
+                        )
 
                         break
+
+            odd_home = sum(home_odds) / len(home_odds)
+            odd_draw = sum(draw_odds) / len(draw_odds)
+            odd_away = sum(away_odds) / len(away_odds)
 
     except Exception as e:
 
