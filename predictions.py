@@ -1166,30 +1166,45 @@ def basketball_page():
             "NBA",
             "EuroLeague",
             "Basket Africa League"
-        ]
+        ],
+        key="basket_league"
     )
 
     home_team = st.text_input(
         "Équipe Domicile",
-        "Lakers"
+        "Lakers",
+        key="basket_home"
     )
 
     away_team = st.text_input(
         "Équipe Extérieure",
-        "Celtics"
+        "Celtics",
+        key="basket_away"
     )
+
+    if st.button(
+        "Analyser le Match",
+        key="basket_button"
+    ):
 
     st.subheader("Prédictions Basketball")
 
     home_team = st.text_input(
         "Équipe Domicile",
-        "Lakers"
+        "Lakers",
+        key="basket_home"
     )
 
     away_team = st.text_input(
         "Équipe Extérieure",
-        "Celtics"
+        "Celtics",
+        key="basket_away"
     )
+
+    if st.button(
+        "Analyser le Match",
+        key="basket_button"
+    ):
 
     difference = abs(
         predicted_home -
