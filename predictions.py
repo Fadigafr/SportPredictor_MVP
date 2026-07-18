@@ -1283,6 +1283,90 @@ def basketball_page():
             rating
         )
 
+        over_under_line = 210.5
+
+        if total_points > over_under_line:
+
+            over_under_result = "OUI"
+
+        else:
+
+            over_under_result = "NON"
+
+        st.metric(
+            "🔥 Over 210.5",
+            over_under_result
+        )
+
+        if confidence_score >= 90:
+
+            badge = "💎 ELITE"
+
+        elif confidence_score >= 80:
+
+            badge = "🥇 PREMIUM"
+
+        elif confidence_score >= 70:
+
+            badge = "🥈 SOLIDE"
+
+        else:
+
+            badge = "🥉 RISQUÉ"
+
+        st.metric(
+            "🏅 Badge IA",
+            badge
+        )
+
+        st.metric(
+            "🧠 IA INDEX",
+            f"{confidence_score}/100"
+        )
+
+        if confidence_score >= 85:
+
+            best_bet = "Victoire IA"
+
+        elif total_points > 210:
+
+            best_bet = "Over 210.5"
+
+        else:
+
+            best_bet = "Match Équilibré"
+
+        st.success(
+            f"🎯 Top Pari Basket : {best_bet}"
+        )
+
+        odd_home = 1.80
+        odd_away = 2.20
+
+        home_prob = (
+            predicted_home /
+            (predicted_home + predicted_away)
+        ) * 100
+
+        book_home = (1 / odd_home) * 100
+
+        value_bet = round(
+            home_prob - book_home,
+            2
+        )
+
+        if value_bet > 5:
+
+            st.success(
+                f"💰 Value Bet Basket : +{value_bet}%"
+            )
+
+        else:
+
+            st.info(
+                "📊 Aucun Value Bet majeur"
+            )
+            
         st.markdown("---")
 
         st.subheader("🎯 Analyse Basket Premium")
