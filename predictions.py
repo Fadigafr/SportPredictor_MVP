@@ -1187,63 +1187,6 @@ def basketball_page():
         key="basket_button"
     ):
 
-    st.subheader("Prédictions Basketball")
-
-    home_team = st.text_input(
-        "Équipe Domicile",
-        "Lakers",
-        key="basket_home"
-    )
-
-    away_team = st.text_input(
-        "Équipe Extérieure",
-        "Celtics",
-        key="basket_away"
-    )
-
-    if st.button(
-        "Analyser le Match",
-        key="basket_button"
-    ):
-
-    difference = abs(
-        predicted_home -
-        predicted_away
-    )
-
-    confidence_score = min(
-        95,
-        60 + difference
-    )
-
-    if confidence_score >= 90:
-
-        rating = "A+"
-
-    elif confidence_score >= 80:
-
-        rating = "A"
-
-    elif confidence_score >= 70:
-
-        rating = "B+"
-
-    else:
-
-        rating = "B"
-
-    st.metric(
-        "🏆 Rating Basket",
-        rating
-    )
-
-    st.metric(
-        "🧠 Indice IA",
-        f"{confidence_score}/100"
-    )
-
-    if st.button("Analyser le Match"):
-
         home_attack = 115
         away_attack = 108
 
@@ -1263,17 +1206,41 @@ def basketball_page():
             predicted_away
         )
 
-        confidence_score = 84
+        difference = abs(
+            predicted_home -
+            predicted_away
+        )
+
+        confidence_score = min(
+            95,
+            60 + difference
+        )
+
+        if confidence_score >= 90:
+
+            rating = "A+"
+
+        elif confidence_score >= 80:
+
+            rating = "A"
+
+        elif confidence_score >= 70:
+
+            rating = "B+"
+
+        else:
+
+            rating = "B"
 
         winner = (
             home_team
             if predicted_home > predicted_away
-           else away_team
+            else away_team
         )
 
-            st.success(
-                f"🏆 Vainqueur IA : {winner}"
-            )
+        st.success(
+            f"🏆 Vainqueur IA : {winner}"
+        )
 
         col1, col2 = st.columns(2)
 
@@ -1311,27 +1278,32 @@ def basketball_page():
                 f"{confidence_score}/100"
             )
 
-    st.markdown("---")
-
-    st.subheader("🎯 Analyse Basket Premium")
-
-    if confidence_score >= 85:
-
-        st.success(
-            "🟢 Pari Basket Premium"
+        st.metric(
+            "🏆 Rating Basket",
+            rating
         )
 
-    elif confidence_score >= 70:
+        st.markdown("---")
 
-        st.info(
-            "🔵 Pari Basket Solide"
-        )
+        st.subheader("🎯 Analyse Basket Premium")
 
-    else:
+        if confidence_score >= 85:
 
-        st.warning(
-            "🟡 Match équilibré"
-        )
+            st.success(
+                "🟢 Pari Basket Premium"
+            )
+
+        elif confidence_score >= 70:
+
+            st.info(
+                "🔵 Pari Basket Solide"
+            )
+
+        else:
+
+            st.warning(
+                "🟡 Match équilibré"
+            )
 
     
 # =====================================================
