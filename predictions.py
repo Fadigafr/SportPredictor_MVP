@@ -688,7 +688,40 @@ def predictions_page():
         abs(home_strength - away_strength) * 1.5
     )
 )  
+    # =====================================================
+    # IA INDEX PREMIUM V6.8
+    # =====================================================
 
+    if confidence_score >= 90:
+
+        rating = "A+"
+        rating_color = "🟢"
+
+    elif confidence_score >= 80:
+
+        rating = "A"
+        rating_color = "🟢"
+
+    elif confidence_score >= 70:
+
+        rating = "B+"
+        rating_color = "🔵"
+
+    elif confidence_score >= 60:
+
+        rating = "B"
+        rating_color = "🟡"
+
+    elif confidence_score >= 50:
+
+        rating = "C"
+        rating_color = "🟠"
+
+    else:
+
+        rating = "D"
+        rating_color = "🔴"
+        
     if home_win_prob > away_win_prob:
 
         ia_favorite = home_team
@@ -826,6 +859,66 @@ def predictions_page():
 
     with col3:
         st.metric("2", f"{away_win_prob}%")
+
+    # =====================================================
+    # IA INDEX PREMIUM
+    # =====================================================
+
+    st.markdown("---")
+
+    st.subheader("🏆 IA INDEX PREMIUM")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.metric(
+            "Note du Match",
+            rating
+        )
+
+    with col2:
+
+        st.metric(
+            "Indice IA",
+            f"{confidence_score}/100"
+        )
+
+    if rating in ["A+", "A"]:
+
+        st.success(
+            "✅ Excellent match à parier"
+        )
+
+    elif rating in ["B+", "B"]:
+
+        st.info(
+            "✅ Opportunité intéressante"
+        )
+
+    else:
+
+        st.warning(
+            "⚠️ Match plus risqué"
+        )
+
+    best_value = max(
+        value_home,
+        value_draw,
+        value_away
+    )
+
+    if best_value > 5:
+
+        st.success(
+            f"💰 Value Bet détecté : +{best_value}%"
+        )
+
+    else:
+
+        st.info(
+            "📊 Aucun Value Bet majeur"
+        )
         
 # =====================================================
 # SCORE EXACT IA
