@@ -1646,7 +1646,7 @@ def hockey_page():
     key="hockey_home"
 )
 
-away_team = st.selectbox(
+    away_team = st.selectbox(
     "Équipe Extérieure",
     [
         "New York Rangers",
