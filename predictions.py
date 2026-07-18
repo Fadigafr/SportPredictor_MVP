@@ -1283,42 +1283,6 @@ def basketball_page():
             rating
         )
 
-        over_under_line = 210.5
-
-        if total_points > over_under_line:
-
-            over_under_result = "OUI"
-
-        else:
-
-            over_under_result = "NON"
-
-        st.metric(
-            "🔥 Over 210.5",
-            over_under_result
-        )
-
-        if confidence_score >= 90:
-
-            badge = "💎 ELITE"
-
-        elif confidence_score >= 80:
-
-            badge = "🥇 PREMIUM"
-
-        elif confidence_score >= 70:
-
-            badge = "🥈 SOLIDE"
-
-        else:
-
-            badge = "🥉 RISQUÉ"
-
-        st.metric(
-            "🏅 Badge IA",
-            badge
-        )
-
         st.metric(
             "🧠 IA INDEX",
             f"{confidence_score}/100"
