@@ -5,6 +5,12 @@ import os
 from auth import login
 from admin import admin_page
 from predictions import predictions_page
+from predictions import (
+    predictions_page,
+    basketball_page,
+    tennis_page,
+    hockey_page
+)
 from api_football import api_get
 from database import init_db
 
