@@ -4,6 +4,12 @@
 
 import math
 import streamlit as st
+from predictions import (
+    predictions_page,
+    basketball_page,
+    tennis_page,
+    hockey_page
+)
 from api_football import api_get
 
 
@@ -1152,3 +1158,41 @@ def predictions_page():
 
     st.write("H2H domicile :", home_h2h_score)
     st.write("H2H extérieur :", away_h2h_score)
+
+# =====================================================
+# V7 BASKETBALL IA
+# =====================================================
+
+def basketball_page():
+
+    st.title("🏀 Basketball IA V7")
+
+    st.info(
+        "Module Basketball IA en cours de développement"
+    )
+
+
+# =====================================================
+# V8 TENNIS IA
+# =====================================================
+
+def tennis_page():
+
+    st.title("🎾 Tennis IA V8")
+
+    st.info(
+        "Module Tennis IA en cours de développement"
+    )
+
+
+# =====================================================
+# V9 HOCKEY IA
+# =====================================================
+
+def hockey_page():
+
+    st.title("🏒 Hockey IA V9")
+
+    st.info(
+        "Module Hockey IA en cours de développement"
+    )
