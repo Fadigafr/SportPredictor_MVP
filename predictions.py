@@ -1389,54 +1389,54 @@ def basketball_page():
                 "🟡 Match équilibré"
             )
 
-    over_under_line = 210.5
+            over_under_line = 210.5
 
-    if total_points > over_under_line:
-        over_under_result = "OUI"
-    else:
-        over_under_result = "NON"
+            if total_points > over_under_line:
+                over_under_result = "OUI"
+            else:
+                over_under_result = "NON"
 
-        st.metric(
-            "🔥 Over 210.5",
-            over_under_result
-        )
+                st.metric(
+                    "🔥 Over 210.5",
+                    over_under_result
+                )
 
-    if confidence_score >= 85:
+            if confidence_score >= 85:
 
-        best_bet = "Victoire IA"
+                best_bet = "Victoire IA"
 
-    elif total_points > 210:
+            elif total_points > 210:
 
-        best_bet = "Over 210.5"
+                best_bet = "Over 210.5"
 
-    else:
+            else:
 
-        best_bet = "Match Equilibré"
+                best_bet = "Match Equilibré"
 
-        st.success(
-            f"🎯 Top Pari Basket : {best_bet}"
-        )
+                st.success(
+                    f"🎯 Top Pari Basket : {best_bet}"
+                )
 
-    if confidence_score >= 90:
+            if confidence_score >= 90:
 
-        badge = "💎 ELITE"
+                badge = "💎 ELITE"
 
-    elif confidence_score >= 80:
+            elif confidence_score >= 80:
 
-        badge = "🥇 PREMIUM"
+                badge = "🥇 PREMIUM"
 
-    elif confidence_score >= 70:
+            elif confidence_score >= 70:
 
-        badge = "🥈 SOLIDE"
+                badge = "🥈 SOLIDE"
 
-    else:
+            else:
 
-        badge = "🥉 RISQUÉ"
+                badge = "🥉 RISQUÉ"
 
-        st.metric(
-            "Badge IA",
-            badge
-        )
+                st.metric(
+                    "Badge IA",
+                    badge
+                )
 # =====================================================
 # V8 TENNIS IA
 # =====================================================
