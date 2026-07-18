@@ -1664,15 +1664,38 @@ def hockey_page():
         key="hockey_button"
     ):
 
-        predicted_home = 4
-        predicted_away = 2
+        team_strength = {
+            "New York Rangers": 88,
+            "Boston Bruins": 87,
+            "Toronto Maple Leafs": 86,
+            "Colorado Avalanche": 92,
+            "Vegas Golden Knights": 89,
+            "Edmonton Oilers": 91
+        }
+
+        home_strength = team_strength.get(home_team, 85)
+        away_strength = team_strength.get(away_team, 85)
+
+        predicted_home = round(home_strength / 22)
+        predicted_away = round(away_strength / 24)
 
         total_goals = (
             predicted_home +
             predicted_away
         )
 
-        confidence_score = 84
+        confidence_score = min(
+            95,
+            75 + abs(
+                home_strength -
+                away_strength
+            )
+        )
+
+        st.metric(
+            "🧠 IA INDEX",
+            f"{confidence_score}/100"
+        )
 
         winner = (
             home_team
@@ -1687,7 +1710,38 @@ def hockey_page():
 
         elif confidence_score >= 80:
 
+        if confidence_score >= 90:
+
+            badge = "💎 ELITE"
+
+        elif confidence_score >= 80:
+
             badge = "🥇 PREMIUM"
+
+        elif confidence_score >= 70:
+
+            badge = "🥈 SOLIDE"
+
+        else:
+
+            badge = "🥉 RISQUÉ"
+
+        if confidence_score >= 90:
+
+            risk_level = "🟢 FAIBLE"
+
+        elif confidence_score >= 80:
+
+            risk_level = "🟡 MOYEN"
+
+        else:
+
+            risk_level = "🔴 ÉLEVÉ"
+
+        st.metric(
+            "⚠️ Risque",
+            risk_level
+        )
 
         elif confidence_score >= 70:
 
