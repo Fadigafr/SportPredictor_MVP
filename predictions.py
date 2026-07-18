@@ -1633,17 +1633,31 @@ def hockey_page():
         key="hockey_competition"
     )
 
-    home_team = st.text_input(
-        "Équipe Domicile",
-        "Rangers",
-        key="hockey_home"
-    )
+    home_team = st.selectbox(
+    "Équipe Domicile",
+    [
+        "New York Rangers",
+        "Boston Bruins",
+        "Toronto Maple Leafs",
+        "Colorado Avalanche",
+        "Vegas Golden Knights",
+        "Edmonton Oilers"
+    ],
+    key="hockey_home"
+)
 
-    away_team = st.text_input(
-        "Équipe Extérieure",
-        "Bruins",
-        key="hockey_away"
-    )
+away_team = st.selectbox(
+    "Équipe Extérieure",
+    [
+        "New York Rangers",
+        "Boston Bruins",
+        "Toronto Maple Leafs",
+        "Colorado Avalanche",
+        "Vegas Golden Knights",
+        "Edmonton Oilers"
+    ],
+    key="hockey_away"
+)
 
     if st.button(
         "Analyser le Match",
