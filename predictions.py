@@ -688,52 +688,7 @@ def predictions_page():
         abs(home_strength - away_strength) * 1.5
     )
 )  
-    # =====================================================
-    # IA INDEX PREMIUM V6.8
-    # =====================================================
-
-    if confidence_score >= 90:
-
-        rating = "A+"
-        rating_color = "🟢"
-
-    elif confidence_score >= 80:
-
-        rating = "A"
-        rating_color = "🟢"
-
-    elif confidence_score >= 70:
-
-        rating = "B+"
-        rating_color = "🔵"
-
-    elif confidence_score >= 60:
-
-        rating = "B"
-        rating_color = "🟡"
-
-    elif confidence_score >= 50:
-
-        rating = "C"
-        rating_color = "🟠"
-
-    else:
-
-        rating = "D"
-        rating_color = "🔴"
-        
-    if home_win_prob > away_win_prob:
-
-        ia_favorite = home_team
-
-    elif away_win_prob > home_win_prob:
-
-        ia_favorite = away_team
-
-    else:
-
-        ia_favorite = "Match équilibré"
-
+   
     # =====================================================
     # IA INDEX PREMIUM V6.8
     # =====================================================
@@ -907,7 +862,7 @@ def predictions_page():
     with col1:
 
         st.metric(
-            "Note du Match",
+            "Note IA",
             rating
         )
 
@@ -917,6 +872,10 @@ def predictions_page():
             "Indice IA",
             f"{confidence_score}/100"
         )
+
+    st.info(
+        f"📈 Niveau : {rating_label}"
+    )
 
     if rating in ["A+", "A"]:
 
