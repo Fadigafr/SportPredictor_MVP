@@ -1160,6 +1160,25 @@ def basketball_page():
 
     st.title("🏀 Basketball IA V7")
 
+    league = st.selectbox(
+        "Compétition",
+        [
+            "NBA",
+            "EuroLeague",
+            "Basket Africa League"
+        ]
+    )
+
+    home_team = st.text_input(
+        "Équipe Domicile",
+        "Lakers"
+    )
+
+    away_team = st.text_input(
+        "Équipe Extérieure",
+        "Celtics"
+    )
+
     st.subheader("Prédictions Basketball")
 
     home_team = st.text_input(
@@ -1170,6 +1189,42 @@ def basketball_page():
     away_team = st.text_input(
         "Équipe Extérieure",
         "Celtics"
+    )
+
+    difference = abs(
+        predicted_home -
+        predicted_away
+    )
+
+    confidence_score = min(
+        95,
+        60 + difference
+    )
+
+    if confidence_score >= 90:
+
+        rating = "A+"
+
+    elif confidence_score >= 80:
+
+        rating = "A"
+
+    elif confidence_score >= 70:
+
+        rating = "B+"
+
+    else:
+
+        rating = "B"
+
+    st.metric(
+        "🏆 Rating Basket",
+        rating
+    )
+
+    st.metric(
+        "🧠 Indice IA",
+        f"{confidence_score}/100"
     )
 
     if st.button("Analyser le Match"):
@@ -1262,7 +1317,8 @@ def basketball_page():
         st.warning(
             "🟡 Match équilibré"
         )
-        
+
+    
 # =====================================================
 # V8 TENNIS IA
 # =====================================================
