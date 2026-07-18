@@ -145,15 +145,6 @@ sport = st.sidebar.selectbox(
     ]
 )
 
-league = st.selectbox(
-    "Compétition",
-    [
-        "NBA",
-        "EuroLeague",
-        "Basket Africa League"
-    ]
-)
-
 # =====================================================
 # ACCUEIL
 # =====================================================
