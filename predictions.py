@@ -820,7 +820,19 @@ def predictions_page():
     # =====================================================
     # AFFICHAGE
     # =====================================================
+    
+    if home_win_prob > away_win_prob:
 
+        ia_favorite = home_team
+
+    elif away_win_prob > home_win_prob:
+
+        ia_favorite = away_team
+
+    else:
+
+        ia_favorite = "Match équilibré"
+    
     st.markdown("---")
 
     st.subheader("🧠 Analyse IA Premium")
