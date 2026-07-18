@@ -1174,72 +1174,72 @@ def basketball_page():
 
     if st.button("Analyser le Match"):
 
-    home_attack = 115
-    away_attack = 108
+        home_attack = 115
+        away_attack = 108
 
-    home_defense = 105
-    away_defense = 110
+        home_defense = 105
+        away_defense = 110
 
-    predicted_home = round(
-        (home_attack + away_defense) / 2
-    )
-
-    predicted_away = round(
-        (away_attack + home_defense) / 2
-    )
-
-    total_points = (
-        predicted_home +
-        predicted_away
-    )
-
-    confidence_score = 84
-
-    winner = (
-        home_team
-        if predicted_home > predicted_away
-        else away_team
-    )
-
-    st.success(
-        f"🏆 Vainqueur IA : {winner}"
-    )
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-
-        st.metric(
-            "Score Projeté",
-            f"{predicted_home} - {predicted_away}"
+        predicted_home = round(
+            (home_attack + away_defense) / 2
         )
 
-        st.metric(
-            "Total Points",
-            total_points
+        predicted_away = round(
+            (away_attack + home_defense) / 2
         )
 
-        st.metric(
-            "1er Quart Temps",
-            round(total_points * 0.24)
+        total_points = (
+            predicted_home +
+            predicted_away
         )
 
-    with col2:
+        confidence_score = 84
 
-        st.metric(
-            "2ème Quart Temps",
-            round(total_points * 0.26)
+        winner = (
+            home_team
+            if predicted_home > predicted_away
+           else away_team
         )
 
-        st.metric(
-            "Mi-Temps",
-            round(total_points * 0.50)
+        st.success(
+            f"🏆 Vainqueur IA : {winner}"
         )
 
-        st.metric(
-            "Confiance IA",
-            f"{confidence_score}/100"
-        )
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.metric(
+                "Score Projeté",
+                f"{predicted_home} - {predicted_away}"
+            )
+
+            st.metric(
+                "Total Points",
+                total_points
+            )
+
+            st.metric(
+                "1er Quart Temps",
+                round(total_points * 0.24)
+            )
+
+        with col2:
+
+            st.metric(
+                "2ème Quart Temps",
+                round(total_points * 0.26)
+            )
+
+            st.metric(
+                "Mi-Temps",
+                round(total_points * 0.50)
+            )
+
+            st.metric(
+                "Confiance IA",
+                f"{confidence_score}/100"
+            )
 
     st.markdown("---")
 
