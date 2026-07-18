@@ -25,3 +25,22 @@ def get_games_today():
         return data.get("response", [])
 
     return []
+
+def get_standings(league_id, season):
+
+    url = (
+        f"{BASE_URL}/standings"
+        f"?league={league_id}"
+        f"&season={season}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return None
