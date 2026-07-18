@@ -442,10 +442,6 @@ elif menu == "H2H":
 
 elif menu == "Prédictions":
 
-    predictions_page()
-
-elif menu == "Prédictions":
-
     if sport == "Football":
 
         predictions_page()
