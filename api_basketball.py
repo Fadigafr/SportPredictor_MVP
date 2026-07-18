@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 
-API_KEY = st.secrets["API_BASKETBALL_KEY"]
+API_KEY = st.secrets["API_FOOTBALL_KEY"]
 
 HEADERS = {
     "x-apisports-key": API_KEY
