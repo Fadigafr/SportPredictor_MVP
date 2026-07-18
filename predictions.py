@@ -825,8 +825,10 @@ def predictions_page():
 
     st.subheader("🧠 Analyse IA Premium")
 
+    favorite = home_team if home_win_prob > away_win_prob else away_team
+
     st.success(
-        f"🎯 Favori IA : {ia_favorite}"
+        f"🎯 Favori IA : {favorite}"
     )
 
     st.metric(
