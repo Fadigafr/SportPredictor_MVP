@@ -1611,7 +1611,12 @@ def tennis_page():
 # =====================================================
 # V9 HOCKEY IA PREMIUM
 # =====================================================
+def hockey_page():
 
+    st.title("🏒 HOCKEY TEST")
+
+    st.success("✅ Module Hockey chargé")
+    
 def hockey_page():
 
     st.title("🏒 Hockey IA Premium")
