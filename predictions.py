@@ -1160,6 +1160,37 @@ def basketball_page():
 
     st.title("🏀 Basketball IA V7")
 
+    st.subheader("🏀 Matchs du Jour")
+
+    games = get_games_today()
+
+    for game in games[:20]:
+
+        home = game["teams"]["home"]["name"]
+        away = game["teams"]["away"]["name"]
+
+        st.write(
+            f"🏀 {home} vs {away}"
+        )
+
+    games = get_games_today()
+
+    basket_matches = []
+
+    for game in games:
+
+        home = game["teams"]["home"]["name"]
+        away = game["teams"]["away"]["name"]
+
+        basket_matches.append(
+            f"{home} vs {away}"
+        )
+
+    selected_game = st.selectbox(
+        "🏀 Match du Jour",
+        basket_matches
+    )
+
     league = st.selectbox(
         "Compétition",
         [
