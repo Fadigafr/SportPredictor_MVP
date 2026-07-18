@@ -1681,8 +1681,39 @@ def hockey_page():
         )
 
         rating = "A"
-        badge = "🥇 PREMIUM"
+        if confidence_score >= 90:
 
+            badge = "💎 ELITE"
+
+        elif confidence_score >= 80:
+
+            badge = "🥇 PREMIUM"
+
+        elif confidence_score >= 70:
+
+            badge = "🥈 SOLIDE"
+
+        else:
+
+            badge = "🥉 RISQUÉ"
+
+        if confidence_score >= 90:
+
+            risk_level = "🟢 FAIBLE"
+
+        elif confidence_score >= 80:
+
+            risk_level = "🟡 MOYEN"
+
+        else:
+
+            risk_level = "🔴 ÉLEVÉ"
+
+        st.metric(
+            "⚠️ Risque",
+            risk_level
+        )
+        
         st.success(
             f"🏆 Vainqueur IA : {winner}"
         )
@@ -1733,6 +1764,12 @@ def hockey_page():
             rating
         )
 
+        st.metric(
+            "🧠 IA INDEX",
+            f"{confidence_score}/100"
+        )
+
+        
         over55 = (
             "OUI"
             if total_goals > 5.5
@@ -1744,23 +1781,36 @@ def hockey_page():
             over55
         )
 
-        # Buteur probable
+        st.subheader("🥅 Buteurs Probables")
 
-        probable_scorer = "Chris Kreider"
-
-        st.success(
-            f"🥅 Buteur Probable : {probable_scorer}"
-        )
+        st.write("1️⃣ Chris Kreider")
+        st.write("2️⃣ Artemi Panarin")
+        st.write("3️⃣ Mika Zibanejad")
 
         # Top Pari
 
+        if total_goals > 5:
+
+            best_bet = "Over 5.5 Buts"
+
+        else:
+
+            best_bet = "Victoire du Favori"
+
         st.success(
-            "🎯 Top Pari Hockey : Over 5.5 Buts"
+            f"🎯 Top Pari Hockey : {best_bet}"
         )
 
         # Value Bet
 
-        value_bet = 8.5
+        value_bet = round(
+            confidence_score - 75,
+            2
+        )
+
+        st.success(
+            f"💰 Value Bet Hockey : +{value_bet}%"
+        )
 
         st.success(
             f"💰 Value Bet Hockey : +{value_bet}%"
