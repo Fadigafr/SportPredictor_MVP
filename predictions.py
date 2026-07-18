@@ -1191,8 +1191,25 @@ def basketball_page():
         basket_matches
     )
 
-    league = st.selectbox(
-        "Compétition",
+    st.subheader("🏀 Matchs du Jour")
+
+    games = get_games_today()
+
+    if games:
+
+        for game in games[:10]:
+
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            st.write(f"🏀 {home} vs {away}")
+
+    else:
+
+        st.warning("Aucun match disponible")
+        
+        league = st.selectbox(
+            "Compétition",
         [
             "NBA",
             "EuroLeague",
