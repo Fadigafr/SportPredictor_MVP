@@ -1510,6 +1510,39 @@ def tennis_page():
             over_under_games
         )
 
+        total_games = 24
+
+        st.metric(
+            "🎾 Jeux Projetés",
+            total_games
+        )
+
+        if confidence_score >= 90:
+
+            risk_level = "🟢 FAIBLE"
+
+        elif confidence_score >= 80:
+
+            risk_level = "🟡 MOYEN"
+
+        else:
+
+            risk_level = "🔴 ÉLEVÉ"
+
+        st.metric(
+            "⚠️ Risque",
+            risk_level
+        )
+
+        tie_break_probability = round(
+            100 - confidence_score + 20
+        )
+
+        st.metric(
+            "🎾 Tie-Break",
+            f"{tie_break_probability}%"
+        )
+        
         # Value Bet Tennis
 
         odd_winner = 1.75
@@ -1537,10 +1570,43 @@ def tennis_page():
                 "📊 Aucun Value Bet majeur"
             )
 
+        if confidence_score >= 85:
+
+            best_bet = "Victoire du Favori"
+
+        elif total_games > 22:
+
+            best_bet = "Over 22.5 Jeux"
+
+        else:
+
+           best_bet = "Match Équilibré"
+
         st.success(
-            "🎯 Top Pari Tennis : Victoire du Favori"
+            f"🎯 Top Pari Tennis : {best_bet}"
         )
 
+        st.markdown("---")
+
+        st.subheader("🎾 Analyse Tennis Premium")
+
+        if confidence_score >= 85:
+
+            st.success(
+                "🟢 Pari Tennis Premium"
+            )
+
+        elif confidence_score >= 70:
+
+            st.info(
+                "🔵 Pari Tennis Solide"
+            )
+
+        else:
+
+            st.warning(
+                "🟡 Match équilibré"
+            )
 
 # =====================================================
 # V9 HOCKEY IA
