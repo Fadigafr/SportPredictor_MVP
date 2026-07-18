@@ -129,6 +129,16 @@ menu = st.sidebar.radio(
     ]
 )
 
+sport = st.sidebar.selectbox(
+    "Sport",
+    [
+        "Football",
+        "Basketball",
+        "Tennis",
+        "Hockey"
+    ]
+)
+
 # =====================================================
 # ACCUEIL
 # =====================================================
@@ -433,6 +443,24 @@ elif menu == "H2H":
 elif menu == "Prédictions":
 
     predictions_page()
+
+elif menu == "Prédictions":
+
+    if sport == "Football":
+
+        predictions_page()
+
+    elif sport == "Basketball":
+
+        basketball_page()
+
+    elif sport == "Tennis":
+
+        tennis_page()
+
+    elif sport == "Hockey":
+
+        hockey_page()
 
 # =====================================================
 # ADMIN
