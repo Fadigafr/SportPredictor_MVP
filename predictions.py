@@ -1271,9 +1271,9 @@ def basketball_page():
            else away_team
         )
 
-        st.success(
-            f"🏆 Vainqueur IA : {winner}"
-        )
+            st.success(
+                f"🏆 Vainqueur IA : {winner}"
+            )
 
         col1, col2 = st.columns(2)
 
