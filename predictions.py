@@ -1451,6 +1451,10 @@ def tennis_page():
             else player_2
         )
 
+        predicted_sets = "2-0"
+
+        over_under_games = "OUI"
+
         if confidence_score >= 90:
 
             rating = "A+"
@@ -1471,10 +1475,6 @@ def tennis_page():
             rating = "B"
             badge = "🥉 RISQUÉ"
 
-        predicted_sets = "2-0"
-
-        over_under_games = "OUI"
-
         st.success(
             f"🏆 Vainqueur IA : {winner}"
         )
@@ -1489,14 +1489,14 @@ def tennis_page():
             )
 
             st.metric(
-                "🎯 Rating",
+                "🏆 Rating",
                 rating
             )
 
         with col2:
 
             st.metric(
-                "🧠 IA Index",
+                "🧠 IA INDEX",
                 f"{confidence_score}/100"
             )
 
@@ -1509,6 +1509,33 @@ def tennis_page():
             "🔥 Over 22.5 Jeux",
             over_under_games
         )
+
+        # Value Bet Tennis
+
+        odd_winner = 1.75
+
+        win_prob = confidence_score
+
+        bookmaker_prob = (
+            1 / odd_winner
+        ) * 100
+
+        value_bet = round(
+            win_prob - bookmaker_prob,
+            2
+        )
+
+        if value_bet > 5:
+
+            st.success(
+                f"💰 Value Bet Tennis : +{value_bet}%"
+            )
+
+        else:
+
+            st.info(
+                "📊 Aucun Value Bet majeur"
+            )
 
         st.success(
             "🎯 Top Pari Tennis : Victoire du Favori"
