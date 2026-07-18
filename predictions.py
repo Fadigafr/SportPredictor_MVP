@@ -4,14 +4,7 @@
 
 import math
 import streamlit as st
-from predictions import (
-    predictions_page,
-    basketball_page,
-    tennis_page,
-    hockey_page
-)
 from api_football import api_get
-
 
 # =====================================================
 # POISSON
