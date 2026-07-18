@@ -1611,13 +1611,6 @@ def tennis_page():
 # =====================================================
 # V9 HOCKEY IA PREMIUM
 # =====================================================
-def hockey_page():
-
-    st.title("🏒 Hockey IA Premium")
-
-    st.success("✅ Hockey chargé avec succès")
-
-    st.write("Version Hockey V9")
     
 def hockey_page():
 
@@ -1710,38 +1703,7 @@ def hockey_page():
 
         elif confidence_score >= 80:
 
-        if confidence_score >= 90:
-
-            badge = "💎 ELITE"
-
-        elif confidence_score >= 80:
-
             badge = "🥇 PREMIUM"
-
-        elif confidence_score >= 70:
-
-            badge = "🥈 SOLIDE"
-
-        else:
-
-            badge = "🥉 RISQUÉ"
-
-        if confidence_score >= 90:
-
-            risk_level = "🟢 FAIBLE"
-
-        elif confidence_score >= 80:
-
-            risk_level = "🟡 MOYEN"
-
-        else:
-
-            risk_level = "🔴 ÉLEVÉ"
-
-        st.metric(
-            "⚠️ Risque",
-            risk_level
-        )
 
         elif confidence_score >= 70:
 
@@ -1860,10 +1822,6 @@ def hockey_page():
         value_bet = round(
             confidence_score - 75,
             2
-        )
-
-        st.success(
-            f"💰 Value Bet Hockey : +{value_bet}%"
         )
 
         st.success(
