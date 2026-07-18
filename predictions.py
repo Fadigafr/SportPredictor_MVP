@@ -1174,17 +1174,40 @@ def basketball_page():
 
     if st.button("Analyser le Match"):
 
-        predicted_home = 112
-        predicted_away = 106
+    home_attack = 115
+    away_attack = 108
 
-        total_points = (
-            predicted_home +
-            predicted_away
-        )
+    home_defense = 105
+    away_defense = 110
 
-        st.success(
-            f"🏆 Vainqueur IA : {home_team}"
-        )
+    predicted_home = round(
+        (home_attack + away_defense) / 2
+    )
+
+    predicted_away = round(
+        (away_attack + home_defense) / 2
+    )
+
+    total_points = (
+        predicted_home +
+        predicted_away
+    )
+
+    confidence_score = 84
+
+    winner = (
+        home_team
+        if predicted_home > predicted_away
+        else away_team
+    )
+
+    st.success(
+        f"🏆 Vainqueur IA : {winner}"
+    )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
 
         st.metric(
             "Score Projeté",
@@ -1201,17 +1224,45 @@ def basketball_page():
             round(total_points * 0.24)
         )
 
+    with col2:
+
+        st.metric(
+            "2ème Quart Temps",
+            round(total_points * 0.26)
+        )
+
         st.metric(
             "Mi-Temps",
-            round(total_points * 0.49)
+            round(total_points * 0.50)
         )
 
         st.metric(
             "Confiance IA",
-            "81/100"
+            f"{confidence_score}/100"
         )
 
+    st.markdown("---")
 
+    st.subheader("🎯 Analyse Basket Premium")
+
+    if confidence_score >= 85:
+
+        st.success(
+            "🟢 Pari Basket Premium"
+        )
+
+    elif confidence_score >= 70:
+
+        st.info(
+            "🔵 Pari Basket Solide"
+        )
+
+    else:
+
+        st.warning(
+            "🟡 Match équilibré"
+        )
+        
 # =====================================================
 # V8 TENNIS IA
 # =====================================================
