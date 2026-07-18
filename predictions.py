@@ -733,6 +733,40 @@ def predictions_page():
     else:
 
         ia_favorite = "Match équilibré"
+
+    # =====================================================
+    # IA INDEX PREMIUM V6.8
+    # =====================================================
+
+    if confidence_score >= 90:
+
+        rating = "A+"
+        rating_label = "Elite"
+
+    elif confidence_score >= 80:
+
+        rating = "A"
+        rating_label = "Excellent"
+
+    elif confidence_score >= 70:
+
+        rating = "B+"
+        rating_label = "Très Bon"
+
+    elif confidence_score >= 60:
+
+        rating = "B"
+        rating_label = "Bon"
+
+    elif confidence_score >= 50:
+
+        rating = "C"
+        rating_label = "Moyen"
+
+    else:
+
+        rating = "D"
+        rating_label = "Risqué"
     
     # =====================================================
     # VALUE BET
