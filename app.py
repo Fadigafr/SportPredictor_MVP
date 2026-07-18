@@ -13,6 +13,7 @@ from predictions import (
 )
 from api_football import api_get
 from database import init_db
+from api_basketball import get_games_today
 
 init_db()
 
