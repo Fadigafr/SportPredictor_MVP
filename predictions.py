@@ -898,19 +898,7 @@ def predictions_page():
         "Confiance",
         f"{confidence_score}/100"
     )
-
-    if confidence_score >= 85:
-        st.success("🟢 Confiance Très Forte")
-
-    elif confidence_score >= 70:
-        st.info("🔵 Confiance Forte")
-
-    elif confidence_score >= 55:
-        st.warning("🟡 Confiance Moyenne")
-
-    else:
-        st.error("🔴 Match Risqué")
-        
+     
     st.markdown("---")
 
     st.subheader("Value Bet")
@@ -1034,6 +1022,18 @@ def predictions_page():
         f"{confidence_score}/100"
     )
 
+    if confidence_score >= 85:
+        st.success("🟢 Confiance Très Forte")
+
+    elif confidence_score >= 70:
+        st.info("🔵 Confiance Forte")
+
+    elif confidence_score >= 55:
+        st.warning("🟡 Confiance Moyenne")
+
+    else:
+        st.error("🔴 Match Risqué")
+        
     st.subheader("Gestion du risque")
 
     st.write(
