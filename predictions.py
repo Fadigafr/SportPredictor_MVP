@@ -1442,7 +1442,7 @@ def tennis_page():
 
         confidence_score = min(
             95,
-            60 + abs(strength_1 - strength_2)
+            80 + abs(strength_1 - strength_2)
         )
 
         winner = (
