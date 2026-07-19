@@ -1202,9 +1202,8 @@ def basketball_page():
 
     games = get_games_today()
 
-    
-        league = st.selectbox(
-            "Compétition",
+    league = st.selectbox(
+        "Compétition",
         [
             "NBA",
             "EuroLeague",
@@ -1213,18 +1212,18 @@ def basketball_page():
         key="basket_league"
     )
 
-        if games:
+    if games:
 
-            for game in games[:10]:
+        for game in games[:10]:
 
-                home = game["teams"]["home"]["name"]
-                away = game["teams"]["away"]["name"]
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
 
-                st.write(f"🏀 {home} vs {away}")
+            st.write(f"🏀 {home} vs {away}")
 
-        else:
+    else:
 
-            st.warning("Aucun match disponible")
+        st.warning("Aucun match disponible")
         
     home_team = st.text_input(
         "Équipe Domicile",
