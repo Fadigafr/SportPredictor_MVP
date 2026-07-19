@@ -5,7 +5,10 @@
 import math
 import streamlit as st
 from api_football import api_get
-from api_basketball import get_games_today
+from api_basketball import (
+    get_games_today,
+    get_team_statistics
+)
 
 # =====================================================
 # POISSON
@@ -1208,6 +1211,14 @@ def basketball_page():
         home_id = game_data["teams"]["home"]["id"]
         away_id = game_data["teams"]["away"]["id"]
 
+        home_stats = get_team_statistics(home_id)
+        away_stats = get_team_statistics(away_id)
+
+        st.write("HOME ID :", home_id)
+        st.write("AWAY ID :", away_id)
+
+        st.write("HOME STATS :", home_stats)
+        st.write("AWAY STATS :", away_stats)
         st.write(f"ID Home : {home_id}")
         st.write(f"ID Away : {away_id}")
 
