@@ -11,6 +11,16 @@ BASE_URL = "https://v1.basketball.api-sports.io"
 
 def get_games_today():
 
+    data = api_get(
+        "https://v1.basketball.api-sports.io/games"
+    )
+
+    st.write(data)
+
+    return data.get("response", [])
+    
+def get_games_today():
+
     url = f"{BASE_URL}/games"
 
     response = requests.get(
