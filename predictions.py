@@ -1365,41 +1365,41 @@ def basketball_page():
         f"🏆 Vainqueur IA : {winner}"
     )
 
-        col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-        with col1:
+    with col1:
 
-            st.metric(
-                "Score Projeté",
-                f"{predicted_home} - {predicted_away}"
-            )
+        st.metric(
+            "Score Projeté",
+            f"{predicted_home} - {predicted_away}"
+        )
 
-            st.metric(
-                "Total Points",
-                total_points
-            )
+        st.metric(
+            "Total Points",
+            total_points
+        )
 
-            st.metric(
-                "1er Quart Temps",
-                round(total_points * 0.24)
-            )
+        st.metric(
+            "1er Quart Temps",
+            round(total_points * 0.24)
+        )
 
-        with col2:
+    with col2:
 
-            st.metric(
-                "2ème Quart Temps",
-                round(total_points * 0.26)
-            )
+        st.metric(
+            "2ème Quart Temps",
+            round(total_points * 0.26)
+        )
 
-            st.metric(
-                "Mi-Temps",
-                round(total_points * 0.50)
-            )
+        st.metric(
+            "Mi-Temps",
+            round(total_points * 0.50)
+        )
 
-            st.metric(
-                "Confiance IA",
-                f"{confidence_score}/100"
-            )
+        st.metric(
+            "Confiance IA",
+            f"{confidence_score}/100"
+        )
 
         st.metric(
             "🏆 Rating Basket",
