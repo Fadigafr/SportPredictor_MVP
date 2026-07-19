@@ -1205,6 +1205,12 @@ def basketball_page():
 
         game_data = selected_match["game"]
 
+        home_id = game_data["teams"]["home"]["id"]
+        away_id = game_data["teams"]["away"]["id"]
+
+        st.write(f"ID Home : {home_id}")
+        st.write(f"ID Away : {away_id}")
+
         league_name = game_data["league"]["name"]
         game_date = game_data["date"]
 
