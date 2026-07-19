@@ -1209,6 +1209,16 @@ def basketball_page():
 
         league_name = game_data["league"]["name"]
 
+        game_date = game_data["date"]
+
+        st.info(
+            f"🏆 Compétition : {league_name}"
+        )
+
+        st.info(
+            f"📅 Date : {game_date}"
+        )
+
     if game_data:
 
         league_name = game_data["league"]["name"]
