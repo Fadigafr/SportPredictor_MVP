@@ -1202,8 +1202,8 @@ def basketball_page():
 
         game_data = selected_match["game"]
 
-        home_team = selected_match["home"]
-        away_team = selected_match["away"]
+        home_id = game_data["teams"]["home"]["id"]
+        away_id = game_data["teams"]["away"]["id"]
 
         league_name = game_data["league"]["name"]
 
