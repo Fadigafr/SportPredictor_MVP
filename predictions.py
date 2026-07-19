@@ -1171,6 +1171,8 @@ def basketball_page():
 
     games = get_games_today()
 
+    st.write("Nombre de matchs :", len(games))
+    
     for game in games[:20]:
 
         home = game["teams"]["home"]["name"]
@@ -1193,10 +1195,19 @@ def basketball_page():
             f"{home} vs {away}"
         )
 
-    selected_game = st.selectbox(
-        "🏀 Match du Jour",
-        basket_matches
-    )
+    if basket_matches:
+
+        selected_game = st.selectbox(
+            "🏀 Match du Jour",
+            basket_matches
+        )
+
+    else:
+
+        st.warning(
+            "Aucun match disponible aujourd'hui"
+        )
+        st.json(games[:2])
 
     st.subheader("🏀 Matchs du Jour")
 
