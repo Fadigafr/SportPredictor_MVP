@@ -1161,6 +1161,12 @@ def basketball_page():
 
     st.title("🏀 Basketball IA V7")
 
+    st.success("Basketball chargé avec succès")
+    
+def basketball_page():
+
+    st.title("🏀 Basketball IA V7")
+
     st.subheader("🏀 Matchs du Jour")
 
     games = get_games_today()
