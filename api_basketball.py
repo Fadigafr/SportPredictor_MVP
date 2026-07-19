@@ -1,5 +1,6 @@
 import requests
 import streamlit as st
+from datetime import datetime
 
 API_KEY = st.secrets["API_FOOTBALL_KEY"]
 
@@ -9,32 +10,25 @@ HEADERS = {
 
 BASE_URL = "https://v1.basketball.api-sports.io"
 
+
 def get_games_today():
 
-    data = api_get(
-        "https://v1.basketball.api-sports.io/games"
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    url = (
+        f"{BASE_URL}/games"
+        f"?date={today}"
     )
-
-    st.write(data)
-
-    return data.get("response", [])
-    
-def get_games_today():
-
-    url = f"{BASE_URL}/games"
 
     response = requests.get(
         url,
-        headers=HEADERS
+        headers=HEADERS,
+        timeout=30
     )
 
-    if response.status_code == 200:
+    data = response.json()
 
-        data = response.json()
-
-        return data.get("response", [])
-
-    return []
+    return data.get("response", [])
 
 def get_standings(league_id, season):
 
