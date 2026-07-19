@@ -1200,12 +1200,22 @@ def basketball_page():
             format_func=lambda x: x["label"]
         )
 
-        game_data = selected_match["game"]
+        st.write(selected_match)
+
+        game_data = selected_match.get("game")
 
         home_id = game_data["teams"]["home"]["id"]
         away_id = game_data["teams"]["away"]["id"]
 
         league_name = game_data["league"]["name"]
+
+    if game_data:
+
+        league_name = game_data["league"]["name"]
+
+        st.info(
+            f"🏆 Compétition : {league_name}"
+        )
 
         st.info(
             f"🏆 Compétition : {league_name}"
