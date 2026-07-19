@@ -13,12 +13,9 @@ BASE_URL = "https://v1.basketball.api-sports.io"
 
 def get_games_today():
 
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = datetime.utcnow().strftime("%Y-%m-%d")
 
-    url = (
-        f"{BASE_URL}/games"
-        f"?date={today}"
-    )
+    url = f"{BASE_URL}/games?date={today}"
 
     response = requests.get(
         url,
