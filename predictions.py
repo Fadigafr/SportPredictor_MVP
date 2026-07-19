@@ -1240,8 +1240,8 @@ def basketball_page():
         st.write("HOME ID :", home_id)
         st.write("AWAY ID :", away_id)
 
-        st.write("HOME STATS :", home_stats)
-        st.write("AWAY STATS :", away_stats)
+        st.json(home_stats)
+        st.json(away_stats)
         
         st.write(f"ID Home : {home_id}")
         st.write(f"ID Away : {away_id}")
@@ -1261,39 +1261,6 @@ def basketball_page():
             f"📅 Date : {game_date}"
         )
 
-    if game_data:
-
-        league_name = game_data["league"]["name"]
-
-        st.info(
-            f"🏆 Compétition : {league_name}"
-        )
-
-        st.info(
-            f"🏆 Compétition : {league_name}"
-        )
-
-        game_date = game_data["date"]
-
-        st.info(
-            f"📅 Date : {game_date}"
-        )
-
-        st.info(
-            f"🏀 Match sélectionné : {home_team} vs {away_team}"
-        )
-
-    else:
-
-        st.warning(
-            "Aucun match disponible aujourd'hui"
-        )
-        st.json(games[:2])
-
-    st.subheader("🏀 Matchs du Jour")
-
-    games = get_games_today()
-
     league = st.selectbox(
         "Compétition",
         [
@@ -1302,22 +1269,7 @@ def basketball_page():
             "Basket Africa League"
         ],
         key="basket_league"
-    )
-
-    if games:
-
-        for game in games[:10]:
-
-            home = game["teams"]["home"]["name"]
-            away = game["teams"]["away"]["name"]
-
-            st.write(f"🏀 {home} vs {away}")
-
-    else:
-
-        st.warning("Aucun match disponible")
-        
-    confidence_basket = 82
+    )        
     
     if st.button(
         "Analyser le Match",
@@ -1356,9 +1308,9 @@ def basketball_page():
 
             rating = "B"
 
-            st.metric(
-                "🏆 Rating Basket",
-                rating
+        st.metric(
+            "🏆 Rating Basket",
+            rating
             )
 
         home_form = "✅✅✅❌✅"
