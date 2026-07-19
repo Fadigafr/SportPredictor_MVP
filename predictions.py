@@ -1212,7 +1212,10 @@ def basketball_page():
         away_id = game_data["teams"]["away"]["id"]
 
         league_id = game_data["league"]["id"]
-        season = 2024
+        season = game_data["league"]["season"]
+
+        if season > 2024:
+            season = 2024
 
         home_stats = get_team_statistics(
             home_id,
