@@ -1156,13 +1156,7 @@ def predictions_page():
 # =====================================================
 # V7 BASKETBALL IA
 # =====================================================
-
-def basketball_page():
-
-    st.title("🏀 Basketball IA V7")
-
-    st.success("Basketball chargé avec succès")
-    
+   
 def basketball_page():
 
     st.title("🏀 Basketball IA V7")
@@ -1310,172 +1304,23 @@ def basketball_page():
 
         badge = "✅ SOLIDE"
 
-        st.metric(
-            "Badge IA",
-            badge
-        )
+    st.metric(
+        "Badge IA",
+        badge
+    )
 
-
-        predicted_home = round(
-            (home_attack + away_defense) / 2
-        )
-
-        predicted_away = round(
-            (away_attack + home_defense) / 2
-        )
-
-        total_points = (
-            predicted_home +
-            predicted_away
-        )
-
-        difference = abs(
-            predicted_home -
-            predicted_away
-        )
-
-        confidence_score = min(
-            95,
-            60 + difference
-        )
-
-    if confidence_score >= 90:
-
-        rating = "A+"
-
-    elif confidence_score >= 80:
-
-        rating = "A"
-
-    elif confidence_score >= 70:
-
-        rating = "B+"
-
-    else:
-
-        rating = "B"
-
-    winner = (
-        home_team
-        if predicted_home > predicted_away
-        else away_team
+    st.metric(
+        "🧠 IA INDEX",
+        f"{confidence_basket}/100"
     )
 
     st.success(
-        f"🏆 Vainqueur IA : {winner}"
+        "🎯 Top Pari Basket : Over 210.5"
     )
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-
-        st.metric(
-            "Score Projeté",
-            f"{predicted_home} - {predicted_away}"
-        )
-
-        st.metric(
-            "Total Points",
-            total_points
-        )
-
-        st.metric(
-            "1er Quart Temps",
-            round(total_points * 0.24)
-        )
-
-    with col2:
-
-        st.metric(
-            "2ème Quart Temps",
-            round(total_points * 0.26)
-        )
-
-        st.metric(
-            "Mi-Temps",
-            round(total_points * 0.50)
-        )
-
-        st.metric(
-            "Confiance IA",
-            f"{confidence_score}/100"
-        )
-
-        st.metric(
-            "🏆 Rating Basket",
-            rating
-        )
-
-        st.metric(
-            "🧠 IA INDEX",
-            f"{confidence_score}/100"
-        )
-
-        if confidence_score >= 85:
-
-            best_bet = "Victoire IA"
-
-        elif total_points > 210:
-
-            best_bet = "Over 210.5"
-
-        else:
-
-            best_bet = "Match Équilibré"
-
-        st.success(
-            f"🎯 Top Pari Basket : {best_bet}"
-        )
-
-        odd_home = 1.80
-        odd_away = 2.20
-
-        home_prob = (
-            predicted_home /
-            (predicted_home + predicted_away)
-        ) * 100
-
-        book_home = (1 / odd_home) * 100
-
-        value_bet = round(
-            home_prob - book_home,
-            2
-        )
-
-        if value_bet > 5:
-
-            st.success(
-                f"💰 Value Bet Basket : +{value_bet}%"
-            )
-
-        else:
-
-            st.info(
-                "📊 Aucun Value Bet majeur"
-            )
-            
-
-    st.markdown("---")
-
-    st.subheader("🎯 Analyse Basket Premium")
-
-    if confidence_score >= 85:
-
-        st.success(
-            "🟢 Pari Basket Premium"
-        )
-
-    elif confidence_score >= 70:
-
-        st.info(
-            "🔵 Pari Basket Solide"
-        )
-
-    else:
-
-        st.warning(
-            "🟡 Match équilibré"
-        )
+    st.success(
+        "💰 Value Bet Basket : +7.5%"
+    )
 
 # =====================================================
 # V8 TENNIS IA PREMIUM
