@@ -46,12 +46,11 @@ def get_standings(league_id, season):
 
     return None
 
-def get_team_statistics(team_id, season):
+def get_team_statistics(team_id):
 
     url = (
-        f"{BASE_URL}/teams/statistics"
-        f"?id={team_id}"
-        f"&season={season}"
+        f"{BASE_URL}/statistics"
+        f"?team={team_id}"
     )
 
     response = requests.get(
@@ -64,3 +63,4 @@ def get_team_statistics(team_id, season):
         return response.json()
 
     return None
+
