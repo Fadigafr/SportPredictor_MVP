@@ -1211,14 +1211,27 @@ def basketball_page():
         home_id = game_data["teams"]["home"]["id"]
         away_id = game_data["teams"]["away"]["id"]
 
-        home_stats = get_team_statistics(home_id)
-        away_stats = get_team_statistics(away_id)
+        league_id = game_data["league"]["id"]
+        season = game_data["league"]["season"]
+
+        home_stats = get_team_statistics(
+            home_id,
+            league_id,
+            season
+        )
+
+        away_stats = get_team_statistics(
+            away_id,
+            league_id,
+            season
+        )
 
         st.write("HOME ID :", home_id)
         st.write("AWAY ID :", away_id)
 
         st.write("HOME STATS :", home_stats)
         st.write("AWAY STATS :", away_stats)
+        
         st.write(f"ID Home : {home_id}")
         st.write(f"ID Away : {away_id}")
 
