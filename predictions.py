@@ -1253,11 +1253,68 @@ def basketball_page():
         key="basket_button"
     ):
 
-        home_attack = 115
-        away_attack = 108
+        home_strength = 55
+        away_strength = 45
 
-        home_defense = 105
-        away_defense = 110
+        winner = (
+            home_team
+            if home_strength > away_strength
+            else away_team
+        )
+
+        st.success(
+            f"🏆 Vainqueur IA : {winner}"
+        )
+
+        home_points = 108
+        away_points = 102
+
+        st.metric(
+            "Score IA",
+            f"{home_points} - {away_points}"
+        )
+
+        total_points = (
+            home_points +
+            away_points
+        )
+
+        st.metric(
+            "Total Points",
+            total_points
+        )
+
+    if total_points > 210:
+
+        st.success(
+            "✅ Over 210.5"
+        )
+
+    else:
+
+        st.warning(
+            "⚠️ Under 210.5"
+        )
+
+    confidence_basket = 82
+
+    if confidence_basket >= 85:
+
+        badge = "🏆 ELITE"
+
+    elif confidence_basket >= 70:
+
+        badge = "⭐ PREMIUM"
+
+    else:
+
+        badge = "✅ SOLIDE"
+
+        st.metric(
+            "Badge IA",
+            badge
+        )
+
 
         predicted_home = round(
             (home_attack + away_defense) / 2
@@ -1282,27 +1339,27 @@ def basketball_page():
             60 + difference
         )
 
-        if confidence_score >= 90:
+    if confidence_score >= 90:
 
-            rating = "A+"
+        rating = "A+"
 
-        elif confidence_score >= 80:
+    elif confidence_score >= 80:
 
-            rating = "A"
+        rating = "A"
 
-        elif confidence_score >= 70:
+    elif confidence_score >= 70:
 
-            rating = "B+"
+        rating = "B+"
 
-        else:
+    else:
 
-            rating = "B"
+        rating = "B"
 
-        winner = (
-            home_team
-            if predicted_home > predicted_away
-            else away_team
-        )
+    winner = (
+        home_team
+        if predicted_home > predicted_away
+        else away_team
+    )
 
         st.success(
             f"🏆 Vainqueur IA : {winner}"
