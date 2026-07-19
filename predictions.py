@@ -1196,19 +1196,7 @@ def basketball_page():
 
     games = get_games_today()
 
-    if games:
-
-        for game in games[:10]:
-
-            home = game["teams"]["home"]["name"]
-            away = game["teams"]["away"]["name"]
-
-            st.write(f"🏀 {home} vs {away}")
-
-    else:
-
-        st.warning("Aucun match disponible")
-        
+    
         league = st.selectbox(
             "Compétition",
         [
@@ -1219,6 +1207,19 @@ def basketball_page():
         key="basket_league"
     )
 
+        if games:
+
+            for game in games[:10]:
+
+                home = game["teams"]["home"]["name"]
+                away = game["teams"]["away"]["name"]
+
+                st.write(f"🏀 {home} vs {away}")
+
+        else:
+
+            st.warning("Aucun match disponible")
+        
     home_team = st.text_input(
         "Équipe Domicile",
         "Lakers",
@@ -1401,55 +1402,6 @@ def basketball_page():
             st.warning(
                 "🟡 Match équilibré"
             )
-
-            over_under_line = 210.5
-
-            if total_points > over_under_line:
-                over_under_result = "OUI"
-            else:
-                over_under_result = "NON"
-
-                st.metric(
-                    "🔥 Over 210.5",
-                    over_under_result
-                )
-
-            if confidence_score >= 85:
-
-                best_bet = "Victoire IA"
-
-            elif total_points > 210:
-
-                best_bet = "Over 210.5"
-
-            else:
-
-                best_bet = "Match Equilibré"
-
-                st.success(
-                    f"🎯 Top Pari Basket : {best_bet}"
-                )
-
-            if confidence_score >= 90:
-
-                badge = "💎 ELITE"
-
-            elif confidence_score >= 80:
-
-                badge = "🥇 PREMIUM"
-
-            elif confidence_score >= 70:
-
-                badge = "🥈 SOLIDE"
-
-            else:
-
-                badge = "🥉 RISQUÉ"
-
-                st.metric(
-                    "Badge IA",
-                    badge
-                )
 
 # =====================================================
 # V8 TENNIS IA PREMIUM
