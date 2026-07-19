@@ -1195,6 +1195,8 @@ def basketball_page():
             "game": game
         })
 
+    game_data = None
+
     if basket_matches:
 
         selected_match = st.selectbox(
@@ -1202,6 +1204,12 @@ def basketball_page():
             basket_matches,
             format_func=lambda x: x["label"]
         )
+
+        game_data = selected_match["game"]
+
+    if game_data:
+
+        st.json(game_data)
 
         home_team = selected_match["home"]
         away_team = selected_match["away"]
