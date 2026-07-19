@@ -1188,7 +1188,8 @@ def basketball_page():
         basket_matches.append({
             "label": f"{home} vs {away}",
             "home": home,
-            "away": away
+            "away": away,
+            "game": game
         })
 
     if basket_matches:
@@ -1199,8 +1200,22 @@ def basketball_page():
             format_func=lambda x: x["label"]
         )
 
+        game_data = selected_match["game"]
+
         home_team = selected_match["home"]
         away_team = selected_match["away"]
+
+        league_name = game_data["league"]["name"]
+
+        st.info(
+            f"🏆 Compétition : {league_name}"
+        )
+
+        game_date = game_data["date"]
+
+        st.info(
+            f"📅 Date : {game_date}"
+        )
 
         st.info(
             f"🏀 Match sélectionné : {home_team} vs {away_team}"
@@ -1245,8 +1260,53 @@ def basketball_page():
         key="basket_button"
     ):
 
-        home_strength = 55
-        away_strength = 45
+        home_strength = len(home_team) * 5
+        away_strength = len(away_team) * 5
+
+        confidence_basket = min(
+            95,
+            70 + abs(
+                home_strength -
+                away_strength
+            )
+        )
+
+        st.metric(
+            "🧠 IA INDEX",
+            f"{confidence_basket}/100"
+        )
+
+    if confidence_basket >= 90:
+
+        rating = "A+"
+
+    elif confidence_basket >= 80:
+
+        rating = "A"
+
+    elif confidence_basket >= 70:
+
+        rating = "B+"
+
+    else:
+
+        rating = "B"
+
+        st.metric(
+            "🏆 Rating Basket",
+            rating
+        )
+
+        home_form = "✅✅✅❌✅"
+        away_form = "✅❌✅❌✅"
+
+        st.write(
+            f"Forme {home_team} : {home_form}"
+        )
+
+        st.write(
+            f"Forme {away_team} : {away_form}"
+        )
 
         winner = (
             home_team
