@@ -1193,7 +1193,7 @@ def basketball_page():
 
     if basket_matches:
 
-        selected_match = st.selectbox(
+        selected_match = st.selectbox(   
             "🏀 Match du Jour",
             basket_matches,
             format_func=lambda x: x["label"]
@@ -1202,10 +1202,10 @@ def basketball_page():
         home_team = selected_match["home"]
         away_team = selected_match["away"]
 
-    st.info(
-        f"🏀 Match sélectionné : {home_team} vs {away_team}"
-    )
-    
+        st.info(
+            f"🏀 Match sélectionné : {home_team} vs {away_team}"
+        )
+
     else:
 
         st.warning(
@@ -1245,8 +1245,8 @@ def basketball_page():
         key="basket_button"
     ):
 
-        home_strength = stats_home["points_per_game"]
-        away_strength = stats_away["points_per_game"]
+        home_strength = 55
+        away_strength = 45
 
         winner = (
             home_team
@@ -1276,17 +1276,17 @@ def basketball_page():
             total_points
         )
 
-    if total_points > 210:
+        if total_points > 210:
 
-        st.success(
-            "✅ Over 210.5"
-        )
+            st.success(
+                "✅ Over 210.5"
+            )
 
-    else:
+        else:
 
-        st.warning(
-            "⚠️ Under 210.5"
-        )
+            st.warning(
+                "⚠️ Under 210.5"
+            )
 
     confidence_basket = 82
 
@@ -1320,15 +1320,6 @@ def basketball_page():
         "💰 Value Bet Basket : +7.5%"
     )
 
-    st.metric(
-        "Classement Domicile",
-        home_rank
-    )
-
-    st.metric(
-        "Classement Extérieur",
-        away_rank
-    )
 # =====================================================
 # V8 TENNIS IA PREMIUM
 # =====================================================
