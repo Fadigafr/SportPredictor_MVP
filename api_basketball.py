@@ -45,3 +45,22 @@ def get_standings(league_id, season):
         return response.json()
 
     return None
+
+def get_team_statistics(team_id, season):
+
+    url = (
+        f"{BASE_URL}/teams/statistics"
+        f"?id={team_id}"
+        f"&season={season}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return None
