@@ -1275,7 +1275,9 @@ def basketball_page():
     else:
 
         st.warning("Aucun match disponible")
-
+        
+    confidence_basket = 82
+    
     if st.button(
         "Analyser le Match",
         key="basket_button"
@@ -1297,26 +1299,26 @@ def basketball_page():
             f"{confidence_basket}/100"
         )
 
-    if confidence_basket >= 90:
+        if confidence_basket >= 90:
 
-        rating = "A+"
+            rating = "A+"
 
-    elif confidence_basket >= 80:
+        elif confidence_basket >= 80:
 
-        rating = "A"
+            rating = "A"
 
-    elif confidence_basket >= 70:
+        elif confidence_basket >= 70:
 
-        rating = "B+"
+            rating = "B+"
 
-    else:
+        else:
 
-        rating = "B"
+            rating = "B"
 
-        st.metric(
-            "🏆 Rating Basket",
-            rating
-        )
+            st.metric(
+                "🏆 Rating Basket",
+                rating
+            )
 
         home_form = "✅✅✅❌✅"
         away_form = "✅❌✅❌✅"
@@ -1369,37 +1371,37 @@ def basketball_page():
                 "⚠️ Under 210.5"
             )
 
-    confidence_basket = 82
+        confidence_basket = 82
 
-    if confidence_basket >= 85:
+        if confidence_basket >= 85:
 
-        badge = "🏆 ELITE"
+            badge = "🏆 ELITE"
 
-    elif confidence_basket >= 70:
+        elif confidence_basket >= 70:
 
-        badge = "⭐ PREMIUM"
+            badge = "⭐ PREMIUM"
 
-    else:
+        else:
 
-        badge = "✅ SOLIDE"
+            badge = "✅ SOLIDE"
 
-    st.metric(
-        "Badge IA",
-        badge
-    )
+        st.metric(
+            "Badge IA",
+            badge
+        )
 
-    st.metric(
-        "🧠 IA INDEX",
-        f"{confidence_basket}/100"
-    )
+        st.metric(
+            "🧠 IA INDEX",
+            f"{confidence_basket}/100"
+        )
 
-    st.success(
-        "🎯 Top Pari Basket : Over 210.5"
-    )
+        st.success(
+            "🎯 Top Pari Basket : Over 210.5"
+        )
 
-    st.success(
-        "💰 Value Bet Basket : +7.5%"
-    )
+        st.success(
+            "💰 Value Bet Basket : +7.5%"
+        )
 
 # =====================================================
 # V8 TENNIS IA PREMIUM
