@@ -1194,22 +1194,23 @@ def basketball_page():
 
     if basket_matches:
 
-        selected_match = st.selectbox(   
+        selected_match = st.selectbox(
             "🏀 Match du Jour",
             basket_matches,
             format_func=lambda x: x["label"]
         )
 
-        st.write(selected_match)
+        home_team = selected_match["home"]
+        away_team = selected_match["away"]
 
-        game_data = selected_match.get("game")
-
-        home_id = game_data["teams"]["home"]["id"]
-        away_id = game_data["teams"]["away"]["id"]
+        game_data = selected_match["game"]
 
         league_name = game_data["league"]["name"]
-
         game_date = game_data["date"]
+
+        st.info(
+            f"🏀 Match sélectionné : {home_team} vs {away_team}"
+        )
 
         st.info(
             f"🏆 Compétition : {league_name}"
