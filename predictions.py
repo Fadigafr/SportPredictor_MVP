@@ -1181,6 +1181,19 @@ def basketball_page():
 
     games = get_games_today()
 
+    if not games:
+
+        st.warning(
+            "Aucun match Basketball disponible aujourd'hui"
+        )
+
+        return
+
+    st.write(
+        "Nombre de matchs :",
+        len(games)
+    )
+
     basket_matches = []
 
     for game in games:
@@ -1224,24 +1237,6 @@ def basketball_page():
 
         if season > 2024:
             season = 2024
-
-        home_stats = get_team_statistics(
-            home_id,
-            league_id,
-            season
-        )
-
-        away_stats = get_team_statistics(
-            away_id,
-            league_id,
-            season
-        )
-
-        st.write("HOME ID :", home_id)
-        st.write("AWAY ID :", away_id)
-
-        st.json(home_stats)
-        st.json(away_stats)
         
         st.write(f"ID Home : {home_id}")
         st.write(f"ID Away : {away_id}")
@@ -1270,7 +1265,15 @@ def basketball_page():
         ],
         key="basket_league"
     )        
-    
+
+    if not game_data:
+
+        st.warning(
+            "Sélectionnez un match valide"
+        )
+
+        return
+        
     if st.button(
         "Analyser le Match",
         key="basket_button"
