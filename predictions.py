@@ -1454,27 +1454,28 @@ def basketball_page():
                 "📊 Aucun Value Bet majeur"
             )
             
-        st.markdown("---")
 
-        st.subheader("🎯 Analyse Basket Premium")
+    st.markdown("---")
 
-        if confidence_score >= 85:
+    st.subheader("🎯 Analyse Basket Premium")
 
-            st.success(
-                "🟢 Pari Basket Premium"
-            )
+    if confidence_score >= 85:
 
-        elif confidence_score >= 70:
+        st.success(
+            "🟢 Pari Basket Premium"
+        )
 
-            st.info(
-                "🔵 Pari Basket Solide"
-            )
+    elif confidence_score >= 70:
 
-        else:
+        st.info(
+            "🔵 Pari Basket Solide"
+        )
 
-            st.warning(
-                "🟡 Match équilibré"
-            )
+    else:
+
+        st.warning(
+            "🟡 Match équilibré"
+        )
 
 # =====================================================
 # V8 TENNIS IA PREMIUM
