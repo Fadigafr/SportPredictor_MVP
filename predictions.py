@@ -1245,8 +1245,8 @@ def basketball_page():
         key="basket_button"
     ):
 
-        home_strength = 55
-        away_strength = 45
+        home_strength = stats_home["points_per_game"]
+        away_strength = stats_away["points_per_game"]
 
         winner = (
             home_team
@@ -1320,6 +1320,15 @@ def basketball_page():
         "💰 Value Bet Basket : +7.5%"
     )
 
+    st.metric(
+        "Classement Domicile",
+        home_rank
+    )
+
+    st.metric(
+        "Classement Extérieur",
+        away_rank
+    )
 # =====================================================
 # V8 TENNIS IA PREMIUM
 # =====================================================
