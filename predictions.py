@@ -1185,17 +1185,27 @@ def basketball_page():
         home = game["teams"]["home"]["name"]
         away = game["teams"]["away"]["name"]
 
-        basket_matches.append(
-            f"{home} vs {away}"
-        )
+        basket_matches.append({
+            "label": f"{home} vs {away}",
+            "home": home,
+            "away": away
+        })
 
     if basket_matches:
 
-        selected_game = st.selectbox(
+        selected_match = st.selectbox(
             "🏀 Match du Jour",
-            basket_matches
+            basket_matches,
+            format_func=lambda x: x["label"]
         )
 
+        home_team = selected_match["home"]
+        away_team = selected_match["away"]
+
+    st.info(
+        f"🏀 Match sélectionné : {home_team} vs {away_team}"
+    )
+    
     else:
 
         st.warning(
@@ -1229,18 +1239,6 @@ def basketball_page():
     else:
 
         st.warning("Aucun match disponible")
-        
-    home_team = st.text_input(
-        "Équipe Domicile",
-        "Lakers",
-        key="basket_home"
-    )
-
-    away_team = st.text_input(
-        "Équipe Extérieure",
-        "Celtics",
-        key="basket_away"
-    )
 
     if st.button(
         "Analyser le Match",
