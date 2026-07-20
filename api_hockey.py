@@ -24,17 +24,11 @@ def get_hockey_games():
 
     return response.json()
 
-def get_team_statistics(
-    team_id,
-    league_id,
-    season
-):
+def get_team_statistics(team_id):
 
     url = (
         f"{BASE_URL}/statistics"
         f"?team={team_id}"
-        f"&league={league_id}"
-        f"&season={season}"
     )
 
     response = requests.get(
@@ -42,7 +36,11 @@ def get_team_statistics(
         headers=HEADERS
     )
 
-    return response.json()
+    if response.status_code == 200:
+
+        return response.json()
+
+    return None
 
 def get_games_today():
 
