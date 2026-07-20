@@ -10,6 +10,7 @@ from api_basketball import (
     get_team_statistics
 )
 from api_tennis import get_tennis_fixtures
+from api_hockey import get_hockey_games
 
 # =====================================================
 # POISSON
