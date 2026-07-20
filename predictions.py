@@ -10,8 +10,10 @@ from api_basketball import (
     get_team_statistics
 )
 from api_tennis import get_tennis_fixtures
-from api_hockey import get_hockey_games
-from api_hockey import get_games_today
+from api_hockey import (
+    get_games_today,
+    get_team_statistics
+)
 
 # =====================================================
 # POISSON
@@ -1711,6 +1713,28 @@ def hockey_page():
         format_func=lambda x: x["label"]
     )
 
+    home_team = selected_match["home"]
+    away_team = selected_match["away"]
+
+    game_data = selected_match["game"]
+
+    home_id = game_data["teams"]["home"]["id"]
+    away_id = game_data["teams"]["away"]["id"]
+
+    home_stats = get_team_statistics(home_id)
+    away_stats = get_team_statistics(away_id)
+
+    st.json(home_stats)
+    st.json(away_stats)
+
+    st.write(
+        f"HOME ID : {home_id}"
+    )
+
+    st.write(
+        f"AWAY ID : {away_id}"
+    )
+    
     home_team = selected_match["home"]
     away_team = selected_match["away"]
 
