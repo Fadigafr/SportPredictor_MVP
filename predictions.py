@@ -1700,12 +1700,7 @@ def hockey_page():
     st.write(f"🏠 Home ID : {home_id}")
     st.write(f"🛫 Away ID : {away_id}")
 
-    # Debug API
-    home_stats = get_team_statistics(home_id)
-    away_stats = get_team_statistics(away_id)
-
-    st.json(home_stats)
-    st.json(away_stats)
+    st.json(game_data)
 
     # =========================
     # Informations API
