@@ -13,13 +13,16 @@ def get_tennis_fixtures():
 
     url = f"{BASE_URL}/fixtures"
 
-    response = requests.get(
-        url,
-        headers=HEADERS
-    )
+    try:
 
-    if response.status_code == 200:
+        response = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=10
+        )
 
         return response.json()
 
-    return {}
+    except Exception as e:
+
+        return {"error": str(e)}
