@@ -1632,6 +1632,32 @@ def hockey_page():
     games = get_hockey_games()
 
     st.json(games)
+
+    hockey_matches.append({
+        "label": f"{home} vs {away}",
+        "home": home,
+        "away": away,
+        "game": game
+    })
+
+    selected_match = st.selectbox(
+        "🏒 Match du Jour",
+        hockey_matches,
+        format_func=lambda x: x["label"]
+    )
+
+    home_team = selected_match["home"]
+    away_team = selected_match["away"]
+    game_data = selected_match["game"]
+
+    st.info(
+        f"🏒 Match : {home_team} vs {away_team}"
+    )
+
+    st.info(
+        f"📅 Date : {game_data['date']}"
+    )
+
     home_team = st.selectbox(
     "Équipe Domicile",
     [
