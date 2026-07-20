@@ -1695,6 +1695,8 @@ def hockey_page():
 
     game_data = selected_match["game"]
 
+    st.json(game_data)
+
     # =========================
     # Informations API
     # =========================
