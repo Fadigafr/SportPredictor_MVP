@@ -1637,8 +1637,11 @@ def hockey_page():
 
     for game in games.get("response", []):
 
-        home = game["teams"]["home"]["name"]
-        away = game["teams"]["away"]["name"]
+        home_id = game_data["teams"]["home"]["id"]
+        away_id = game_data["teams"]["away"]["id"]
+
+        st.write(f"Home ID : {home_id}")
+        st.write(f"Away ID : {away_id}")
 
         hockey_matches.append({
             "label": f"{home} vs {away}",
