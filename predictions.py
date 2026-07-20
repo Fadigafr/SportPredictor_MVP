@@ -1656,7 +1656,7 @@ def hockey_page():
             f"🏒 {home} vs {away}"
         )
         
-    games = get_hockey_games()
+    games = get_games_today()
 
     hockey_matches = []
 
@@ -1734,11 +1734,6 @@ def hockey_page():
     st.write(
         f"AWAY ID : {away_id}"
     )
-    
-    home_team = selected_match["home"]
-    away_team = selected_match["away"]
-
-    game_data = selected_match["game"]
 
     st.json(game_data)
 
