@@ -1656,6 +1656,30 @@ def hockey_page():
         )
         return
 
+    home_id = game_data["teams"]["home"]["id"]
+    away_id = game_data["teams"]["away"]["id"]
+
+    st.write(f"🏠 Home ID : {home_id}")
+    st.write(f"🛫 Away ID : {away_id}")
+
+    league_id = game_data["league"]["id"]
+    season = game_data["league"]["season"]
+
+    home_stats = get_team_statistics(
+        home_id,
+        league_id,
+        season
+    )
+
+    away_stats = get_team_statistics(
+        away_id,
+        league_id,
+        season
+    )
+
+    st.json(home_stats)
+    st.json(away_stats)
+
     # =========================
     # Sélection du match
     # =========================
