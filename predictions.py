@@ -9,6 +9,7 @@ from api_basketball import (
     get_games_today,
     get_team_statistics
 )
+from api_tennis import get_tennis_fixtures
 
 # =====================================================
 # POISSON
@@ -1417,6 +1418,10 @@ def tennis_page():
         key="tennis_tournament"
     )
 
+    fixtures = get_tennis_fixtures()
+
+    st.json(fixtures)
+
     player_1 = st.text_input(
         "Joueur 1",
         "Alcaraz",
@@ -1623,6 +1628,9 @@ def hockey_page():
         key="hockey_competition"
     )
 
+    games = get_hockey_games()
+
+    st.json(games)
     home_team = st.selectbox(
     "Équipe Domicile",
     [
