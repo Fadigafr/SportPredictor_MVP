@@ -11,6 +11,7 @@ from api_basketball import (
 )
 from api_tennis import get_tennis_fixtures
 from api_hockey import get_games_today
+from datetime import datetime
 
 # =====================================================
 # POISSON
@@ -1702,7 +1703,10 @@ def hockey_page():
     # =========================
 
     league_name = game_data["league"]["name"]
-    game_date = game_data["date"]
+
+    game_date = datetime.fromisoformat(
+        game_data["date"].replace("Z", "+00:00")
+    ).strftime("%d/%m/%Y")
     match_status = game_data["status"]["long"]
 
     st.info(
