@@ -43,3 +43,12 @@ def get_team_statistics(
     )
 
     return response.json()
+
+def get_games_today():
+
+    data = get_hockey_games()
+
+    if "response" in data:
+        return data["response"]
+
+    return []
