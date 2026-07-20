@@ -1707,7 +1707,7 @@ def hockey_page():
     # Sélection du match
     # =========================
 
-    selected_match = st.selectbox(
+   selected_match = st.selectbox(
         "🏒 Match du Jour",
         hockey_matches,
         format_func=lambda x: x["label"]
@@ -1720,6 +1720,9 @@ def hockey_page():
 
     home_id = game_data["teams"]["home"]["id"]
     away_id = game_data["teams"]["away"]["id"]
+
+    st.write(f"🏠 Home ID : {home_id}")
+    st.write(f"🛫 Away ID : {away_id}")
 
     home_stats = get_team_statistics(home_id)
     away_stats = get_team_statistics(away_id)
