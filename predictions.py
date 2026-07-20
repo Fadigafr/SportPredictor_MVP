@@ -1753,13 +1753,8 @@ def hockey_page():
             80
         )
 
-        predicted_home = round(
-            home_strength / 22
-        )
-
-        predicted_away = round(
-            away_strength / 24
-        )
+        predicted_home = game_data["scores"]["home"]
+        predicted_away = game_data["scores"]["away"]
 
         total_goals = (
             predicted_home +
@@ -1834,19 +1829,19 @@ def hockey_page():
 
             st.metric(
                 "1ère Période",
-                "2 buts"
+                game_data["periods"]["first"]
             )
 
         with col2:
 
             st.metric(
                 "2ème Période",
-                "2 buts"
+                game_data["periods"]["second"]
             )
 
             st.metric(
                 "3ème Période",
-                "2 buts"
+                game_data["periods"]["third"]
             )
 
         st.metric(
