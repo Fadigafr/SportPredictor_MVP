@@ -8,3 +8,18 @@ HEADERS = {
 }
 
 BASE_URL = "https://v1.tennis.api-sports.io"
+
+def get_tennis_fixtures():
+
+    url = f"{BASE_URL}/fixtures"
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {}
