@@ -1875,6 +1875,37 @@ def hockey_page():
             over55
         )
 
+        hockey_scorers = {
+            "Finland U20": [
+                "Joona Kiviharju",
+                "Konsta Helenius",
+                "Arttu Alasiurua"
+            ],
+            "Switzerland U20": [
+                "Mischa Ramel",
+                "Nico Hischier Jr",
+                "Sandro Schmid Jr"
+            ],
+            "New York Rangers": [
+                "Chris Kreider",
+                "Artemi Panarin",
+                "Mika Zibanejad"
+            ],
+            "Boston Bruins": [
+                "David Pastrnak",
+                "Brad Marchand",
+                "Charlie Coyle"
+            ]
+        }
+
+        st.subheader("🥅 Buteurs Probables")
+
+        for scorer in hockey_scorers.get(
+            winner,
+            ["Joueur 1", "Joueur 2", "Joueur 3"]
+        ):
+            st.write(f"✅ {scorer}")
+            
         st.subheader("🥅 Buteurs Probables")
 
         st.write("1️⃣ Chris Kreider")
