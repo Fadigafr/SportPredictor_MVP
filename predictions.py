@@ -1697,8 +1697,6 @@ def hockey_page():
     st.write(f"🏠 Home ID : {home_id}")
     st.write(f"🛫 Away ID : {away_id}")
 
-    st.json(game_data)
-
     # =========================
     # Informations API
     # =========================
