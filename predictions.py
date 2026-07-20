@@ -11,6 +11,7 @@ from api_basketball import (
 )
 from api_tennis import get_tennis_fixtures
 from api_hockey import get_hockey_games
+from api_hockey import get_games_today
 
 # =====================================================
 # POISSON
@@ -1633,6 +1634,26 @@ def hockey_page():
     # Récupération API Hockey
     # =========================
 
+    st.title("🏒 Hockey IA Premium")
+
+    st.subheader("🏒 Matchs du Jour")
+
+    games = get_games_today()
+
+        st.write(
+            "Nombre de matchs :",
+            len(games)
+        )
+
+    for game in games[:20]:
+
+        home = game["teams"]["home"]["name"]
+        away = game["teams"]["away"]["name"]
+
+        st.write(
+            f"🏒 {home} vs {away}"
+        )
+        
     games = get_hockey_games()
 
     hockey_matches = []
