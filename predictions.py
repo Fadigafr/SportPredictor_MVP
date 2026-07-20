@@ -1679,35 +1679,11 @@ def hockey_page():
         )
         return
 
-    home_id = game_data["teams"]["home"]["id"]
-    away_id = game_data["teams"]["away"]["id"]
+# =========================
+# Sélection du match
+# =========================
 
-    st.write(f"🏠 Home ID : {home_id}")
-    st.write(f"🛫 Away ID : {away_id}")
-
-    league_id = game_data["league"]["id"]
-    season = game_data["league"]["season"]
-
-    home_stats = get_team_statistics(
-        home_id,
-        league_id,
-        season
-    )
-
-    away_stats = get_team_statistics(
-        away_id,
-        league_id,
-        season
-    )
-
-    st.json(home_stats)
-    st.json(away_stats)
-
-    # =========================
-    # Sélection du match
-    # =========================
-
-   selected_match = st.selectbox(
+    selected_match = st.selectbox(
         "🏒 Match du Jour",
         hockey_matches,
         format_func=lambda x: x["label"]
@@ -1724,32 +1700,19 @@ def hockey_page():
     st.write(f"🏠 Home ID : {home_id}")
     st.write(f"🛫 Away ID : {away_id}")
 
+    # Debug API
     home_stats = get_team_statistics(home_id)
     away_stats = get_team_statistics(away_id)
 
     st.json(home_stats)
     st.json(away_stats)
 
-    st.write(
-        f"HOME ID : {home_id}"
-    )
-
-    st.write(
-        f"AWAY ID : {away_id}"
-    )
-
-    st.json(game_data)
-
     # =========================
     # Informations API
     # =========================
 
-    home_id = game_data["teams"]["home"]["id"]
-    away_id = game_data["teams"]["away"]["id"]
-
     league_name = game_data["league"]["name"]
     game_date = game_data["date"]
-
     match_status = game_data["status"]["long"]
 
     st.info(
@@ -1767,9 +1730,6 @@ def hockey_page():
     st.info(
         f"📡 Statut : {match_status}"
     )
-
-    st.write(f"Home ID : {home_id}")
-    st.write(f"Away ID : {away_id}")
 
     # =========================
     # Analyse IA
