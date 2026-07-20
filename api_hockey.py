@@ -23,3 +23,23 @@ def get_hockey_games():
     )
 
     return response.json()
+
+def get_team_statistics(
+    team_id,
+    league_id,
+    season
+):
+
+    url = (
+        f"{BASE_URL}/statistics"
+        f"?team={team_id}"
+        f"&league={league_id}"
+        f"&season={season}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    return response.json()
