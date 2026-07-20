@@ -1614,7 +1614,7 @@ def tennis_page():
 # =====================================================
 # V9 HOCKEY IA PREMIUM
 # =====================================================
-    
+
 def hockey_page():
 
     st.title("🏒 Hockey IA Premium")
@@ -1629,19 +1629,18 @@ def hockey_page():
         key="hockey_competition"
     )
 
-    games = get_hockey_games()
+    # =========================
+    # Récupération API Hockey
+    # =========================
 
-    st.json(games)
+    games = get_hockey_games()
 
     hockey_matches = []
 
     for game in games.get("response", []):
 
-        home_id = game_data["teams"]["home"]["id"]
-        away_id = game_data["teams"]["away"]["id"]
-
-        st.write(f"Home ID : {home_id}")
-        st.write(f"Away ID : {away_id}")
+        home = game["teams"]["home"]["name"]
+        away = game["teams"]["away"]["name"]
 
         hockey_matches.append({
             "label": f"{home} vs {away}",
@@ -1657,6 +1656,10 @@ def hockey_page():
         )
         return
 
+    # =========================
+    # Sélection du match
+    # =========================
+
     selected_match = st.selectbox(
         "🏒 Match du Jour",
         hockey_matches,
@@ -1668,13 +1671,40 @@ def hockey_page():
 
     game_data = selected_match["game"]
 
+    # =========================
+    # Informations API
+    # =========================
+
+    home_id = game_data["teams"]["home"]["id"]
+    away_id = game_data["teams"]["away"]["id"]
+
+    league_name = game_data["league"]["name"]
+    game_date = game_data["date"]
+
+    match_status = game_data["status"]["long"]
+
     st.info(
         f"🏒 Match : {home_team} vs {away_team}"
     )
 
     st.info(
-        f"📅 Date : {game_data['date']}"
+        f"🏆 Compétition : {league_name}"
     )
+
+    st.info(
+        f"📅 Date : {game_date}"
+    )
+
+    st.info(
+        f"📡 Statut : {match_status}"
+    )
+
+    st.write(f"Home ID : {home_id}")
+    st.write(f"Away ID : {away_id}")
+
+    # =========================
+    # Analyse IA
+    # =========================
 
     if st.button(
         "Analyser le Match",
@@ -1687,21 +1717,7 @@ def hockey_page():
             "Toronto Maple Leafs": 86,
             "Colorado Avalanche": 92,
             "Vegas Golden Knights": 89,
-            "Edmonton Oilers": 91
-        }
-
-        home_strength = team_strength.get(home_team, 85)
-        away_strength = team_strength.get(away_team, 85)
-
-        predicted_home = round(home_strength / 22)
-        predicted_away = round(away_strength / 24)
-
-        total_goals = (
-            predicted_home +
-            predicted_away
-        )
-
-        team_strength = {
+            "Edmonton Oilers": 91,
             "Finland U20": 90,
             "Switzerland U20": 82
         }
@@ -1716,6 +1732,19 @@ def hockey_page():
             80
         )
 
+        predicted_home = round(
+            home_strength / 22
+        )
+
+        predicted_away = round(
+            away_strength / 24
+        )
+
+        total_goals = (
+            predicted_home +
+            predicted_away
+        )
+
         confidence_score = min(
             95,
             70 + abs(
@@ -1724,18 +1753,29 @@ def hockey_page():
             )
         )
 
-        match_status = game_data["status"]["long"]
+        if confidence_score >= 90:
 
-        st.info(
-            f"📡 Statut : {match_status}"
-        )
+            badge = "💎 ELITE"
+            rating = "A+"
+            risk_level = "🟢 FAIBLE"
 
-        st.json(game_data)
+        elif confidence_score >= 80:
 
-        st.metric(
-            "🧠 IA INDEX",
-            f"{confidence_score}/100"
-        )
+            badge = "🥇 PREMIUM"
+            rating = "A"
+            risk_level = "🟡 MOYEN"
+
+        elif confidence_score >= 70:
+
+            badge = "🥈 SOLIDE"
+            rating = "B+"
+            risk_level = "🔴 ÉLEVÉ"
+
+        else:
+
+            badge = "🥉 RISQUÉ"
+            rating = "B"
+            risk_level = "🔴 ÉLEVÉ"
 
         winner = (
             home_team
@@ -1743,40 +1783,16 @@ def hockey_page():
             else away_team
         )
 
-        rating = "A"
-        if confidence_score >= 90:
-
-            badge = "💎 ELITE"
-
-        elif confidence_score >= 80:
-
-            badge = "🥇 PREMIUM"
-
-        elif confidence_score >= 70:
-
-            badge = "🥈 SOLIDE"
-
-        else:
-
-            badge = "🥉 RISQUÉ"
-
-        if confidence_score >= 90:
-
-            risk_level = "🟢 FAIBLE"
-
-        elif confidence_score >= 80:
-
-            risk_level = "🟡 MOYEN"
-
-        else:
-
-            risk_level = "🔴 ÉLEVÉ"
+        st.metric(
+            "🧠 IA INDEX",
+            f"{confidence_score}/100"
+        )
 
         st.metric(
             "⚠️ Risque",
             risk_level
         )
-        
+
         st.success(
             f"🏆 Vainqueur IA : {winner}"
         )
@@ -1812,11 +1828,6 @@ def hockey_page():
                 "2 buts"
             )
 
-            st.metric(
-                "🧠 IA INDEX",
-                f"{confidence_score}/100"
-            )
-
         st.metric(
             "🏅 Badge IA",
             badge
@@ -1827,12 +1838,6 @@ def hockey_page():
             rating
         )
 
-        st.metric(
-            "🧠 IA INDEX",
-            f"{confidence_score}/100"
-        )
-
-        
         over55 = (
             "OUI"
             if total_goals > 5.5
@@ -1850,8 +1855,6 @@ def hockey_page():
         st.write("2️⃣ Artemi Panarin")
         st.write("3️⃣ Mika Zibanejad")
 
-        # Top Pari
-
         if total_goals > 5:
 
             best_bet = "Over 5.5 Buts"
@@ -1863,8 +1866,6 @@ def hockey_page():
         st.success(
             f"🎯 Top Pari Hockey : {best_bet}"
         )
-
-        # Value Bet
 
         value_bet = round(
             confidence_score - 75,
