@@ -1698,13 +1698,36 @@ def hockey_page():
             predicted_away
         )
 
+        team_strength = {
+            "Finland U20": 90,
+            "Switzerland U20": 82
+        }
+
+        home_strength = team_strength.get(
+            home_team,
+            80
+        )
+
+        away_strength = team_strength.get(
+            away_team,
+            80
+        )
+
         confidence_score = min(
             95,
-            75 + abs(
+            70 + abs(
                 home_strength -
                 away_strength
             )
         )
+
+        match_status = game_data["status"]["long"]
+
+        st.info(
+            f"📡 Statut : {match_status}"
+        )
+
+        st.json(game_data)
 
         st.metric(
             "🧠 IA INDEX",
