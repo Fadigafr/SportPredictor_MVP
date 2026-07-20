@@ -1633,12 +1633,26 @@ def hockey_page():
 
     st.json(games)
 
-    hockey_matches.append({
-        "label": f"{home} vs {away}",
-        "home": home,
-        "away": away,
-        "game": game
-    })
+    hockey_matches = []
+
+    for game in games.get("response", []):
+
+        home = game["teams"]["home"]["name"]
+        away = game["teams"]["away"]["name"]
+
+        hockey_matches.append({
+            "label": f"{home} vs {away}",
+            "home": home,
+            "away": away,
+            "game": game
+        })
+
+    if not hockey_matches:
+
+        st.warning(
+            "Aucun match Hockey disponible aujourd'hui"
+        )
+        return
 
     selected_match = st.selectbox(
         "🏒 Match du Jour",
@@ -1648,6 +1662,7 @@ def hockey_page():
 
     home_team = selected_match["home"]
     away_team = selected_match["away"]
+
     game_data = selected_match["game"]
 
     st.info(
@@ -1657,32 +1672,6 @@ def hockey_page():
     st.info(
         f"📅 Date : {game_data['date']}"
     )
-
-    home_team = st.selectbox(
-    "Équipe Domicile",
-    [
-        "New York Rangers",
-        "Boston Bruins",
-        "Toronto Maple Leafs",
-        "Colorado Avalanche",
-        "Vegas Golden Knights",
-        "Edmonton Oilers"
-    ],
-    key="hockey_home"
-)
-
-    away_team = st.selectbox(
-    "Équipe Extérieure",
-    [
-        "New York Rangers",
-        "Boston Bruins",
-        "Toronto Maple Leafs",
-        "Colorado Avalanche",
-        "Vegas Golden Knights",
-        "Edmonton Oilers"
-    ],
-    key="hockey_away"
-)
 
     if st.button(
         "Analyser le Match",
