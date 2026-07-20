@@ -1660,7 +1660,7 @@ def hockey_page():
 
     hockey_matches = []
 
-    for game in games.get("response", []):
+    for game in games:
 
         home = game["teams"]["home"]["name"]
         away = game["teams"]["away"]["name"]
