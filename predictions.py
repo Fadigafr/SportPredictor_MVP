@@ -1642,10 +1642,10 @@ def hockey_page():
 
     games = get_games_today()
 
-        st.write(
-            "Nombre de matchs :",
-            len(games)
-        )
+    st.write(
+        "Nombre de matchs :",
+        len(games)
+    )
 
     for game in games[:20]:
 
