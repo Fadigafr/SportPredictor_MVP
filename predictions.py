@@ -1426,10 +1426,6 @@ def tennis_page():
         ],
         key="tennis_tournament"
     )
- 
-    fixtures = get_tennis_fixtures()
-
-    st.json(fixtures)
 
     player_1 = st.text_input(
         "Joueur 1",
