@@ -1414,8 +1414,14 @@ def tennis_page():
 
     tennis_data = get_date_fixtures()
 
+    st.write("Données API Tennis :")
     st.json(tennis_data)
 
+    if tennis_data and "data" in tennis_data:
+        st.write(
+            "Nombre de matchs :",
+            len(tennis_data["data"])
+        )
 
     tournament = st.selectbox(
         "Tournoi",
