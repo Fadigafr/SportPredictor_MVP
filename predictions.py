@@ -1454,10 +1454,35 @@ def tennis_page():
 
     st.subheader("🎾 H2H")
 
+    h2h_matches = h2h_data.get("data", [])
+
+    h2h_count = len(h2h_matches)
+
+    st.subheader("🎾 H2H")
+
     st.metric(
         "Confrontations",
-        len(h2h_matches)
+        h2h_count
     )
+
+    if h2h_count > 0:
+
+        st.success(
+            f"✅ Historique disponible : {h2h_count} match(s)"
+        )
+
+    favorite_player = player_1
+
+        st.metric(
+            "🏆 Favori H2H",
+            favorite_player
+        )
+
+    else:
+
+        st.info(
+            "Aucun historique H2H"
+        )
     
     if len(h2h_matches) > 0:
 
