@@ -10,7 +10,6 @@ from api_basketball import (
     get_team_statistics
 )
 from api_tennis import get_date_fixtures
-from api_tennis import get_tournament_fixtures
 from api_hockey import get_games_today
 from datetime import datetime
 
