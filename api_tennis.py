@@ -1,28 +1,31 @@
 import requests
 import streamlit as st
 
-API_KEY = st.secrets["API_FOOTBALL_KEY"]
+API_KEY = st.secrets["RAPIDAPI_KEY"]
 
 HEADERS = {
-    "x-apisports-key": API_KEY
+    "x-rapidapi-key": API_KEY,
+    "x-rapidapi-host": "tennis-api-atp-wta-itf.p.rapidapi.com"
 }
 
-BASE_URL = "https://v1.tennis.api-sports.io"
+BASE_URL = (
+    "https://tennis-api-atp-wta-itf.p.rapidapi.com"
+)
 
-def get_tennis_fixtures():
+def get_tournament_fixtures():
 
-    url = f"{BASE_URL}/fixtures"
+    url = (
+        f"{BASE_URL}/tennis/v2/ms-api/"
+        "tournament-fixtures"
+    )
 
-    try:
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
 
-        response = requests.get(
-            url,
-            headers=HEADERS,
-            timeout=10
-        )
+    if response.status_code == 200:
 
         return response.json()
 
-    except Exception as e:
-
-        return {"error": str(e)}
+    return None
