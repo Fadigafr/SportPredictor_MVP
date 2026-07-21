@@ -1415,6 +1415,35 @@ def tennis_page():
 
     tennis_data = get_all_fixtures()
 
+    tennis_matches = []
+
+    for match in tennis_data["data"]:
+
+        player1 = match["player1"]["name"]
+        player2 = match["player2"]["name"]
+
+        tennis_matches.append({
+            "label": f"{player1} vs {player2}",
+            "player1": player1,
+            "player2": player2,
+            "match": match
+        })
+
+    selected_match = st.selectbox(
+        "🎾 Match ATP",
+        tennis_matches,
+        format_func=lambda x: x["label"]
+    )
+
+    player_1 = selected_match["player1"]
+    player_2 = selected_match["player2"]
+
+    match_data = selected_match["match"]
+
+    st.info(
+        f"🎾 Match : {player_1} vs {player_2}"
+    )
+
     st.json(tennis_data)
 
     if tennis_data and "data" in tennis_data:
@@ -1432,18 +1461,6 @@ def tennis_page():
             "Grand Chelem"
         ],
         key="tennis_tournament"
-    )
-
-    player_1 = st.text_input(
-        "Joueur 1",
-        "Alcaraz",
-        key="tennis_player1"
-    )
-
-    player_2 = st.text_input(
-        "Joueur 2",
-        "Medvedev",
-        key="tennis_player2"
     )
 
     if st.button(
