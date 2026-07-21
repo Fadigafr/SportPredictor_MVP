@@ -1427,6 +1427,10 @@ def tennis_page():
         key="tennis_tournament"
     )
 
+    tennis_data = get_tournament_fixtures()
+
+    st.json(tennis_data)
+    
     fixtures = get_tennis_fixtures()
 
     st.json(fixtures)
