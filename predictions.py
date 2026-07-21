@@ -9,7 +9,7 @@ from api_basketball import (
     get_games_today,
     get_team_statistics
 )
-from api_tennis import get_tennis_fixtures
+from api_tennis import get_tournament_fixtures
 from api_hockey import get_games_today
 from datetime import datetime
 
@@ -1409,6 +1409,13 @@ def basketball_page():
 def tennis_page():
 
     st.title("🎾 Tennis IA Premium")
+
+    st.subheader("🎾 API Tennis Test")
+
+    tennis_data = get_tournament_fixtures()
+
+    st.json(tennis_data)
+
 
     tournament = st.selectbox(
         "Tournoi",
