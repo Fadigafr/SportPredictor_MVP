@@ -14,8 +14,8 @@ BASE_URL = "https://tennis-api-atp-wta-itf.p.rapidapi.com"
 def get_tournament_fixtures():
 
     url = (
-        f"{BASE_URL}/tennis/v2/ms-api/"
-        "tournament-fixtures"
+        f"{BASE_URL}/tennis/v2/atp/"
+        "fixtures/tournament/19358"
     )
 
     response = requests.get(
@@ -24,6 +24,7 @@ def get_tournament_fixtures():
     )
 
     if response.status_code == 200:
+
         return response.json()
 
     return {
