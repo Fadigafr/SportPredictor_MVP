@@ -8,9 +8,8 @@ HEADERS = {
     "x-rapidapi-host": "tennis-api-atp-wta-itf.p.rapidapi.com"
 }
 
-BASE_URL = (
-    "https://tennis-api-atp-wta-itf.p.rapidapi.com"
-)
+BASE_URL = "https://tennis-api-atp-wta-itf.p.rapidapi.com"
+
 
 def get_tournament_fixtures():
 
@@ -25,7 +24,8 @@ def get_tournament_fixtures():
     )
 
     if response.status_code == 200:
-
         return response.json()
 
-    return None
+    return {
+        "error": response.text
+    }
