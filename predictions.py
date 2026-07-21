@@ -1471,7 +1471,7 @@ def tennis_page():
             f"✅ Historique disponible : {h2h_count} match(s)"
         )
 
-    favorite_player = player_1
+        favorite_player = player_1
 
         st.metric(
             "🏆 Favori H2H",
@@ -1537,7 +1537,7 @@ def tennis_page():
 
         confidence_score = min(
             95,
-            80 + abs(strength_1 - strength_2)
+            80 + abs(strength_1 - strength_2) + h2h_count
         )
 
         winner = (
