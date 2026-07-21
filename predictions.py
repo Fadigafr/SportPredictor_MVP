@@ -9,8 +9,10 @@ from api_basketball import (
     get_games_today,
     get_team_statistics
 )
-from api_tennis import get_all_fixtures
-from api_tennis import get_date_fixtures
+from api_tennis import (
+    get_all_fixtures,
+    get_h2h_fixtures
+)
 from api_hockey import get_games_today
 from datetime import datetime
 
@@ -1429,6 +1431,18 @@ def tennis_page():
             "match": match
         })
 
+    player1_id = match_data["player1"]["id"]
+    player2_id = match_data["player2"]["id"]
+
+    h2h_data = get_h2h_fixtures(
+        player1_id,
+        player2_id
+    )
+
+    st.subheader("🎾 H2H API")
+
+    st.json(h2h_data)
+    
     selected_match = st.selectbox(
         "🎾 Match ATP",
         tennis_matches,
