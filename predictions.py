@@ -1450,9 +1450,27 @@ def tennis_page():
         player2_id
     )
 
-    st.subheader("🎾 H2H API")
+    h2h_matches = h2h_data.get("data", [])
 
-    st.json(h2h_data)
+    st.subheader("🎾 H2H")
+
+    st.metric(
+        "Confrontations",
+        len(h2h_matches)
+    )
+    
+    if len(h2h_matches) > 0:
+
+        st.success(
+            f"🎾 Historique disponible : {len(h2h_matches)} matchs"
+        )
+
+    else:
+
+        st.info(
+            "🎾 Aucun historique H2H trouvé"
+        )
+    
 
     st.info(
         f"🎾 Match : {player_1} vs {player_2}"
