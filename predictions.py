@@ -1435,23 +1435,20 @@ def tennis_page():
         format_func=lambda x: x["label"]
     )
 
-    player_1 = selected_match["player1"]
-    player_2 = selected_match["player2"]
+    player1_id = match_data["player1"]["id"]
+    player2_id = match_data["player2"]["id"]
 
-    match_data = selected_match["match"]
+    st.write(
+        f"🎾 Player 1 ID : {player1_id}"
+    )
+
+    st.write(
+        f"🎾 Player 2 ID : {player2_id}"
+    )
 
     st.info(
         f"🎾 Match : {player_1} vs {player_2}"
     )
-
-    st.json(tennis_data)
-
-    if tennis_data and "data" in tennis_data:
-
-        st.write(
-            "Nombre de matchs :",
-            len(tennis_data["data"])
-        )
 
     tournament = st.selectbox(
         "Tournoi",
