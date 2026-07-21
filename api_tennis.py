@@ -68,3 +68,28 @@ def get_date_fixtures():
     return {
         "error": response.text
     }
+
+def get_h2h_fixtures(
+    player1_id,
+    player2_id
+):
+
+    url = (
+        f"{BASE_URL}/tennis/v2/atp/"
+        f"fixtures/h2h/"
+        f"{player1_id}/"
+        f"{player2_id}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {
+        "error": response.text
+    }
