@@ -30,3 +30,23 @@ def get_tournament_fixtures():
     return {
         "error": response.text
     }
+
+def get_date_fixtures():
+
+    url = (
+        f"{BASE_URL}/tennis/v2/atp/"
+        "fixtures/2024-02-07"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {
+        "error": response.text
+    }
