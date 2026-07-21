@@ -9,6 +9,7 @@ from api_basketball import (
     get_games_today,
     get_team_statistics
 )
+from api_tennis import get_all_fixtures
 from api_tennis import get_date_fixtures
 from api_hockey import get_games_today
 from datetime import datetime
@@ -1412,12 +1413,12 @@ def tennis_page():
 
     st.subheader("🎾 API Tennis Test")
 
-    tennis_data = get_date_fixtures()
+    tennis_data = get_all_fixtures()
 
-    st.write("Données API Tennis :")
     st.json(tennis_data)
 
     if tennis_data and "data" in tennis_data:
+
         st.write(
             "Nombre de matchs :",
             len(tennis_data["data"])
