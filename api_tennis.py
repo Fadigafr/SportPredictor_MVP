@@ -10,6 +10,24 @@ HEADERS = {
 
 BASE_URL = "https://tennis-api-atp-wta-itf.p.rapidapi.com"
 
+def get_all_fixtures():
+
+    url = (
+        f"{BASE_URL}/tennis/v2/atp/fixtures"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {
+        "error": response.text
+    }
 
 def get_tournament_fixtures():
 
