@@ -1431,18 +1431,6 @@ def tennis_page():
             "match": match
         })
 
-    player1_id = match_data["player1"]["id"]
-    player2_id = match_data["player2"]["id"]
-
-    h2h_data = get_h2h_fixtures(
-        player1_id,
-        player2_id
-    )
-
-    st.subheader("🎾 H2H API")
-
-    st.json(h2h_data)
-    
     selected_match = st.selectbox(
         "🎾 Match ATP",
         tennis_matches,
@@ -1456,6 +1444,15 @@ def tennis_page():
 
     player1_id = match_data["player1"]["id"]
     player2_id = match_data["player2"]["id"]
+
+    h2h_data = get_h2h_fixtures(
+        player1_id,
+        player2_id
+    )
+
+    st.subheader("🎾 H2H API")
+
+    st.json(h2h_data)
 
     st.info(
         f"🎾 Match : {player_1} vs {player_2}"
