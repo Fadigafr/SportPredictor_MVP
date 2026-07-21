@@ -1411,7 +1411,7 @@ def tennis_page():
 
     st.title("🎾 Tennis IA Premium")
 
-    st.subheader("🎾 API Tennis Test")
+    st.subheader("🎾 Matchs ATP API")
 
     tennis_data = get_all_fixtures()
 
@@ -1435,20 +1435,33 @@ def tennis_page():
         format_func=lambda x: x["label"]
     )
 
+    player_1 = selected_match["player1"]
+    player_2 = selected_match["player2"]
+
+    match_data = selected_match["match"]
+
     player1_id = match_data["player1"]["id"]
     player2_id = match_data["player2"]["id"]
-
-    st.write(
-        f"🎾 Player 1 ID : {player1_id}"
-    )
-
-    st.write(
-        f"🎾 Player 2 ID : {player2_id}"
-    )
 
     st.info(
         f"🎾 Match : {player_1} vs {player_2}"
     )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.metric(
+            "🎾 Player 1 ID",
+            player1_id
+        )
+
+    with col2:
+
+        st.metric(
+            "🎾 Player 2 ID",
+            player2_id
+        )
 
     tournament = st.selectbox(
         "Tournoi",
