@@ -1420,9 +1420,16 @@ def tennis_page():
 
     tennis_data = get_all_fixtures()
 
+    if "data" not in tennis_data:
+
+        st.warning(
+            "Aucun match ATP disponible"
+        )
+        return
+
     tennis_matches = []
 
-    for match in tennis_data["data"]:
+    for match in tennis_data.get("data", []):
 
         player1 = match["player1"]["name"]
         player2 = match["player2"]["name"]
