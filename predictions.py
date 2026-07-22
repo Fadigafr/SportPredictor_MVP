@@ -1524,7 +1524,19 @@ def tennis_page():
     
     st.subheader("🎾 Match Prediction API")
 
-    st.json(prediction_data)
+    if "error" in prediction_data:
+
+        st.warning(
+            "⚠️ Aucune prédiction API disponible pour ce match"
+        )
+
+    else:
+
+        st.success(
+            "✅ Prédiction API disponible"
+        )
+
+        st.json(prediction_data)
     
     tournament = st.selectbox(
         "Tournoi",
