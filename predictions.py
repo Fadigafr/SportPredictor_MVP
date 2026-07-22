@@ -1422,11 +1422,16 @@ def tennis_page():
 
     st.write(tennis_data)
 
-    if "data" not in tennis_data:
+    if "error" in tennis_data:
 
         st.warning(
-            "Aucun match ATP disponible"
+            "⚠️ Limite quotidienne API Tennis atteinte"
         )
+
+        st.info(
+            "Le module Tennis fonctionne mais le quota RapidAPI du jour est épuisé."
+        )
+
         return
 
     tennis_matches = []
