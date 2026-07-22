@@ -11,7 +11,8 @@ from api_basketball import (
 )
 from api_tennis import (
     get_all_fixtures,
-    get_h2h_fixtures
+    get_h2h_fixtures,
+    get_match_prediction
 )
 from api_hockey import get_games_today
 from datetime import datetime
@@ -1496,7 +1497,6 @@ def tennis_page():
             "🎾 Aucun historique H2H trouvé"
         )
     
-
     st.info(
         f"🎾 Match : {player_1} vs {player_2}"
     )
@@ -1517,6 +1517,15 @@ def tennis_page():
             player2_id
         )
 
+    prediction_data = get_match_prediction(
+        player1_id,
+        player2_id
+    )
+    
+
+st.subheader("🎾 Match Prediction API")
+
+st.json(prediction_data)
     tournament = st.selectbox(
         "Tournoi",
         [
