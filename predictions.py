@@ -1518,8 +1518,8 @@ def tennis_page():
         )
 
     prediction_data = get_match_prediction(
-        player1_id,
-        player2_id
+        player_1,
+        player_2
     )
     
     st.subheader("🎾 Match Prediction API")
