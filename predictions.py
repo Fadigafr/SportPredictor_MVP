@@ -1420,6 +1420,8 @@ def tennis_page():
 
     tennis_data = get_all_fixtures()
 
+    st.write(tennis_data)
+
     if "data" not in tennis_data:
 
         st.warning(
