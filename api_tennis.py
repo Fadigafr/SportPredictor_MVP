@@ -95,15 +95,27 @@ def get_h2h_fixtures(
     }
 
 def get_match_prediction(
-    player1_id,
-    player2_id
+    player1_name,
+    player2_name
 ):
 
+    player1_name = (
+        player1_name
+        .replace(" ", "")
+        .replace("/", "")
+    )
+
+    player2_name = (
+        player2_name
+        .replace(" ", "")
+        .replace("/", "")
+    )
+
     url = (
-        f"{BASE_URL}/tennis/v2/"
-        f"match/prediction/"
-        f"{player1_id}/"
-        f"{player2_id}"
+        f"{BASE_URL}/tennis/v2/ms-api/"
+        f"upcoming/match-prediction/atp/"
+        f"{player1_name}/"
+        f"{player2_name}"
     )
 
     response = requests.get(
