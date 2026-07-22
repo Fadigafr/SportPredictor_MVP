@@ -12,7 +12,9 @@ from api_basketball import (
 from api_tennis import (
     get_all_fixtures,
     get_h2h_fixtures,
-    get_match_prediction
+    get_match_prediction,
+    get_singles_ranking,
+    get_doubles_ranking
 )
 from api_hockey import get_games_today
 from datetime import datetime
@@ -1517,6 +1519,17 @@ def tennis_page():
             player2_id
         )
 
+    singles_ranking = get_singles_ranking()
+    doubles_ranking = get_doubles_ranking()
+
+    st.subheader("🏆 Classements ATP")
+
+    st.json(singles_ranking)
+
+    st.subheader("🏆 Classements ATP Doubles")
+
+    st.json(doubles_ranking)
+    
     prediction_data = get_match_prediction(
         player_1,
         player_2
