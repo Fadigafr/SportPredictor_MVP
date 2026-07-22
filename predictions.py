@@ -1527,15 +1527,27 @@ def tennis_page():
 
     st.subheader("🏆 ATP Singles Top 10")
 
+    st.subheader("🏆 ATP Singles Top 10")
+
     for player in singles_data[:10]:
 
-        st.write(player)
+        st.write(
+            f"#{player['position']} | "
+            f"{player['player']['name']} | "
+            f"{player['rankingPoints']} pts"
+        )
+
+    st.subheader("🏆 ATP Doubles Top 10")
 
     st.subheader("🏆 ATP Doubles Top 10")
 
     for player in doubles_data[:10]:
 
-        st.write(player)
+        st.write(
+            f"#{player['position']} | "
+            f"{player['player']['name']} | "
+            f"{player['rankingPoints']} pts"
+        )
     
     prediction_data = get_match_prediction(
         player_1,
