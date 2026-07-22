@@ -1539,11 +1539,7 @@ def tennis_page():
 
     for player in doubles_data[:10]:
 
-        st.write(
-            f"#{player['position']} | "
-            f"{player['player']['name']} | "
-            f"{player['rankingPoints']} pts"
-        )
+        st.write(player)
     
     prediction_data = get_match_prediction(
         player_1,
