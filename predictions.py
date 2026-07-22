@@ -1522,10 +1522,10 @@ def tennis_page():
         player2_id
     )
     
+    st.subheader("🎾 Match Prediction API")
 
-st.subheader("🎾 Match Prediction API")
-
-st.json(prediction_data)
+    st.json(prediction_data)
+    
     tournament = st.selectbox(
         "Tournoi",
         [
