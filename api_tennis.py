@@ -130,3 +130,44 @@ def get_match_prediction(
     return {
         "error": response.text
     }
+
+def get_singles_ranking():
+
+    url = (
+        f"{BASE_URL}/tennis/v2/atp/"
+        "ranking/singles/"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {
+        "error": response.text
+    }
+
+
+def get_doubles_ranking():
+
+    url = (
+        f"{BASE_URL}/tennis/v2/atp/"
+        "ranking/doubles/"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {
+        "error": response.text
+    }
