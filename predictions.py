@@ -14,7 +14,8 @@ from api_tennis import (
     get_h2h_fixtures,
     get_match_prediction,
     get_singles_ranking,
-    get_doubles_ranking
+    get_doubles_ranking,
+    get_player_profile
 )
 from api_hockey import get_games_today
 from datetime import datetime
@@ -1461,6 +1462,16 @@ def tennis_page():
 
     player1_id = match_data["player1"]["id"]
     player2_id = match_data["player2"]["id"]
+
+    player1_profile = get_player_profile(
+        player1_id
+    )
+
+    st.subheader(
+        "🎾 Profil Joueur"
+    )
+
+    st.json(player1_profile)
 
     h2h_data = get_h2h_fixtures(
         player1_id,
