@@ -171,3 +171,24 @@ def get_doubles_ranking():
     return {
         "error": response.text
     }
+
+def get_player_profile(player_id):
+
+    url = (
+        f"{BASE_URL}/tennis/v2/player/"
+        f"{player_id}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {
+        "error": response.text
+    }
+    
