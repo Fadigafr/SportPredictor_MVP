@@ -2219,22 +2219,60 @@ def hockey_page():
                 "🟡 Match équilibré"
             )
 
+# =====================================================
+# V10 DASHBOARD IA GLOBAL
+# =====================================================
+
 def dashboard_global_page():
 
     st.subheader("🔥 Meilleur Pari du Jour")
 
-    best_bet = {
-        "sport": "Football",
-        "match": "PSG vs Marseille",
-        "ia": 92,
-        "confidence": "ELITE"
-    }
+    st.success(
+        """
+        Football
+
+        PSG vs Marseille
+
+        IA Index : 92/100
+
+        Niveau : ELITE
+        """
+    )
 
     st.success(
         f"{best_bet['sport']} | "
         f"{best_bet['match']}"
     )
 
+    st.subheader("📈 Performance IA")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric(
+            "Paris gagnés",
+            182
+        )
+
+    with col2:
+        st.metric(
+            "Paris perdus",
+            54
+        )
+
+    with col3:
+        st.metric(
+            "ROI",
+            "+23.8%"
+        )
+
+    st.subheader("🥇 Classement IA")
+
+    st.success("1. Football : 87")
+    st.info("2. Basketball : 82")
+    st.info("3. Hockey : 79")
+    st.info("4. Tennis : 76")
+    
     col1, col2 = st.columns(2)
 
     with col1:
@@ -2454,13 +2492,13 @@ def dashboard_global_page():
     st.subheader("🚨 Alertes IA")
 
     st.warning(
-        "Football : PSG vs Marseille > IA 90"
+         "PSG vs Marseille dépasse un indice IA de 90"
     )
 
     st.warning(
-        "Basketball : Lakers vs Celtics > IA 85"
+        "Lakers vs Celtics dépasse un indice IA de 85"
     )
 
-    st.info(
-        "Aucune alerte négative aujourd'hui"
+    st.success(
+        "Aucune alerte critique détectée"
     )
