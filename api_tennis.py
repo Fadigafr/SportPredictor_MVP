@@ -193,20 +193,31 @@ def get_player_profile(player_id):
     }
     
 def get_player_recent_matches(player_id):
+
     url = (
         f"{BASE_URL}/getFixtures"
         f"?playerId={player_id}"
     )
 
-    response = requests.get(url, headers=HEADERS)
+    response = requests.get(
+        url,
+        headers=HEADERS
+    )
+
+    st.write("URL TEST :", url)
+    st.write("STATUS :", response.status_code)
 
     if response.status_code == 200:
-        data = response.json()
-        return data
+        return response.json()
+
+    st.error(response.text)
 
     return {}
 
-def calculate_form_stats(matches):
+def calculate_form_stats(matches_data):
+
+    matches = matches_data.get("data", [])
+
     wins = 0
     losses = 0
     form_sequence = []
@@ -216,7 +227,8 @@ def calculate_form_stats(matches):
         winner_id = match.get("winnerId")
 
         if winner_id:
-            if winner_id == match.get("player1", {}).get("id"):
+
+            if winner_id == match.get("player1Id"):
                 wins += 1
                 form_sequence.append("W")
             else:
@@ -225,10 +237,11 @@ def calculate_form_stats(matches):
 
     total = wins + losses
 
-    win_rate = round(
-        (wins / total) * 100,
-        1
-    ) if total > 0 else 0
+    win_rate = (
+        round((wins / total) * 100, 1)
+        if total > 0
+        else 0
+    )
 
     return {
         "wins": wins,
@@ -236,4 +249,3 @@ def calculate_form_stats(matches):
         "win_rate": win_rate,
         "form": "-".join(form_sequence)
     }
-    
