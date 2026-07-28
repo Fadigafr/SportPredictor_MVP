@@ -1528,6 +1528,18 @@ def tennis_page():
         1
     )
     
+    st.write("DEBUG FORM 1")
+    st.write(player1_form)
+
+    st.write("DEBUG FORM 2")
+    st.write(player2_form)
+
+    st.write("DEBUG AI 1")
+    st.write(player1_ai)
+
+    st.write("DEBUG AI 2")
+    st.write(player2_ai)
+    
     st.subheader("IA Index Tennis")
 
     col1, col2 = st.columns(2)
