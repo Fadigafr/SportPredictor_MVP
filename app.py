@@ -14,6 +14,7 @@ from predictions import (
 from api_football import api_get
 from database import init_db
 from api_basketball import get_games_today
+from predictions import dashboard_global_page
 
 init_db()
 
@@ -132,6 +133,7 @@ menu = st.sidebar.radio(
         "Top Buteurs",
         "H2H",
         "Prédictions",
+        "Dashboard IA Global",
         "Admin"
     ]
 )
@@ -146,8 +148,6 @@ sport = st.sidebar.selectbox(
     ]
 )
 
-elif page == "Dashboard IA Global":
-    dashboard_global_page()
 # =====================================================
 # ACCUEIL
 # =====================================================
