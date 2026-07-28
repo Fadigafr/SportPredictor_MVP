@@ -2249,11 +2249,6 @@ def dashboard_global_page():
         "ia": 92,
         "confidence": "ELITE"
     }
-    
-    st.success(
-        f"{best_bet['sport']} | "
-        f"{best_bet['match']}"
-    )
 
     st.subheader("📈 Performance IA")
 
