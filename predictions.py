@@ -17,6 +17,10 @@ from api_tennis import (
     get_doubles_ranking,
     get_player_profile
 )
+from api_tennis import (
+    get_player_recent_matches,
+    calculate_form_stats
+)
 from api_hockey import get_games_today
 from datetime import datetime
 
@@ -1463,10 +1467,78 @@ def tennis_page():
     player1_id = match_data["player1"]["id"]
     player2_id = match_data["player2"]["id"]
 
+    player1_matches = get_player_recent_matches(player1_id)
+    player2_matches = get_player_recent_matches(player2_id)
+
+    player1_form = calculate_form_stats(player1_matches)
+    player2_form = calculate_form_stats(player2_matches)
+
     player1_profile = get_player_profile(
         player1_id
     )
 
+    st.subheader("Forme récente")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown(f"### {player_1}")
+        st.write(
+            f"Victoires : {player1_form['wins']}"
+        )
+        st.write(
+            f"Défaites : {player1_form['losses']}"
+        )
+        st.write(
+            f"Taux de réussite : {player1_form['win_rate']}%"
+        )
+        st.success(
+            f"Série : {player1_form['form']}"
+        )
+
+    with col2:
+        st.markdown(f"### {player_2}")
+        st.write(
+            f"Victoires : {player2_form['wins']}"
+        )
+        st.write(
+            f"Défaites : {player2_form['losses']}"
+        )
+        st.write(
+            f"Taux de réussite : {player2_form['win_rate']}%"
+        )
+        st.success(
+            f"Série : {player2_form['form']}"
+        )
+
+    player1_ai = round(
+        player1_form["win_rate"],
+        1
+    )
+
+    player2_ai = round(
+        player2_form["win_rate"],
+        1
+    )
+    
+    st.subheader("IA Index Tennis")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            "Indice IA",
+            f"{player1_ai}/100"
+        )
+        st.progress(player1_ai / 100)
+
+    with col2:
+        st.metric(
+            "Indice IA",
+            f"{player2_ai}/100"
+        )
+        st.progress(player2_ai / 100)
+    
     st.subheader(
         "🎾 Profil Joueur"
     )
