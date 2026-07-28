@@ -2225,6 +2225,21 @@ def hockey_page():
 
 def dashboard_global_page():
 
+    st.info(
+        f"""
+    Résumé IA
+
+    Indice Global : {global_index}/100
+
+    Sport Leader : {leader_sport.upper()}
+
+    Meilleur Pari :
+    PSG vs Marseille
+
+    Confiance : ELITE
+    """
+    )
+
     st.title("Dashboard IA Global")
 
     st.markdown("---")
@@ -2290,10 +2305,12 @@ def dashboard_global_page():
 
     st.markdown("---")
 
-    football_index = 87
-    basketball_index = 82
-    tennis_index = 76
-    hockey_index = 79
+    indexes = get_global_ai_indexes()
+
+    football_index = indexes["football"]
+    basketball_index = indexes["basketball"]
+    tennis_index = indexes["tennis"]
+    hockey_index = indexes["hockey"]
 
     col1, col2 = st.columns(2)
 
@@ -2454,6 +2471,41 @@ def dashboard_global_page():
         ]
     )
 
+    leader_sport = max(
+        indexes,
+        key=indexes.get
+    )
+
+    leader_score = indexes[leader_sport]
+
+    st.subheader("🥇 Sport Leader")
+
+    st.success(
+        f"{leader_sport.upper()} : {leader_score}/100"
+    )
+
+    global_index = round(
+        (
+            football_index +
+            basketball_index +
+            tennis_index +
+            hockey_index
+        ) / 4,
+        1
+    )
+
+    if global_index >= 85:
+        risk_level = "FAIBLE"
+    elif global_index >= 75:
+        risk_level = "MOYEN"
+    else:
+        risk_level = "ÉLEVÉ"
+
+    st.metric(
+        "Risque Global",
+        risk_level
+    )
+
     st.subheader("🔥 HeatMap IA")
 
     st.dataframe(
@@ -2474,3 +2526,12 @@ def dashboard_global_page():
     st.success(
         "Aucune alerte critique détectée"
     )
+
+def get_global_ai_indexes():
+
+    return {
+        "football": 87,
+        "basketball": 82,
+        "tennis": 76,
+        "hockey": 79
+    }
