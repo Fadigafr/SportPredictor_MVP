@@ -2217,3 +2217,123 @@ def hockey_page():
             st.warning(
                 "🟡 Match équilibré"
             )
+
+def dashboard_global_page():
+
+    st.title("Dashboard IA Global")
+
+    st.markdown("---")
+
+    football_index = 87
+    basketball_index = 82
+    tennis_index = 76
+    hockey_index = 79
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            "Football IA",
+            f"{football_index}/100"
+        )
+
+        st.progress(
+            football_index / 100
+        )
+
+    with col2:
+        st.metric(
+            "Basketball IA",
+            f"{basketball_index}/100"
+        )
+
+        st.progress(
+            basketball_index / 100
+        )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            "Tennis IA",
+            f"{tennis_index}/100"
+        )
+
+        st.progress(
+            tennis_index / 100
+        )
+
+    with col2:
+        st.metric(
+            "Hockey IA",
+            f"{hockey_index}/100"
+        )
+
+        st.progress(
+            hockey_index / 100
+        )
+
+    st.subheader("Top Pronostics IA")
+
+    top_bets = [
+        {
+            "sport": "Football",
+            "match": "PSG vs Marseille",
+            "ia": 92
+        },
+        {
+            "sport": "Basketball",
+            "match": "Lakers vs Celtics",
+            "ia": 89
+        },
+        {
+            "sport": "Tennis",
+            "match": "Alcaraz vs Sinner",
+            "ia": 87
+        },
+        {
+            "sport": "Hockey",
+            "match": "Oilers vs Rangers",
+            "ia": 84
+        }
+    ]
+
+    for bet in top_bets:
+
+        st.success(
+            f"{bet['sport']} | "
+            f"{bet['match']} | "
+            f"IA {bet['ia']}/100"
+        )
+
+    st.subheader("Répartition des Pronostics")
+
+    sports_data = {
+        "Football": 52,
+        "Basketball": 18,
+        "Tennis": 14,
+        "Hockey": 16
+    }
+
+    st.bar_chart(sports_data)
+
+    global_index = round(
+    (
+        football_index +
+        basketball_index +
+        tennis_index +
+        hockey_index
+        ) / 4,
+        1
+    )
+
+    st.subheader("Indice Global IA")
+
+    st.metric(
+        "SPORT PREDICTOR ULTRA PRO IA",
+        f"{global_index}/100"
+    )
+
+    st.progress(
+        global_index / 100
+    )
