@@ -2225,6 +2225,10 @@ def hockey_page():
 
 def dashboard_global_page():
 
+    st.title("Dashboard IA Global")
+
+    st.markdown("---")
+
     st.subheader("🔥 Meilleur Pari du Jour")
 
     st.success(
@@ -2239,6 +2243,13 @@ def dashboard_global_page():
         """
     )
 
+    best_bet = {
+        "sport": "Football",
+        "match": "PSG vs Marseille",
+        "ia": 92,
+        "confidence": "ELITE"
+    }
+    
     st.success(
         f"{best_bet['sport']} | "
         f"{best_bet['match']}"
@@ -2265,13 +2276,6 @@ def dashboard_global_page():
             "ROI",
             "+23.8%"
         )
-
-    st.subheader("🥇 Classement IA")
-
-    st.success("1. Football : 87")
-    st.info("2. Basketball : 82")
-    st.info("3. Hockey : 79")
-    st.info("4. Tennis : 76")
     
     col1, col2 = st.columns(2)
 
@@ -2382,13 +2386,6 @@ def dashboard_global_page():
             match,
             f"{score}/100"
         )
-
-    st.subheader("📈 Performance IA")
-
-    wins = 182
-    losses = 54
-
-    roi = 23.8
 
     col1, col2, col3 = st.columns(3)
 
