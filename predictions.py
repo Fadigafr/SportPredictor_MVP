@@ -1425,8 +1425,6 @@ def tennis_page():
 
     tennis_data = get_all_fixtures()
 
-    st.write(tennis_data)
-
     if "error" in tennis_data:
 
         st.warning(
@@ -1470,12 +1468,21 @@ def tennis_page():
     player1_matches = get_player_recent_matches(player1_id)
     player2_matches = get_player_recent_matches(player2_id)
 
+    st.write("DEBUG PLAYER 1")
+    st.write(player1_matches)
+
+    st.write("DEBUG PLAYER 2")
+    st.write(player2_matches)
+
     player1_form = calculate_form_stats(player1_matches)
     player2_form = calculate_form_stats(player2_matches)
 
-    player1_profile = get_player_profile(
-        player1_id
-    )
+    st.write(player1_form)
+    st.write(player2_form)
+
+    # player1_profile = get_player_profile(player1_id)
+    # profile_data = get_player_profile(player1_id)
+    # st.json(profile_data)
 
     st.subheader("Forme récente")
 
@@ -1538,10 +1545,6 @@ def tennis_page():
             f"{player2_ai}/100"
         )
         st.progress(player2_ai / 100)
-    
-    st.subheader(
-        "🎾 Profil Joueur"
-    )
 
     h2h_data = get_h2h_fixtures(
         player1_id,
@@ -1679,8 +1682,6 @@ def tennis_page():
         st.success(
             "✅ Prédiction API disponible"
         )
-
-    st.json(prediction_data)
     
     tournament = st.selectbox(
         "Tournoi",
