@@ -3,6 +3,7 @@
 # =====================================================
 
 import math
+import pandas as pd
 import streamlit as st
 from api_football import api_get
 from api_basketball import (
@@ -2220,6 +2221,34 @@ def hockey_page():
 
 def dashboard_global_page():
 
+    st.subheader("🔥 Meilleur Pari du Jour")
+
+    best_bet = {
+        "sport": "Football",
+        "match": "PSG vs Marseille",
+        "ia": 92,
+        "confidence": "ELITE"
+    }
+
+    st.success(
+        f"{best_bet['sport']} | "
+        f"{best_bet['match']}"
+    )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            "Indice IA",
+            f"{best_bet['ia']}/100"
+        )
+
+    with col2:
+        st.metric(
+            "Confiance",
+            best_bet["confidence"]
+        )
+        
     st.title("Dashboard IA Global")
 
     st.markdown("---")
@@ -2298,6 +2327,66 @@ def dashboard_global_page():
         }
     ]
 
+    st.subheader("🏆 Top 5 Paris Premium")
+
+    premium_bets = [
+        ("Football", "PSG vs Marseille", 92),
+        ("Basketball", "Lakers vs Celtics", 89),
+        ("Tennis", "Alcaraz vs Sinner", 87),
+        ("Hockey", "Oilers vs Rangers", 84),
+        ("Football", "Real Madrid vs Barça", 83)
+    ]
+
+    for sport, match, score in premium_bets:
+
+        st.metric(
+            f"{sport}",
+            match,
+            f"{score}/100"
+        )
+
+    st.subheader("📈 Performance IA")
+
+    wins = 182
+    losses = 54
+
+    roi = 23.8
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric(
+            "Paris gagnés",
+            wins
+        )
+
+    with col2:
+        st.metric(
+            "Paris perdus",
+            losses
+        )
+
+    with col3:
+        st.metric(
+            "ROI",
+            f"+{roi}%"
+        )
+
+    st.subheader("🥇 Classement des Sports")
+
+    ranking = [
+        ("Football", 87),
+        ("Basketball", 82),
+        ("Hockey", 79),
+        ("Tennis", 76)
+    ]
+
+    for position, (sport, score) in enumerate(ranking, start=1):
+
+        st.write(
+            f"{position}. {sport} : {score}/100"
+        )
+        
     for bet in top_bets:
 
         st.success(
@@ -2336,4 +2425,42 @@ def dashboard_global_page():
 
     st.progress(
         global_index / 100
+    )
+
+    heatmap_data = pd.DataFrame(
+        {
+            "Indice IA": [
+                football_index,
+                basketball_index,
+                tennis_index,
+                hockey_index
+            ]
+        },
+        index=[
+            "Football",
+            "Basketball",
+            "Tennis",
+            "Hockey"
+        ]
+    )
+
+    st.subheader("🔥 HeatMap IA")
+
+    st.dataframe(
+        heatmap_data,
+        use_container_width=True
+    )
+
+    st.subheader("🚨 Alertes IA")
+
+    st.warning(
+        "Football : PSG vs Marseille > IA 90"
+    )
+
+    st.warning(
+        "Basketball : Lakers vs Celtics > IA 85"
+    )
+
+    st.info(
+        "Aucune alerte négative aujourd'hui"
     )
