@@ -1471,8 +1471,6 @@ def tennis_page():
         "🎾 Profil Joueur"
     )
 
-    st.json(player1_profile)
-
     h2h_data = get_h2h_fixtures(
         player1_id,
         player2_id
@@ -1550,6 +1548,11 @@ def tennis_page():
     singles_data = singles_ranking.get("data", [])
     doubles_data = doubles_ranking.get("data", [])
 
+    prediction_data = get_match_prediction(
+            player_1,
+            player_2
+        )
+    
     st.subheader("🏆 ATP Singles Top 10")
 
     for player in singles_data[:10]:
@@ -1558,15 +1561,6 @@ def tennis_page():
             f"#{player['position']} | "
             f"{player['player']['name']} | "
             f"{player['pts']} pts"
-        )
-
-    st.subheader("🏆 ATP Doubles Top 10")
-
-    for player in doubles_data[:10]:
-    
-        prediction_data = get_match_prediction(
-            player_1,
-            player_2
         )
     
     st.subheader("🏆 ATP Doubles Top 10")
@@ -1602,7 +1596,19 @@ def tennis_page():
             "✅ Prédiction API disponible"
         )
 
-        st.json(prediction_data)
+    if "error" in prediction_data:
+
+        st.warning(
+            "⚠️ Aucune prédiction API disponible pour ce match"
+        )
+
+    else:
+
+        st.success(
+            "✅ Prédiction API disponible"
+        )
+
+    st.json(prediction_data)
     
     tournament = st.selectbox(
         "Tournoi",
