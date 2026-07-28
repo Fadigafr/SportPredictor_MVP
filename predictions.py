@@ -2225,21 +2225,6 @@ def hockey_page():
 
 def dashboard_global_page():
 
-    st.info(
-        f"""
-    Résumé IA
-
-    Indice Global : {global_index}/100
-
-    Sport Leader : {leader_sport.upper()}
-
-    Meilleur Pari :
-    PSG vs Marseille
-
-    Confiance : ELITE
-    """
-    )
-
     st.title("Dashboard IA Global")
 
     st.markdown("---")
@@ -2303,14 +2288,44 @@ def dashboard_global_page():
         
     st.title("Dashboard IA Global")
 
-    st.markdown("---")
-
     indexes = get_global_ai_indexes()
 
     football_index = indexes["football"]
     basketball_index = indexes["basketball"]
     tennis_index = indexes["tennis"]
     hockey_index = indexes["hockey"]
+
+    global_index = round(
+        (
+            football_index +
+            basketball_index +
+            tennis_index +
+            hockey_index
+        ) / 4,
+        1
+    )
+
+    leader_sport = max(
+        indexes,
+        key=indexes.get
+    )
+
+    leader_score = indexes[leader_sport]
+    
+    st.info(
+        f"""
+    Résumé IA
+
+    Indice Global : {global_index}/100
+
+    Sport Leader : {leader_sport.upper()}
+
+    Meilleur Pari :
+    PSG vs Marseille
+
+    Confiance : ELITE
+    """
+    )
 
     col1, col2 = st.columns(2)
 
