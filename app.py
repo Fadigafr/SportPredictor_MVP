@@ -474,3 +474,10 @@ elif menu == "Prédictions":
 elif menu == "Admin":
 
     admin_page()
+
+# =====================================================
+# DASHBOARD IA GLOBAL
+# =====================================================
+
+elif menu == "Dashboard IA Global":
+    dashboard_global_page()
