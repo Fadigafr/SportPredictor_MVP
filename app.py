@@ -146,6 +146,8 @@ sport = st.sidebar.selectbox(
     ]
 )
 
+elif page == "Dashboard IA Global":
+    dashboard_global_page()
 # =====================================================
 # ACCUEIL
 # =====================================================
