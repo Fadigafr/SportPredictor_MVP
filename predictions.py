@@ -1564,10 +1564,10 @@ def tennis_page():
 
     for player in doubles_data[:10]:
     
-    prediction_data = get_match_prediction(
-        player_1,
-        player_2
-    )
+        prediction_data = get_match_prediction(
+            player_1,
+            player_2
+        )
     
     st.subheader("🎾 Match Prediction API")
 
