@@ -2884,7 +2884,108 @@ def dashboard_global_page():
         st.error(
             "🔴 Risque élevé"
         )
-        
+
+    st.markdown("---")
+    st.subheader("🤖 AI Betting Assistant Premium")
+
+    assistant_bet = {
+        "match": "PSG vs Marseille",
+        "sport": "Football",
+        "confidence": 92,
+        "value": 16,
+        "stake": "4%",
+        "decision": "PARI RECOMMANDÉ"
+    }
+
+    st.success(
+        f"""
+    🏆 Match : {assistant_bet['match']}
+
+    ⚽ Sport : {assistant_bet['sport']}
+
+    🧠 Confiance : {assistant_bet['confidence']}/100
+
+    💰 Value : +{assistant_bet['value']}%
+
+    🎯 Mise : {assistant_bet['stake']}
+
+    ✅ Décision : {assistant_bet['decision']}
+    """
+    )
+
+    st.markdown("---")
+    st.subheader("🔥 Top Pari IA du Jour")
+
+    st.metric(
+        "Sélection IA",
+        "PSG vs Marseille"
+    )
+
+    st.metric(
+        "Indice IA",
+        "92/100"
+    )
+
+    st.markdown("---")
+    st.subheader("💎 Top Value Bet")
+
+    st.success(
+        """
+    Match : PSG vs Marseille
+
+    Probabilité IA : 68%
+
+    Probabilité Book : 52%
+
+    Value : +16%
+    """
+    )
+
+    st.markdown("---")
+    st.subheader("🏆 Top Combiné IA")
+
+    top_combo = [
+        "PSG vs Marseille → PSG",
+        "Alcaraz vs Sinner → Alcaraz",
+        "Lakers vs Celtics → Lakers"
+    ]
+
+    for pick in top_combo:
+        st.info(pick)
+
+    st.metric(
+        "Cote Estimée",
+        "12.50"
+    )
+
+    st.markdown("---")
+    st.subheader("🚨 Alertes IA")
+
+    alerts = [
+        "PSG vs Marseille dépasse 90 IA",
+        "Alcaraz vs Sinner Value > 10%",
+        "Lakers vs Celtics Kelly > 3%"
+    ]
+
+    for alert in alerts:
+        st.warning(alert)
+
+    st.markdown("---")
+    st.subheader("🧠 Verdict IA Final")
+
+    if assistant_bet["confidence"] >= 90:
+        st.success(
+            "✅ PARI PREMIUM VALIDÉ"
+        )
+    elif assistant_bet["confidence"] >= 80:
+        st.info(
+            "✅ PARI SOLIDE"
+        )
+    else:
+        st.warning(
+            "⚠️ PARI RISQUÉ"
+        )
+
     st.subheader("📊 Allocation du Portefeuille")
 
     st.bar_chart(portfolio)
