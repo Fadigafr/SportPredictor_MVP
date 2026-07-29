@@ -1418,6 +1418,37 @@ def basketball_page():
 # V8 TENNIS IA PREMIUM
 # =====================================================
 
+def tennis_calendar_page():
+
+    st.title("🎾 Calendrier Tennis")
+
+    tennis_data = get_all_fixtures()
+
+    if "error" in tennis_data:
+
+        st.warning(
+            "⚠️ Calendrier Tennis indisponible"
+        )
+        return
+
+    matches = tennis_data.get("data", [])
+
+    if not matches:
+
+        st.info(
+            "Aucun match ATP/WTA disponible"
+        )
+        return
+
+    for match in matches:
+
+        player1 = match["player1"]["name"]
+        player2 = match["player2"]["name"]
+
+        st.success(
+            f"{player1} vs {player2}"
+        )
+        
 def tennis_page():
 
     st.title("🎾 Tennis IA Premium")
