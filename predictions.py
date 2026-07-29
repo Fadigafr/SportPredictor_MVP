@@ -2469,6 +2469,113 @@ def dashboard_global_page():
         global_index / 100
     )
 
+    st.markdown("---")
+    st.subheader("💰 Dashboard Value Bet Premium")
+
+    value_bets = [
+        {
+            "sport": "Football",
+            "match": "PSG vs Marseille",
+            "ia_prob": 68,
+            "book_prob": 52
+        },
+        {
+            "sport": "Basketball",
+            "match": "Lakers vs Celtics",
+            "ia_prob": 65,
+            "book_prob": 54
+        },
+        {
+            "sport": "Tennis",
+            "match": "Alcaraz vs Sinner",
+            "ia_prob": 71,
+            "book_prob": 58
+        },
+        {
+            "sport": "Hockey",
+            "match": "Oilers vs Rangers",
+            "ia_prob": 66,
+            "book_prob": 55
+        }
+    ]
+
+    top_values = []
+
+    for bet in value_bets:
+
+        value = round(
+            bet["ia_prob"] - bet["book_prob"],
+            1
+        )
+
+        top_values.append({
+            "sport": bet["sport"],
+            "match": bet["match"],
+            "value": value
+        })
+
+        st.success(
+            f"{bet['sport']} | "
+            f"{bet['match']} | "
+            f"Value : +{value}%"
+        )
+
+    st.subheader("🏆 Top Value Bets")
+
+    top_values = sorted(
+        top_values,
+        key=lambda x: x["value"],
+        reverse=True
+    )
+
+    for i, bet in enumerate(top_values, start=1):
+
+        st.write(
+            f"{i}. "
+            f"{bet['match']} | "
+            f"+{bet['value']}%"
+        )
+
+    st.subheader("🎯 Kelly Criterion")
+
+    bankroll = 1000
+    odd = 1.90
+    probability = 0.68
+
+    kelly = (
+        ((odd - 1) * probability)
+        - (1 - probability)
+    ) / (odd - 1)
+
+    stake = round(
+        bankroll * kelly,
+        2
+    )
+
+    st.metric(
+        "Mise recommandée",
+        f"{stake} €"
+    )
+
+    avg_value = round(
+        sum(
+            bet["value"]
+            for bet in top_values
+        ) / len(top_values),
+        1
+    )
+
+    st.subheader("💎 Value Bet Global Score")
+
+    st.metric(
+        "Score Global",
+        f"+{avg_value}%"
+    )
+
+    st.progress(
+        min(avg_value / 20, 1.0)
+    )
+
     heatmap_data = pd.DataFrame(
         {
             "Indice IA": [
