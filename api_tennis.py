@@ -29,6 +29,20 @@ def get_all_fixtures():
         "error": response.text
     }
 
+def tennis_calendar_page():
+
+    st.subheader("🎾 Calendrier Tennis")
+
+    tennis_data = get_all_fixtures()
+
+    for match in tennis_data.get("data", []):
+
+        st.write(
+            f"{match['player1']['name']} "
+            f"vs "
+            f"{match['player2']['name']}"
+        )
+        
 def get_tournament_fixtures():
 
     url = (
