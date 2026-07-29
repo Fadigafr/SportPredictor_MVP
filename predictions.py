@@ -2649,6 +2649,85 @@ def dashboard_global_page():
         "Aucune alerte critique détectée"
     )
 
+    st.markdown("---")
+    st.subheader("📊 ROI & Performance Tracker")
+
+    total_bets = 236
+    wins = 182
+    losses = 54
+
+    win_rate = round(
+        (wins / total_bets) * 100,
+        1
+    )
+
+    roi = 23.8
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.metric(
+            "Paris Totaux",
+            total_bets
+        )
+
+    with col2:
+        st.metric(
+            "Gagnés",
+            wins
+        )
+
+    with col3:
+        st.metric(
+            "Perdus",
+            losses
+        )
+
+    with col4:
+        st.metric(
+            "Win Rate",
+            f"{win_rate}%"
+        )
+
+    st.metric(
+        "ROI Global",
+        f"+{roi}%"
+    )
+
+    roi_history = [
+        5,
+        8,
+        11,
+        14,
+        17,
+        21,
+        23.8
+    ]
+
+    st.subheader("📈 Évolution du ROI")
+
+    st.line_chart(
+        roi_history
+    )
+
+    st.progress(
+        min(roi / 30, 1.0)
+    )
+
+    if win_rate >= 75:
+        badge = "ELITE"
+
+    elif win_rate >= 65:
+        badge = "PREMIUM"
+
+    else:
+        badge = "STANDARD"
+
+    st.metric(
+        "Badge Performance",
+        badge
+    )
+
 def get_global_ai_indexes():
 
     return {
