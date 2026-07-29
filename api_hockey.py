@@ -32,9 +32,3 @@ def get_games_today():
         return data["response"]
 
     return []
-
-def get_hockey_fixtures():
-
-    return get_games()
-
-
