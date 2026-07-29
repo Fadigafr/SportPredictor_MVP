@@ -7,6 +7,17 @@ from ai_engine import (
 
 # ai_engine.py
 
+def get_today_predictions():
+
+    predictions = []
+
+    # Football
+    # Basketball
+    # Tennis
+    # Hockey
+
+    return predictions
+
 def calculate_ai_index(
     poisson_score,
     form_score,
