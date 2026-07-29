@@ -2285,8 +2285,6 @@ def dashboard_global_page():
             "Confiance",
             best_bet["confidence"]
         )
-        
-    st.title("Dashboard IA Global")
 
     indexes = get_global_ai_indexes()
 
@@ -2538,7 +2536,7 @@ def dashboard_global_page():
 
     st.subheader("🎯 Kelly Criterion")
 
-    bankroll = 1000
+    bankroll = 10000
     odd = 1.90
     probability = 0.68
 
@@ -2575,41 +2573,6 @@ def dashboard_global_page():
     st.progress(
         min(avg_value / 20, 1.0)
     )
-
-    st.markdown("---")
-    st.subheader("📈 ROI & Performance Tracker Premium")
-
-    wins = 182
-    losses = 54
-
-    total_bets = wins + losses
-
-    win_rate = round(
-        (wins / total_bets) * 100,
-        1
-    )
-
-    roi = 23.8
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.metric(
-            "Paris Gagnés",
-            wins
-        )
-
-    with col2:
-        st.metric(
-            "Win Rate",
-            f"{win_rate}%"
-        )
-
-    with col3:
-        st.metric(
-            "ROI",
-            f"+{roi}%"
-        )
 
     st.markdown("---")
     st.subheader("⚽ Combiné Football IA Cote 100")
@@ -2676,13 +2639,6 @@ def dashboard_global_page():
             "Hockey"
         ]
     )
-
-    leader_sport = max(
-        indexes,
-        key=indexes.get
-    )
-
-    leader_score = indexes[leader_sport]
 
     st.subheader("🥇 Sport Leader")
 
