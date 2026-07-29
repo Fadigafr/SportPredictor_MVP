@@ -353,15 +353,6 @@ elif menu == "Calendrier":
 
             st.divider()
 
-st.subheader("🏀 Calendrier Basketball")
-
-games = get_basketball_fixtures()
-
-for game in games:
-    st.write(
-        f"{game['home']} vs {game['away']}"
-    )
-
 # =====================================================
 # ANALYSE IA DU JOUR
 # =====================================================
