@@ -15,6 +15,7 @@ from api_football import api_get
 from database import init_db
 from api_basketball import get_games_today
 from predictions import dashboard_global_page
+from predictions import tennis_calendar_page
 
 init_db()
 
