@@ -2828,6 +2828,107 @@ def dashboard_global_page():
         "Hockey": 15
     }
 
+    st.markdown("---")
+    st.subheader("🏥 Score Santé Portefeuille")
+
+    portfolio_score = 92
+
+    st.metric(
+        "Portfolio Score",
+        f"{portfolio_score}/100"
+    )
+
+    st.progress(
+        portfolio_score / 100
+    )
+
+    if portfolio_score >= 90:
+        st.success("EXCELLENT")
+    elif portfolio_score >= 75:
+        st.info("BON")
+    else:
+        st.warning("RISQUÉ")
+
+    st.markdown("---")
+    st.subheader("🧠 Smart Allocation IA")
+
+    smart_allocation = {
+        "Football": 45,
+        "Basketball": 20,
+        "Tennis": 20,
+        "Hockey": 15
+    }
+
+    st.bar_chart(smart_allocation)
+
+    st.markdown("---")
+    st.subheader("🎯 Mises Recommandées")
+
+    recommended_bets = [
+        ("PSG vs Marseille", "4%"),
+        ("Alcaraz vs Sinner", "3%"),
+        ("Lakers vs Celtics", "2%"),
+        ("Oilers vs Rangers", "1%")
+    ]
+
+    for match, stake in recommended_bets:
+
+        st.success(
+            f"{match} → Mise : {stake}"
+        )
+
+    st.markdown("---")
+    st.subheader("🛡️ Protection Bankroll")
+
+    st.info("Risque max par pari : 5%")
+    st.info("Risque max par sport : 10%")
+    st.info("Risque max par combiné : 25%")
+
+    st.markdown("---")
+    st.subheader("📊 Exposition Actuelle")
+
+    bankroll = 10000
+
+    football_exp = 4000
+    basketball_exp = 2500
+    tennis_exp = 2000
+    hockey_exp = 1500
+
+    total_exposure = (
+        football_exp +
+        basketball_exp +
+        tennis_exp +
+        hockey_exp
+    )
+
+    st.metric(
+        "Capital Exposé",
+        f"{total_exposure:,.0f} €"
+    )
+
+    st.metric(
+        "Capital Disponible",
+        f"{bankroll - total_exposure:,.0f} €"
+    )
+
+    st.markdown("---")
+    st.subheader("🚦 Statut Smart Bankroll")
+
+    risk = 23
+
+    if risk <= 25:
+        st.success(
+            "🟢 Risque maîtrisé"
+        )
+    elif risk <= 50:
+        st.warning(
+            "🟠 Risque moyen"
+        )
+    else:
+        st.error(
+            "🔴 Risque élevé"
+        )
+        
     st.subheader("📊 Allocation du Portefeuille")
 
     st.bar_chart(portfolio)
