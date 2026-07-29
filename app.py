@@ -238,7 +238,17 @@ elif menu == "Matchs Live":
 # CALENDRIER & COMPÉTITIONS
 # =====================================================
 
-elif menu == "Calendrier":
+if sport == "Football":
+    football_calendar_page()
+
+elif sport == "Basketball":
+    basketball_calendar_page()
+
+elif sport == "Tennis":
+    tennis_calendar_page()
+
+elif sport == "Hockey":
+    hockey_calendar_page()
 
     st.title("📅 Calendrier")
 
@@ -336,6 +346,15 @@ elif menu == "Calendrier":
                 )
 
             st.divider()
+
+st.subheader("🏀 Calendrier Basketball")
+
+games = get_basketball_fixtures()
+
+for game in games:
+    st.write(
+        f"{game['home']} vs {game['away']}"
+    )
 
 # =====================================================
 # ANALYSE IA DU JOUR
