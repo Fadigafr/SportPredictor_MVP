@@ -238,17 +238,23 @@ elif menu == "Matchs Live":
 # CALENDRIER & COMPÉTITIONS
 # =====================================================
 
-if sport == "Football":
-    football_calendar_page()
+elif menu == "Calendrier":
 
-elif sport == "Basketball":
-    basketball_calendar_page()
+    if sport == "Football":
+        calendar_page()
 
-elif sport == "Tennis":
-    tennis_calendar_page()
+    elif sport == "Tennis":
+        tennis_calendar_page()
 
-elif sport == "Hockey":
-    hockey_calendar_page()
+    elif sport == "Basketball":
+        st.info(
+            "Calendrier Basketball en préparation"
+        )
+
+    elif sport == "Hockey":
+        st.info(
+            "Calendrier Hockey en préparation"
+        )
 
     st.title("📅 Calendrier")
 
