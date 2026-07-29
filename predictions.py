@@ -1445,9 +1445,22 @@ def tennis_calendar_page():
         player1 = match["player1"]["name"]
         player2 = match["player2"]["name"]
 
-        st.success(
-            f"{player1} vs {player2}"
-        )
+    tournament = match.get(
+        "tournamentName",
+        "ATP/WTA"
+    )
+
+    st.info(
+        f"""
+    🎾 {player1}
+
+    vs
+
+    {player2}
+
+    🏆 {tournament}
+    """
+    )
         
 def tennis_page():
 
