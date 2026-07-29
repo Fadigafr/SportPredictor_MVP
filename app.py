@@ -241,116 +241,114 @@ elif menu == "Matchs Live":
 elif menu == "Calendrier":
 
     if sport == "Football":
-        calendar_page()
 
-    st.title("📅 Calendrier")
+        st.title("📅 Calendrier")
 
-    leagues_data = api_get(
-        "https://v3.football.api-sports.io/leagues"
-    )
+        leagues_data = api_get(
+            "https://v3.football.api-sports.io/leagues"
+        )
 
-    competitions = {}
+        competitions = {}
 
-    for league in leagues_data.get("response", []):
+        for league in leagues_data.get("response", []):
 
-        try:
+            try:
 
-            league_id = league["league"]["id"]
+                league_id = league["league"]["id"]
+                league_name = league["league"]["name"]
+                country = league["country"]["name"]
+                logo = league["league"]["logo"]
 
-            league_name = league["league"]["name"]
+                competitions[
+                    f"{country} - {league_name}"
+                ] = {
+                    "id": league_id,
+                    "logo": logo
+                }
 
-            country = league["country"]["name"]
+            except:
+                pass
 
-            logo = league["league"]["logo"]
+        competition = st.selectbox(
+            "🏆 Compétition",
+            sorted(competitions.keys())
+        )
 
-            competitions[
-                f"{country} - {league_name}"
-            ] = {
-                "id": league_id,
-                "logo": logo
-            }
+        league_id = competitions[competition]["id"]
 
-        except:
-            pass
+        st.image(
+            competitions[competition]["logo"],
+            width=100
+        )
 
-    competition = st.selectbox(
-        "🏆 Compétition",
-        sorted(competitions.keys())
-    )
+        fixtures = api_get(
+            f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
+        )
 
-    league_id = competitions[competition]["id"]
+        response = fixtures.get("response", [])
 
-    st.image(
-        competitions[competition]["logo"],
-        width=100
-    )
+        if not response:
 
-    fixtures = api_get(
-    f"https://v3.football.api-sports.io/fixtures?league={league_id}&next=50"
-)
+            st.warning("Aucun match trouvé.")
 
-    response = fixtures.get("response", [])
+        else:
 
-    if not response:
+            for match in response:
 
-        st.warning("Aucun match trouvé.")
+                fixture_id = match["fixture"]["id"]
 
-    else:
+                home = match["teams"]["home"]["name"]
+                away = match["teams"]["away"]["name"]
 
-        for match in response:
+                home_logo = match["teams"]["home"]["logo"]
+                away_logo = match["teams"]["away"]["logo"]
 
-            fixture_id = match["fixture"]["id"]
+                date_match = match["fixture"]["date"][:16]
 
-            home = match["teams"]["home"]["name"]
-            away = match["teams"]["away"]["name"]
+                c1, c2, c3 = st.columns([1, 4, 1])
 
-            home_logo = match["teams"]["home"]["logo"]
-            away_logo = match["teams"]["away"]["logo"]
+                with c1:
+                    st.image(home_logo, width=60)
 
-            date_match = match["fixture"]["date"][:16]
-
-            c1, c2, c3 = st.columns([1, 4, 1])
-
-            with c1:
-                st.image(home_logo, width=60)
-
-            with c2:
-
-                st.markdown(
-                    f"""
+                with c2:
+                    st.markdown(
+                        f"""
 ### {home} vs {away}
 
 📅 {date_match}
 """
-                )
+                    )
 
-            with c3:
-                st.image(away_logo, width=60)
+                with c3:
+                    st.image(away_logo, width=60)
 
-            if st.button(
-                f"🔍 Analyser",
-                key=f"fixture_{fixture_id}"
-            ):
+                if st.button(
+                    "🔍 Analyser",
+                    key=f"fixture_{fixture_id}"
+                ):
 
-                st.session_state["fixture_id"] = fixture_id
+                    st.session_state["fixture_id"] = fixture_id
 
-                st.success(
-                    f"Match sélectionné : {home} vs {away}"
-                )
+                    st.success(
+                        f"Match sélectionné : {home} vs {away}"
+                    )
 
-            st.divider()
+                st.divider()
 
     elif sport == "Tennis":
+
         tennis_calendar_page()
 
     elif sport == "Basketball":
+
         st.info(
-            "Calendrier Basketball en préparation"
+            "🏀 Calendrier Basketball en préparation"
         )
 
     elif sport == "Hockey":
+
         st.info(
-            "Calendrier Hockey en préparation"
+            "🏒 Calendrier Hockey en préparation"
         )
 
 # =====================================================
