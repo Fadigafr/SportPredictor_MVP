@@ -2728,6 +2728,101 @@ def dashboard_global_page():
         badge
     )
 
+    st.markdown("---")
+    st.subheader("💼 Portfolio Manager Premium")
+
+    bankroll = 10000
+
+    st.metric(
+        "Bankroll Totale",
+        f"{bankroll:,.0f} €"
+    )
+    portfolio = {
+        "Football": 40,
+        "Basketball": 25,
+        "Tennis": 20,
+        "Hockey": 15
+    }
+
+    st.subheader("📊 Allocation du Portefeuille")
+
+    st.bar_chart(portfolio)
+
+    st.subheader("💰 Capital par Sport")
+
+    for sport, pct in portfolio.items():
+
+        amount = bankroll * pct / 100
+
+        st.write(
+            f"{sport} : {amount:.0f} € ({pct}%)"
+        )
+
+    st.subheader("🎯 Kelly Portfolio")
+
+    odds = 1.90
+    probability = 0.68
+
+    kelly_fraction = (
+        ((odds - 1) * probability)
+        - (1 - probability)
+    ) / (odds - 1)
+
+    recommended_stake = round(
+        bankroll * kelly_fraction,
+        2
+    )
+
+    st.metric(
+        "Mise Optimale",
+        f"{recommended_stake} €"
+    )
+
+    global_risk = 23
+    st.subheader("⚠️ Risque Portefeuille")
+
+    st.metric(
+        "Risque Global",
+        f"{global_risk}%"
+    )
+
+    st.progress(
+        global_risk / 100
+    )
+
+    expected_profit = round(
+        bankroll * 0.18,
+        2
+    )
+
+    st.subheader("📈 Profit Estimé")
+
+    st.metric(
+        "Profit Mensuel",
+        f"+{expected_profit} €"
+    )
+
+    st.subheader("🏆 Santé du Portefeuille")
+
+    if global_risk < 30:
+
+        st.success(
+            "Portefeuille Stable"
+        )
+
+    elif global_risk < 60:
+
+        st.warning(
+            "Portefeuille Modéré"
+        )
+
+    else:
+
+        st.error(
+            "Portefeuille Risqué"
+        )
+
+
 def get_global_ai_indexes():
 
     return {
