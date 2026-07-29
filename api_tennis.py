@@ -31,16 +31,35 @@ def get_all_fixtures():
 
 def tennis_calendar_page():
 
-    st.subheader("🎾 Calendrier Tennis")
+    st.title("📅 Calendrier Tennis")
 
     tennis_data = get_all_fixtures()
 
-    for match in tennis_data.get("data", []):
+    if "error" in tennis_data:
 
-        st.write(
-            f"{match['player1']['name']} "
-            f"vs "
-            f"{match['player2']['name']}"
+        st.warning(
+            "⚠️ Calendrier Tennis indisponible"
+        )
+
+        return
+
+    matches = tennis_data.get("data", [])
+
+    if not matches:
+
+        st.info(
+            "Aucun match disponible"
+        )
+
+        return
+
+    for match in matches:
+
+        player1 = match["player1"]["name"]
+        player2 = match["player2"]["name"]
+
+        st.info(
+            f"🎾 {player1} vs {player2}"
         )
         
 def get_tournament_fixtures():
