@@ -10,7 +10,12 @@ HEADERS = {
 
 BASE_URL = "https://v1.basketball.api-sports.io"
 
+def get_basketball_fixtures():
 
+    fixtures = get_games()
+
+    return fixtures
+    
 def get_games_today():
 
     today = datetime.utcnow().strftime("%Y-%m-%d")
