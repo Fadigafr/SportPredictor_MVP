@@ -2576,6 +2576,90 @@ def dashboard_global_page():
         min(avg_value / 20, 1.0)
     )
 
+    st.markdown("---")
+    st.subheader("📈 ROI & Performance Tracker Premium")
+
+    wins = 182
+    losses = 54
+
+    total_bets = wins + losses
+
+    win_rate = round(
+        (wins / total_bets) * 100,
+        1
+    )
+
+    roi = 23.8
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric(
+            "Paris Gagnés",
+            wins
+        )
+
+    with col2:
+        st.metric(
+            "Win Rate",
+            f"{win_rate}%"
+        )
+
+    with col3:
+        st.metric(
+            "ROI",
+            f"+{roi}%"
+        )
+
+    st.markdown("---")
+    st.subheader("⚽ Combiné Football IA Cote 100")
+
+    football_combo = [
+        "PSG vs Marseille → PSG",
+        "Real Madrid vs Barça → Real Madrid",
+        "Manchester City vs Arsenal → City",
+        "Inter Milan vs Napoli → +2.5 buts",
+        "Bayern vs Dortmund → BTTS OUI",
+        "Liverpool vs Chelsea → Liverpool"
+    ]
+
+    for bet in football_combo:
+        st.success(bet)
+
+    st.metric(
+        "Cote Totale Estimée",
+        "100.00"
+    )
+
+    st.markdown("---")
+    st.subheader("🏆 Combiné MultiSport IA Cote 50")
+
+    multisport_combo = [
+        "Football : PSG vs Marseille",
+        "Basketball : Lakers vs Celtics",
+        "Tennis : Alcaraz vs Sinner",
+        "Hockey : Oilers vs Rangers",
+        "Football : Real Madrid vs Barça"
+    ]
+
+    for bet in multisport_combo:
+        st.info(bet)
+
+    st.metric(
+        "Cote Totale Estimée",
+        "50.00"
+    )
+
+    st.subheader("🧠 Analyse du Risque")
+
+    st.success(
+        "Combiné Football : Risque Élevé / Gain Très Élevé"
+    )
+
+    st.info(
+        "Combiné MultiSport : Risque Moyen / Gain Élevé"
+    )
+    
     heatmap_data = pd.DataFrame(
         {
             "Indice IA": [
@@ -2822,7 +2906,7 @@ def dashboard_global_page():
             "Portefeuille Risqué"
         )
 
-
+    
 def get_global_ai_indexes():
 
     return {
