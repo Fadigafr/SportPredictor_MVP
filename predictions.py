@@ -1908,6 +1908,10 @@ def hockey_page():
 
     st.title("🏒 Hockey IA Premium")
 
+    st.subheader("🏒 Calendrier Hockey")
+
+    games = get_hockey_fixtures()
+
     st.subheader("🏒 Matchs du Jour")
 
     games = get_games_today()
