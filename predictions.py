@@ -6,7 +6,10 @@ import math
 import pandas as pd
 import streamlit as st
 from api_football import api_get
-from api_basketball import get_basketball_fixtures
+from api_basketball import (
+    basketball_calendar_page,
+    get_basketball_fixtures
+)
 from api_basketball import (
     get_games_today,
     get_team_statistics
