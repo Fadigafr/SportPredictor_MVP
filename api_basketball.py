@@ -10,17 +10,13 @@ HEADERS = {
 
 BASE_URL = "https://v1.basketball.api-sports.io"
 
-def get_basketball_fixtures():
+def basketball_calendar_page():
 
-    try:
+    st.title("🏀 Calendrier Basketball")
 
-        games_data = get_games()
+    games = get_basketball_fixtures()
 
-        return games_data
-
-    except Exception:
-
-        return []
+    st.write(games)
         
 def get_games_today():
 
