@@ -2412,20 +2412,35 @@ def dashboard_global_page():
 
     st.markdown("---")
 
+    top_predictions = get_top_predictions()
+
+    if not top_predictions:
+        st.warning("Aucune prédiction disponible")
+        return
+
+    best_bet = top_predictions[0]
+
+    best_bet = {
+        "sport": best_bet["sport"],
+        "match": best_bet["match"],
+        "ia": best_bet["ai_index"],
+        "confidence": best_bet["confidence"]
+    }
+
     st.subheader("🔥 Meilleur Pari du Jour")
 
     st.success(
         f"""
-    🏆 {best_bet['sport']}
+🏆 {best_bet['sport']}
 
-    ⚔️ {best_bet['match']}
+⚔️ {best_bet['match']}
 
-    🧠 IA Index : {best_bet['ia']}/100
+🧠 IA Index : {best_bet['ia']}/100
 
-    🔥 Niveau : {best_bet['confidence']}
-    """
+🔥 Niveau : {best_bet['confidence']}
+"""
     )
-
+    
     top_predictions = get_top_predictions()
 
     best_bet = top_predictions[0]
@@ -2505,9 +2520,13 @@ def dashboard_global_page():
 
     Sport Leader : {leader_sport.upper()}
 
-    st.info(
-        f"""
-    Résumé IA
+    Meilleur Pari :
+    {best_bet['match']}
+
+    Confiance :
+    {best_bet['confidence']}
+    """
+    )
 
     Indice Global : {global_index}/100
 
@@ -2615,7 +2634,7 @@ def dashboard_global_page():
         st.success(
             f"{bet['sport']} | "
             f"{bet['match']} | "
-            f"IA {bet['ia']}/100"
+            f"IA {bet['ai_index']}/100"
         )
 
     st.subheader("Répartition des Pronostics")
@@ -3072,16 +3091,16 @@ def dashboard_global_page():
     st.subheader("🤖 AI Betting Assistant Premium")
 
     assistant_bet = top_predictions[0]
-    
+
     st.success(
         f"""
     🏆 Match : {assistant_bet['match']}
 
     ⚽ Sport : {assistant_bet['sport']}
 
-    🧠 Confiance : {assistant_bet['ai_index']}/100
+    🧠 IA Index : {assistant_bet['ai_index']}/100
 
-    ✅ Décision : {assistant_bet['confidence']}
+    🔥 Niveau : {assistant_bet['confidence']}
     """
     )
 
@@ -3145,15 +3164,20 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🧠 Verdict IA Final")
 
-    if assistant_bet["confidence"] >= 90:
+    if assistant_bet["ai_index"] >= 90:
+
         st.success(
             "✅ PARI PREMIUM VALIDÉ"
         )
-    elif assistant_bet["confidence"] >= 80:
+
+    elif assistant_bet["ai_index"] >= 80:
+
         st.info(
             "✅ PARI SOLIDE"
         )
+
     else:
+
         st.warning(
             "⚠️ PARI RISQUÉ"
         )
