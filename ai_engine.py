@@ -158,7 +158,8 @@ ai_index = calculate_ai_index(
     scorer_score,
     home_score
 )
- def calculate_over_under(
+
+def calculate_over_under(
     home_goals,
     away_goals
 ):
@@ -170,7 +171,7 @@ ai_index = calculate_ai_index(
         "under25": total < 3
     }
 
-  def get_ai_level(ai_index):
+def get_ai_level(ai_index):
 
     if ai_index >= 85:
         return "🔥 ELITE BET"
