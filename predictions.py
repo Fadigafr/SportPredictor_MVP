@@ -2528,18 +2528,6 @@ def dashboard_global_page():
     """
     )
 
-    Indice Global : {global_index}/100
-
-    Sport Leader : {leader_sport.upper()}
-
-    Meilleur Pari :
-    {best_bet['match']}
-
-    Confiance :
-    {best_bet['confidence']}
-    """
-    )
-
     col1, col2 = st.columns(2)
 
     with col1:
