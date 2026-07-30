@@ -1178,7 +1178,32 @@ def predictions_page():
 # =====================================================
 # V7 BASKETBALL IA
 # =====================================================
-        
+
+def basketball_calendar_page():
+
+    st.title("🏀 Calendrier Basketball")
+
+    games = get_basketball_fixtures()
+
+    if not games:
+        st.warning(
+            "⚠️ Aucun match Basketball disponible"
+        )
+        return
+
+    for game in games:
+
+        try:
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            st.success(
+                f"🏀 {home} vs {away}"
+            )
+
+        except:
+            st.write(game)
+            
 def basketball_page():
 
     st.title("🏀 Basketball IA V7")
