@@ -28,6 +28,7 @@ from api_tennis import (
 )
 from api_hockey import get_games_today
 from datetime import datetime
+from api_hockey import get_hockey_fixtures
 
 # =====================================================
 # POISSON
@@ -1961,6 +1962,34 @@ def tennis_page():
 # V9 HOCKEY IA PREMIUM
 # =====================================================
 
+def hockey_calendar_page():
+
+    st.title("🏒 Calendrier Hockey")
+
+    games = get_hockey_fixtures()
+
+    if not games:
+
+        st.warning(
+            "⚠️ Aucun match Hockey disponible"
+        )
+        return
+
+    for game in games:
+
+        try:
+
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            st.success(
+                f"🏒 {home} vs {away}"
+            )
+
+        except Exception:
+
+            st.write(game)
+            
 def hockey_page():
 
     st.title("🏒 Hockey IA Premium")
