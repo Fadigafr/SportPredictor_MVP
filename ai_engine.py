@@ -141,23 +141,23 @@ def calculate_btts(
         and
         predicted_away_goals > 0
     )
-btts_result = calculate_btts(
-    predicted_home_goals,
-    predicted_away_goals
-)
+    btts_result = calculate_btts(
+        predicted_home_goals,
+        predicted_away_goals
+    )
 
-ou_result = calculate_over_under(
-    predicted_home_goals,
-    predicted_away_goals
-)
-ai_index = calculate_ai_index(
-    poisson_score,
-    form_score,
-    h2h_score,
-    bookmaker_score,
-    scorer_score,
-    home_score
-)
+    ou_result = calculate_over_under(
+        predicted_home_goals,
+        predicted_away_goals
+    )
+    ai_index = calculate_ai_index(
+        poisson_score,
+        form_score,
+        h2h_score,
+        bookmaker_score,
+        scorer_score,
+        home_score
+    )
 
 def calculate_over_under(
     home_goals,
