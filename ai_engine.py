@@ -4,19 +4,57 @@ from ai_engine import (
     calculate_over_under,
     get_ai_level
 )
+from api_basketball import get_games_today
+from api_hockey import get_hockey_fixtures
+from api_tennis import get_all_fixtures
 
 # ai_engine.py
 
 def get_today_predictions():
 
-    predictions = []
+    predictions = [
 
-    # Football
-    # Basketball
-    # Tennis
-    # Hockey
+        {
+            "sport": "Football",
+            "match": "PSG vs Marseille",
+            "ai_index": 92,
+            "confidence": "ELITE"
+        },
+
+        {
+            "sport": "Tennis",
+            "match": "Alcaraz vs Sinner",
+            "ai_index": 91,
+            "confidence": "ELITE"
+        },
+
+        {
+            "sport": "Basketball",
+            "match": "Lakers vs Celtics",
+            "ai_index": 88,
+            "confidence": "PREMIUM"
+        },
+
+        {
+            "sport": "Hockey",
+            "match": "Oilers vs Rangers",
+            "ai_index": 85,
+            "confidence": "PREMIUM"
+        }
+
+    ]
 
     return predictions
+
+def get_top_predictions():
+
+    predictions = get_today_predictions()
+
+    return sorted(
+        predictions,
+        key=lambda x: x["ai_index"],
+        reverse=True
+    )
 
 def calculate_ai_index(
     poisson_score,
