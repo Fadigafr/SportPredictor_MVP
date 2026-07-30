@@ -3073,7 +3073,6 @@ def dashboard_global_page():
 
     assistant_bet = top_predictions[0]
     
-
     st.success(
         f"""
     🏆 Match : {assistant_bet['match']}
