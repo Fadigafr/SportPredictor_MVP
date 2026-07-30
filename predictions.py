@@ -2070,7 +2070,7 @@ def hockey_page():
         league_filter != "Toutes"
         and league_filter != league_name
     ):
-        continue
+            continue
         
     # =========================
     # Récupération API Hockey
