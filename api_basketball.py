@@ -16,7 +16,27 @@ def basketball_calendar_page():
 
     games = get_basketball_fixtures()
 
-    st.write(games)
+    if not games:
+
+        st.warning(
+            "⚠️ Aucun match Basketball disponible"
+        )
+        return
+
+    for game in games:
+
+        try:
+
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            st.success(
+                f"🏀 {home} vs {away}"
+            )
+
+        except Exception:
+
+            st.write(game)
         
 def get_games_today():
 
@@ -81,9 +101,7 @@ def get_basketball_fixtures():
 
     try:
 
-        games = get_games()
-
-        return games
+        return get_games_today()
 
     except Exception:
 
