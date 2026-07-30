@@ -1184,6 +1184,29 @@ def basketball_calendar_page():
 
     st.title("🏀 Calendrier Basketball")
 
+    league = st.selectbox(
+        "🏀 Compétition",
+        [
+            "Toutes",
+            "NBA",
+            "WNBA",
+            "EuroLeague",
+            "NBL",
+            "BSN",
+            "BAL"
+        ]
+    )
+
+    st.success(
+        f"""
+    🏀 {home} vs {away}
+
+    🏆 {league_name}
+
+    📅 {date_match}
+    """
+    )
+
     games = get_basketball_fixtures()
 
     if not games:
@@ -1451,6 +1474,37 @@ def basketball_page():
 def tennis_calendar_page():
 
     st.title("🎾 Calendrier Tennis")
+
+    circuit = st.selectbox(
+        "🏆 Circuit",
+        [
+            "Tous",
+            "ATP",
+            "WTA",
+            "Challenger",
+            "ITF"
+        ]
+    )
+
+    for match in matches:
+
+        tournament = match.get(
+            "tournamentName",
+            "ATP/WTA"
+        )
+
+        if circuit != "Tous" and circuit not in tournament:
+            continue
+
+        st.success(
+        f"""
+    🎾 {player1} vs {player2}
+
+    🏆 {tournament}
+
+    📅 {date_match}
+    """
+        )
 
     tennis_data = get_all_fixtures()
 
@@ -1965,6 +2019,36 @@ def tennis_page():
 def hockey_calendar_page():
 
     st.title("🏒 Calendrier Hockey")
+
+    league_filter = st.selectbox(
+        "🏒 Compétition",
+        [
+            "Toutes",
+            "NHL",
+            "KHL",
+            "IIHF",
+            "Club Friendly",
+            "Friendly International"
+        ]
+    )
+
+    league_name = game["league"]["name"]
+
+    if (
+        league_filter != "Toutes"
+        and league_filter != league_name
+    ):
+        continue
+
+    st.success(
+        f"""
+    🏒 {home} vs {away}
+
+    🏆 {league_name}
+
+    📅 {date_match}
+    """
+    )
 
     games = get_hockey_fixtures()
 
