@@ -77,4 +77,14 @@ def get_team_statistics(
 
     return None
 
+def get_basketball_fixtures():
 
+    try:
+
+        games = get_games()
+
+        return games
+
+    except Exception:
+
+        return []
