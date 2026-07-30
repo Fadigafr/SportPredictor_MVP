@@ -12,37 +12,86 @@ from api_tennis import get_all_fixtures
 
 def get_today_predictions():
 
-    predictions = [
+    predictions = []
 
-        {
+    # Football
+    try:
+
+        predictions.append({
             "sport": "Football",
             "match": "PSG vs Marseille",
             "ai_index": 92,
             "confidence": "ELITE"
-        },
+        })
 
-        {
-            "sport": "Tennis",
-            "match": "Alcaraz vs Sinner",
-            "ai_index": 91,
-            "confidence": "ELITE"
-        },
+    except Exception:
+        pass
 
-        {
-            "sport": "Basketball",
-            "match": "Lakers vs Celtics",
-            "ai_index": 88,
-            "confidence": "PREMIUM"
-        },
+    # Basketball
+    try:
 
-        {
-            "sport": "Hockey",
-            "match": "Oilers vs Rangers",
-            "ai_index": 85,
-            "confidence": "PREMIUM"
-        }
+        games = get_games_today()
 
-    ]
+        for game in games[:5]:
+
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            ai_index = 80
+
+            predictions.append({
+                "sport": "Basketball",
+                "match": f"{home} vs {away}",
+                "ai_index": ai_index,
+                "confidence": get_ai_level(ai_index)
+            })
+
+    except Exception:
+        pass
+
+    # Tennis
+    try:
+
+        tennis_data = get_all_fixtures()
+
+        for match in tennis_data.get("data", [])[:5]:
+
+            player1 = match["player1"]["name"]
+            player2 = match["player2"]["name"]
+
+            ai_index = 78
+
+            predictions.append({
+                "sport": "Tennis",
+                "match": f"{player1} vs {player2}",
+                "ai_index": ai_index,
+                "confidence": get_ai_level(ai_index)
+            })
+
+    except Exception:
+        pass
+
+    # Hockey
+    try:
+
+        games = get_hockey_fixtures()
+
+        for game in games[:5]:
+
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            ai_index = 76
+
+            predictions.append({
+                "sport": "Hockey",
+                "match": f"{home} vs {away}",
+                "ai_index": ai_index,
+                "confidence": get_ai_level(ai_index)
+            })
+
+    except Exception:
+        pass
 
     return predictions
 
