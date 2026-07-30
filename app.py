@@ -17,6 +17,7 @@ from api_basketball import get_games_today
 from predictions import dashboard_global_page
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
+from predictions import hockey_calendar_page
 
 init_db()
 
@@ -346,9 +347,7 @@ elif menu == "Calendrier":
 
     elif sport == "Hockey":
 
-        st.info(
-            "🏒 Calendrier Hockey en préparation"
-        )
+        hockey_calendar_page()
 
 # =====================================================
 # ANALYSE IA DU JOUR
