@@ -1190,17 +1190,22 @@ def basketball_calendar_page():
         st.warning(
             "⚠️ Aucun match Basketball disponible"
         )
-
         return
 
     for game in games:
 
-        home = game.get("home", "Équipe Domicile")
-        away = game.get("away", "Équipe Extérieure")
+        try:
 
-        st.info(
-            f"🏀 {home} vs {away}"
-        )
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            st.success(
+                f"🏀 {home} vs {away}"
+            )
+
+        except Exception:
+
+            st.write(game)
         
 def basketball_page():
 
