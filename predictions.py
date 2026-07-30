@@ -29,6 +29,7 @@ from api_tennis import (
 from api_hockey import get_games_today
 from datetime import datetime
 from api_hockey import get_hockey_fixtures
+from ai_engine import get_top_predictions
 
 # =====================================================
 # POISSON
@@ -2414,22 +2415,26 @@ def dashboard_global_page():
     st.subheader("🔥 Meilleur Pari du Jour")
 
     st.success(
-        """
-        Football
+        f"""
+    🏆 {best_bet['sport']}
 
-        PSG vs Marseille
+    ⚔️ {best_bet['match']}
 
-        IA Index : 92/100
+    🧠 IA Index : {best_bet['ia']}/100
 
-        Niveau : ELITE
-        """
+    🔥 Niveau : {best_bet['confidence']}
+    """
     )
 
+    top_predictions = get_top_predictions()
+
+    best_bet = top_predictions[0]
+
     best_bet = {
-        "sport": "Football",
-        "match": "PSG vs Marseille",
-        "ia": 92,
-        "confidence": "ELITE"
+        "sport": best_bet["sport"],
+        "match": best_bet["match"],
+        "ia": best_bet["ai_index"],
+        "confidence": best_bet["confidence"]
     }
 
     st.subheader("📈 Performance IA")
@@ -2500,10 +2505,19 @@ def dashboard_global_page():
 
     Sport Leader : {leader_sport.upper()}
 
-    Meilleur Pari :
-    PSG vs Marseille
+    st.info(
+        f"""
+    Résumé IA
 
-    Confiance : ELITE
+    Indice Global : {global_index}/100
+
+    Sport Leader : {leader_sport.upper()}
+
+    Meilleur Pari :
+    {best_bet['match']}
+
+    Confiance :
+    {best_bet['confidence']}
     """
     )
 
@@ -2553,28 +2567,15 @@ def dashboard_global_page():
 
     st.subheader("Top Pronostics IA")
 
-    top_bets = [
-        {
-            "sport": "Football",
-            "match": "PSG vs Marseille",
-            "ia": 92
-        },
-        {
-            "sport": "Basketball",
-            "match": "Lakers vs Celtics",
-            "ia": 89
-        },
-        {
-            "sport": "Tennis",
-            "match": "Alcaraz vs Sinner",
-            "ia": 87
-        },
-        {
-            "sport": "Hockey",
-            "match": "Oilers vs Rangers",
-            "ia": 84
-        }
-    ]
+    top_bets = get_top_predictions()
+
+    for bet in top_bets:
+
+        st.success(
+            f"{bet['sport']} | "
+            f"{bet['match']} | "
+            f"IA {bet['ai_index']}/100"
+        )
 
     st.subheader("🏆 Top 5 Paris Premium")
 
@@ -3070,14 +3071,8 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🤖 AI Betting Assistant Premium")
 
-    assistant_bet = {
-        "match": "PSG vs Marseille",
-        "sport": "Football",
-        "confidence": 92,
-        "value": 16,
-        "stake": "4%",
-        "decision": "PARI RECOMMANDÉ"
-    }
+    assistant_bet = top_predictions[0]
+    
 
     st.success(
         f"""
@@ -3085,13 +3080,9 @@ def dashboard_global_page():
 
     ⚽ Sport : {assistant_bet['sport']}
 
-    🧠 Confiance : {assistant_bet['confidence']}/100
+    🧠 Confiance : {assistant_bet['ai_index']}/100
 
-    💰 Value : +{assistant_bet['value']}%
-
-    🎯 Mise : {assistant_bet['stake']}
-
-    ✅ Décision : {assistant_bet['decision']}
+    ✅ Décision : {assistant_bet['confidence']}
     """
     )
 
