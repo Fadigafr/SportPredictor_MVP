@@ -9,7 +9,19 @@ HEADERS = {
 }
 
 BASE_URL = "https://v1.basketball.api-sports.io"
-    
+
+def get_basketball_fixtures():
+
+    try:
+
+        games_data = get_games()
+
+        return games_data
+
+    except Exception:
+
+        return []
+        
 def get_games_today():
 
     today = datetime.utcnow().strftime("%Y-%m-%d")
