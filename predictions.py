@@ -1477,6 +1477,10 @@ def basketball_page():
 # V8 TENNIS IA PREMIUM
 # =====================================================
 
+# =====================================================
+# CALENDRIER TENNIS PREMIUM
+# =====================================================
+
 def tennis_calendar_page():
 
     st.title("🎾 Calendrier Tennis")
@@ -1512,23 +1516,39 @@ def tennis_calendar_page():
 
     for match in matches:
 
-        tournament = match.get(
-            "tournamentName",
-            "ATP/WTA"
-        )
+        try:
 
-        if circuit != "Tous" and circuit not in tournament:
-            continue
+            player1 = match["player1"]["name"]
+            player2 = match["player2"]["name"]
 
-        st.success(
-        f"""
-    🎾 {player1} vs {player2}
+            tournament = match.get(
+                "tournamentName",
+                "ATP/WTA"
+            )
 
-    🏆 {tournament}
+            date_match = match.get(
+                "date",
+                "Date inconnue"
+            )
 
-    📅 {date_match}
-    """
-        )
+            if (
+                circuit != "Tous"
+                and circuit not in tournament
+            ):
+                continue
+
+            st.success(
+                f"""
+🎾 {player1} vs {player2}
+
+🏆 {tournament}
+
+📅 {date_match}
+"""
+            )
+
+        except Exception:
+            pass
         
 def tennis_page():
 
