@@ -2065,12 +2065,6 @@ def hockey_page():
     )
 
     league_name = game["league"]["name"]
-
-    if (
-        league_filter != "Toutes"
-        and league_filter != league_name
-    ):
-            continue
         
     # =========================
     # Récupération API Hockey
