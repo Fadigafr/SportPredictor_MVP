@@ -2016,8 +2016,6 @@ def hockey_calendar_page():
         ]
     )
 
-    )
-
     games = get_hockey_fixtures()
 
     if not games:
