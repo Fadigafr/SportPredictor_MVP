@@ -1968,27 +1968,7 @@ def hockey_calendar_page():
 
     games = get_hockey_fixtures()
 
-    if not games:
-
-        st.warning(
-            "⚠️ Aucun match Hockey disponible"
-        )
-        return
-
-    for game in games:
-
-        try:
-
-            home = game["teams"]["home"]["name"]
-            away = game["teams"]["away"]["name"]
-
-            st.success(
-                f"🏒 {home} vs {away}"
-            )
-
-        except Exception:
-
-            st.write(game)
+    st.write(games)
             
 def hockey_page():
 
