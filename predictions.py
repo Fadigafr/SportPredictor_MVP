@@ -1526,17 +1526,10 @@ def tennis_calendar_page():
                 "ATP/WTA"
             )
 
-            date_match = match.get(
-                "date",
-                "Date à confirmer"
-            )
-            st.json(matches[0])
+            date_match = match.get("date")
 
-            if (
-                circuit != "Tous"
-                and circuit not in tournament
-            ):
-                continue
+            if not date_match:
+                date_match = "Date à confirmer"
 
             st.success(
                 f"""
