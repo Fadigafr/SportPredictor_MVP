@@ -1184,7 +1184,7 @@ def basketball_calendar_page():
 
     st.title("🏀 Calendrier Basketball")
 
-    league = st.selectbox(
+    league_filter = st.selectbox(
         "🏀 Compétition",
         [
             "Toutes",
@@ -1195,16 +1195,6 @@ def basketball_calendar_page():
             "BSN",
             "BAL"
         ]
-    )
-
-    st.success(
-        f"""
-    🏀 {home} vs {away}
-
-    🏆 {league_name}
-
-    📅 {date_match}
-    """
     )
 
     games = get_basketball_fixtures()
@@ -1218,15 +1208,31 @@ def basketball_calendar_page():
     for game in games:
 
         try:
+
             home = game["teams"]["home"]["name"]
             away = game["teams"]["away"]["name"]
 
+            league_name = game["league"]["name"]
+            date_match = game["date"][:16]
+
+            if (
+                league_filter != "Toutes"
+                and league_filter not in league_name
+            ):
+                continue
+
             st.success(
-                f"🏀 {home} vs {away}"
+                f"""
+🏀 {home} vs {away}
+
+🏆 {league_name}
+
+📅 {date_match}
+"""
             )
 
-        except:
-            st.write(game)
+        except Exception:
+            pass
             
 def basketball_page():
 
@@ -1486,26 +1492,6 @@ def tennis_calendar_page():
         ]
     )
 
-    for match in matches:
-
-        tournament = match.get(
-            "tournamentName",
-            "ATP/WTA"
-        )
-
-        if circuit != "Tous" and circuit not in tournament:
-            continue
-
-        st.success(
-        f"""
-    🎾 {player1} vs {player2}
-
-    🏆 {tournament}
-
-    📅 {date_match}
-    """
-        )
-
     tennis_data = get_all_fixtures()
 
     if "error" in tennis_data:
@@ -1526,25 +1512,23 @@ def tennis_calendar_page():
 
     for match in matches:
 
-        player1 = match["player1"]["name"]
-        player2 = match["player2"]["name"]
+        tournament = match.get(
+            "tournamentName",
+            "ATP/WTA"
+        )
 
-    tournament = match.get(
-        "tournamentName",
-        "ATP/WTA"
-    )
+        if circuit != "Tous" and circuit not in tournament:
+            continue
 
-    st.info(
+        st.success(
         f"""
-    🎾 {player1}
-
-    vs
-
-    {player2}
+    🎾 {player1} vs {player2}
 
     🏆 {tournament}
+
+    📅 {date_match}
     """
-    )
+        )
         
 def tennis_page():
 
@@ -2032,22 +2016,6 @@ def hockey_calendar_page():
         ]
     )
 
-    league_name = game["league"]["name"]
-
-    if (
-        league_filter != "Toutes"
-        and league_filter != league_name
-    ):
-        continue
-
-    st.success(
-        f"""
-    🏒 {home} vs {away}
-
-    🏆 {league_name}
-
-    📅 {date_match}
-    """
     )
 
     games = get_hockey_fixtures()
@@ -2098,6 +2066,14 @@ def hockey_page():
         key="hockey_competition"
     )
 
+    league_name = game["league"]["name"]
+
+    if (
+        league_filter != "Toutes"
+        and league_filter != league_name
+    ):
+        continue
+        
     # =========================
     # Récupération API Hockey
     # =========================
