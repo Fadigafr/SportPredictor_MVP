@@ -2596,12 +2596,12 @@ def dashboard_global_page():
             f"{bet['ai_index']}/100"
         )
 
-    for sport, match, score in premium_bets:
+    for bet in premium_bets:
 
         st.metric(
-            f"{sport}",
-            match,
-            f"{score}/100"
+            bet["sport"],
+            bet["match"],
+            f"{bet['ai_index']}/100"
         )
 
     st.subheader("🥇 Classement des Sports")
