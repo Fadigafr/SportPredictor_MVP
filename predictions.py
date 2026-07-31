@@ -2586,13 +2586,15 @@ def dashboard_global_page():
 
     st.subheader("🏆 Top 5 Paris Premium")
 
-    premium_bets = [
-        ("Football", "PSG vs Marseille", 92),
-        ("Basketball", "Lakers vs Celtics", 89),
-        ("Tennis", "Alcaraz vs Sinner", 87),
-        ("Hockey", "Oilers vs Rangers", 84),
-        ("Football", "Real Madrid vs Barça", 83)
-    ]
+    premium_bets = get_top_predictions()[:5]
+
+    for bet in premium_bets:
+
+        st.metric(
+            bet["sport"],
+            bet["match"],
+            f"{bet['ai_index']}/100"
+        )
 
     for sport, match, score in premium_bets:
 
@@ -2604,12 +2606,20 @@ def dashboard_global_page():
 
     st.subheader("🥇 Classement des Sports")
 
-    ranking = [
-        ("Football", 87),
-        ("Basketball", 82),
-        ("Hockey", 79),
-        ("Tennis", 76)
-    ]
+    ranking = sorted(
+        indexes.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    for position, (sport, score) in enumerate(
+        ranking,
+        start=1
+    ):
+
+        st.write(
+            f"{position}. {sport.upper()} : {score}/100"
+        )
 
     for position, (sport, score) in enumerate(ranking, start=1):
 
@@ -2627,12 +2637,15 @@ def dashboard_global_page():
 
     st.subheader("Répartition des Pronostics")
 
-    sports_data = {
-        "Football": 52,
-        "Basketball": 18,
-        "Tennis": 14,
-        "Hockey": 16
-    }
+    sports_data = {}
+
+    for bet in top_predictions:
+
+        sport = bet["sport"]
+
+        sports_data[sport] = (
+            sports_data.get(sport, 0) + 1
+        )
 
     st.bar_chart(sports_data)
 
@@ -2867,17 +2880,19 @@ def dashboard_global_page():
 
     st.subheader("🚨 Alertes IA")
 
-    st.warning(
-         "PSG vs Marseille dépasse un indice IA de 90"
-    )
+    alerts = []
 
-    st.warning(
-        "Lakers vs Celtics dépasse un indice IA de 85"
-    )
+    for bet in top_predictions:
 
-    st.success(
-        "Aucune alerte critique détectée"
-    )
+        if bet["ai_index"] >= 90:
+
+            alerts.append(
+                f"{bet['match']} dépasse 90 IA"
+            )
+
+    for alert in alerts:
+
+        st.warning(alert)
 
     st.markdown("---")
     st.subheader("📊 ROI & Performance Tracker")
@@ -3010,17 +3025,19 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🎯 Mises Recommandées")
 
-    recommended_bets = [
-        ("PSG vs Marseille", "4%"),
-        ("Alcaraz vs Sinner", "3%"),
-        ("Lakers vs Celtics", "2%"),
-        ("Oilers vs Rangers", "1%")
-    ]
+    recommended_bets = []
 
-    for match, stake in recommended_bets:
+    for bet in top_predictions[:5]:
 
-        st.success(
-            f"{match} → Mise : {stake}"
+        if bet["ai_index"] >= 90:
+            stake = "4%"
+        elif bet["ai_index"] >= 80:
+            stake = "3%"
+        else:
+            stake = "2%"
+
+        recommended_bets.append(
+            (bet["match"], stake)
         )
 
     st.markdown("---")
@@ -3097,12 +3114,12 @@ def dashboard_global_page():
 
     st.metric(
         "Sélection IA",
-        "PSG vs Marseille"
+        best_bet["match"]
     )
 
     st.metric(
         "Indice IA",
-        "92/100"
+        f"{best_bet['ia']}/100"
     )
 
     st.markdown("---")
