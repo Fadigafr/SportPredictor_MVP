@@ -3141,9 +3141,8 @@ def dashboard_global_page():
     st.subheader("🏆 Top Combiné IA")
 
     top_combo = [
-        "PSG vs Marseille → PSG",
-        "Alcaraz vs Sinner → Alcaraz",
-        "Lakers vs Celtics → Lakers"
+        bet["match"]
+        for bet in top_predictions[:3]
     ]
 
     for pick in top_combo:
@@ -3157,13 +3156,24 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🚨 Alertes IA")
 
-    alerts = [
-        "PSG vs Marseille dépasse 90 IA",
-        "Alcaraz vs Sinner Value > 10%",
-        "Lakers vs Celtics Kelly > 3%"
-    ]
+    alerts = []
+
+    for bet in top_predictions:
+
+        if bet["ai_index"] >= 90:
+
+            alerts.append(
+                f"{bet['match']} dépasse 90 IA"
+            )
+
+    if not alerts:
+
+        alerts.append(
+            "Aucune alerte critique détectée"
+        )
 
     for alert in alerts:
+
         st.warning(alert)
 
     st.markdown("---")
