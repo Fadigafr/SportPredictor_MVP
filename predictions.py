@@ -30,6 +30,7 @@ from api_hockey import get_games_today
 from datetime import datetime
 from api_hockey import get_hockey_fixtures
 from ai_engine import get_top_predictions
+from ai_engine import get_value_bets
 
 # =====================================================
 # POISSON
