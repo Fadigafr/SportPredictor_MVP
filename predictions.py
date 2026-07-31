@@ -2748,10 +2748,10 @@ def dashboard_global_page():
 
     for bet in multisport_combo:
 
-    st.metric(
-        "Cote Totale Estimée",
-        "50.00"
-    )
+        st.metric(
+            "Cote Totale Estimée",
+            "50.00"
+        )
 
     st.subheader("🧠 Analyse du Risque")
 
