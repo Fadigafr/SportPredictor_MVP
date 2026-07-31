@@ -3104,11 +3104,11 @@ def dashboard_global_page():
 
     for bet in top_combo:
 
-    st.info(
-        f"{bet['sport']} | "
-        f"{bet['match']} | "
-        f"IA {bet['ai_index']}/100"
-    )
+        st.info(
+            f"{bet['sport']} | "
+            f"{bet['match']} | "
+            f"IA {bet['ai_index']}/100"
+        )
 
     estimated_odds = round(
         len(top_combo) * 2.15,
