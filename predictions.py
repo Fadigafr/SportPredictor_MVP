@@ -2676,21 +2676,7 @@ def dashboard_global_page():
 
     value_bets = get_value_bets()
 
-    top_values = []
-
-for bet in value_bets:
-
-    top_values.append({
-        "sport": bet["sport"],
-        "match": bet["match"],
-        "value": bet["value"]
-    })
-
-    st.success(
-        f"{bet['sport']} | "
-        f"{bet['match']} | "
-        f"Value : +{bet['value']}%"
-    )
+    top_values = value_bets
 
     st.subheader("🏆 Top Value Bets")
 
