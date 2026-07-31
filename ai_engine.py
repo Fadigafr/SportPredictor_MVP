@@ -209,3 +209,12 @@ def get_value_bets():
         key=lambda x: x["value"],
         reverse=True
     )
+
+def get_multisport_combo():
+
+    top_predictions = get_top_predictions()
+
+    combo = top_predictions[:5]
+
+    return combo
+
