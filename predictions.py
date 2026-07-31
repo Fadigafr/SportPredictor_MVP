@@ -2600,14 +2600,6 @@ def dashboard_global_page():
             f"{bet['ai_index']}/100"
         )
 
-    for bet in premium_bets:
-
-        st.metric(
-            bet["sport"],
-            bet["match"],
-            f"{bet['ai_index']}/100"
-        )
-
     st.subheader("🥇 Classement des Sports")
 
     ranking = sorted(
@@ -2623,20 +2615,6 @@ def dashboard_global_page():
 
         st.write(
             f"{position}. {sport.upper()} : {score}/100"
-        )
-
-    for position, (sport, score) in enumerate(ranking, start=1):
-
-        st.write(
-            f"{position}. {sport} : {score}/100"
-        )
-        
-    for bet in top_bets:
-
-        st.success(
-            f"{bet['sport']} | "
-            f"{bet['match']} | "
-            f"IA {bet['ai_index']}/100"
         )
 
     st.subheader("Répartition des Pronostics")
@@ -2769,7 +2747,6 @@ def dashboard_global_page():
     ]
 
     for bet in multisport_combo:
-        st.info(bet)
 
     st.metric(
         "Cote Totale Estimée",
