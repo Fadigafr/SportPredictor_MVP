@@ -2673,32 +2673,7 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("💰 Dashboard Value Bet Premium")
 
-    value_bets = [
-        {
-            "sport": "Football",
-            "match": "PSG vs Marseille",
-            "ia_prob": 68,
-            "book_prob": 52
-        },
-        {
-            "sport": "Basketball",
-            "match": "Lakers vs Celtics",
-            "ia_prob": 65,
-            "book_prob": 54
-        },
-        {
-            "sport": "Tennis",
-            "match": "Alcaraz vs Sinner",
-            "ia_prob": 71,
-            "book_prob": 58
-        },
-        {
-            "sport": "Hockey",
-            "match": "Oilers vs Rangers",
-            "ia_prob": 66,
-            "book_prob": 55
-        }
-    ]
+    value_bets = get_value_bets()
 
     top_values = []
 
