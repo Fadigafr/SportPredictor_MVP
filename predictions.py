@@ -3154,39 +3154,6 @@ def dashboard_global_page():
     """
     )
 
-    for pick in top_combo:
-        st.info(pick)
-
-    estimated_odds = round(
-        len(top_combo) * 2.15,
-        2
-    )
-
-    st.metric(
-        "Cote Estimée",
-        estimated_odds
-    )
-
-    avg_index = round(
-        sum(
-            bet["ai_index"]
-            for bet in top_combo
-        ) / len(top_combo),
-        1
-    )
-
-    if avg_index >= 85:
-        combo_risk = "FAIBLE"
-    elif avg_index >= 75:
-        combo_risk = "MOYEN"
-    else:
-        combo_risk = "ÉLEVÉ"
-
-    st.metric(
-        "Risque Combiné",
-        combo_risk
-    )
-
     st.markdown("---")
     st.subheader("🚨 Alertes IA")
 
