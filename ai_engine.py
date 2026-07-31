@@ -178,4 +178,34 @@ def get_ai_level(ai_index):
 
     return "❌ RISQUE ÉLEVÉ"
 
-  
+def get_value_bets():
+
+    value_bets = []
+
+    for bet in get_top_predictions():
+
+        ai_prob = bet["ai_index"]
+
+        book_prob = max(
+            50,
+            ai_prob - 12
+        )
+
+        value = round(
+            ai_prob - book_prob,
+            1
+        )
+
+        value_bets.append({
+            "sport": bet["sport"],
+            "match": bet["match"],
+            "ai_prob": ai_prob,
+            "book_prob": book_prob,
+            "value": value
+        })
+
+    return sorted(
+        value_bets,
+        key=lambda x: x["value"],
+        reverse=True
+    )
