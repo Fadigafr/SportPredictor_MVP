@@ -29,8 +29,11 @@ from api_tennis import (
 from api_hockey import get_games_today
 from datetime import datetime
 from api_hockey import get_hockey_fixtures
-from ai_engine import get_top_predictions
-from ai_engine import get_value_bets
+from ai_engine import (
+    get_top_predictions,
+    get_value_bets,
+    get_multisport_combo
+)
 
 # =====================================================
 # POISSON
@@ -3097,10 +3100,59 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🏆 Top Combiné IA")
 
-    top_combo = [
-        bet["match"]
-        for bet in top_predictions[:3]
-    ]
+    top_combo = get_multisport_combo()
+
+    for bet in top_combo:
+
+    st.info(
+        f"{bet['sport']} | "
+        f"{bet['match']} | "
+        f"IA {bet['ai_index']}/100"
+    )
+
+    estimated_odds = round(
+        len(top_combo) * 2.15,
+        2
+    )
+
+    st.metric(
+        "Cote Estimée",
+        estimated_odds
+    )
+
+    avg_index = round(
+        sum(
+            bet["ai_index"]
+            for bet in top_combo
+        ) / len(top_combo),
+        1
+    )
+
+    if avg_index >= 85:
+        combo_risk = "FAIBLE"
+
+    elif avg_index >= 75:
+        combo_risk = "MOYEN"
+
+    else:
+        combo_risk = "ÉLEVÉ"
+
+    st.metric(
+        "Risque Combiné",
+        combo_risk
+    )
+
+    st.success(
+        f"""
+    Nombre de sélections : {len(top_combo)}
+
+    Indice moyen : {avg_index}/100
+
+    Risque : {combo_risk}
+
+    Cote estimée : {estimated_odds}
+    """
+    )
 
     for pick in top_combo:
         st.info(pick)
