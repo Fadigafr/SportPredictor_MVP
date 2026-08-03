@@ -232,7 +232,4 @@ def get_optimized_combo():
             combo.append(bet)
             sports_used.add(bet["sport"])
 
-        if len(combo) >= 4:
-            break
-
     return combo
