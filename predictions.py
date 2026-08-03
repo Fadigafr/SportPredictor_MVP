@@ -3077,7 +3077,20 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🏆 Top Combiné IA")
 
-    top_combo = get_multisport_combo()
+    top_combo = get_optimized_combo()
+
+    combo_score = round(
+        sum(
+            bet["ai_index"]
+            for bet in top_combo
+        ) / len(top_combo),
+        1
+    )
+
+    st.metric(
+        "Score Qualité IA",
+        f"{combo_score}/100"
+    )
 
     for bet in top_combo:
 
