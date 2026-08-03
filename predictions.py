@@ -3107,8 +3107,6 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🏆 Top Combiné IA")
 
-    st.write(get_top_predictions())
-
     top_combo = get_optimized_combo()
 
     combo_score = round(
