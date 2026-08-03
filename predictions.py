@@ -3298,6 +3298,14 @@ def dashboard_global_page():
             "Portefeuille Risqué"
         )
 
+    st.subheader("DEBUG SPORTS")
+
+    sports = []
+
+    for bet in get_top_predictions():
+        sports.append(bet["sport"])
+
+    st.write(sorted(set(sports)))
     
 def get_global_ai_indexes():
 
