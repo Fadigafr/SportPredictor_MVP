@@ -218,3 +218,21 @@ def get_multisport_combo():
 
     return combo
 
+def get_optimized_combo():
+
+    predictions = get_top_predictions()
+
+    combo = []
+    sports_used = set()
+
+    for bet in predictions:
+
+        if bet["sport"] not in sports_used:
+
+            combo.append(bet)
+            sports_used.add(bet["sport"])
+
+        if len(combo) >= 4:
+            break
+
+    return combo
