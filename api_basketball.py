@@ -36,6 +36,7 @@ def basketball_calendar_page():
 
         except Exception:
 
+            st.write(game)
         
 def get_games_today():
 
