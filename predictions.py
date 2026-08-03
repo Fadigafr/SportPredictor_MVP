@@ -35,6 +35,7 @@ from ai_engine import (
     get_multisport_combo,
     get_optimized_combo
 )
+from ai_engine import get_football_combo
 
 # =====================================================
 # POISSON
@@ -2721,15 +2722,45 @@ def dashboard_global_page():
 
     multisport_combo = get_optimized_combo()
 
-    football_combo = [
-        bet for bet in get_top_predictions()
-        if bet["sport"] == "Football"
-    ][:5]
+    football_combo = get_football_combo()
+
     for bet in football_combo:
 
         st.success(
             f"{bet['match']} | IA {bet['ai_index']}/100"
         )
+
+    football_odds = round(
+        len(football_combo) * 2.30,
+        2
+    )
+
+    st.metric(
+        "Cote Totale Estimée",
+        football_odds
+    )
+
+    avg_football = round(
+        sum(
+            bet["ai_index"]
+            for bet in football_combo
+        ) / len(football_combo),
+        1
+    )
+
+    if avg_football >= 90:
+        football_risk = "FAIBLE"
+
+    elif avg_football >= 80:
+        football_risk = "MOYEN"
+
+    else:
+        football_risk = "ÉLEVÉ"
+
+    st.metric(
+        "Risque Football",
+        football_risk
+    )
 
     st.markdown("---")
     st.subheader("🏆 Combiné MultiSport IA")
