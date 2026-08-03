@@ -1602,17 +1602,8 @@ def tennis_page():
     player1_matches = get_player_recent_matches(player1_id)
     player2_matches = get_player_recent_matches(player2_id)
 
-    st.write("DEBUG PLAYER 1")
-    st.write(player1_matches)
-
-    st.write("DEBUG PLAYER 2")
-    st.write(player2_matches)
-
     player1_form = calculate_form_stats(player1_matches)
     player2_form = calculate_form_stats(player2_matches)
-
-    st.write(player1_form)
-    st.write(player2_form)
 
     # player1_profile = get_player_profile(player1_id)
     # profile_data = get_player_profile(player1_id)
@@ -1661,18 +1652,6 @@ def tennis_page():
         player2_form["win_rate"],
         1
     )
-    
-    st.write("DEBUG FORM 1")
-    st.write(player1_form)
-
-    st.write("DEBUG FORM 2")
-    st.write(player2_form)
-
-    st.write("DEBUG AI 1")
-    st.write(player1_ai)
-
-    st.write("DEBUG AI 2")
-    st.write(player2_ai)
     
     st.subheader("IA Index Tennis")
 
