@@ -89,6 +89,11 @@ def get_today_predictions():
 
     return predictions
 
+    print("TOTAL =", len(predictions))
+
+    for p in predictions:
+        print(p["sport"], p["match"])
+
 def get_top_predictions():
 
     predictions = get_today_predictions()
