@@ -2718,14 +2718,7 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("⚽ Combiné Football IA Cote 100")
 
-    football_combo = [
-        "PSG vs Marseille → PSG",
-        "Real Madrid vs Barça → Real Madrid",
-        "Manchester City vs Arsenal → City",
-        "Inter Milan vs Napoli → +2.5 buts",
-        "Bayern vs Dortmund → BTTS OUI",
-        "Liverpool vs Chelsea → Liverpool"
-    ]
+    multisport_combo = get_optimized_combo()
 
     for bet in football_combo:
         st.success(bet)
