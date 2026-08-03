@@ -2738,20 +2738,16 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("🏆 Combiné MultiSport IA Cote 50")
 
-    multisport_combo = [
-        "Football : PSG vs Marseille",
-        "Basketball : Lakers vs Celtics",
-        "Tennis : Alcaraz vs Sinner",
-        "Hockey : Oilers vs Rangers",
-        "Football : Real Madrid vs Barça"
-    ]
+    multisport_combo = get_optimized_combo()
 
     for bet in multisport_combo:
 
-        st.metric(
-            "Cote Totale Estimée",
-            "50.00"
-        )
+        st.info(bet)
+
+    st.metric(
+        "Cote Totale Estimée",
+        "50.00"
+    )
 
     st.subheader("🧠 Analyse du Risque")
 
