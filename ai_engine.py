@@ -243,13 +243,11 @@ def get_football_combo():
 
     predictions = get_top_predictions()
 
-    combo = []
+    football_matches = [
+        bet
+        for bet in predictions
+        if bet["sport"] == "Football"
+    ]
 
-    for bet in predictions:
-
-        if bet["sport"] == "Football":
-
-            combo.append(bet)
-
-    return combo[:5]
+    return football_matches
     
