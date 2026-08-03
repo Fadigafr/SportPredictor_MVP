@@ -2721,12 +2721,14 @@ def dashboard_global_page():
 
     multisport_combo = get_optimized_combo()
 
+    football_combo = [
+        bet for bet in get_top_predictions()
+        if bet["sport"] == "Football"
+    ][:5]
     for bet in football_combo:
-        st.success(bet)
 
-    st.metric(
-        "Cote Totale Estimée",
-        "100.00"
+    st.success(
+        f"{bet['match']} | IA {bet['ai_index']}/100"
     )
 
     st.markdown("---")
