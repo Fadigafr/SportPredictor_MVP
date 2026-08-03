@@ -233,3 +233,18 @@ def get_optimized_combo():
             sports_used.add(bet["sport"])
 
     return combo
+
+def get_football_combo():
+
+    predictions = get_top_predictions()
+
+    combo = []
+
+    for bet in predictions:
+
+        if bet["sport"] == "Football":
+
+            combo.append(bet)
+
+    return combo[:5]
+    
