@@ -2727,9 +2727,9 @@ def dashboard_global_page():
     ][:5]
     for bet in football_combo:
 
-    st.success(
-        f"{bet['match']} | IA {bet['ai_index']}/100"
-    )
+        st.success(
+            f"{bet['match']} | IA {bet['ai_index']}/100"
+        )
 
     st.markdown("---")
     st.subheader("🏆 Combiné MultiSport IA")
