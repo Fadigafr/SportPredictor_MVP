@@ -32,7 +32,8 @@ from api_hockey import get_hockey_fixtures
 from ai_engine import (
     get_top_predictions,
     get_value_bets,
-    get_multisport_combo
+    get_multisport_combo,
+    get_optimized_combo
 )
 
 # =====================================================
