@@ -2720,9 +2720,7 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("⚽ Combiné Football IA Cote 100")
 
-    multisport_combo = get_optimized_combo()
-
-    football_combo = get_football_combo()
+    football_combo = get_football_combo()[:5]
 
     for bet in football_combo:
 
