@@ -2729,17 +2729,26 @@ def dashboard_global_page():
     )
 
     st.markdown("---")
-    st.subheader("🏆 Combiné MultiSport IA Cote 50")
+    st.subheader("🏆 Combiné MultiSport IA")
 
     multisport_combo = get_optimized_combo()
 
     for bet in multisport_combo:
 
-        st.info(bet)
+        st.info(
+            f"{bet['sport']} | "
+            f"{bet['match']} | "
+            f"IA {bet['ai_index']}/100"
+        )
+
+    combo_odds = round(
+        len(multisport_combo) * 2.15,
+        2
+    )
 
     st.metric(
         "Cote Totale Estimée",
-        "50.00"
+        combo_odds
     )
 
     st.subheader("🧠 Analyse du Risque")
