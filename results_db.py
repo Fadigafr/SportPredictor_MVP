@@ -12,6 +12,8 @@ def save_prediction(
     odd=1.80
 ):
 
+    print("SAVE PREDICTION EXECUTED")
+    
     if os.path.exists(DB_FILE):
 
         with open(DB_FILE, "r") as f:
@@ -42,6 +44,7 @@ def save_prediction(
         "result": "PENDING"
     })
 
+    print(data)
     with open(DB_FILE, "w") as f:
         json.dump(data, f, indent=4)
 
