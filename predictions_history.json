@@ -1,20 +1,10 @@
 [
-    {
-        "date": "2026-08-04",
-        "sport": "Football",
-        "match": "PSG vs Marseille",
-        "prediction": "PSG",
-        "ai_index": 92,
-        "odd": 1.85,
-        "result": "WIN"
-    },
-    {
-        "date": "2026-08-04",
-        "sport": "Basketball",
-        "match": "Lakers vs Celtics",
-        "prediction": "Lakers",
-        "ai_index": 84,
-        "odd": 1.90,
-        "result": "LOSS"
-    }
+  {
+    "sport": "Football",
+    "result": "WIN"
+  },
+  {
+    "sport": "Basketball",
+    "result": "LOSS"
+  }
 ]
