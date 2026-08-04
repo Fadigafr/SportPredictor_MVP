@@ -79,3 +79,31 @@ def calculate_real_stats():
         "win_rate": win_rate,
         "roi": roi
     }
+
+def get_stats_by_sport():
+
+    bets = load_predictions()
+
+    sports = {}
+
+    for bet in bets:
+
+        sport = bet["sport"]
+
+        if sport not in sports:
+
+            sports[sport] = {
+                "wins": 0,
+                "losses": 0
+            }
+
+        if bet["result"] == "WIN":
+
+            sports[sport]["wins"] += 1
+
+        elif bet["result"] == "LOSS":
+
+            sports[sport]["losses"] += 1
+
+    return sports
+    
