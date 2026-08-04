@@ -89,11 +89,6 @@ def get_today_predictions():
 
     return predictions
 
-    print("TOTAL =", len(predictions))
-
-    for p in predictions:
-        print(p["sport"], p["match"])
-
 def get_top_predictions():
 
     predictions = get_today_predictions()
@@ -251,17 +246,3 @@ def get_football_combo():
 
     return football_matches
     
-def get_top_predictions():
-
-    predictions = get_today_predictions()
-
-    print("SPORTS DETECTES")
-
-    for p in predictions:
-        print(p["sport"], p["match"])
-
-    return sorted(
-        predictions,
-        key=lambda x: x["ai_index"],
-        reverse=True
-    )
