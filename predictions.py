@@ -37,6 +37,11 @@ from ai_engine import (
 )
 from ai_engine import get_football_combo
 from ai_engine import calculate_performance
+from results_db import (
+    save_prediction,
+    load_predictions,
+    calculate_real_stats
+)
 
 # =====================================================
 # POISSON
@@ -2852,39 +2857,19 @@ def dashboard_global_page():
     win_rate = stats["win_rate"]
     roi = stats["roi"]
 
-    return {
-        "wins": wins,
-        "losses": losses,
-        "total": total,
-        "win_rate": win_rate,
-        "roi": roi
-    }
-
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.metric(
-            "Paris Totaux",
-            total_bets
-        )
+        st.metric("Paris Totaux", total_bets)
 
     with col2:
-        st.metric(
-            "Gagnés",
-            wins
-        )
+        st.metric("Gagnés", wins)
 
     with col3:
-        st.metric(
-            "Perdus",
-            losses
-        )
+        st.metric("Perdus", losses)
 
     with col4:
-        st.metric(
-            "Win Rate",
-            f"{win_rate}%"
-        )
+        st.metric("Win Rate", f"{win_rate}%")
 
     st.metric(
         "ROI Global",
