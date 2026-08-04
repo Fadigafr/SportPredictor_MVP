@@ -3283,6 +3283,24 @@ def dashboard_global_page():
 
     else:
         badge = "STANDARD"
+
+    st.markdown("---")
+    st.subheader("📚 Historique Pronostics")
+
+    history = load_predictions()
+
+    st.write(
+        f"Nombre d'enregistrements : {len(history)}"
+    )
+
+    for bet in history[-10:]:
+
+        st.write(
+            f"{bet['date']} | "
+            f"{bet['sport']} | "
+            f"{bet['match']} | "
+            f"{bet['result']}"
+        )
     
 def get_global_ai_indexes():
 
