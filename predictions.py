@@ -3283,11 +3283,6 @@ def dashboard_global_page():
 
     st.subheader("🏆 Performance par Sport")
 
-    Football : 76%
-    Basketball : 67%
-    Tennis : 72%
-    Hockey : 63%
-
     if win_rate >= 75:
         badge = "ELITE"
 
