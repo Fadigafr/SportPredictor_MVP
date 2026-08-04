@@ -1,4 +1,15 @@
 [
+  {
+    "sport": "Football",
+    "result": "WIN"
+  },
+  {
+    "sport": "Basketball",
+    "result": "LOSS"
+  }
+]
+
+[
     {
         "date": "2026-08-04",
         "sport": "Football",
