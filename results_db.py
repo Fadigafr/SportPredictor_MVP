@@ -76,7 +76,6 @@ def calculate_real_stats():
         "wins": wins,
         "losses": losses,
         "total": total,
-        "win_rate": win_rate
+        "win_rate": win_rate,
+        "roi": roi
     }
-
-  
