@@ -1441,6 +1441,8 @@ def basketball_page():
             odd=1.90
         )
 
+        st.success("✅ Pronostic sauvegardé")
+
         home_points = 108
         away_points = 102
 
