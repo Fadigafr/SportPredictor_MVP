@@ -2842,6 +2842,12 @@ def dashboard_global_page():
                 f"{bet['match']} dépasse 90 IA"
             )
 
+    if not alerts:
+
+        alerts.append(
+            "Aucune alerte critique détectée"
+        )
+
     for alert in alerts:
 
         st.warning(alert)
