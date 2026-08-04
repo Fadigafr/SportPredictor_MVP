@@ -2861,7 +2861,8 @@ def dashboard_global_page():
     wins = stats["wins"]
     losses = stats["losses"]
     win_rate = stats["win_rate"]
-    roi = stats["roi"]
+
+    roi = win_rate
 
     col1, col2, col3, col4 = st.columns(4)
 
