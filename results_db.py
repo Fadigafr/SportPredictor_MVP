@@ -20,6 +20,17 @@ def save_prediction(
     else:
 
         data = []
+        
+    exists = any(
+        bet["sport"] == sport
+        and bet["match"] == match
+        and bet["prediction"] == prediction
+        and bet["result"] == "PENDING"
+        for bet in data
+    )
+
+    if exists:
+        return
 
     data.append({
         "date": datetime.now().strftime("%Y-%m-%d"),
