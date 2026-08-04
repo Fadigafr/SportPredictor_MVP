@@ -43,6 +43,7 @@ from results_db import (
     calculate_real_stats,
     get_stats_by_sport
 )
+from results_db import save_prediction
 
 # =====================================================
 # POISSON
@@ -1138,6 +1139,13 @@ def predictions_page():
         f"PARI IA RECOMMANDE : {meilleur[0]}"
     )
 
+    save_prediction(
+        sport="Football",
+        match=f"{home_team} vs {away_team}",
+        prediction=meilleur[0],
+        ai_index=confidence_score,
+        odd=odd_home
+    )
     st.info(
         f"""
     Confiance IA : {confidence_score}/100
@@ -1423,6 +1431,14 @@ def basketball_page():
 
         st.success(
             f"🏆 Vainqueur IA : {winner}"
+        )
+
+        save_prediction(
+            sport="Basketball",
+            match=f"{home_team} vs {away_team}",
+            prediction=winner,
+            ai_index=confidence_basket,
+            odd=1.90
         )
 
         home_points = 108
@@ -1874,6 +1890,14 @@ def tennis_page():
             f"🏆 Vainqueur IA : {winner}"
         )
 
+        save_prediction(
+            sport="Tennis",
+            match=f"{player_1} vs {player_2}",
+            prediction=winner,
+            ai_index=confidence_score,
+            odd=1.80
+        )
+        
         col1, col2 = st.columns(2)
 
         with col1:
@@ -2260,6 +2284,14 @@ def hockey_page():
 
         st.success(
             f"🏆 Vainqueur IA : {winner}"
+        )
+
+        save_prediction(
+            sport="Hockey",
+            match=f"{home_team} vs {away_team}",
+            prediction=winner,
+            ai_index=confidence_score,
+            odd=1.85
         )
 
         col1, col2 = st.columns(2)
