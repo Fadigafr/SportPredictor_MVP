@@ -3322,10 +3322,10 @@ def dashboard_global_page():
     for bet in history[-10:]:
 
         st.write(
-            f"{bet['date']} | "
-            f"{bet['sport']} | "
-            f"{bet['match']} | "
-            f"{bet['result']}"
+            f"{bet.get('date', 'N/A')} | "
+            f"{bet.get('sport', 'N/A')} | "
+            f"{bet.get('match', 'N/A')} | "
+            f"{bet.get('result', 'N/A')}"
         )
     
 def get_global_ai_indexes():
