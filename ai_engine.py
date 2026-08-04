@@ -1,6 +1,9 @@
 from api_basketball import get_games_today
 from api_hockey import get_hockey_fixtures
 from api_tennis import get_all_fixtures
+import json
+import os
+from datetime import datetime
 
 # ai_engine.py
 
@@ -245,4 +248,72 @@ def get_football_combo():
     ]
 
     return football_matches
+    
+def save_prediction(
+    sport,
+    match,
+    prediction,
+    ai_index,
+    odd
+):
+    filename = "predictions_history.json"
+
+    if os.path.exists(filename):
+        with open(filename, "r") as f:
+            data = json.load(f)
+    else:
+        data = []
+
+    data.append({
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "sport": sport,
+        "match": match,
+        "prediction": prediction,
+        "ai_index": ai_index,
+        "odd": odd,
+        "result": "PENDING"
+    })
+
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+
+def calculate_performance():
+
+    filename = "predictions_history.json"
+
+    if not os.path.exists(filename):
+        return {
+            "wins": 0,
+            "losses": 0,
+            "roi": 0
+        }
+
+    with open(filename, "r") as f:
+        bets = json.load(f)
+
+    wins = len([
+        b for b in bets
+        if b["result"] == "WIN"
+    ])
+
+    losses = len([
+        b for b in bets
+        if b["result"] == "LOSS"
+    ])
+
+    total = wins + losses
+
+    if total == 0:
+        roi = 0
+    else:
+        roi = round(
+            (wins / total) * 100,
+            1
+        )
+
+    return {
+        "wins": wins,
+        "losses": losses,
+        "roi": roi
+    }
     
