@@ -317,3 +317,15 @@ def calculate_performance():
         "roi": roi
     }
     
+def get_stats_by_sport():
+
+    {
+       "Football": {
+           "wins": 25,
+           "losses": 8
+       },
+       "Basketball": {
+           "wins": 18,
+           "losses": 9
+       }
+    }
