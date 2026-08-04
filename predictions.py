@@ -40,7 +40,8 @@ from ai_engine import calculate_performance
 from results_db import (
     save_prediction,
     load_predictions,
-    calculate_real_stats
+    calculate_real_stats,
+    get_stats_by_sport
 )
 
 # =====================================================
@@ -3274,6 +3275,31 @@ def dashboard_global_page():
         )
 
     st.subheader("🏆 Performance par Sport")
+
+    col1, col2 = st.columns(2)
+
+    sports_stats = get_stats_by_sport()
+
+    for i, (sport, data) in enumerate(sports_stats.items()):
+
+        wins = data["wins"]
+        losses = data["losses"]
+
+        total = wins + losses
+
+        rate = round(
+            wins / total * 100,
+            1
+        ) if total > 0 else 0
+
+        with (col1 if i % 2 == 0 else col2):
+
+            st.metric(
+                sport,
+                f"{rate}%"
+            )
+
+            st.progress(rate / 100)
 
     if win_rate >= 75:
         badge = "ELITE"
