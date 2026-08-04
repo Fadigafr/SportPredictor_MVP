@@ -70,6 +70,8 @@ def calculate_real_stats():
 
         win_rate = 0
 
+    roi = win_rate
+
     return {
         "wins": wins,
         "losses": losses,
