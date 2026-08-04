@@ -36,6 +36,7 @@ from ai_engine import (
     get_optimized_combo
 )
 from ai_engine import get_football_combo
+from ai_engine import calculate_performance
 
 # =====================================================
 # POISSON
@@ -2843,8 +2844,6 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("📊 ROI & Performance Tracker")
 
-    from ai_engine import calculate_performance
-
     stats = calculate_performance()
 
     wins = stats["wins"]
@@ -3284,6 +3283,22 @@ def dashboard_global_page():
         st.error(
             "Portefeuille Risqué"
         )
+
+    st.subheader("🏆 Performance par Sport")
+
+    Football : 76%
+    Basketball : 67%
+    Tennis : 72%
+    Hockey : 63%
+
+    if win_rate >= 75:
+        badge = "ELITE"
+
+    elif win_rate >= 65:
+        badge = "PREMIUM"
+
+    else:
+        badge = "STANDARD"
     
 def get_global_ai_indexes():
 
