@@ -2844,24 +2844,21 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("📊 ROI & Performance Tracker")
 
-    stats = calculate_performance()
+    stats = calculate_real_stats()
 
+    total_bets = stats["total"]
     wins = stats["wins"]
     losses = stats["losses"]
+    win_rate = stats["win_rate"]
     roi = stats["roi"]
 
-    total_bets = wins + losses
-
-    if total_bets > 0:
-
-        win_rate = round(
-            wins / total_bets * 100,
-            1
-        )
-
-    else:
-
-        win_rate = 0
+    return {
+        "wins": wins,
+        "losses": losses,
+        "total": total,
+        "win_rate": win_rate,
+        "roi": roi
+    }
 
     col1, col2, col3, col4 = st.columns(4)
 
