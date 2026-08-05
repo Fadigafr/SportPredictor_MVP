@@ -3405,6 +3405,12 @@ def dashboard_global_page():
             if bet["sport"] == sport_filter
         ]
 
+    st.write(
+        f"Nombre d'enregistrements : {len(history)}"
+    )
+
+    for bet in history[::-1]:
+
     st.markdown("---")
     st.subheader("🏆 Top Paris IA")
 
@@ -3417,19 +3423,14 @@ def dashboard_global_page():
     for bet in top_ai[:10]:
 
         st.metric(
-            bet["match"],
-            f"IA {bet['ai_index']}/100"
+            bet.get("match", "N/A"),
+            f"IA {bet.get('ai_index', 0)}/100"
         )
 
     st.markdown("---")
     st.subheader("📊 Statistiques Globales")
 
     total_predictions = len(history)
-
-    st.metric(
-        "Pronostics enregistrés",
-        total_predictions
-    )
 
     if total_predictions > 0:
 
@@ -3445,10 +3446,20 @@ def dashboard_global_page():
 
         avg_ai = 0
 
-    st.metric(
-        "Indice IA Moyen",
-        f"{avg_ai}/100"
-    )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            "Pronostics enregistrés",
+            total_predictions
+        )
+
+    with col2:
+        st.metric(
+            "Indice IA Moyen",
+            f"{avg_ai}/100"
+        )
 
     st.markdown("---")
     st.subheader("📈 Répartition des Pronostics")
