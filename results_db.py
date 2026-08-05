@@ -125,7 +125,7 @@ def get_stats_by_sport():
     return sports
 
 def validate_football_results():
-    pass
+    return
     
 def validate_football_results():
 
