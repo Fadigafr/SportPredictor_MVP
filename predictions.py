@@ -3358,15 +3358,130 @@ def dashboard_global_page():
         f"Nombre d'enregistrements : {len(history)}"
     )
 
-    for bet in history[-10:]:
+    for bet in history[::-1]:
 
-        st.write(
-            f"{bet.get('date', 'N/A')} | "
-            f"{bet.get('sport', 'N/A')} | "
-            f"{bet.get('match', 'N/A')} | "
-            f"{bet.get('result', 'N/A')}"
+        text = (
+            f"{bet.get('date','N/A')} | "
+            f"{bet.get('sport','N/A')} | "
+            f"{bet.get('match','N/A')}"
         )
- 
+
+        if bet["result"] == "WIN":
+
+            st.success(
+                f"✅ {text}"
+            )
+
+        elif bet["result"] == "LOSS":
+
+            st.error(
+                f"❌ {text}"
+            )
+
+        else:
+
+            st.warning(
+                f"⏳ {text}"
+            )
+
+    history = load_predictions()
+
+    sport_filter = st.selectbox(
+        "Filtrer par sport",
+        [
+            "Tous",
+            "Football",
+            "Basketball",
+            "Tennis",
+            "Hockey"
+        ]
+    )
+
+    if sport_filter != "Tous":
+
+        history = [
+            bet
+            for bet in history
+            if bet["sport"] == sport_filter
+        ]
+
+    st.markdown("---")
+    st.subheader("🏆 Top Paris IA")
+
+    top_ai = sorted(
+        history,
+        key=lambda x: x.get("ai_index", 0),
+        reverse=True
+    )
+
+    for bet in top_ai[:10]:
+
+        st.metric(
+            bet["match"],
+            f"IA {bet['ai_index']}/100"
+        )
+
+    st.markdown("---")
+    st.subheader("📊 Statistiques Globales")
+
+    total_predictions = len(history)
+
+    st.metric(
+        "Pronostics enregistrés",
+        total_predictions
+    )
+
+    if total_predictions > 0:
+
+        avg_ai = round(
+            sum(
+                bet.get("ai_index", 0)
+                for bet in history
+            ) / total_predictions,
+            1
+        )
+
+    else:
+
+        avg_ai = 0
+
+    st.metric(
+        "Indice IA Moyen",
+        f"{avg_ai}/100"
+    )
+
+    st.markdown("---")
+    st.subheader("📈 Répartition des Pronostics")
+
+    sports_count = {}
+
+    for bet in history:
+
+        sport = bet["sport"]
+
+        sports_count[sport] = (
+            sports_count.get(sport, 0) + 1
+        )
+
+    if sports_count:
+
+        st.bar_chart(
+            sports_count
+        )
+
+    st.markdown("---")
+    st.subheader("🧠 Résumé Historique IA")
+
+    st.info(
+        f"""
+    Pronostics enregistrés : {total_predictions}
+
+    Indice IA moyen : {avg_ai}/100
+
+    Sports analysés : {len(sports_count)}
+    """
+    )
+    
 def get_global_ai_indexes():
 
     return {
