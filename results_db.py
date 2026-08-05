@@ -125,5 +125,116 @@ def get_stats_by_sport():
     return sports
 
 def validate_football_results():
-    return
+
+    bets = load_predictions()
+
+    updated = False
+
+    for bet in bets:
+
+        if bet.get("sport") != "Football":
+            continue
+
+        if bet.get("result") != "PENDING":
+            continue
+
+        fixture_id = bet.get("fixture_id")
+
+        if not fixture_id:
+            continue
+
+        try:
+
+            data = api_get(
+                f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+            )
+
+            if not data.get("response"):
+                continue
+
+            match_data = data["response"][0]
+
+            status = (
+                match_data["fixture"]
+                ["status"]
+                ["short"]
+            )
+
+            if status != "FT":
+                continue
+
+            home_team = (
+                match_data["teams"]
+                ["home"]
+                ["name"]
+            )
+
+            away_team = (
+                match_data["teams"]
+                ["away"]
+                ["name"]
+            )
+
+            home_winner = (
+                match_data["teams"]
+                ["home"]
+                ["winner"]
+            )
+
+            away_winner = (
+                match_data["teams"]
+                ["away"]
+                ["winner"]
+            )
+
+            prediction = bet.get("prediction")
+
+            if prediction == "1" and home_winner:
+
+                bet["result"] = "WIN"
+
+            elif prediction == "2" and away_winner:
+
+                bet["result"] = "WIN"
+
+            elif prediction == "N":
+
+                goals_home = (
+                    match_data["goals"]
+                    ["home"]
+                )
+
+                goals_away = (
+                    match_data["goals"]
+                    ["away"]
+                )
+
+                if goals_home == goals_away:
+                    bet["result"] = "WIN"
+                else:
+                    bet["result"] = "LOSS"
+
+            else:
+
+                if bet["result"] == "PENDING":
+                    bet["result"] = "LOSS"
+
+            updated = True
+
+        except Exception as e:
+
+            print(
+                "Validation error:",
+                e
+            )
+
+    if updated:
+
+        with open(DB_FILE, "w") as f:
+
+            json.dump(
+                bets,
+                f,
+                indent=4
+            )
     
