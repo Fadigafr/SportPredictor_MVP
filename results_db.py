@@ -154,38 +154,13 @@ def validate_football_results():
 
             match_data = data["response"][0]
 
-            status = (
-                match_data["fixture"]
-                ["status"]
-                ["short"]
-            )
+            status = match_data["fixture"]["status"]["short"]
 
             if status != "FT":
                 continue
 
-            home_team = (
-                match_data["teams"]
-                ["home"]
-                ["name"]
-            )
-
-            away_team = (
-                match_data["teams"]
-                ["away"]
-                ["name"]
-            )
-
-            home_winner = (
-                match_data["teams"]
-                ["home"]
-                ["winner"]
-            )
-
-            away_winner = (
-                match_data["teams"]
-                ["away"]
-                ["winner"]
-            )
+            home_winner = match_data["teams"]["home"]["winner"]
+            away_winner = match_data["teams"]["away"]["winner"]
 
             prediction = bet.get("prediction")
 
@@ -199,15 +174,8 @@ def validate_football_results():
 
             elif prediction == "N":
 
-                goals_home = (
-                    match_data["goals"]
-                    ["home"]
-                )
-
-                goals_away = (
-                    match_data["goals"]
-                    ["away"]
-                )
+                goals_home = match_data["goals"]["home"]
+                goals_away = match_data["goals"]["away"]
 
                 if goals_home == goals_away:
                     bet["result"] = "WIN"
@@ -216,17 +184,13 @@ def validate_football_results():
 
             else:
 
-                if bet["result"] == "PENDING":
-                    bet["result"] = "LOSS"
+                bet["result"] = "LOSS"
 
             updated = True
 
         except Exception as e:
 
-            print(
-                "Validation error:",
-                e
-            )
+            print("Validation error:", e)
 
     if updated:
 
