@@ -41,11 +41,9 @@ from results_db import (
     save_prediction,
     load_predictions,
     calculate_real_stats,
-    get_stats_by_sport
-)
-from results_db import save_prediction
-from results_db import (
-    validate_football_results
+    get_stats_by_sport,
+    validate_football_results,
+    save_prediction
 )
 
 # =====================================================
@@ -1148,7 +1146,9 @@ def predictions_page():
         prediction=meilleur[0],
         ai_index=confidence_score,
         odd=odd_home
+        fixture_id=fixture_id
     )
+    
     st.info(
         f"""
     Confiance IA : {confidence_score}/100
