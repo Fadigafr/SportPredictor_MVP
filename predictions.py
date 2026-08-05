@@ -2437,9 +2437,11 @@ def hockey_page():
 
 def dashboard_global_page():
 
-    st.title("Dashboard IA Global")
-
     validate_football_results()
+
+    st.title(
+        "📊 Dashboard IA Global"
+    )
 
     st.markdown("---")
 
