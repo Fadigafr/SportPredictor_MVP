@@ -3409,8 +3409,6 @@ def dashboard_global_page():
         f"Nombre d'enregistrements : {len(history)}"
     )
 
-    for bet in history[::-1]:
-
     st.markdown("---")
     st.subheader("🏆 Top Paris IA")
 
