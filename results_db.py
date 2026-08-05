@@ -122,15 +122,6 @@ def get_stats_by_sport():
             sports[sport]["losses"] += 1
 
     return sports
-    
-def save_prediction(
-    sport,
-    match,
-    prediction,
-    ai_index,
-    odd=1.80,
-    fixture_id=None
-):
 
 def validate_football_results():
 
