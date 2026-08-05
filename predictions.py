@@ -3356,6 +3356,8 @@ def dashboard_global_page():
 
     history = load_predictions()
 
+    st.write(history)
+
     st.write(
         f"Nombre d'enregistrements : {len(history)}"
     )
