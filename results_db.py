@@ -39,6 +39,7 @@ def save_prediction(
         "date": datetime.now().strftime("%Y-%m-%d"),
         "sport": sport,
         "match": match,
+        "fixture_id": fixture_id,
         "prediction": prediction,
         "ai_index": ai_index,
         "odd": odd,
