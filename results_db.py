@@ -124,6 +124,9 @@ def get_stats_by_sport():
     return sports
 
 def validate_football_results():
+    pass
+    
+def validate_football_results():
 
     bets = load_predictions()
 
