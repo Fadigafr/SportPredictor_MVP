@@ -10,7 +10,8 @@ def save_prediction(
     match,
     prediction,
     ai_index,
-    odd=1.80
+    odd=1.80,
+    fixture_id=None
 ):
 
     print("SAVE PREDICTION EXECUTED")
