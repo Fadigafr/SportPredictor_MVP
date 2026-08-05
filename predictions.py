@@ -44,6 +44,9 @@ from results_db import (
     get_stats_by_sport
 )
 from results_db import save_prediction
+from results_db import (
+    validate_football_results
+)
 
 # =====================================================
 # POISSON
@@ -2436,6 +2439,8 @@ def dashboard_global_page():
 
     st.title("Dashboard IA Global")
 
+    validate_football_results()
+
     st.markdown("---")
 
     top_predictions = get_top_predictions()
@@ -3361,7 +3366,7 @@ def dashboard_global_page():
             f"{bet.get('match', 'N/A')} | "
             f"{bet.get('result', 'N/A')}"
         )
-    
+ 
 def get_global_ai_indexes():
 
     return {
