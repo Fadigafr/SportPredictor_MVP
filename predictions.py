@@ -1145,7 +1145,7 @@ def predictions_page():
         match=f"{home_team} vs {away_team}",
         prediction=meilleur[0],
         ai_index=confidence_score,
-        odd=odd_home
+        odd=odd_home,
         fixture_id=fixture_id
     )
     
