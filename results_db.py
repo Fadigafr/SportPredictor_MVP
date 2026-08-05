@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime
+from api_football import api_get
 
 DB_FILE = "predictions_history.json"
 
@@ -130,4 +131,69 @@ def save_prediction(
     fixture_id=None
 ):
 
-    
+def validate_football_results():
+
+    bets = load_predictions()
+
+    updated = False
+
+    for bet in bets:
+
+        if (
+            bet["sport"] != "Football"
+            or bet["result"] != "PENDING"
+        ):
+            continue
+
+        fixture_id = bet.get("fixture_id")
+
+        if not fixture_id:
+            continue
+
+        data = api_get(
+            f"fixtures?id={fixture_id}"
+        )
+
+        if not data.get("response"):
+            continue
+
+        match = data["response"][0]
+
+        status = match["fixture"]["status"]["short"]
+
+        if status != "FT":
+            continue
+
+        home = match["teams"]["home"]["name"]
+        away = match["teams"]["away"]["name"]
+
+        winner = None
+
+        if match["teams"]["home"]["winner"]:
+            winner = home
+
+        elif match["teams"]["away"]["winner"]:
+            winner = away
+
+        prediction = bet["prediction"]
+
+        if (
+            prediction == winner
+            or prediction == "1"
+            and winner == home
+        ):
+            bet["result"] = "WIN"
+
+        else:
+            bet["result"] = "LOSS"
+
+        updated = True
+
+    if updated:
+
+        with open(DB_FILE, "w") as f:
+            json.dump(
+                bets,
+                f,
+                indent=4
+            )    
