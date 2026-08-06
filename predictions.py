@@ -2944,6 +2944,34 @@ def dashboard_global_page():
         23.8
     ]
 
+    st.markdown("---")
+    st.subheader("⏳ Paris en attente")
+
+    pending_bets = [
+        bet
+        for bet in load_predictions()
+        if bet.get("result") == "PENDING"
+    ]
+    if pending_bets:
+
+        st.info(
+            f"{len(pending_bets)} pari(s) en attente"
+        )
+
+        for bet in pending_bets:
+
+            st.warning(
+                f"⏳ {bet.get('date')} | "
+                f"{bet.get('match')} | "
+                f"IA {bet.get('ai_index')}/100"
+            )
+
+    else:
+
+        st.success(
+            "✅ Aucun pari en attente"
+        )
+
     st.subheader("📈 Évolution du ROI")
 
     st.line_chart(
