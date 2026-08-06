@@ -2906,7 +2906,13 @@ def dashboard_global_page():
 
     roi = win_rate
 
-    col1, col2, col3, col4 = st.columns(4)
+    pending = len([
+        bet
+        for bet in load_predictions()
+        if bet.get("result") == "PENDING"
+    ])
+
+    col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
         st.metric("Paris Totaux", total_bets)
@@ -2918,6 +2924,9 @@ def dashboard_global_page():
         st.metric("Perdus", losses)
 
     with col4:
+        st.metric("En attente", pending)
+
+    with col5:
         st.metric("Win Rate", f"{win_rate}%")
 
     st.metric(
@@ -3430,6 +3439,34 @@ def dashboard_global_page():
         )
 
     st.markdown("---")
+    st.subheader("⏳ Paris en attente")
+
+    pending_bets = [
+        bet
+        for bet in history
+        if bet.get("result") == "PENDING"
+    ]
+
+    if pending_bets:
+
+        st.info(
+            f"{len(pending_bets)} pari(s) en attente de validation"
+        )
+
+        for bet in pending_bets:
+
+            st.warning(
+                f"⏳ {bet.get('date','N/A')} | "
+                f"{bet.get('match','N/A')}"
+            )
+
+    else:
+
+        st.success(
+            "✅ Aucun pari en attente"
+        )
+        
+    st.markdown("---")
     st.subheader("📊 Statistiques Globales")
 
     total_predictions = len(history)
@@ -3492,6 +3529,19 @@ def dashboard_global_page():
     Indice IA moyen : {avg_ai}/100
 
     Sports analysés : {len(sports_count)}
+    """
+    )
+
+    Paris en attente : {len(pending_bets)}
+    st.info(
+        f"""
+    Pronostics enregistrés : {total_predictions}
+
+    Indice IA moyen : {avg_ai}/100
+
+    Sports analysés : {len(sports_count)}
+
+    Paris en attente : {len(pending_bets)}
     """
     )
     
