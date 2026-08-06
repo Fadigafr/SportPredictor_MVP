@@ -784,13 +784,28 @@ def predictions_page():
         value_away
     )
 
+    if home_win_prob > away_win_prob:
+
+        pari_final = "1"
+
+    elif away_win_prob > home_win_prob:
+
+        pari_final = "2"
+
+    else:
+
+        pari_final = "N"
+
     if best_value == value_home:
+
         value_bet = "1"
 
     elif best_value == value_draw:
+
         value_bet = "N"
 
     else:
+
         value_bet = "2"
 
     st.info(
@@ -901,6 +916,43 @@ def predictions_page():
         f"🎯 Favori IA : {favorite}"
     )
 
+    st.info(
+        f"⚡ Value Bet : {value_bet}"
+    )
+
+    st.success(
+        f"✅ Pari Final IA : {pari_final}"
+    )
+
+    st.markdown("---")
+    st.subheader("🔍 Décomposition IA")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.metric(
+            "Forme",
+            round(home_form, 1)
+        )
+
+        st.metric(
+            "Classement",
+            round(home_rank_score, 1)
+        )
+
+    with col2:
+
+        st.metric(
+            "H2H",
+            round(home_h2h_score, 1)
+        )
+
+        st.metric(
+            "Bookmakers",
+            round(book_home, 1)
+        )
+        
     st.metric(
         "Indice de confiance",
         f"{confidence_score}/100"
@@ -921,6 +973,96 @@ def predictions_page():
     with col3:
         st.metric("2", f"{away_win_prob}%")
 
+    st.subheader("🔍 Décomposition IA")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("Forme", round(home_form, 1))
+
+        st.metric(
+            "Classement",
+            round(home_rank_score, 1)
+        )
+
+    with col2:
+        st.metric("H2H", round(home_h2h_score, 1))
+
+        st.metric(
+            "Bookmakers",
+            round(book_home, 1)
+        )
+
+    st.subheader("🎯 Baromètre IA")
+
+    if confidence_score >= 85:
+
+        st.success(
+            "🟢 Très Forte Confiance"
+        )
+
+    elif confidence_score >= 70:
+
+        st.info(
+            "🔵 Bonne Confiance"
+        )
+
+    elif confidence_score >= 55:
+
+        st.warning(
+            "🟡 Confiance Moyenne"
+        )
+
+    else:
+
+        st.error(
+            "🔴 Confiance Faible"
+        )
+
+    st.subheader("🧩 Cohérence IA")
+
+    st.success(
+        "✅ Pronostic cohérent"
+    )
+    st.warning(
+        "⚠️ Pronostic à surveiller"
+    )
+
+    st.markdown("---")
+    st.subheader("🧩 Cohérence du Pronostic")
+
+    coherent = False
+
+    if (
+        pari_final == "1"
+        and predicted_score[0] > predicted_score[1]
+    ):
+        coherent = True
+
+    elif (
+        pari_final == "2"
+        and predicted_score[1] > predicted_score[0]
+    ):
+        coherent = True
+
+    elif (
+        pari_final == "N"
+        and predicted_score[0] == predicted_score[1]
+    ):
+        coherent = True
+
+    if coherent:
+
+        st.success(
+            "✅ Pronostic cohérent"
+        )
+
+    else:
+
+        st.warning(
+            "⚠️ Pronostic à surveiller"
+        )
+        
     # =====================================================
     # IA INDEX PREMIUM
     # =====================================================
@@ -944,7 +1086,7 @@ def predictions_page():
             "Indice IA",
             f"{confidence_score}/100"
         )
-
+        
     st.info(
         f"📈 Niveau : {rating_label}"
     )
@@ -984,6 +1126,29 @@ def predictions_page():
         st.info(
             "📊 Aucun Value Bet majeur"
         )
+
+    st.markdown("---")
+    st.subheader("🏆 Badge IA Premium")
+
+    if confidence_score >= 85:
+
+        badge = "🔥 ELITE"
+
+    elif confidence_score >= 70:
+
+        badge = "⭐ SOLIDE"
+
+    elif confidence_score >= 55:
+
+        badge = "✅ CORRECT"
+
+    else:
+
+        badge = "⚠️ RISQUÉ"
+
+    st.success(
+        f"Badge IA : {badge}"
+    )
         
 # =====================================================
 # SCORE EXACT IA
@@ -1167,10 +1332,6 @@ def predictions_page():
 
     st.success(
         f"✅ PARI FINAL IA : {pari_final}"
-    )
-
-    st.success(
-        f"PARI IA RECOMMANDE : {meilleur[0]}"
     )
 
     save_prediction(
@@ -3593,80 +3754,6 @@ def dashboard_global_page():
 
     Paris en attente : {len(pending_bets)}
     """
-    )
-
-    st.subheader("🔍 Décomposition IA")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric("Forme", round(home_form, 1))
-
-        st.metric(
-            "Classement",
-            round(home_rank_score, 1)
-        )
-
-    with col2:
-        st.metric("H2H", round(home_h2h_score, 1))
-
-        st.metric(
-            "Bookmakers",
-            round(book_home, 1)
-        )
-
-    st.subheader("🎯 Baromètre IA")
-
-    if confidence_score >= 85:
-
-        st.success(
-            "🟢 Très Forte Confiance"
-        )
-
-    elif confidence_score >= 70:
-
-        st.info(
-            "🔵 Bonne Confiance"
-        )
-
-    elif confidence_score >= 55:
-
-        st.warning(
-            "🟡 Confiance Moyenne"
-        )
-
-    else:
-
-        st.error(
-            "🔴 Confiance Faible"
-        )
-
-    st.subheader("🧩 Cohérence IA")
-
-    "Favori IA,
-    "Score Exact,
-    "Pari Final"
-    st.success(
-        "✅ Pronostic cohérent"
-    )
-    st.warning(
-        "⚠️ Pronostic à surveiller"
-    )
-
-    if (
-        confidence_score >= 75
-        and pari_final == "1"
-    ):
-        badge = "🔥 PREMIUM"
-
-    elif confidence_score >= 60:
-        badge = "⭐ SOLIDE"
-
-    else:
-        badge = "⚠️ RISQUÉ"
-
-    st.success(
-        f"Badge IA : {badge}"
     )
     
 def get_global_ai_indexes():
