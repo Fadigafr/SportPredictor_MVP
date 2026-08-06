@@ -3557,17 +3557,6 @@ def dashboard_global_page():
     Indice IA moyen : {avg_ai}/100
 
     Sports analysés : {len(sports_count)}
-    """
-    )
-
-    Paris en attente : {len(pending_bets)}
-    st.info(
-        f"""
-    Pronostics enregistrés : {total_predictions}
-
-    Indice IA moyen : {avg_ai}/100
-
-    Sports analysés : {len(sports_count)}
 
     Paris en attente : {len(pending_bets)}
     """
