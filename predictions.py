@@ -3594,6 +3594,80 @@ def dashboard_global_page():
     Paris en attente : {len(pending_bets)}
     """
     )
+
+    st.subheader("🔍 Décomposition IA")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("Forme", round(home_form, 1))
+
+        st.metric(
+            "Classement",
+            round(home_rank_score, 1)
+        )
+
+    with col2:
+        st.metric("H2H", round(home_h2h_score, 1))
+
+        st.metric(
+            "Bookmakers",
+            round(book_home, 1)
+        )
+
+    st.subheader("🎯 Baromètre IA")
+
+    if confidence_score >= 85:
+
+        st.success(
+            "🟢 Très Forte Confiance"
+        )
+
+    elif confidence_score >= 70:
+
+        st.info(
+            "🔵 Bonne Confiance"
+        )
+
+    elif confidence_score >= 55:
+
+        st.warning(
+            "🟡 Confiance Moyenne"
+        )
+
+    else:
+
+        st.error(
+            "🔴 Confiance Faible"
+        )
+
+    st.subheader("🧩 Cohérence IA")
+
+    "Favori IA,
+    "Score Exact,
+    "Pari Final"
+    st.success(
+        "✅ Pronostic cohérent"
+    )
+    st.warning(
+        "⚠️ Pronostic à surveiller"
+    )
+
+    if (
+        confidence_score >= 75
+        and pari_final == "1"
+    ):
+        badge = "🔥 PREMIUM"
+
+    elif confidence_score >= 60:
+        badge = "⭐ SOLIDE"
+
+    else:
+        badge = "⚠️ RISQUÉ"
+
+    st.success(
+        f"Badge IA : {badge}"
+    )
     
 def get_global_ai_indexes():
 
