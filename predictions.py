@@ -3805,6 +3805,31 @@ def dashboard_global_page():
     st.success(
         f"🏆 {badge}"
     )
+
+    reliability = get_ai_reliability()
+
+    total_validated = 0
+
+    for bet in load_predictions():
+
+        if bet.get("result") in ["WIN", "LOSS"]:
+
+            total_validated += 1
+
+    if total_validated == 0:
+
+        st.info(
+            "📊 Pas encore assez de données validées pour calculer la fiabilité historique IA."
+        )
+
+    else:
+
+        # affichage des scores IA
+
+        st.metric(
+            "Paris validés",
+            total_validated
+        )
     
 def get_global_ai_indexes():
 
