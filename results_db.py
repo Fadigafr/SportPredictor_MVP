@@ -202,3 +202,55 @@ def validate_football_results():
                 indent=4
             )
     
+def get_ai_reliability():
+
+    bets = load_predictions()
+
+    groups = {
+        "90+": {"wins": 0, "total": 0},
+        "80+": {"wins": 0, "total": 0},
+        "70+": {"wins": 0, "total": 0},
+        "<70": {"wins": 0, "total": 0}
+    }
+
+    for bet in bets:
+
+        if bet.get("result") not in ["WIN", "LOSS"]:
+            continue
+
+        ai = bet.get("ai_index", 0)
+
+        if ai >= 90:
+            group = "90+"
+
+        elif ai >= 80:
+            group = "80+"
+
+        elif ai >= 70:
+            group = "70+"
+
+        else:
+            group = "<70"
+
+        groups[group]["total"] += 1
+
+        if bet["result"] == "WIN":
+            groups[group]["wins"] += 1
+
+    reliability = {}
+
+    for group, stats in groups.items():
+
+        if stats["total"] > 0:
+
+            reliability[group] = round(
+                stats["wins"] /
+                stats["total"] * 100,
+                1
+            )
+
+        else:
+
+            reliability[group] = 0
+
+    return reliability
