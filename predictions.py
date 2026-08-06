@@ -45,6 +45,7 @@ from results_db import (
     validate_football_results,
     save_prediction
 )
+from results_db import get_ai_reliability
 
 # =====================================================
 # POISSON
@@ -3745,6 +3746,64 @@ def dashboard_global_page():
 
     Paris en attente : {len(pending_bets)}
     """
+    )
+
+    st.markdown("---")
+    st.subheader("🏆 Fiabilité Historique IA")
+
+    reliability = get_ai_reliability()
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.metric(
+            "IA 90+",
+            f"{reliability['90+']}%"
+        )
+
+        st.metric(
+            "IA 80+",
+            f"{reliability['80+']}%"
+        )
+
+    with col2:
+
+        st.metric(
+            "IA 70+",
+            f"{reliability['70+']}%"
+        )
+
+        st.metric(
+            "IA <70",
+            f"{reliability['<70']}%"
+        )
+
+    global_reliability = (
+        reliability["90+"]
+        + reliability["80+"]
+        + reliability["70+"]
+        + reliability["<70"]
+    ) / 4
+
+    if global_reliability >= 75:
+
+        badge = "🔥 IA ELITE"
+
+    elif global_reliability >= 60:
+
+        badge = "⭐ IA SOLIDE"
+
+    elif global_reliability >= 50:
+
+        badge = "✅ IA CORRECTE"
+
+    else:
+
+        badge = "⚠️ IA À AMÉLIORER"
+
+    st.success(
+        f"🏆 {badge}"
     )
     
 def get_global_ai_indexes():
