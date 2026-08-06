@@ -1019,15 +1019,6 @@ def predictions_page():
             "🔴 Confiance Faible"
         )
 
-    st.subheader("🧩 Cohérence IA")
-
-    st.success(
-        "✅ Pronostic cohérent"
-    )
-    st.warning(
-        "⚠️ Pronostic à surveiller"
-    )
-
     st.markdown("---")
     st.subheader("🧩 Cohérence du Pronostic")
 
