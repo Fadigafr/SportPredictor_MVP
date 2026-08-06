@@ -778,6 +778,25 @@ def predictions_page():
     value_draw = round(draw_prob - implied_draw, 2)
     value_away = round(away_win_prob - implied_away, 2)
 
+    best_value = max(
+        value_home,
+        value_draw,
+        value_away
+    )
+
+    if best_value == value_home:
+        value_bet = "1"
+
+    elif best_value == value_draw:
+        value_bet = "N"
+
+    else:
+        value_bet = "2"
+
+    st.info(
+        f"⚡ Value Bet : {value_bet}"
+    )
+
     # =====================================================
     # EV+
     # =====================================================
@@ -1134,7 +1153,21 @@ def predictions_page():
 
     st.markdown("---")
 
-    meilleur = valeurs[0]
+    if home_win_prob > away_win_prob:
+
+        pari_final = "1"
+
+    elif away_win_prob > home_win_prob:
+
+        pari_final = "2"
+
+    else:
+
+        pari_final = "N"
+
+    st.success(
+        f"✅ PARI FINAL IA : {pari_final}"
+    )
 
     st.success(
         f"PARI IA RECOMMANDE : {meilleur[0]}"
@@ -1143,7 +1176,7 @@ def predictions_page():
     save_prediction(
         sport="Football",
         match=f"{home_team} vs {away_team}",
-        prediction=meilleur[0],
+        prediction=pari_final,
         ai_index=confidence_score,
         odd=odd_home,
         fixture_id=fixture_id
