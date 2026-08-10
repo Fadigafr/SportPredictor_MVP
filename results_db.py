@@ -191,8 +191,6 @@ def validate_football_results():
         except Exception as e:
 
             print("Validation error:", e)
-
-    if updated:
     
 def get_ai_reliability():
 
