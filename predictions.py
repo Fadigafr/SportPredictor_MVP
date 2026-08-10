@@ -685,12 +685,11 @@ def predictions_page():
 
     trap_match = False
 
-    if abs(home_win_prob - away_win_prob) < 15:
+    if abs(home_win_prob - away_win_prob) < 8:
 
         trap_match = True
 
-    if abs(home_strength - away_strength) < 5:
-
+    if abs(home_strength - away_strength) < 2:
         trap_match = True
 
     # =====================================================
@@ -727,11 +726,11 @@ def predictions_page():
 
     confidence_score = round(
         (
-            force_gap * 0.40 +
-            bookmaker_alignment * 0.20 +
+            force_gap * 0.30 +
+            bookmaker_alignment * 0.30 +
             form_stability * 0.20 +
             h2h_certainty * 0.20
-        ) / 2
+        )
     )
 
     if trap_match:
