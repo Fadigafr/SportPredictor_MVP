@@ -731,6 +731,16 @@ def predictions_page():
         abs(home_strength - away_strength) * 1.5
     )
 )  
+
+    trap_match = False
+
+    if abs(home_win_prob - away_win_prob) < 15:
+
+        trap_match = True
+
+    if confidence_score < 40:
+
+        trap_match = True
    
     # =====================================================
     # IA INDEX PREMIUM V6.8
@@ -1056,6 +1066,25 @@ def predictions_page():
 
         st.warning(
             "⚠️ Pronostic à surveiller"
+        )
+
+    st.markdown("---")
+    st.subheader("⚠️ Détection Match Piège")
+
+    if trap_match:
+
+        st.error(
+            "⚠️ MATCH PIÈGE DÉTECTÉ"
+        )
+
+        st.warning(
+            "Écart de forces trop faible ou confiance IA insuffisante."
+        )
+
+    else:
+
+        st.success(
+            "✅ Match exploitable"
         )
         
     # =====================================================
