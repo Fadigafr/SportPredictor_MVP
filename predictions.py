@@ -442,33 +442,6 @@ def predictions_page():
     st.write("Force domicile :", round(home_strength, 2))
     st.write("Force extérieur :", round(away_strength, 2))
 
-    force_gap = abs(
-        home_strength - away_strength
-    )
-    bookmaker_alignment = 0
-
-    if (
-        home_win_prob > away_win_prob
-        and odd_home < odd_away
-    ):
-
-        bookmaker_alignment = 100
-
-    elif (
-        away_win_prob > home_win_prob
-        and odd_away < odd_home
-    ):
-
-        bookmaker_alignment = 100
-
-    else:
-
-        bookmaker_alignment = 50
-
-    form_stability = abs(
-        home_form - away_form
-    )
-
     # =====================================================
     # ANALYSE IA PREMIUM
     # =====================================================
@@ -549,6 +522,34 @@ def predictions_page():
             100 - home_win_prob - away_win_prob
         ),
         1
+    )
+
+     force_gap = abs(
+        home_strength - away_strength
+    )
+    
+    bookmaker_alignment = 0
+
+    if (
+        home_win_prob > away_win_prob
+        and odd_home < odd_away
+    ):
+
+        bookmaker_alignment = 100
+
+    elif (
+        away_win_prob > home_win_prob
+        and odd_away < odd_home
+    ):
+
+        bookmaker_alignment = 100
+
+    else:
+
+        bookmaker_alignment = 50
+
+    form_stability = abs(
+        home_form - away_form
     )
 
     if (
