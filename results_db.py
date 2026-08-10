@@ -28,10 +28,6 @@ def save_prediction(
         odd=odd,
         result="PENDING"
     )
-
-    else:
-
-        data = []
         
     exists = any(
         bet["sport"] == sport
