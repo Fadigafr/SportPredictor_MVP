@@ -340,6 +340,10 @@ def predictions_page():
 
     st.subheader(f"{home_team} vs {away_team}")
 
+    h2h_certainty = abs(
+        home_h2h_score - away_h2h_score
+    )
+
     # =====================================================
     # Cotes Bookmakers API-Football
     # =====================================================
@@ -437,6 +441,33 @@ def predictions_page():
 
     st.write("Force domicile :", round(home_strength, 2))
     st.write("Force extérieur :", round(away_strength, 2))
+
+    force_gap = abs(
+        home_strength - away_strength
+    )
+    bookmaker_alignment = 0
+
+    if (
+        home_win_prob > away_win_prob
+        and odd_home < odd_away
+    ):
+
+        bookmaker_alignment = 100
+
+    elif (
+        away_win_prob > home_win_prob
+        and odd_away < odd_home
+    ):
+
+        bookmaker_alignment = 100
+
+    else:
+
+        bookmaker_alignment = 50
+
+    form_stability = abs(
+        home_form - away_form
+    )
 
     # =====================================================
     # ANALYSE IA PREMIUM
@@ -700,37 +731,61 @@ def predictions_page():
     )
 
     # =====================================================
-    # CONFIANCE IA
+    # CONFIANCE IA DYNAMIQUE V12.5.4
     # =====================================================
 
-    confidence_gap = abs(
-        home_win_prob - away_win_prob
+    force_gap = abs(
+        home_strength - away_strength
     )
 
-    confidence_score = min(
-        95,
-        round(confidence_gap + 50)
+    bookmaker_alignment = 50
+
+    if (
+        home_win_prob > away_win_prob
+        and odd_home < odd_away
+    ):
+
+        bookmaker_alignment = 100
+
+    elif (
+        away_win_prob > home_win_prob
+        and odd_away < odd_home
+    ):
+
+        bookmaker_alignment = 100
+
+    form_stability = abs(
+        home_form - away_form
     )
 
-    confidence = round(
-        abs(
-            home_win_prob -
-            away_win_prob
-        ),
-        1
+    h2h_certainty = abs(
+        home_h2h_score - away_h2h_score
     )
 
-    confidence_score = min(
-        95,
-        confidence + 50
+    confidence_score = round(
+
+        (
+            force_gap * 0.40 +
+            bookmaker_alignment * 0.20 +
+            form_stability * 0.20 +
+            h2h_certainty * 0.20
+        ) / 2
+
     )
 
-    confidence_score = min(
-    95,
-    round(
-        abs(home_strength - away_strength) * 1.5
+    confidence_score = max(
+        5,
+        min(95, confidence_score)
     )
-)  
+
+    if trap_match:
+
+        confidence_score -= 10
+
+        confidence_score = max(
+            5,
+            confidence_score
+        )  
 
     trap_match = False
 
@@ -741,7 +796,15 @@ def predictions_page():
     if confidence_score < 40:
 
         trap_match = True
-   
+
+    if trap_match:
+
+        confidence_score -= 10
+
+    confidence_score = max(
+        5,
+        confidence_score
+    )
     # =====================================================
     # IA INDEX PREMIUM V6.8
     # =====================================================
@@ -998,6 +1061,21 @@ def predictions_page():
             "Classement",
             round(home_rank_score, 1)
         )
+
+    st.metric(
+        "Force Gap",
+        round(force_gap, 1)
+    )
+
+    st.metric(
+        "Form Stability",
+        round(form_stability, 1)
+    )
+
+    st.metric(
+        "H2H Certainty",
+        round(h2h_certainty, 1)
+    )
 
     with col2:
         st.metric("H2H", round(home_h2h_score, 1))
