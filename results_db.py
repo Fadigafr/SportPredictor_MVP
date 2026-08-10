@@ -254,3 +254,27 @@ def get_ai_reliability():
             reliability[group] = 0
 
     return reliability
+
+def get_learning_stats():
+
+    bets = load_predictions()
+
+    stats = {
+        "1": {"win": 0, "loss": 0},
+        "N": {"win": 0, "loss": 0},
+        "2": {"win": 0, "loss": 0}
+    }
+
+    for bet in bets:
+
+        if bet["result"] not in ["WIN", "LOSS"]:
+            continue
+
+        prediction = bet["prediction"]
+
+        if bet["result"] == "WIN":
+            stats[prediction]["win"] += 1
+        else:
+            stats[prediction]["loss"] += 1
+
+    return stats
