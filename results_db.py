@@ -290,7 +290,7 @@ def get_prediction_success_rate(prediction):
     total = wins + losses
 
     if total == 0:
-        return 0
+        return 50
 
     return round(
         wins / total * 100,
