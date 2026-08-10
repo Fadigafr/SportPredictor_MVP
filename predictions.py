@@ -524,52 +524,6 @@ def predictions_page():
         1
     )
 
-    force_gap = abs(
-        home_strength - away_strength
-    )
-    
-    bookmaker_alignment = 0
-
-    if (
-        home_win_prob > away_win_prob
-        and odd_home < odd_away
-    ):
-
-        bookmaker_alignment = 100
-
-    elif (
-        away_win_prob > home_win_prob
-        and odd_away < odd_home
-    ):
-
-        bookmaker_alignment = 100
-
-    else:
-
-        bookmaker_alignment = 50
-
-    form_stability = abs(
-        home_form - away_form
-    )
-
-    if (
-        home_win_prob > away_win_prob
-        and odd_home < odd_away
-    ):
-
-        st.success(
-            "✅ IA et Bookmakers alignés"
-        )
-
-    elif (
-        away_win_prob > home_win_prob
-        and odd_away < odd_home
-    ):
-
-        st.success(
-            "✅ IA et Bookmakers alignés"
-        )
-
     else:
 
         st.warning(
@@ -732,6 +686,20 @@ def predictions_page():
     )
 
     # =====================================================
+    # DETECTION MATCH PIEGE V12.5.3
+    # =====================================================
+
+    trap_match = False
+
+    if abs(home_win_prob - away_win_prob) < 15:
+
+        trap_match = True
+
+    if abs(home_strength - away_strength) < 5:
+
+        trap_match = True
+
+    # =====================================================
     # CONFIANCE IA DYNAMIQUE V12.5.4
     # =====================================================
 
@@ -764,39 +732,13 @@ def predictions_page():
     )
 
     confidence_score = round(
-
         (
             force_gap * 0.40 +
             bookmaker_alignment * 0.20 +
             form_stability * 0.20 +
             h2h_certainty * 0.20
         ) / 2
-
     )
-
-    confidence_score = max(
-        5,
-        min(95, confidence_score)
-    )
-
-    if trap_match:
-
-        confidence_score -= 10
-
-        confidence_score = max(
-            5,
-            confidence_score
-        )  
-
-    trap_match = False
-
-    if abs(home_win_prob - away_win_prob) < 15:
-
-        trap_match = True
-
-    if confidence_score < 40:
-
-        trap_match = True
 
     if trap_match:
 
@@ -804,8 +746,9 @@ def predictions_page():
 
     confidence_score = max(
         5,
-        confidence_score
+        min(95, confidence_score)
     )
+
     # =====================================================
     # IA INDEX PREMIUM V6.8
     # =====================================================
