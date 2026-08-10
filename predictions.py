@@ -46,6 +46,9 @@ from results_db import (
     save_prediction
 )
 from results_db import get_ai_reliability
+from results_db import (
+    get_prediction_success_rate
+)
 
 # =====================================================
 # POISSON
@@ -3830,6 +3833,24 @@ def dashboard_global_page():
             "Paris validés",
             total_validated
         )
+
+    st.markdown("---")
+    st.subheader("🧠 IA Learning Center")
+
+    rate_1 = get_prediction_success_rate("1")
+    rate_N = get_prediction_success_rate("N")
+    rate_2 = get_prediction_success_rate("2")
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.metric("Prono 1", f"{rate_1}%")
+
+    with c2:
+        st.metric("Prono N", f"{rate_N}%")
+
+    with c3:
+        st.metric("Prono 2", f"{rate_2}%")
     
 def get_global_ai_indexes():
 
