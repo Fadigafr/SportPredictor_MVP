@@ -524,7 +524,7 @@ def predictions_page():
         1
     )
 
-     force_gap = abs(
+    force_gap = abs(
         home_strength - away_strength
     )
     
