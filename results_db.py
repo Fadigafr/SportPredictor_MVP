@@ -278,3 +278,21 @@ def get_learning_stats():
             stats[prediction]["loss"] += 1
 
     return stats
+
+def get_prediction_success_rate(prediction):
+
+    stats = get_learning_stats()
+
+    wins = stats[prediction]["win"]
+
+    losses = stats[prediction]["loss"]
+
+    total = wins + losses
+
+    if total == 0:
+        return 0
+
+    return round(
+        wins / total * 100,
+        1
+    )
