@@ -3844,6 +3844,11 @@ def dashboard_global_page():
     st.markdown("---")
     st.subheader("📊 Statistiques Globales")
 
+    history = load_predictions()
+
+    st.write("DEBUG HISTORY")
+    st.write(history)
+
     total_predictions = len(history)
 
     if total_predictions > 0:
@@ -3911,6 +3916,8 @@ def dashboard_global_page():
 
     st.markdown("---")
     st.subheader("🏆 Fiabilité Historique IA")
+
+    
 
     reliability = get_ai_reliability()
 
