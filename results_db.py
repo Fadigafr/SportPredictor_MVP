@@ -193,14 +193,6 @@ def validate_football_results():
             print("Validation error:", e)
 
     if updated:
-
-        with open(DB_FILE, "w") as f:
-
-            json.dump(
-                bets,
-                f,
-                indent=4
-            )
     
 def get_ai_reliability():
 
