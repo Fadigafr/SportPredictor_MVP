@@ -873,6 +873,29 @@ def predictions_page():
 
         pari_final = "N"
 
+    historical_success_rate = (
+        get_prediction_success_rate(
+            pari_final
+        )
+    )
+
+    if historical_success_rate >= 70:
+
+        confidence_score += 10
+
+    elif historical_success_rate >= 60:
+
+        confidence_score += 5
+
+    elif historical_success_rate <= 40:
+
+        confidence_score -= 10
+
+    confidence_score = max(
+        5,
+        min(95, confidence_score)
+    )
+    
     if best_value == value_home:
 
         value_bet = "1"
@@ -999,6 +1022,34 @@ def predictions_page():
 
     st.success(
         f"✅ Pari Final IA : {pari_final}"
+    )
+
+    st.markdown("---")
+    st.subheader("🧠 Auto-Apprentissage IA")
+
+    st.metric(
+        "Réussite historique",
+        f"{historical_success_rate}%"
+    )
+
+    if historical_success_rate >= 70:
+
+        learning_level = "🔥 Expert"
+
+    elif historical_success_rate >= 60:
+
+        learning_level = "⭐ Performant"
+
+    elif historical_success_rate >= 50:
+
+        learning_level = "✅ Stable"
+
+    else:
+
+        learning_level = "⚠️ En apprentissage"
+
+    st.info(
+        f"IA Learning : {learning_level}"
     )
 
     st.markdown("---")
