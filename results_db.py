@@ -2,24 +2,31 @@ import json
 import os
 from datetime import datetime
 from api_football import api_get
+from database import (
+    save_prediction_db,
+    load_predictions_db
+)
 
 DB_FILE = "predictions_history.json"
 
 def save_prediction(
-    sport,
-    match,
-    prediction,
-    ai_index,
-    odd=1.80,
-    fixture_id=None
-):
+    save_prediction_db(
+        date=datetime.now().strftime("%Y-%m-%d"),
+        sport=sport,
+        match=match,
+        fixture_id=fixture_id,
+        prediction=prediction,
+        ai_index=ai_index,
+        odd=odd,
+        result="PENDING"
+    )
 
     print("SAVE PREDICTION EXECUTED")
     
     if os.path.exists(DB_FILE):
 
-        with open(DB_FILE, "r") as f:
-            data = json.load(f)
+        with open(DB_FILE, "w") as f:
+            json.dump(data, f, indent=4)
 
     else:
 
@@ -53,11 +60,7 @@ def save_prediction(
 
 def load_predictions():
 
-    if not os.path.exists(DB_FILE):
-        return []
-
-    with open(DB_FILE, "r") as f:
-        return json.load(f)
+    return load_predictions_db()
 
 def calculate_real_stats():
 
