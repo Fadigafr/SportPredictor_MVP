@@ -35,5 +35,93 @@ def init_db():
     )
     """)
 
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS predictions_history(
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        date TEXT,
+
+        sport TEXT,
+
+        match TEXT,
+
+        fixture_id INTEGER,
+
+        prediction TEXT,
+
+        ai_index REAL,
+
+        odd REAL,
+
+        result TEXT
+    )
+    """)
+
     conn.commit()
     conn.close()
+
+def save_prediction_db(
+    date,
+    sport,
+    match,
+    fixture_id,
+    prediction,
+    ai_index,
+    odd,
+    result="PENDING"
+):
+
+    conn = get_conn()
+
+    c = conn.cursor()
+
+    c.execute("""
+        INSERT INTO predictions_history
+        (
+            date,
+            sport,
+            match,
+            fixture_id,
+            prediction,
+            ai_index,
+            odd,
+            result
+        )
+
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """,
+    (
+        date,
+        sport,
+        match,
+        fixture_id,
+        prediction,
+        ai_index,
+        odd,
+        result
+    ))
+
+    conn.commit()
+    conn.close()
+
+def load_predictions_db():
+
+    conn = get_conn()
+
+    conn.row_factory = sqlite3.Row
+
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT *
+        FROM predictions_history
+        ORDER BY id DESC
+    """)
+
+    rows = c.fetchall()
+
+    conn.close()
+
+    return [dict(row) for row in rows]
+    
