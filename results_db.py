@@ -28,28 +28,6 @@ def save_prediction(
         odd=odd,
         result="PENDING"
     )
-        
-    exists = any(
-        bet["sport"] == sport
-        and bet["match"] == match
-        and bet["prediction"] == prediction
-        and bet["result"] == "PENDING"
-        for bet in data
-    )
-
-    if exists:
-        return
-
-    data.append({
-        "date": datetime.now().strftime("%Y-%m-%d"),
-        "sport": sport,
-        "match": match,
-        "fixture_id": fixture_id,
-        "prediction": prediction,
-        "ai_index": ai_index,
-        "odd": odd,
-        "result": "PENDING"
-    })
 
 def load_predictions():
 
