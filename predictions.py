@@ -2428,6 +2428,9 @@ def hockey_page():
 
     for game in games[:20]:
 
+        if not game:
+            continue
+
         home = game["teams"]["home"]["name"]
         away = game["teams"]["away"]["name"]
 
@@ -2435,7 +2438,7 @@ def hockey_page():
             f"🏒 {home} vs {away}"
         )
         
-    games = get_games_today()
+    games = get_games_today() or []
 
     hockey_matches = []
 
@@ -2450,8 +2453,6 @@ def hockey_page():
             "away": away,
             "game": game
         })
-
-    league_name = game["league"]["name"]
     
     if not hockey_matches:
 
