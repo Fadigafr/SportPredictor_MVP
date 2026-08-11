@@ -139,45 +139,48 @@ def validate_football_results():
 
             prediction = bet.get("prediction")
 
-            if prediction == "1" and home_winner:
+        if prediction == "1" and home_winner:
 
-                update_prediction_result(
-                    bet["id"],
-                    "WIN"
-                )
+            update_prediction_result(
+                bet["id"],
+                "WIN"
+            )
 
-            elif prediction == "2" and away_winner:
+        elif prediction == "2" and away_winner:
 
-                update_prediction_result(
-                    bet["id"],
-                    "WIN"
-                )
+            update_prediction_result(
+                bet["id"],
+                "WIN"
+            )
 
-            elif prediction == "N":
+        elif prediction == "N":
 
-                goals_home = match_data["goals"]["home"]
-                goals_away = match_data["goals"]["away"]
+            goals_home = match_data["goals"]["home"]
+            goals_away = match_data["goals"]["away"]
 
-            if goals_home == goals_away:
+    if goals_home == goals_away:
 
-                update_prediction_result(
-                    bet["id"],
-                    "WIN"
-                    )
+        update_prediction_result(
+            bet["id"],
+            "WIN"
+        )
 
-            else:
+    else:
 
-                update_prediction_result(
-                    bet["id"],
-                    "LOSS"
-                )
+        update_prediction_result(
+            bet["id"],
+            "LOSS"
+        )
 
-            else:
+    else:
 
-                update_prediction_result(
-                    bet["id"],
-                    "LOSS"
-                )
+        update_prediction_result(
+            bet["id"],
+            "LOSS"
+        )
+
+    updated = True
+
     print(
         f"Fixture {fixture_id} | Status = {status}"
     )
