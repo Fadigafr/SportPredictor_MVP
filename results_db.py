@@ -172,12 +172,12 @@ def validate_football_results():
                     "LOSS"
                 )
 
-            else:
+        else:
 
-                update_prediction_result(
-                    bet["id"],
-                    "LOSS"
-                )
+            update_prediction_result(
+                bet["id"],
+                "LOSS"
+            )
 
     updated = True
 
