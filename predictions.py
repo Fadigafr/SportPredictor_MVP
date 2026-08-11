@@ -2607,6 +2607,15 @@ def hockey_page():
                 "✅ Match exploitable"
             )
 
+        value_bet = round(
+            confidence_score - 70,
+            1
+        )
+        st.metric(
+            "💰 Value Bet Hockey",
+            f"{value_bet}%"
+        )
+
         if confidence_score >= 90:
 
             badge = "💎 ELITE"
