@@ -2744,9 +2744,12 @@ def hockey_page():
             )
         )
 
+        fixture_id = game_data["fixture"]["id"]
+        
         save_prediction(
             sport="Hockey",
             match=f"{home_team} vs {away_team}",
+            fixture_id=fixture_id,
             prediction=prediction_type,
             ai_index=confidence_score,
             odd=1.85
