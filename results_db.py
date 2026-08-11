@@ -181,6 +181,10 @@ def validate_football_results():
 
     updated = True
 
+    except Exception as e:
+
+    print("Validation error:", e)
+
     print(
         f"Fixture {fixture_id} | Status = {status}"
     )
