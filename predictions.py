@@ -816,6 +816,24 @@ def predictions_page():
         )
     )
 
+    learning_bonus = 0
+
+    if historical_success_rate >= 75:
+
+        learning_bonus = 15
+
+    elif historical_success_rate >= 65:
+    
+        learning_bonus = 10
+
+    elif historical_success_rate >= 55:
+
+        learning_bonus = 5
+
+    elif historical_success_rate <= 40:
+
+        learning_bonus = -10
+        
     if historical_success_rate >= 70:
 
         confidence_score += 10
@@ -827,6 +845,8 @@ def predictions_page():
     elif historical_success_rate <= 40:
 
         confidence_score -= 10
+
+    confidence_score += learning_bonus
 
     confidence_score = max(
         5,
@@ -967,6 +987,11 @@ def predictions_page():
     st.metric(
         "Réussite historique",
         f"{historical_success_rate}%"
+    )
+
+    st.metric(
+        "Bonus IA",
+        learning_bonus
     )
 
     if historical_success_rate >= 70:
