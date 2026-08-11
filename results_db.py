@@ -4,7 +4,8 @@ from datetime import datetime
 from api_football import api_get
 from database import (
     save_prediction_db,
-    load_predictions_db
+    load_predictions_db,
+    update_prediction_result
 )
 
 DB_FILE = "predictions_history.json"
