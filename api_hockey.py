@@ -42,3 +42,24 @@ def get_hockey_fixtures():
     except Exception:
 
         return []
+
+def get_hockey_fixture_by_id(
+    fixture_id
+):
+
+    data = api_get_hockey(
+        f"/games?id={fixture_id}"
+    )
+
+    if not data:
+        return None
+
+    response = data.get(
+        "response",
+        []
+    )
+
+    if not response:
+        return None
+
+    return response[0]
