@@ -155,8 +155,8 @@ def validate_football_results():
 
             elif prediction == "N":
 
-            goals_home = match_data["goals"]["home"]
-            goals_away = match_data["goals"]["away"]
+                goals_home = match_data["goals"]["home"]
+                goals_away = match_data["goals"]["away"]
 
             if goals_home == goals_away:
 
