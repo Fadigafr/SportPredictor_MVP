@@ -141,32 +141,44 @@ def validate_football_results():
 
             if prediction == "1" and home_winner:
 
-                bet["result"] = "WIN"
+                update_prediction_result(
+                    bet["id"],
+                    "WIN"
+                )
 
             elif prediction == "2" and away_winner:
 
-                bet["result"] = "WIN"
+                update_prediction_result(
+                    bet["id"],
+                    "WIN"
+                )
 
             elif prediction == "N":
 
                 goals_home = match_data["goals"]["home"]
                 goals_away = match_data["goals"]["away"]
 
-                if goals_home == goals_away:
-                    bet["result"] = "WIN"
-                else:
-                    bet["result"] = "LOSS"
+            if goals_home == goals_away:
+
+                update_prediction_result(
+                    bet["id"],
+                    "WIN"
+                    )
 
             else:
 
-                bet["result"] = "LOSS"
+                update_prediction_result(
+                    bet["id"],
+                    "LOSS"
+                )
 
-            updated = True
+            else:
 
-        except Exception as e:
+                update_prediction_result(
+                    bet["id"],
+                    "LOSS"
+                )
 
-            print("Validation error:", e)
-    
 def get_ai_reliability():
 
     bets = load_predictions()
