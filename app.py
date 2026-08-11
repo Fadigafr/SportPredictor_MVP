@@ -15,11 +15,18 @@ from api_football import api_get
 from database import init_db
 from api_basketball import get_games_today
 from predictions import dashboard_global_page
+from results_db import (
+    validate_football_results,
+    validate_hockey_results
+)
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
 
 init_db()
+
+validate_football_results()
+validate_hockey_results()
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
