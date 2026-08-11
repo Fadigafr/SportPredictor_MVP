@@ -178,7 +178,10 @@ def validate_football_results():
                     bet["id"],
                     "LOSS"
                 )
-
+    print(
+        f"Fixture {fixture_id} | Status = {status}"
+    )
+    
 def get_ai_reliability():
 
     bets = load_predictions()
