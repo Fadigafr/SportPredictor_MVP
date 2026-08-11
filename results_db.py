@@ -181,9 +181,16 @@ def validate_football_results():
 
             updated = True
 
-            print(
-                f"Fixture {fixture_id} | Status = {status}"
-            )
+                print(
+                    f"Fixture {fixture_id} | Status = {status}"
+                )
+
+            except Exception as e:
+
+                print(
+                    "Validation error:",
+                    e
+                )
     
 def get_ai_reliability():
 
