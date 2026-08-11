@@ -2548,6 +2548,23 @@ def hockey_page():
             80
         )
 
+        trap_match = False
+
+        if abs(
+            home_strength -
+            away_strength
+        ) < 3:
+
+            trap_match = True
+
+        if trap_match:
+
+            st.warning(
+                "⚠️ Match Piège Hockey"
+            )
+
+            confidence_score -= 5
+
         predicted_home = game_data["scores"]["home"]
         predicted_away = game_data["scores"]["away"]
 
@@ -2590,6 +2607,36 @@ def hockey_page():
             confidence_score
         )
 
+        historical_success_rate = 50
+        learning_bonus = 0
+
+        try:
+
+            historical_success_rate = (
+                get_prediction_success_rate(
+                    prediction_type
+                )
+            )
+
+        except:
+
+            pass
+
+        if historical_success_rate >= 70:
+
+            learning_bonus = 10
+
+        elif historical_success_rate <= 40:
+
+            learning_bonus = -10
+
+        confidence_score += learning_bonus
+
+        confidence_score = max(
+            20,
+            min(95, confidence_score)
+        )
+        
         st.metric(
             "⚠️ Risque",
             risk_level
@@ -2670,16 +2717,22 @@ def hockey_page():
             f"🏆 Vainqueur IA : {winner}"
         )
 
-        prediction = (
+        winner = (
+            home_team
+            if predicted_home > predicted_away
+            else away_team
+        )
+
+        prediction_type = (
             "HOME"
             if predicted_home > predicted_away
             else "AWAY"
-        )
+        ))
 
         save_prediction(
             sport="Hockey",
             match=f"{home_team} vs {away_team}",
-            prediction=prediction,
+            prediction=prediction_type,
             ai_index=confidence_score,
             odd=1.85
         )
