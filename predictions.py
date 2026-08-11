@@ -2724,6 +2724,26 @@ def hockey_page():
             f"🏆 Vainqueur IA : {winner}"
         )
 
+        st.subheader("🏒 Analyse Hockey Premium")
+
+        st.metric(
+            "Force Domicile",
+            home_strength
+        )
+
+        st.metric(
+            "Force Extérieur",
+            away_strength
+        )
+
+        st.metric(
+            "Écart de Force",
+            abs(
+                home_strength -
+                away_strength
+            )
+        )
+
         save_prediction(
             sport="Hockey",
             match=f"{home_team} vs {away_team}",
