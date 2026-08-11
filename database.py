@@ -125,3 +125,23 @@ def load_predictions_db():
 
     return [dict(row) for row in rows]
     
+def update_prediction_result(
+    prediction_id,
+    result
+):
+
+    conn = get_conn()
+
+    c = conn.cursor()
+
+    c.execute(
+        """
+        UPDATE predictions_history
+        SET result = ?
+        WHERE id = ?
+        """,
+        (result, prediction_id)
+    )
+
+    conn.commit()
+    conn.close()
