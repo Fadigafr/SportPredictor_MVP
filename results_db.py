@@ -158,12 +158,19 @@ def validate_football_results():
                 goals_home = match_data["goals"]["home"]
                 goals_away = match_data["goals"]["away"]
 
-            if goals_home == goals_away:
+                if goals_home == goals_away:
 
-                update_prediction_result(
-                    bet["id"],
-                    "WIN"
-                )
+                    update_prediction_result(
+                        bet["id"],
+                        "WIN"
+                    )
+
+                else:
+
+                    update_prediction_result(
+                        bet["id"],
+                        "LOSS"
+                    )
 
             else:
 
@@ -172,22 +179,11 @@ def validate_football_results():
                     "LOSS"
                 )
 
-        else:
+            updated = True
 
-            update_prediction_result(
-                bet["id"],
-                "LOSS"
+            print(
+                f"Fixture {fixture_id} | Status = {status}"
             )
-
-    updated = True
-
-    except Exception as e:
-
-    print("Validation error:", e)
-
-    print(
-        f"Fixture {fixture_id} | Status = {status}"
-    )
     
 def get_ai_reliability():
 
