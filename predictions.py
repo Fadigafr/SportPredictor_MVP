@@ -2727,7 +2727,7 @@ def hockey_page():
             "HOME"
             if predicted_home > predicted_away
             else "AWAY"
-        ))
+        )
 
         save_prediction(
             sport="Hockey",
