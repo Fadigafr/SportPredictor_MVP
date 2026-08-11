@@ -2409,13 +2409,9 @@ def hockey_page():
         key="hockey_competition"
     )
 
-    league_name = game["league"]["name"]
-        
     # =========================
     # Récupération API Hockey
     # =========================
-
-    st.title("🏒 Hockey IA Premium")
 
     st.subheader("🏒 Calendrier Hockey")
 
@@ -2455,6 +2451,8 @@ def hockey_page():
             "game": game
         })
 
+    league_name = game["league"]["name"]
+    
     if not hockey_matches:
 
         st.warning(
