@@ -2568,6 +2568,18 @@ def hockey_page():
         predicted_home = game_data["scores"]["home"]
         predicted_away = game_data["scores"]["away"]
 
+        winner = (
+            home_team
+            if predicted_home > predicted_away
+            else away_team
+        )
+
+        prediction_type = (
+            "HOME"
+            if predicted_home > predicted_away
+            else "AWAY"
+        )
+
         total_goals = (
             predicted_home +
             predicted_away
@@ -2607,6 +2619,30 @@ def hockey_page():
             confidence_score
         )
 
+        if confidence_score >= 90:
+
+            badge = "💎 ELITE"
+            rating = "A+"
+            risk_level = "🟢 FAIBLE"
+
+        elif confidence_score >= 80:
+
+            badge = "🥇 PREMIUM"
+            rating = "A"
+            risk_level = "🟡 MOYEN"
+
+        elif confidence_score >= 70:
+
+            badge = "🥈 SOLIDE"
+            rating = "B+"
+            risk_level = "🟠 MODÉRÉ"
+
+        else:
+
+            badge = "🥉 RISQUÉ"
+            rating = "B"
+            risk_level = "🔴 ÉLEVÉ"
+            
         historical_success_rate = 50
         learning_bonus = 0
 
@@ -2636,11 +2672,6 @@ def hockey_page():
             20,
             min(95, confidence_score)
         )
-        
-        st.metric(
-            "⚠️ Risque",
-            risk_level
-        )
 
         if trap_match:
 
@@ -2662,30 +2693,6 @@ def hockey_page():
             "💰 Value Bet Hockey",
             f"{value_bet}%"
         )
-
-        if confidence_score >= 90:
-
-            badge = "💎 ELITE"
-            rating = "A+"
-            risk_level = "🟢 FAIBLE"
-
-        elif confidence_score >= 80:
-
-            badge = "🥇 PREMIUM"
-            rating = "A"
-            risk_level = "🟡 MOYEN"
-
-        elif confidence_score >= 70:
-
-            badge = "🥈 SOLIDE"
-            rating = "B+"
-            risk_level = "🔴 ÉLEVÉ"
-
-        else:
-
-            badge = "🥉 RISQUÉ"
-            rating = "B"
-            risk_level = "🔴 ÉLEVÉ"
 
         winner = (
             home_team
@@ -2715,18 +2722,6 @@ def hockey_page():
 
         st.success(
             f"🏆 Vainqueur IA : {winner}"
-        )
-
-        winner = (
-            home_team
-            if predicted_home > predicted_away
-            else away_team
-        )
-
-        prediction_type = (
-            "HOME"
-            if predicted_home > predicted_away
-            else "AWAY"
         )
 
         save_prediction(
