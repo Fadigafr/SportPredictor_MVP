@@ -286,3 +286,73 @@ def get_prediction_success_rate(prediction):
         wins / total * 100,
         1
     )
+
+def validate_hockey_results():
+
+    bets = load_predictions()
+
+    for bet in bets:
+
+        if bet.get("sport") != "Hockey":
+            continue
+
+        if bet.get("result") != "PENDING":
+            continue
+
+        fixture_id = bet.get("fixture_id")
+
+        if not fixture_id:
+            continue
+
+        try:
+
+            game_data = get_hockey_fixture_by_id(
+                fixture_id
+            )
+
+            if not game_data:
+                continue
+
+            status = game_data["status"]["short"]
+
+            if status not in ["FT", "AOT", "POST"]:
+                continue
+
+            home_score = game_data["scores"]["home"]
+            away_score = game_data["scores"]["away"]
+
+            prediction = bet["prediction"]
+
+            if (
+                prediction == "HOME"
+                and home_score > away_score
+            ):
+
+                update_prediction_result(
+                    bet["id"],
+                    "WIN"
+                )
+
+            elif (
+                prediction == "AWAY"
+                and away_score > home_score
+            ):
+
+                update_prediction_result(
+                    bet["id"],
+                    "WIN"
+                )
+
+            else:
+
+                update_prediction_result(
+                    bet["id"],
+                    "LOSS"
+                )
+
+        except Exception as e:
+
+            print(
+                "Hockey validation error:",
+                e
+            )
