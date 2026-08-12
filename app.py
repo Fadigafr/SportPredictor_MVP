@@ -25,11 +25,6 @@ from predictions import hockey_calendar_page
 
 init_db()
 
-st.write(
-    "DB PATH :",
-    os.path.abspath("users.db")
-)
-
 validate_football_results()
 validate_hockey_results()
 
