@@ -2,6 +2,9 @@ import json
 import os
 from datetime import datetime
 from api_football import api_get
+from api_hockey import (
+    get_hockey_fixture_by_id
+)
 from database import (
     save_prediction_db,
     load_predictions_db,
