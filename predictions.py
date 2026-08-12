@@ -2548,23 +2548,6 @@ def hockey_page():
             80
         )
 
-        trap_match = False
-
-        if abs(
-            home_strength -
-            away_strength
-        ) < 3:
-
-            trap_match = True
-
-        if trap_match:
-
-            st.warning(
-                "⚠️ Match Piège Hockey"
-            )
-
-            confidence_score -= 5
-
         predicted_home = game_data["scores"]["home"]
         predicted_away = game_data["scores"]["away"]
 
@@ -2694,12 +2677,6 @@ def hockey_page():
             f"{value_bet}%"
         )
 
-        winner = (
-            home_team
-            if predicted_home > predicted_away
-            else away_team
-        )
-
         st.metric(
             "🧠 IA INDEX",
             f"{confidence_score}/100"
@@ -2744,6 +2721,7 @@ def hockey_page():
             )
         )
 
+        st.write(game_data)
         fixture_id = game_data["fixture"]["id"]
 
         print(game_data)
@@ -2760,37 +2738,6 @@ def hockey_page():
         confidence_score = max(
             20,
             confidence_score
-        )
-
-        historical_success_rate = 50
-
-        try:
-
-            historical_success_rate = (
-                get_prediction_success_rate(
-                    prediction
-                )
-            )
-
-        except:
-
-            pass
-
-        learning_bonus = 0
-
-        if historical_success_rate >= 70:
-
-            learning_bonus = 10
-
-        elif historical_success_rate <= 40:
-
-            learning_bonus = -10
-
-        confidence_score += learning_bonus
-
-        confidence_score = max(
-            20,
-            min(95, confidence_score)
         )
 
         col1, col2 = st.columns(2)
