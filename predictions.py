@@ -2899,9 +2899,6 @@ def dashboard_global_page():
         "📊 Dashboard IA Global"
     )
 
-    st.write(
-        load_predictions_db()[:5]
-    )
     st.markdown("---")
 
     top_predictions = get_top_predictions()
@@ -3852,12 +3849,6 @@ def dashboard_global_page():
 
     history = load_predictions()
 
-    st.write(history)
-
-    st.write(
-        f"Nombre d'enregistrements : {len(history)}"
-    )
-
     for bet in history[::-1]:
 
         text = (
@@ -3957,9 +3948,6 @@ def dashboard_global_page():
     st.subheader("📊 Statistiques Globales")
 
     history = load_predictions()
-
-    st.write("DEBUG HISTORY")
-    st.write(history)
 
     total_predictions = len(history)
 
