@@ -330,16 +330,17 @@ def validate_hockey_results():
             status = game_data["status"]["short"]
 
             print(
-                f"HOCKEY | Fixture={fixture_id} | Status={status}"
+                f"HOCKEY STATUS : {status}"
             )
-
             print(game_data["status"])
 
-            print(
-                f"Status Hockey = {status}"
-            )
-
-            if status in ["NS", "1P", "2P", "3P", "LIVE"]:
+            if status in [
+                "NS",
+                "1P",
+                "2P",
+                "3P",
+                "LIVE"
+            ]:
                 continue
 
             home_score = game_data["scores"]["home"]
