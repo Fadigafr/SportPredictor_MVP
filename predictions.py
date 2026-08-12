@@ -49,6 +49,10 @@ from results_db import get_ai_reliability
 from results_db import (
     get_prediction_success_rate
 )
+from database import (
+    load_predictions_db,
+    count_predictions
+)
 
 # =====================================================
 # POISSON
