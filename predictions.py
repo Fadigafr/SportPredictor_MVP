@@ -4134,6 +4134,17 @@ def dashboard_global_page():
         "Total SQLite :",
         count_predictions()
     )
+import os
+
+        st.write(
+            "DB PATH :",
+            os.path.abspath("users.db")
+        )
+from database import load_predictions_db
+
+        st.write(
+            load_predictions_db()[:3]
+        )
     
 def get_global_ai_indexes():
 
