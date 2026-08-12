@@ -332,7 +332,11 @@ def validate_hockey_results():
 
             print(game_data["status"])
 
-            if status not in ["FT", "AOT", "POST"]:
+            print(
+                f"Status Hockey = {status}"
+            )
+
+            if status in ["NS", "1P", "2P", "3P", "LIVE"]:
                 continue
 
             home_score = game_data["scores"]["home"]
