@@ -141,13 +141,6 @@ def validate_football_results():
             ]:
                 continue
 
-            print(
-                f"Fixture={fixture_id}"
-            )
-            print(
-                data.get("response")
-            )
-
             home_winner = match_data["teams"]["home"]["winner"]
             away_winner = match_data["teams"]["away"]["winner"]
 
@@ -194,10 +187,6 @@ def validate_football_results():
                 )
 
             updated = True
-
-            print(
-                f"Fixture {fixture_id} | Status = {status}"
-            )
 
         except Exception as e:
 
@@ -331,11 +320,6 @@ def validate_hockey_results():
                 continue
 
             status = game_data["status"]["short"]
-
-            print(
-                f"HOCKEY STATUS : {status}"
-            )
-            print(game_data["status"])
 
             if status not in ["FT", "AOT", "POST"]:
                 continue
