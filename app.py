@@ -28,6 +28,11 @@ init_db()
 validate_football_results()
 validate_hockey_results()
 
+st.write(
+    "DB PATH :",
+    os.path.abspath("users.db")
+)
+
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
     page_icon="🏆",
