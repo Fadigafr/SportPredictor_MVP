@@ -326,6 +326,12 @@ def validate_hockey_results():
 
             status = game_data["status"]["short"]
 
+            print(
+                f"HOCKEY | Fixture={fixture_id} | Status={status}"
+            )
+
+            print(game_data["status"])
+
             if status not in ["FT", "AOT", "POST"]:
                 continue
 
