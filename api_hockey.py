@@ -10,6 +10,18 @@ HEADERS = {
 
 BASE_URL = "https://v1.hockey.api-sports.io"
 
+def api_get_hockey(endpoint):
+
+    url = f"{BASE_URL}{endpoint}"
+
+    response = requests.get(
+        url,
+        headers=HEADERS,
+        timeout=30
+    )
+
+    return response.json()
+
 def get_hockey_games():
 
     today = datetime.now().strftime("%Y-%m-%d")
