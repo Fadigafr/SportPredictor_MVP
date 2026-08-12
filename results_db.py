@@ -266,7 +266,10 @@ def get_learning_stats():
     stats = {
         "1": {"win": 0, "loss": 0},
         "N": {"win": 0, "loss": 0},
-        "2": {"win": 0, "loss": 0}
+        "2": {"win": 0, "loss": 0},
+
+        "HOME": {"win": 0, "loss": 0},
+        "AWAY": {"win": 0, "loss": 0}
     }
 
     for bet in bets:
