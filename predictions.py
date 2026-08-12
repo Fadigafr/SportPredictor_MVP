@@ -2896,6 +2896,9 @@ def dashboard_global_page():
         "📊 Dashboard IA Global"
     )
 
+    st.write(
+        load_predictions_db()[:5]
+    )
     st.markdown("---")
 
     top_predictions = get_top_predictions()
