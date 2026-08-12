@@ -4122,6 +4122,11 @@ def dashboard_global_page():
 
     with c3:
         st.metric("Prono 2", f"{rate_2}%")
+
+    st.write(
+        "Total SQLite :",
+        count_predictions()
+    )
     
 def get_global_ai_indexes():
 
