@@ -4136,7 +4136,7 @@ def dashboard_global_page():
         count_predictions()
     )
 
-import os
+    import os
 
     st.write(
         "DB PATH :",
