@@ -2738,8 +2738,6 @@ def hockey_page():
                 away_strength
             )
         )
-
-        st.write(game_data)
         
         fixture_id = game_data["id"]
         
@@ -4134,17 +4132,6 @@ def dashboard_global_page():
     st.write(
         "Total SQLite :",
         count_predictions()
-    )
-
-    import os
-
-    st.write(
-        "DB PATH :",
-        os.path.abspath("users.db")
-    )
-
-    st.write(
-        load_predictions_db()[:3]
     )
     
 def get_global_ai_indexes():
