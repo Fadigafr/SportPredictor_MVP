@@ -2722,9 +2722,8 @@ def hockey_page():
         )
 
         st.write(game_data)
+        
         fixture_id = game_data["fixture"]["id"]
-
-        print(game_data)
         
         save_prediction(
             sport="Hockey",
