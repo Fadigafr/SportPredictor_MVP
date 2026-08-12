@@ -4136,6 +4136,8 @@ def dashboard_global_page():
         count_predictions()
     )
 
+import os
+
     st.write(
         "DB PATH :",
         os.path.abspath("users.db")
