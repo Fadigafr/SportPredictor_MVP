@@ -2551,6 +2551,19 @@ def hockey_page():
         predicted_home = game_data["scores"]["home"]
         predicted_away = game_data["scores"]["away"]
 
+        if predicted_home is None:
+            predicted_home = 0
+
+        if predicted_away is None:
+            predicted_away = 0
+
+        match_status = game_data["status"]["long"]
+
+        if match_status == "Not Started":
+
+            predicted_home = 0
+            predicted_away = 0
+
         winner = (
             home_team
             if predicted_home > predicted_away
