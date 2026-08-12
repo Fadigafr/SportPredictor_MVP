@@ -25,13 +25,13 @@ from predictions import hockey_calendar_page
 
 init_db()
 
-validate_football_results()
-validate_hockey_results()
-
 st.write(
     "DB PATH :",
     os.path.abspath("users.db")
 )
+
+validate_football_results()
+validate_hockey_results()
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
