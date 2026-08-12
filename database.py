@@ -145,3 +145,18 @@ def update_prediction_result(
 
     conn.commit()
     conn.close()
+
+def count_predictions():
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT COUNT(*) FROM predictions_history"
+    )
+
+    total = c.fetchone()[0]
+
+    conn.close()
+
+    return total
