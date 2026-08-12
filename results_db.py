@@ -131,8 +131,19 @@ def validate_football_results():
 
             status = match_data["fixture"]["status"]["short"]
 
-            if status != "FT":
+            if status not in [
+                "FT",
+                "AET",
+                "PEN"
+            ]:
                 continue
+
+            print(
+                f"Fixture={fixture_id}"
+            )
+            print(
+                data.get("response")
+            )
 
             home_winner = match_data["teams"]["home"]["winner"]
             away_winner = match_data["teams"]["away"]["winner"]
