@@ -1,4 +1,4 @@
-from api_basketball import get_games_today
+from api_basketball import get_basketball_games_today
 from api_hockey import get_hockey_fixtures
 from api_tennis import get_all_fixtures
 import json
