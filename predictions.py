@@ -1623,15 +1623,77 @@ def basketball_calendar_page():
     st.info(
         f"🏀 Nombre de matchs : {len(games)}"
     )
-    st.write(games[:2])
-
+    
     for game in games:
 
-        st.write(
-            game["teams"]["home"]["name"],
-            "vs",
-            game["teams"]["away"]["name"]
-        )
+        try:
+
+            league_name = game["league"]["name"]
+
+            if (
+                competition != "Toutes"
+                and league_name != competition
+            ):
+                continue
+
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            game_id = game["id"]
+
+            date_match = game["date"][:16]
+
+            status = game["status"]["short"]
+
+            if status in [
+                "Q1",
+                "Q2",
+                "Q3",
+                "Q4"
+            ]:
+
+                badge = "🟢 LIVE"
+
+            elif status in [
+                "FT",
+                "AOT"
+            ]:
+
+                badge = "⚪ TERMINÉ"
+
+            else:
+
+                badge = "🔵 PROGRAMMÉ"
+
+            with st.container():
+
+                st.markdown(
+                    f"""
+    ### 🏀 {home} vs {away}
+
+    🏆 {league_name}
+
+    📅 {date_match}
+
+    {badge}
+    """
+                )
+
+                if st.button(
+                    "🔍 Analyser",
+                    key=f"basket_{game_id}"
+                ):
+
+                    st.session_state[
+                        "selected_basket_match"
+                    ] = game
+
+                    st.success(
+                        f"{home} vs {away} sélectionné"
+                )
+
+        except Exception:
+            pass
         
     # ==================================
     # Affichage des matchs
