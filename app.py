@@ -17,7 +17,8 @@ from api_basketball import get_games_today
 from predictions import dashboard_global_page
 from results_db import (
     validate_football_results,
-    validate_hockey_results
+    validate_hockey_results,
+    validate_basketball_results
 )
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
