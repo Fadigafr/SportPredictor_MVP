@@ -2831,10 +2831,14 @@ def hockey_page():
             predicted_home = 0
             predicted_away = 0
 
-        winner = (
-            home_team
-            if predicted_home > predicted_away
-            else away_team
+        predicted_home = max(
+            1,
+            round(home_strength / 22)
+        )
+
+        predicted_away = max(
+            1,
+            round(away_strength / 24)
         )
 
         prediction_type = (
@@ -2952,6 +2956,12 @@ def hockey_page():
             confidence_score - 70,
             1
         )
+
+        st.metric(
+            "🥅 Total Buts Prévu",
+            total_goals
+        )
+        
         st.metric(
             "💰 Value Bet Hockey",
             f"{value_bet}%"
@@ -3102,17 +3112,90 @@ def hockey_page():
             
         st.subheader("🥅 Buteurs Probables")
 
+        hockey_scorers = {
+            "Karpat": [...],
+            "KalPa": [...],
+            "Boston Bruins": [...],
+            "New York Rangers": [...]
+        }
+
+        for scorer in hockey_scorers.get(
+            winner,
+            []
+        ):
+            st.write(
+                f"✅ {scorer}"
+            )
+
         st.write("1️⃣ Chris Kreider")
         st.write("2️⃣ Artemi Panarin")
         st.write("3️⃣ Mika Zibanejad")
 
-        if total_goals > 5:
+        if total_goals >= 6:
 
-            best_bet = "Over 5.5 Buts"
+            over_under = "✅ Over 5.5"
+
+        elif total_goals >= 5:
+
+            over_under = "✅ Over 4.5"
+
+        else:
+
+            over_under = "⚠️ Under 5.5"
+
+        st.metric(
+            "🔥 Over / Under",
+            over_under
+        )
 
         else:
 
             best_bet = "Victoire du Favori"
+
+        if (
+            predicted_home > 0
+            and predicted_away > 0
+        ):
+
+            btts = "✅ OUI"
+
+        else:
+
+            btts = "❌ NON"
+
+        st.metric(
+            "🥅 Les Deux Équipes Marquent",
+            btts
+        )
+
+        period_1 = round(
+            total_goals * 0.25
+        )
+
+        period_2 = round(
+            total_goals * 0.40
+        )
+
+        period_3 = (
+            total_goals -
+            period_1 -
+            period_2
+        )
+
+        st.metric(
+            "1ère Période",
+            period_1
+        )
+
+        st.metric(
+            "2ème Période",
+            period_2
+        )
+
+        st.metric(
+            "3ème Période",
+            period_3
+        )
 
         st.success(
             f"🎯 Top Pari Hockey : {best_bet}"
@@ -3148,6 +3231,20 @@ def hockey_page():
             st.warning(
                 "🟡 Match équilibré"
             )
+
+        st.subheader(
+            "🎯 Bet Builder Hockey"
+        )
+
+        st.success(
+            f"""
+        ✅ {winner}
+
+        ✅ {over_under}
+
+        ✅ BTTS {btts}
+        """
+        )
 
 # =====================================================
 # V10 DASHBOARD IA GLOBAL
