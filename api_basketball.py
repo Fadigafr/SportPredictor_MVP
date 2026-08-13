@@ -103,7 +103,7 @@ def get_basketball_fixtures():
 
     try:
 
-        return get_games_today()
+        return
 
     except Exception:
 
