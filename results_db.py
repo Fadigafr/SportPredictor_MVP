@@ -5,6 +5,9 @@ from api_football import api_get
 from api_hockey import (
     get_hockey_fixture_by_id
 )
+from api_basketball import (
+    get_basketball_fixture_by_id
+)
 from database import (
     save_prediction_db,
     load_predictions_db,
@@ -361,4 +364,77 @@ def validate_hockey_results():
             print(
                 "Hockey validation error:",
                 e
+            )
+
+def validate_basketball_results():
+
+    predictions = load_predictions_db()
+
+    for bet in predictions:
+
+        if bet["sport"] != "Basketball":
+            continue
+
+        if bet["result"] != "PENDING":
+            continue
+
+        fixture_id = bet.get(
+            "fixture_id"
+        )
+
+        if not fixture_id:
+            continue
+
+        try:
+
+            game = get_basketball_fixture_by_id(
+                fixture_id
+            )
+
+            if not game:
+                continue
+
+            status = (
+                game["status"]["short"]
+            )
+
+            if status not in [
+                "FT",
+                "AOT"
+            ]:
+                continue
+
+            home_score = (
+                game["scores"]["home"]["total"]
+            )
+
+            away_score = (
+                game["scores"]["away"]["total"]
+            )
+
+            prediction = bet["prediction"]
+
+            result = "LOSS"
+
+            if (
+                prediction == "HOME"
+                and home_score > away_score
+            ):
+                result = "WIN"
+
+            elif (
+                prediction == "AWAY"
+                and away_score > home_score
+            ):
+                result = "WIN"
+
+            update_prediction_result(
+                bet["id"],
+                result
+            )
+
+        except Exception as e:
+
+            print(
+                f"Basket validation error: {e}"
             )
