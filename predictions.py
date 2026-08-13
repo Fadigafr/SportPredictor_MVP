@@ -1623,7 +1623,16 @@ def basketball_calendar_page():
     st.info(
         f"🏀 Nombre de matchs : {len(games)}"
     )
+    st.write(games[:2])
 
+    for game in games:
+
+        st.write(
+            game["teams"]["home"]["name"],
+            "vs",
+            game["teams"]["away"]["name"]
+        )
+        
     # ==================================
     # Affichage des matchs
     # ============================
