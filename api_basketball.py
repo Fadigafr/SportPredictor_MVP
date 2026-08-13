@@ -40,7 +40,7 @@ def basketball_calendar_page():
 
             st.write(game)
         
-def get_games_today():
+def get_basketball_games_today():
 
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
