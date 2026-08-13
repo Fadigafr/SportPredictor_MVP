@@ -366,6 +366,9 @@ def validate_hockey_results():
                 e
             )
 
+    print(
+        "🏀 Basketball Validation Running"
+    )
 def validate_basketball_results():
 
     predictions = load_predictions_db()
@@ -394,6 +397,10 @@ def validate_basketball_results():
 
             status = game["status"]["short"]
 
+            print(
+                f"🏀 STATUS={status}"
+            )
+
             if status != "FT":
                 continue
 
@@ -403,6 +410,10 @@ def validate_basketball_results():
 
             away_score = (
                 game["scores"]["away"]["total"]
+            )
+
+            print(
+                f"🏀 SCORE={home_score}-{away_score}"
             )
 
             prediction = bet["prediction"]
