@@ -388,6 +388,9 @@ def validate_basketball_results():
 
         try:
 
+            print(
+                f"🏀 Validation Basket | Fixture={fixture_id}"
+            )
             game = get_basketball_fixture_by_id(
                 fixture_id
             )
@@ -398,7 +401,7 @@ def validate_basketball_results():
             status = game["status"]["short"]
 
             print(
-                f"🏀 STATUS={status}"
+                f"🏀 Status={status}"
             )
 
             if status != "FT":
@@ -413,7 +416,7 @@ def validate_basketball_results():
             )
 
             print(
-                f"🏀 SCORE={home_score}-{away_score}"
+                f"🏀 Score={home_score}-{away_score}"
             )
 
             prediction = bet["prediction"]
