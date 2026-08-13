@@ -350,6 +350,7 @@ elif menu == "Calendrier":
         tennis_calendar_page()
 
     elif sport == "Basketball":
+        
         basketball_calendar_page()
 
     elif sport == "Hockey":
