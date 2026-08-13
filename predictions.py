@@ -2453,69 +2453,69 @@ def hockey_calendar_page():
 
     for game in games:
 
-    try:
+        try:
 
-        league = game["league"]["name"]
+            league = game["league"]["name"]
 
-        if (
-            competition != "Toutes"
-            and league != competition
-        ):
-            continue
-
-        game_id = game["id"]
-
-        home = game["teams"]["home"]["name"]
-        away = game["teams"]["away"]["name"]
-
-        date_match = game["date"][:16]
-
-        status = game["status"]["short"]
-
-        if status in ["1P", "2P", "3P"]:
-
-            badge = "🟢 LIVE"
-
-        elif status in ["FT", "AOT"]:
-
-            badge = "⚪ TERMINÉ"
-
-        else:
-
-            badge = "🔵 PROGRAMMÉ"
-
-        with st.container():
-
-            st.markdown(
-                f"""
-### 🏒 {home} vs {away}
-
-🏆 {league}
-
-📅 {date_match}
-"""
-            )
-
-            st.write(badge)
-
-            if st.button(
-                "🔍 Analyser",
-                key=f"hockey_{game_id}"
+            if (
+                competition != "Toutes"
+                and league != competition
             ):
+                continue
 
-                st.session_state[
-                    "selected_hockey_match"
-                ] = game
+            game_id = game["id"]
 
-                st.success(
-                    f"{home} vs {away} sélectionné"
+            home = game["teams"]["home"]["name"]
+            away = game["teams"]["away"]["name"]
+
+            date_match = game["date"][:16]
+
+            status = game["status"]["short"]
+
+            if status in ["1P", "2P", "3P"]:
+
+                badge = "🟢 LIVE"
+
+            elif status in ["FT", "AOT"]:
+
+                badge = "⚪ TERMINÉ"
+
+            else:
+
+                badge = "🔵 PROGRAMMÉ"
+
+            with st.container():
+
+                st.markdown(
+                    f"""
+    ### 🏒 {home} vs {away}
+
+    🏆 {league}
+
+    📅 {date_match}
+    """
                 )
 
-    except Exception as e:
+                st.write(badge)
 
-        st.error(
-            f"Erreur : {e}"
-        )
+                if st.button(
+                    "🔍 Analyser",
+                    key=f"hockey_{game_id}"
+                ):
+
+                    st.session_state[
+                        "selected_hockey_match"
+                    ] = game
+
+                    st.success(
+                        f"{home} vs {away} sélectionné"
+                    )
+
+        except Exception as e:
+
+            st.error(
+                f"Erreur : {e}"
+            )
 
             # ==================================
             # Analyse Directe
