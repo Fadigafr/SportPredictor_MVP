@@ -2492,10 +2492,10 @@ def hockey_calendar_page():
             # Carte Match
             # ==================================
 
-    with st.container():
+            with st.container():
 
-    st.markdown(
-        f"""
+            st.markdown(
+                f"""
 ### 🏒 {home} vs {away}
 
 🏆 {league}
@@ -2510,7 +2510,14 @@ def hockey_calendar_page():
         "🔍 Analyser",
         key=f"hockey_{game_id}"
     ):
-        ...
+
+        st.session_state[
+            "selected_hockey_match"
+        ] = game
+
+        st.success(
+            f"{home} vs {away} sélectionné"
+        )
 
             # ==================================
             # Analyse Directe
