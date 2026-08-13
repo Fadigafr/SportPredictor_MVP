@@ -2356,6 +2356,7 @@ def tennis_page():
 # =====================================================
 # V9 HOCKEY IA PREMIUM
 # =====================================================
+    st.success("✅ HOCKEY CALENDAR V12.8 CHARGÉ")
 
 def hockey_calendar_page():
 
