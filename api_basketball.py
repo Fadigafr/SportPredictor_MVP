@@ -10,6 +10,9 @@ HEADERS = {
 
 BASE_URL = "https://v1.basketball.api-sports.io"
 
+print("✅ api_basketball chargé")
+
+
 def basketball_calendar_page():
 
     st.title("🏀 Calendrier Basketball")
@@ -123,3 +126,5 @@ def get_basketball_games_by_date(
     )
 
     return response.json()
+
+   print("✅ get_basketball_games_by_date disponible")
