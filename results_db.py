@@ -372,15 +372,13 @@ def validate_basketball_results():
 
     for bet in predictions:
 
-        if bet["sport"] != "Basketball":
+        if bet.get("sport") != "Basketball":
             continue
 
-        if bet["result"] != "PENDING":
+        if bet.get("result") != "PENDING":
             continue
 
-        fixture_id = bet.get(
-            "fixture_id"
-        )
+        fixture_id = bet.get("fixture_id")
 
         if not fixture_id:
             continue
@@ -394,47 +392,10 @@ def validate_basketball_results():
             if not game:
                 continue
 
-            status = (
-                game["status"]["short"]
-            )
+            status = game["status"]["short"]
 
             print(
                 f"BASKET STATUS : {status}"
-            )
-
-            if status not in [
-                "FT",
-                "AOT"
-            ]:
-                continue
-
-            home_score = (
-                game["scores"]["home"]["total"]
-            )
-
-            away_score = (
-                game["scores"]["away"]["total"]
-            )
-
-            prediction = bet["prediction"]
-
-            result = "LOSS"
-
-            if (
-                prediction == "HOME"
-                and home_score > away_score
-            ):
-                result = "WIN"
-
-            elif (
-                prediction == "AWAY"
-                and away_score > home_score
-            ):
-                result = "WIN"
-
-            update_prediction_result(
-                bet["id"],
-                result
             )
 
         except Exception as e:
