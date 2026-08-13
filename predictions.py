@@ -1625,7 +1625,9 @@ def basketball_calendar_page():
     # ==================================
     # Affichage des matchs
     # ============================
-            
+    st.success(
+        "✅ BASKETBALL CALENDAR PREMIUM V12.9"
+    )       
 def basketball_page():
 
     st.title("🏀 Basketball IA V7")
