@@ -2356,32 +2356,43 @@ def hockey_calendar_page():
 
     st.title("🏒 Calendrier Hockey")
 
+    from datetime import date, timedelta
+
+    today = date.today()
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        btn_today = st.button("📅 Aujourd'hui")
+
+    with col2:
+        btn_tomorrow = st.button("📅 Demain")
+
+    with col3:
+        btn_3days = st.button("📅 +3 jours")
+
+    with col4:
+        btn_7days = st.button("📅 +7 jours")
+
+    selected_date = today
+
+    if btn_tomorrow:
+        selected_date = today + timedelta(days=1)
+
+    elif btn_3days:
+        selected_date = today + timedelta(days=3)
+
+    elif btn_7days:
+        selected_date = today + timedelta(days=7)
+
+    data = get_hockey_games_by_date(
+        selected_date.strftime("%Y-%m-%d")
+    )
+
     selected_date = st.date_input(
         "📅 Choisir une date",
         value=date.today()
     )
-
-    today = date.today()
-
-    selected_date = today
-
-    c1, c2, c3, c4 = st.columns(4)
-
-    with c1:
-        if st.button("📅 Aujourd'hui"):
-            selected_date = today
-
-    with c2:
-        if st.button("📅 Demain"):
-            selected_date = today + timedelta(days=1)
-
-    with c3:
-        if st.button("📅 +3 jours"):
-            selected_date = today + timedelta(days=3)
-
-    with c4:
-        if st.button("📅 +7 jours"):
-            selected_date = today + timedelta(days=7)
 
     selected_date = str(selected_date)
 
