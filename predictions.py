@@ -28,8 +28,13 @@ from api_tennis import (
     calculate_form_stats
 )
 from api_hockey import get_games_today
-from datetime import date
-from datetime import date, timedelta
+from datetime import (
+    date,
+    timedelta
+)
+from api_hockey import (
+    get_hockey_games_by_date
+)
 from datetime import datetime
 from api_hockey import get_hockey_fixtures
 from ai_engine import (
@@ -2354,46 +2359,53 @@ def tennis_page():
 
 def hockey_calendar_page():
 
-    st.title("🏒 Calendrier Hockey")
+    st.title("🏒 Calendrier Hockey Premium")
 
     today = date.today()
 
-    # =========================
-    # Boutons rapides
-    # =========================
+    # ==================================
+    # V12.8.2 Boutons Rapides
+    # ==================================
+
+    if "hockey_date" not in st.session_state:
+        st.session_state["hockey_date"] = today
 
     col1, col2, col3, col4 = st.columns(4)
 
-    selected_date = today
-
     with col1:
         if st.button("📅 Aujourd'hui"):
-            selected_date = today
+            st.session_state["hockey_date"] = today
 
     with col2:
         if st.button("📅 Demain"):
-            selected_date = today + timedelta(days=1)
+            st.session_state["hockey_date"] = (
+                today + timedelta(days=1)
+            )
 
     with col3:
         if st.button("📅 +3 jours"):
-            selected_date = today + timedelta(days=3)
+            st.session_state["hockey_date"] = (
+                today + timedelta(days=3)
+            )
 
     with col4:
         if st.button("📅 +7 jours"):
-            selected_date = today + timedelta(days=7)
+            st.session_state["hockey_date"] = (
+                today + timedelta(days=7)
+            )
 
-    # =========================
+    # ==================================
     # Sélecteur libre
-    # =========================
+    # ==================================
 
     selected_date = st.date_input(
         "📅 Choisir une date",
-        value=selected_date
+        value=st.session_state["hockey_date"]
     )
 
-    # =========================
+    # ==================================
     # Chargement API
-    # =========================
+    # ==================================
 
     data = get_hockey_games_by_date(
         selected_date.strftime("%Y-%m-%d")
@@ -2412,11 +2424,15 @@ def hockey_calendar_page():
 
         return
 
+    # ==================================
+    # Filtre compétition
+    # ==================================
+
     competitions = sorted(
         list(
             set(
-                m["league"]["name"]
-                for m in games
+                game["league"]["name"]
+                for game in games
             )
         )
     )
@@ -2426,88 +2442,89 @@ def hockey_calendar_page():
         ["Toutes"] + competitions
     )
 
-    for game in games:
-
-        league = game["league"]["name"]
-
-        if (
-            competition != "Toutes"
-            and league != competition
-        ):
-            continue
-
-        status = game["status"]["short"]
-
-        if status in ["1P", "2P", "3P"]:
-            st.success("🟢 LIVE")
-
-        elif status in ["FT", "AOT"]:
-            st.info("⚪ TERMINÉ")
-
-        else:
-            st.warning("🔵 PROGRAMMÉ")
-
-    home = game["teams"]["home"]["name"]
-    away = game["teams"]["away"]["name"]
-
-    date_match = game["date"][:16]
-
-    st.markdown(
-        f"""
-    ### 🏒 {home} vs {away}
-
-    🏆 {league}
-
-    📅 {date_match}
-
-    {badge}
-    """
+    st.write(
+        f"📊 Nombre de matchs : {len(games)}"
     )
 
-    if st.button(
-        "🔍 Analyser",
-        key=f"hockey_{game['id']}"
-    ):
-
-        st.session_state[
-            "selected_hockey_match"
-        ] = game
-
-        st.success(
-            f"{home} vs {away} sélectionné"
-        )
-
-    if not games:
-
-        st.warning(
-            "⚠️ Aucun match Hockey disponible"
-        )
-        return
+    # ==================================
+    # Affichage des matchs
+    # ==================================
 
     for game in games:
 
         try:
 
+            league = game["league"]["name"]
+
+            if (
+                competition != "Toutes"
+                and league != competition
+            ):
+                continue
+
+            game_id = game["id"]
+
             home = game["teams"]["home"]["name"]
             away = game["teams"]["away"]["name"]
 
-            league = game["league"]["name"]
-
             date_match = game["date"][:16]
 
-            st.success(
+            status = game["status"]["short"]
+
+            # ==================================
+            # Badge Statut Premium
+            # ==================================
+
+            if status in ["1P", "2P", "3P"]:
+
+                badge = "🟢 LIVE"
+
+            elif status in ["FT", "AOT"]:
+
+                badge = "⚪ TERMINÉ"
+
+            else:
+
+                badge = "🔵 PROGRAMMÉ"
+
+            # ==================================
+            # Carte Match
+            # ==================================
+
+            st.markdown(
                 f"""
-🏒 {home} vs {away}
+### 🏒 {home} vs {away}
 
 🏆 {league}
 
 📅 {date_match}
+
+{badge}
 """
             )
 
-        except Exception:
+            # ==================================
+            # Analyse Directe
+            # ==================================
 
-            pass
+            if st.button(
+                "🔍 Analyser",
+                key=f"hockey_{game_id}"
+            ):
+
+                st.session_state[
+                    "selected_hockey_match"
+                ] = game
+
+                st.success(
+                    f"{home} vs {away} sélectionné"
+                )
+
+        except Exception as e:
+
+            st.error(
+                f"Erreur : {e}"
+            )
             
 def hockey_page():
 
