@@ -398,6 +398,10 @@ def validate_basketball_results():
                 game["status"]["short"]
             )
 
+            print(
+                f"BASKET STATUS : {status}"
+            )
+
             if status not in [
                 "FT",
                 "AOT"
