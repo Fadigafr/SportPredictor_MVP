@@ -127,3 +127,30 @@ def get_basketball_games_by_date(
     return response.json()
 
 print("✅ get_basketball_games_by_date disponible")
+
+def get_basketball_fixture_by_id(
+    fixture_id
+):
+
+    url = (
+        f"{BASE_URL}/games"
+        f"?id={fixture_id}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS,
+        timeout=30
+    )
+
+    data = response.json()
+
+    response_data = data.get(
+        "response",
+        []
+    )
+
+    if not response_data:
+        return None
+
+    return response_data[0]
