@@ -10,7 +10,7 @@ HEADERS = {
 
 BASE_URL = "https://v1.basketball.api-sports.io"
 
-    print("✅ api_basketball chargé")
+print("✅ api_basketball chargé")
 
 def basketball_calendar_page():
 
