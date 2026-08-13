@@ -394,8 +394,36 @@ def validate_basketball_results():
 
             status = game["status"]["short"]
 
-            print(
-                f"BASKET STATUS : {status}"
+            if status != "FT":
+                continue
+
+            home_score = (
+                game["scores"]["home"]["total"]
+            )
+
+            away_score = (
+                game["scores"]["away"]["total"]
+            )
+
+            prediction = bet["prediction"]
+
+            result = "LOSS"
+
+            if (
+                prediction == game["teams"]["home"]["name"]
+                and home_score > away_score
+            ):
+                result = "WIN"
+
+            elif (
+                prediction == game["teams"]["away"]["name"]
+                and away_score > home_score
+            ):
+                result = "WIN"
+
+            update_prediction_result(
+                bet["id"],
+                result
             )
 
         except Exception as e:
