@@ -27,7 +27,7 @@ init_db()
 
 validate_football_results()
 validate_hockey_results()
-validate_basketball_results()
+# validate_basketball_results()
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
