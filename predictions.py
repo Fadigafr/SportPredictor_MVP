@@ -28,6 +28,7 @@ from api_tennis import (
     calculate_form_stats
 )
 from api_hockey import get_games_today
+from datetime import date
 from datetime import datetime
 from api_hockey import get_hockey_fixtures
 from ai_engine import (
@@ -2353,6 +2354,11 @@ def tennis_page():
 def hockey_calendar_page():
 
     st.title("🏒 Calendrier Hockey")
+
+    selected_date = st.date_input(
+        "📅 Choisir une date",
+        value=date.today()
+    )
 
     league_filter = st.selectbox(
         "🏒 Compétition",
