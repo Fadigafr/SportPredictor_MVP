@@ -22,6 +22,23 @@ def api_get_hockey(endpoint):
 
     return response.json()
 
+def get_hockey_games_by_date(
+    selected_date
+):
+
+    url = (
+        f"{BASE_URL}/games"
+        f"?date={selected_date}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS,
+        timeout=30
+    )
+
+    return response.json()
+
 def get_hockey_games():
 
     today = datetime.now().strftime("%Y-%m-%d")
