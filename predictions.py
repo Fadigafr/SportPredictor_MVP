@@ -11,6 +11,13 @@ from api_basketball import (
     basketball_calendar_page,
     get_basketball_fixtures
 )
+from datetime import (
+    date,
+    timedelta
+)
+from api_basketball import (
+    get_basketball_games_by_date
+)
 from api_basketball import (
     get_games_today,
     get_team_statistics
@@ -1532,6 +1539,13 @@ def basketball_calendar_page():
 
     today = date.today()
 
+    # ==================================
+    # Boutons rapides
+    # ==================================
+
+    if "basket_date" not in st.session_state:
+        st.session_state["basket_date"] = today
+
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
@@ -1556,14 +1570,18 @@ def basketball_calendar_page():
                 today + timedelta(days=7)
             )
 
-    if "basket_date" not in st.session_state:
-
-        st.session_state["basket_date"] = today
+    # ==================================
+    # Sélection date
+    # ==================================
 
     selected_date = st.date_input(
         "📅 Choisir une date",
         value=st.session_state["basket_date"]
     )
+
+    # ==================================
+    # Chargement API
+    # ==================================
 
     data = get_basketball_games_by_date(
         selected_date.strftime("%Y-%m-%d")
@@ -1573,6 +1591,18 @@ def basketball_calendar_page():
         "response",
         []
     )
+
+    if not games:
+
+        st.warning(
+            "⚠️ Aucun match Basketball trouvé"
+        )
+
+        return
+
+    # ==================================
+    # Filtre compétition
+    # ==================================
 
     competitions = sorted(
         list(
@@ -1588,64 +1618,13 @@ def basketball_calendar_page():
         ["Toutes"] + competitions
     )
 
-    status = game["status"]["short"]
+    st.info(
+        f"🏀 Nombre de matchs : {len(games)}"
+    )
 
-    if status in [
-        "Q1",
-        "Q2",
-        "Q3",
-        "Q4"
-    ]:
-
-        badge = "🟢 LIVE"
-
-    elif status in [
-        "FT",
-        "AOT"
-    ]:
-
-        badge = "⚪ TERMINÉ"
-
-    else:
-
-        badge
-
-    with st.container():
-
-        st.markdown(
-            f"""
-    ### 🏀 {home} vs {away}
-
-    🏆 {league}
-
-    📅 {date_match}
-    """
-        )
-
-        st.write(badge)
-
-        if st.button(
-            "🔍 Analyser",
-            key=f"basket_{game_id}"
-        ):
-
-            st.session_state[
-                "selected_basket_match"
-            ] = game
-
-            st.success(
-                f"{home} vs {away} sélectionné"
-            )
-            
-    for game in games:
-
-        try:
-
-            home = game["teams"]["home"]["name"]
-            away = game["teams"]["away"]["name"]
-
-            league_name = game["league"]["name"]
-            date_match = game["date"][:16]
+    # ==================================
+    # Affichage des matchs
+    # ============================
             
 def basketball_page():
 
