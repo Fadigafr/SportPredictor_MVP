@@ -19,7 +19,7 @@ from api_basketball import (
     get_basketball_games_by_date
 )
 from api_basketball import (
-    get_games_today,
+    get_basketball_games_today,
     get_team_statistics
 )
 from api_tennis import (
@@ -34,7 +34,7 @@ from api_tennis import (
     get_player_recent_matches,
     calculate_form_stats
 )
-from api_hockey import get_games_today
+from api_hockey import get_games_today as get_hockey_games_today
 from datetime import (
     date,
     timedelta
@@ -1705,7 +1705,7 @@ def basketball_page():
 
     st.subheader("🏀 Matchs du Jour")
 
-    games = get_games_today()
+    games = get_basketball_games_today()
 
     st.write("Nombre de matchs :", len(games))
     
