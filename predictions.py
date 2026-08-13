@@ -2494,8 +2494,8 @@ def hockey_calendar_page():
 
             with st.container():
 
-            st.markdown(
-                f"""
+                st.markdown(
+                    f"""
 ### 🏒 {home} vs {away}
 
 🏆 {league}
