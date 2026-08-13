@@ -2492,7 +2492,7 @@ def hockey_calendar_page():
             # Carte Match
             # ==================================
 
-            with st.container():
+with st.container():
 
     st.markdown(
         f"""
