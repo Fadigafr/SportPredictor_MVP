@@ -2492,16 +2492,25 @@ def hockey_calendar_page():
             # Carte Match
             # ==================================
 
-            st.markdown(
-                f"""
+            with st.container():
+
+    st.markdown(
+        f"""
 ### 🏒 {home} vs {away}
 
 🏆 {league}
 
 📅 {date_match}
-
-{badge}
 """
+    )
+
+    st.write(badge)
+
+    if st.button(
+        "🔍 Analyser",
+        key=f"hockey_{game_id}"
+    ):
+        ...
             )
 
             # ==================================
