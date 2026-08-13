@@ -106,3 +106,20 @@ def get_basketball_fixtures():
     except Exception:
 
         return []
+
+def get_basketball_games_by_date(
+    selected_date
+):
+
+    url = (
+        f"{BASE_URL}/games"
+        f"?date={selected_date}"
+    )
+
+    response = requests.get(
+        url,
+        headers=HEADERS,
+        timeout=30
+    )
+
+    return response.json()
