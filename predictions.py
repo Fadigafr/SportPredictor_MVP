@@ -2511,7 +2511,6 @@ with st.container():
         key=f"hockey_{game_id}"
     ):
         ...
-        )
 
             # ==================================
             # Analyse Directe
