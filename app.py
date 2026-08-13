@@ -23,10 +23,14 @@ from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
 
+print(
+    f"BASKET STATUS : {status}"
+)
 init_db()
 
 validate_football_results()
 validate_hockey_results()
+validate_basketball_results()
 
 st.set_page_config(
     page_title="SPORT PREDICTOR ULTRA PRO IA",
