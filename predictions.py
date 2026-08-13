@@ -1718,7 +1718,7 @@ def basketball_page():
             f"🏀 {home} vs {away}"
         )
 
-    games = get_games_today()
+    games = get_basketball_games_today()
 
     if not games:
 
