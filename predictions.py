@@ -2356,54 +2356,61 @@ def hockey_calendar_page():
 
     st.title("🏒 Calendrier Hockey")
 
-    from datetime import date, timedelta
-
     today = date.today()
+
+    # =========================
+    # Boutons rapides
+    # =========================
 
     col1, col2, col3, col4 = st.columns(4)
 
-    with col1:
-        btn_today = st.button("📅 Aujourd'hui")
-
-    with col2:
-        btn_tomorrow = st.button("📅 Demain")
-
-    with col3:
-        btn_3days = st.button("📅 +3 jours")
-
-    with col4:
-        btn_7days = st.button("📅 +7 jours")
-
     selected_date = today
 
-    if btn_tomorrow:
-        selected_date = today + timedelta(days=1)
+    with col1:
+        if st.button("📅 Aujourd'hui"):
+            selected_date = today
 
-    elif btn_3days:
-        selected_date = today + timedelta(days=3)
+    with col2:
+        if st.button("📅 Demain"):
+            selected_date = today + timedelta(days=1)
 
-    elif btn_7days:
-        selected_date = today + timedelta(days=7)
+    with col3:
+        if st.button("📅 +3 jours"):
+            selected_date = today + timedelta(days=3)
 
-    data = get_hockey_games_by_date(
-        selected_date.strftime("%Y-%m-%d")
-    )
+    with col4:
+        if st.button("📅 +7 jours"):
+            selected_date = today + timedelta(days=7)
+
+    # =========================
+    # Sélecteur libre
+    # =========================
 
     selected_date = st.date_input(
         "📅 Choisir une date",
-        value=date.today()
+        value=selected_date
     )
 
-    selected_date = str(selected_date)
+    # =========================
+    # Chargement API
+    # =========================
 
     data = get_hockey_games_by_date(
-        selected_date
+        selected_date.strftime("%Y-%m-%d")
     )
 
     games = data.get(
         "response",
         []
     )
+
+    if not games:
+
+        st.warning(
+            "⚠️ Aucun match Hockey trouvé"
+        )
+
+        return
 
     competitions = sorted(
         list(
@@ -2419,26 +2426,56 @@ def hockey_calendar_page():
         ["Toutes"] + competitions
     )
 
-    status = game["status"]["short"]
+    for game in games:
 
-    if status in ["1P", "2P", "3P"]:
-        st.success("🟢 LIVE")
+        league = game["league"]["name"]
 
-    elif status in ["FT", "AOT"]:
-        st.info("⚪ TERMINÉ")
+        if (
+            competition != "Toutes"
+            and league != competition
+        ):
+            continue
 
-    else:
-        st.warning("🔵 PROGRAMMÉ")
+        status = game["status"]["short"]
+
+        if status in ["1P", "2P", "3P"]:
+            st.success("🟢 LIVE")
+
+        elif status in ["FT", "AOT"]:
+            st.info("⚪ TERMINÉ")
+
+        else:
+            st.warning("🔵 PROGRAMMÉ")
+
+    home = game["teams"]["home"]["name"]
+    away = game["teams"]["away"]["name"]
+
+    date_match = game["date"][:16]
+
+    st.markdown(
+        f"""
+    ### 🏒 {home} vs {away}
+
+    🏆 {league}
+
+    📅 {date_match}
+
+    {badge}
+    """
+    )
 
     if st.button(
         "🔍 Analyser",
-        key=f"hockey_{game_id}"
+        key=f"hockey_{game['id']}"
     ):
+
         st.session_state[
             "selected_hockey_match"
         ] = game
 
-    games = get_hockey_fixtures()
+        st.success(
+            f"{home} vs {away} sélectionné"
+        )
 
     if not games:
 
