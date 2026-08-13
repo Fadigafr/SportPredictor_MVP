@@ -29,6 +29,7 @@ from api_tennis import (
 )
 from api_hockey import get_games_today
 from datetime import date
+from datetime import date, timedelta
 from datetime import datetime
 from api_hockey import get_hockey_fixtures
 from ai_engine import (
@@ -2360,17 +2361,71 @@ def hockey_calendar_page():
         value=date.today()
     )
 
-    league_filter = st.selectbox(
-        "🏒 Compétition",
-        [
-            "Toutes",
-            "NHL",
-            "KHL",
-            "IIHF",
-            "Club Friendly",
-            "Friendly International"
-        ]
+    today = date.today()
+
+    selected_date = today
+
+    c1, c2, c3, c4 = st.columns(4)
+
+    with c1:
+        if st.button("📅 Aujourd'hui"):
+            selected_date = today
+
+    with c2:
+        if st.button("📅 Demain"):
+            selected_date = today + timedelta(days=1)
+
+    with c3:
+        if st.button("📅 +3 jours"):
+            selected_date = today + timedelta(days=3)
+
+    with c4:
+        if st.button("📅 +7 jours"):
+            selected_date = today + timedelta(days=7)
+
+    selected_date = str(selected_date)
+
+    data = get_hockey_games_by_date(
+        selected_date
     )
+
+    games = data.get(
+        "response",
+        []
+    )
+
+    competitions = sorted(
+        list(
+            set(
+                m["league"]["name"]
+                for m in games
+            )
+        )
+    )
+
+    competition = st.selectbox(
+        "🏆 Compétition",
+        ["Toutes"] + competitions
+    )
+
+    status = game["status"]["short"]
+
+    if status in ["1P", "2P", "3P"]:
+        st.success("🟢 LIVE")
+
+    elif status in ["FT", "AOT"]:
+        st.info("⚪ TERMINÉ")
+
+    else:
+        st.warning("🔵 PROGRAMMÉ")
+
+    if st.button(
+        "🔍 Analyser",
+        key=f"hockey_{game_id}"
+    ):
+        st.session_state[
+            "selected_hockey_match"
+        ] = game
 
     games = get_hockey_fixtures()
 
