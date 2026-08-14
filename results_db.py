@@ -431,17 +431,17 @@ def validate_basketball_results():
             result = "LOSS"
 
             if (
-                prediction == game["teams"]["home"]["name"]
+                prediction == "HOME"
                 and home_score > away_score
             ):
                 result = "WIN"
 
             elif (
-                prediction == game["teams"]["away"]["name"]
+                prediction == "AWAY"
                 and away_score > home_score
             ):
                 result = "WIN"
-
+                
             update_prediction_result(
                 bet["id"],
                 result
