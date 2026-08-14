@@ -271,6 +271,13 @@ def get_learning_stats():
 
         prediction = bet["prediction"]
 
+        if prediction not in stats:
+
+            stats[prediction] = {
+                "win": 0,
+                "loss": 0
+            }
+
         if bet["result"] == "WIN":
             stats[prediction]["win"] += 1
         else:
