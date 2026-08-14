@@ -2856,11 +2856,10 @@ def hockey_page():
             predicted_home = 0
             predicted_away = 0
 
-        winner = (
-            home_team
-            if predicted_home > predicted_away
-            else away_team
-        )
+        # =========================
+        # SCORE IA V13
+        # =========================
+
         predicted_home = max(
             1,
             round(home_strength / 22)
@@ -2869,6 +2868,12 @@ def hockey_page():
         predicted_away = max(
             1,
             round(away_strength / 24)
+        )
+
+        winner = (
+            home_team
+            if predicted_home > predicted_away
+            else away_team
         )
 
         prediction_type = (
@@ -3059,6 +3064,20 @@ def hockey_page():
 
         col1, col2 = st.columns(2)
 
+        period_1 = round(
+            total_goals * 0.25
+        )
+
+        period_2 = round(
+            total_goals * 0.40
+        )
+
+        period_3 = (
+            total_goals -
+            period_1 -
+            period_2
+        )
+
         with col1:
 
             st.metric(
@@ -3068,25 +3087,7 @@ def hockey_page():
 
             st.metric(
                 "🥅 Total Buts",
-                total_goals
-            )
-
-            st.metric(
-                "1ère Période",
-                game_data["periods"]["first"]
-            )
-
-        with col2:
-
-            st.metric(
-                "2ème Période",
-                game_data["periods"]["second"]
-            )
-
-            st.metric(
-                "3ème Période",
-                game_data["periods"]["third"]
-            )
+                total_
 
         st.metric(
             "🏅 Badge IA",
@@ -3149,10 +3150,6 @@ def hockey_page():
             st.write(
                 f"✅ {scorer}"
             )
-
-        st.write("1️⃣ Chris Kreider")
-        st.write("2️⃣ Artemi Panarin")
-        st.write("3️⃣ Mika Zibanejad")
 
         if total_goals >= 6:
 
