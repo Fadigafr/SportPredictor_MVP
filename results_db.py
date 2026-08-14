@@ -259,7 +259,6 @@ def get_learning_stats():
         "1": {"win": 0, "loss": 0},
         "N": {"win": 0, "loss": 0},
         "2": {"win": 0, "loss": 0},
-
         "HOME": {"win": 0, "loss": 0},
         "AWAY": {"win": 0, "loss": 0}
     }
@@ -268,15 +267,6 @@ def get_learning_stats():
 
         if bet["result"] not in ["WIN", "LOSS"]:
             continue
-
-        prediction = bet["prediction"]
-
-        if prediction not in stats:
-
-            stats[prediction] = {
-                "win": 0,
-                "loss": 0
-            }
 
         prediction = bet["prediction"]
 
