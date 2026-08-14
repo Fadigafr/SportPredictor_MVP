@@ -3146,18 +3146,22 @@ def hockey_page():
         if total_goals >= 6:
 
             over_under = "✅ Over 5.5"
+            best_bet = "Over 5.5"
 
         elif total_goals >= 5:
 
             over_under = "✅ Over 4.5"
+            best_bet = "Over 4.5"
 
         else:
 
             over_under = "⚠️ Under 5.5"
-
-        else:
-
             best_bet = "Victoire du Favori"
+
+        st.metric(
+            "🔥 Over / Under",
+            over_under
+        )
 
         if (
             predicted_home > 0
@@ -3169,11 +3173,6 @@ def hockey_page():
         else:
 
             btts = "❌ NON"
-
-        st.metric(
-            "🔥 Over / Under",
-            over_under
-        )
 
         st.metric(
             "🥅 Les Deux Équipes Marquent",
