@@ -1891,6 +1891,12 @@ def basketball_page():
             else away_team
         )
 
+        prediction_type = (
+            "HOME"
+            if home_strength > away_strength
+            else "AWAY"
+        )
+
         st.success(
             f"🏆 Vainqueur IA : {winner}"
         )
@@ -1901,7 +1907,7 @@ def basketball_page():
             sport="Basketball",
             match=f"{home_team} vs {away_team}",
             fixture_id=fixture_id,
-            prediction=winner,
+            prediction=prediction_type,
             ai_index=confidence_basket,
             odd=1.90
         )
