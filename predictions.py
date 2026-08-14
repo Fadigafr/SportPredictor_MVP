@@ -3051,7 +3051,7 @@ def hockey_page():
         with col1:
 
             st.metric(
-                "🏒 Score Final",
+                "🏒 Score IA Prévisionnel",
                 f"{predicted_home}-{predicted_away}"
             )
 
