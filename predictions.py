@@ -1809,13 +1809,18 @@ def basketball_page():
             f"📅 Date : {game_date}"
         )
 
+    competitions = sorted(
+        list(
+            set(
+                game["league"]["name"]
+                for game in games
+            )
+        )
+    )
+
     league = st.selectbox(
-        "Compétition",
-        [
-            "NBA",
-            "EuroLeague",
-            "Basket Africa League"
-        ],
+        "🏆 Compétition",
+        competitions,
         key="basket_league"
     )        
 
