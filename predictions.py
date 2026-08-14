@@ -2845,6 +2845,11 @@ def hockey_page():
             predicted_home = 0
             predicted_away = 0
 
+        winner = (
+            home_team
+            if predicted_home > predicted_away
+            else away_team
+        )
         predicted_home = max(
             1,
             round(home_strength / 22)
@@ -3126,13 +3131,6 @@ def hockey_page():
             
         st.subheader("🥅 Buteurs Probables")
 
-        hockey_scorers = {
-            "Karpat": [...],
-            "KalPa": [...],
-            "Boston Bruins": [...],
-            "New York Rangers": [...]
-        }
-
         for scorer in hockey_scorers.get(
             winner,
             []
@@ -3157,11 +3155,6 @@ def hockey_page():
 
             over_under = "⚠️ Under 5.5"
 
-        st.metric(
-            "🔥 Over / Under",
-            over_under
-        )
-
         else:
 
             best_bet = "Victoire du Favori"
@@ -3176,6 +3169,11 @@ def hockey_page():
         else:
 
             btts = "❌ NON"
+
+        st.metric(
+            "🔥 Over / Under",
+            over_under
+        )
 
         st.metric(
             "🥅 Les Deux Équipes Marquent",
