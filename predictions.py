@@ -2732,7 +2732,7 @@ def hockey_page():
             f"🏒 {home} vs {away}"
         )
         
-    games = get_games_today() or []
+    games = get_hockey_games_today() or []
 
     hockey_matches = []
 
