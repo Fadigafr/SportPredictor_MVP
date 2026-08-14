@@ -34,7 +34,9 @@ from api_tennis import (
     get_player_recent_matches,
     calculate_form_stats
 )
-from api_hockey import get_games_today as get_hockey_games_today
+from api_hockey import (
+    get_games_today as get_hockey_games_today
+)
 from datetime import (
     date,
     timedelta
@@ -2711,7 +2713,7 @@ def hockey_page():
 
     st.subheader("🏒 Matchs du Jour")
 
-    games = get_hockey_games_today()
+    games = get_hockey_games_today() or []
 
     st.write(
         "Nombre de matchs :",
@@ -3078,6 +3080,58 @@ def hockey_page():
             period_2
         )
 
+    # =========================
+    # BTTS HOCKEY
+    # =========================
+
+        if (
+            predicted_home > 0
+            and predicted_away > 0
+        ):
+
+            btts = "✅ OUI"
+
+        else:
+
+            btts = "❌ NON"
+
+        # =========================
+        # OVER / UNDER
+        # =========================
+
+        if total_goals >= 6:
+
+            over_under = "✅ Over 5.5"
+            best_bet = "Over 5.5"
+
+        elif total_goals >= 5:
+
+            over_under = "✅ Over 4.5"
+            best_bet = "Over 4.5"
+
+        else:
+
+            over_under = "⚠️ Under 5.5"
+            best_bet = "Victoire du Favori"
+
+        # =========================
+        # STYLE DU MATCH
+        # =========================
+
+        if total_goals >= 6:
+
+            style_match = "🔥 Match Offensif"
+
+        elif total_goals >= 4:
+
+            style_match = "⚡ Match Équilibré"
+
+        else:
+
+            style_match = "🛡️ Match Défensif"
+
+        st.info(style_match)
+
         with col1:
 
             st.metric(
@@ -3086,8 +3140,36 @@ def hockey_page():
             )
 
             st.metric(
-                "🥅 Total Buts",
-                total_
+                "🥅 Total Buts Prévu",
+                total_goals
+            )
+
+            st.metric(
+                "🥅 BTTS Hockey",
+                btts
+            )
+
+            st.metric(
+                "1ère Période IA",
+                period_1
+            )
+
+        with col2:
+
+            st.metric(
+                "🔥 Over / Under",
+                over_under
+            )
+
+            st.metric(
+                "2ème Période IA",
+                period_2
+            )
+
+            st.metric(
+                "3ème Période IA",
+                period_3
+            )
 
         st.metric(
             "🏅 Badge IA",
@@ -3140,66 +3222,6 @@ def hockey_page():
             ["Joueur 1", "Joueur 2", "Joueur 3"]
         ):
             st.write(f"✅ {scorer}")
-            
-        st.subheader("🥅 Buteurs Probables")
-
-        for scorer in hockey_scorers.get(
-            winner,
-            []
-        ):
-            st.write(
-                f"✅ {scorer}"
-            )
-
-        if total_goals >= 6:
-
-            over_under = "✅ Over 5.5"
-            best_bet = "Over 5.5"
-
-        elif total_goals >= 5:
-
-            over_under = "✅ Over 4.5"
-            best_bet = "Over 4.5"
-
-        else:
-
-            over_under = "⚠️ Under 5.5"
-            best_bet = "Victoire du Favori"
-
-        st.metric(
-            "🔥 Over / Under",
-            over_under
-        )
-
-        if (
-            predicted_home > 0
-            and predicted_away > 0
-        ):
-
-            btts = "✅ OUI"
-
-        else:
-
-            btts = "❌ NON"
-
-        st.metric(
-            "🥅 Les Deux Équipes Marquent",
-            btts
-        )
-
-        period_1 = round(
-            total_goals * 0.25
-        )
-
-        period_2 = round(
-            total_goals * 0.40
-        )
-
-        period_3 = (
-            total_goals -
-            period_1 -
-            period_2
-        )
 
         st.metric(
             "1ère Période",
