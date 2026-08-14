@@ -1775,7 +1775,7 @@ def basketball_page():
 
     if game_data:
 
-        st.json(game_data)
+        # st.json(game_data)
 
         home_team = selected_match["home"]
         away_team = selected_match["away"]
