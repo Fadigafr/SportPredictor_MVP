@@ -1705,7 +1705,14 @@ def basketball_page():
 
     st.subheader("🏀 Matchs du Jour")
 
-    games = get_basketball_games_today()
+    today = date.today().strftime("%Y-%m-%d")
+
+    data = get_basketball_games_by_date(today)
+
+    games = data.get(
+        "response",
+        []
+    )
 
     st.write("Nombre de matchs :", len(games))
     
@@ -1718,7 +1725,14 @@ def basketball_page():
             f"🏀 {home} vs {away}"
         )
 
-    games = get_basketball_games_today()
+    today = date.today().strftime("%Y-%m-%d")
+
+    data = get_basketball_games_by_date(today)
+
+    games = data.get(
+        "response",
+        []
+    )
 
     if not games:
 
@@ -2686,7 +2700,7 @@ def hockey_page():
 
     st.subheader("🏒 Matchs du Jour")
 
-    games = get_games_today()
+    games = get_hockey_games_today()
 
     st.write(
         "Nombre de matchs :",
