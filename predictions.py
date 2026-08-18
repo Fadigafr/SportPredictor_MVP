@@ -2834,12 +2834,15 @@ def hockey_page():
 
         home_strength = team_strength.get(
             home_team,
-            75 + (len(home_team) % 15)
+            70 +
+            (len(home_team) % 20)
         )
+        home_strength += 3
 
         away_strength = team_strength.get(
             away_team,
-            75 + (len(away_team) % 15)
+            70 +
+            (len(away_team) % 20)
         )
 
         predicted_home = game_data["scores"]["home"]
@@ -2864,12 +2867,12 @@ def hockey_page():
 
         predicted_home = max(
             1,
-            round(home_strength / 22)
+            round(home_strength / 20)
         )
 
         predicted_away = max(
             1,
-            round(away_strength / 24)
+            round(away_strength / 22)
         )
 
         winner = (
@@ -2901,14 +2904,24 @@ def hockey_page():
         # MATCH PIEGE HOCKEY
         # =========================
 
-        trap_match = False
-
-        if abs(
+        strength_gap = abs(
             home_strength -
             away_strength
-        ) < 3:
+        )
+
+        trap_match = False
+
+        if strength_gap <= 2:
 
             trap_match = True
+
+        elif strength_gap <= 5:
+
+            trap_match = False
+
+        else:
+
+            trap_match = False
 
         if trap_match:
 
@@ -3042,11 +3055,26 @@ def hockey_page():
 
         st.metric(
             "Écart de Force",
-            abs(
-                home_strength -
-                away_strength
-            )
+            strength_gap
         )
+
+        if strength_gap <= 2:
+
+            st.error(
+                "⚠️ Match très équilibré"
+            )
+
+        elif strength_gap <= 5:
+
+            st.warning(
+                "⚡ Match ouvert"
+            )
+
+        else:
+
+            st.success(
+                "✅ Favori bien identifié"
+            )
         
         fixture_id = game_data["id"]
         
