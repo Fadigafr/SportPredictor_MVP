@@ -452,3 +452,50 @@ def validate_basketball_results():
             print(
                 f"Basket validation error: {e}"
             )
+
+def get_prediction_stats(
+    prediction_type
+):
+
+    bets = load_predictions()
+
+    wins = 0
+    losses = 0
+
+    for bet in bets:
+
+        if bet.get(
+            "prediction"
+        ) != prediction_type:
+            continue
+
+        if bet.get(
+            "result"
+        ) == "WIN":
+
+            wins += 1
+
+        elif bet.get(
+            "result"
+        ) == "LOSS":
+
+            losses += 1
+
+    total = wins + losses
+
+    if total == 0:
+
+        return {
+            "wins": 0,
+            "losses": 0,
+            "success_rate": 50
+        }
+
+    return {
+        "wins": wins,
+        "losses": losses,
+        "success_rate": round(
+            wins / total * 100,
+            1
+        )
+    }
