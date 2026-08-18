@@ -2865,15 +2865,28 @@ def hockey_page():
         # SCORE IA V13
         # =========================
 
+        strength_gap = abs(
+            home_strength -
+            away_strength
+        )
+
         predicted_home = max(
-            1,
-            round(home_strength / 20)
+            2,
+            round(home_strength / 18)
         )
 
         predicted_away = max(
             1,
-            round(away_strength / 22)
+            round(away_strength / 20)
         )
+
+        if strength_gap >= 10:
+
+            predicted_home += 1
+
+        elif strength_gap <= 2:
+
+            predicted_away += 1
 
         winner = (
             home_team
