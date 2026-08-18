@@ -2834,12 +2834,12 @@ def hockey_page():
 
         home_strength = team_strength.get(
             home_team,
-            80
+            75 + (len(home_team) % 15)
         )
 
         away_strength = team_strength.get(
             away_team,
-            80
+            75 + (len(away_team) % 15)
         )
 
         predicted_home = game_data["scores"]["home"]
