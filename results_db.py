@@ -14,8 +14,6 @@ from database import (
     update_prediction_result
 )
 
-DB_FILE = "predictions_history.json"
-
 def save_prediction(
     sport,
     match,
