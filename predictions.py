@@ -2988,13 +2988,33 @@ def hockey_page():
 
             pass
 
-        if historical_success_rate >= 70:
+        if historical_success_rate >= 80:
+
+            learning_bonus = 15
+
+        elif historical_success_rate >= 70:
 
             learning_bonus = 10
+
+        elif historical_success_rate >= 60:
+
+            learning_bonus = 5
+
+        elif historical_success_rate <= 30:
+
+            learning_bonus = -15
 
         elif historical_success_rate <= 40:
 
             learning_bonus = -10
+
+        elif historical_success_rate <= 50:
+
+            learning_bonus = -5
+
+        else:
+
+            learning_bonus = 0
 
         confidence_score += learning_bonus
 
