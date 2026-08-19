@@ -3313,10 +3313,10 @@ def hockey_page():
             else "NON"
         )
 
-            st.metric(
-                "🔥 Over 5.5",
-                over55
-            )
+        st.metric(
+            "🔥 Over 5.5",
+            over55
+        )
 
         hockey_scorers = {
             "Finland U20": [
