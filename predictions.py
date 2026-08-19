@@ -3003,17 +3003,20 @@ def hockey_page():
 
             pass
 
-        if historical_success_rate >= 80:
+        learning_bonus = round(
+            (
+                historical_success_rate - 50
+            ) / 2,
+            1
+        )
 
-            learning_bonus = 15
-
-        elif historical_success_rate >= 70:
-
-            learning_bonus = 10
-
-        elif historical_success_rate >= 60:
-
-            learning_bonus = 5
+        learning_bonus = max(
+            -15,
+            min(
+                15,
+                learning_bonus
+            )
+        )
 
         elif historical_success_rate <= 30:
 
