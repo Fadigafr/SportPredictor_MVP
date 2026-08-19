@@ -3133,7 +3133,7 @@ def hockey_page():
             strength_gap
         )
 
-            st.write("DEBUG 1")
+        st.write("DEBUG 1")
         
         st.subheader("🏒 Analyse Hockey Premium")
 
