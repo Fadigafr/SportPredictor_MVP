@@ -3022,18 +3022,6 @@ def hockey_page():
             )
         )
 
-        try:
-
-            historical_success_rate = (
-                get_prediction_success_rate(
-                    prediction_type
-                )
-            )
-
-        except:
-
-            pass
-
         confidence_score += learning_bonus
 
         confidence_score = max(
@@ -3080,25 +3068,37 @@ def hockey_page():
 
         st.metric(
             "🎯 Bonus IA",
-            learning_bonus
+            f"{learning_bonus:+}"
         )
 
-    if learning_bonus > 0:
+    if learning_bonus > 5:
 
         st.success(
+            "📈 IA en forte progression"
+        )
+
+    elif learning_bonus > 0:
+
+        st.info(
             "📈 IA en progression"
+        )
+
+    elif learning_bonus < -5:
+
+        st.error(
+             "📉 IA sous surveillance"
         )
 
     elif learning_bonus < 0:
 
         st.warning(
-            "📉 IA à surveiller"
+             "📉 IA en baisse"
         )
 
     else:
 
         st.info(
-            "⚖️ IA stable
+            "⚖️ IA stable"
         )
 
         st.metric(
