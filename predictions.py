@@ -3133,7 +3133,7 @@ def hockey_page():
                 strength_gap
             )
 
-
+        st.write("DEBUG 1")
         st.subheader("🏒 Analyse Hockey Premium")
 
             st.metric(
@@ -3185,6 +3185,7 @@ def hockey_page():
             confidence_score
         )
 
+        st.write("DEBUG 2")
         col1, col2 = st.columns(2)
 
         period_1 = round(
@@ -3253,6 +3254,7 @@ def hockey_page():
 
         st.info(style_match)
 
+        st.write("DEBUG 3")
         with col1:
 
             st.metric(
