@@ -3046,30 +3046,30 @@ def hockey_page():
             1
         )
 
-            st.metric(
-                "🥅 Total Buts Prévu",
-                total_goals
-            )
+        st.metric(
+            "🥅 Total Buts Prévu",
+            total_goals
+        )
         
-            st.metric(
-                "💰 Value Bet Hockey",
-                f"{value_bet}%"
-            )
+        st.metric(
+            "💰 Value Bet Hockey",
+            f"{value_bet}%"
+        )
 
-            st.metric(
-                "🧠 IA INDEX",
-                f"{confidence_score}/100"
-            )
+        st.metric(
+            "🧠 IA INDEX",
+            f"{confidence_score}/100"
+        )
 
-            st.metric(
-                "📊 Réussite Historique",
-                f"{historical_success_rate}%"
-            )
+        st.metric(
+            "📊 Réussite Historique",
+            f"{historical_success_rate}%"
+        )
 
-            st.metric(
-                "🎯 Bonus IA",
-                f"{learning_bonus:+}"
-            )
+        st.metric(
+            "🎯 Bonus IA",
+            f"{learning_bonus:+}"
+        )
 
         if learning_bonus > 5:
 
@@ -3105,52 +3105,52 @@ def hockey_page():
     # ANALYSE HOCKEY PREMIUM
     # =========================
 
-            st.metric(
-                "⚠️ Risque",
-                risk_level
-            )
+        st.metric(
+            "⚠️ Risque",
+            risk_level
+        )
 
-            st.success(
-                f"🏆 Vainqueur IA : {winner}"
-            )
+        st.success(
+            f"🏆 Vainqueur IA : {winner}"
+        )
 
         st.subheader(
             "🏒 Analyse Hockey Premium"
         )
 
-            st.metric(
-                "Force Domicile",
-                home_strength
-            )
+        st.metric(
+            "Force Domicile",
+            home_strength
+        )
 
-            st.metric(
-                "Force Extérieur",
-                away_strength
-            )
+        st.metric(
+            "Force Extérieur",
+            away_strength
+        )
 
-            st.metric(
-                "Écart de Force",
-                strength_gap
-            )
+        st.metric(
+            "Écart de Force",
+            strength_gap
+        )
 
             st.write("DEBUG 1")
         
         st.subheader("🏒 Analyse Hockey Premium")
 
-            st.metric(
-                "Force Domicile",
-                home_strength
-            )
+        st.metric(
+            "Force Domicile",
+            home_strength
+        )
 
-            st.metric(
-                "Force Extérieur",
-                away_strength
-            )
+        st.metric(
+            "Force Extérieur",
+            away_strength
+        )
 
-            st.metric(
-                "Écart de Force",
-                strength_gap
-            )
+        st.metric(
+            "Écart de Force",
+            strength_gap
+        )
 
         if strength_gap <= 2:
 
