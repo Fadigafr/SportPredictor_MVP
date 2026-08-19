@@ -3113,27 +3113,6 @@ def hockey_page():
         st.success(
             f"🏆 Vainqueur IA : {winner}"
         )
-
-        st.subheader(
-            "🏒 Analyse Hockey Premium"
-        )
-
-        st.metric(
-            "Force Domicile",
-            home_strength
-        )
-
-        st.metric(
-            "Force Extérieur",
-            away_strength
-        )
-
-        st.metric(
-            "Écart de Force",
-            strength_gap
-        )
-
-        st.write("DEBUG 1")
         
         st.subheader("🏒 Analyse Hockey Premium")
 
@@ -3185,8 +3164,6 @@ def hockey_page():
             20,
             confidence_score
         )
-
-        st.write("DEBUG 2")
         
         col1, col2 = st.columns(2)
 
@@ -3255,8 +3232,6 @@ def hockey_page():
             style_match = "🛡️ Match Défensif"
 
         st.info(style_match)
-
-        st.write("DEBUG 3")
         
         with col1:
 
@@ -3348,21 +3323,6 @@ def hockey_page():
             ["Joueur 1", "Joueur 2", "Joueur 3"]
         ):
             st.write(f"✅ {scorer}")
-
-            st.metric(
-                "1ère Période",
-                period_1
-            )
-
-            st.metric(
-                "2ème Période",
-                period_2
-            )
-
-            st.metric(
-                "3ème Période",
-                period_3
-            )
 
         st.success(
             f"🎯 Top Pari Hockey : {best_bet}"
