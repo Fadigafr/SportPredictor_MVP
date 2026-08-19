@@ -4597,6 +4597,132 @@ def dashboard_global_page():
         "Total SQLite :",
         count_predictions()
     )
+
+    st.markdown("---")
+
+    st.subheader(
+        "🧠 IA Learning Live"
+    )
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    with col1:
+        st.metric(
+            "HOME",
+            f"{get_prediction_success_rate('HOME')}%"
+        )
+
+    with col2:
+        st.metric(
+            "AWAY",
+            f"{get_prediction_success_rate('AWAY')}%"
+        )
+
+    with col3:
+        st.metric(
+            "1",
+            f"{get_prediction_success_rate('1')}%"
+        )
+
+    with col4:
+        st.metric(
+            "N",
+            f"{get_prediction_success_rate('N')}%"
+        )
+
+    with col5:
+        st.metric(
+            "2",
+            f"{get_prediction_success_rate('2')}%"
+        )
+
+    learning_data = {
+
+        "HOME": get_prediction_success_rate(
+            "HOME"
+        ),
+
+        "AWAY": get_prediction_success_rate(
+            "AWAY"
+        ),
+
+        "1": get_prediction_success_rate(
+            "1"
+        ),
+
+        "N": get_prediction_success_rate(
+            "N"
+        ),
+
+        "2": get_prediction_success_rate(
+            "2"
+        )
+    }
+
+    best_prediction = max(
+        learning_data,
+        key=learning_data.get
+    )
+
+    best_rate = learning_data[
+        best_prediction
+    ]
+
+    st.success(
+        f"""
+    🏆 Meilleure prédiction IA
+
+    {best_prediction}
+
+    Fiabilité : {best_rate}%
+    """
+    )
+
+    worst_prediction = min(
+        learning_data,
+        key=learning_data.get
+    )
+
+    worst_rate = learning_data[
+        worst_prediction
+    ]
+
+    st.warning(
+        f"""
+    ⚠️ Prédiction la moins fiable
+
+    {worst_prediction}
+
+    Fiabilité : {worst_rate}%
+    """
+    )
+
+    total_bets = count_predictions()
+
+    if total_bets >= 500:
+
+        learning_level = "🧠 IA EXPERTE"
+
+    elif total_bets >= 250:
+
+        learning_level = "🎓 IA AVANCÉE"
+
+    elif total_bets >= 100:
+
+        learning_level = "📚 IA EN APPRENTISSAGE"
+
+    else:
+
+        learning_level = "👶 IA DÉBUTANTE"
+
+    st.info(
+        f"""
+    {learning_level}
+
+    Paris analysés :
+    {total_bets}
+    """
+    )
     
 def get_global_ai_indexes():
 
