@@ -3292,15 +3292,15 @@ def hockey_page():
                 period_3
             )
 
-        st.metric(
-            "🏅 Badge IA",
-            badge
-        )
+            st.metric(
+                "🏅 Badge IA",
+                badge
+            )
 
-        st.metric(
-            "🏆 Rating Hockey",
-            rating
-        )
+            st.metric(
+                "🏆 Rating Hockey",
+                rating
+            )
 
         over55 = (
             "OUI"
@@ -3308,10 +3308,10 @@ def hockey_page():
             else "NON"
         )
 
-        st.metric(
-            "🔥 Over 5.5",
-            over55
-        )
+            st.metric(
+                "🔥 Over 5.5",
+                over55
+            )
 
         hockey_scorers = {
             "Finland U20": [
@@ -3344,20 +3344,20 @@ def hockey_page():
         ):
             st.write(f"✅ {scorer}")
 
-        st.metric(
-            "1ère Période",
-            period_1
-        )
+            st.metric(
+                "1ère Période",
+                period_1
+            )
 
-        st.metric(
-            "2ème Période",
-            period_2
-        )
+            st.metric(
+                "2ème Période",
+                period_2
+            )
 
-        st.metric(
-            "3ème Période",
-            period_3
-        )
+            st.metric(
+                "3ème Période",
+                period_3
+            )
 
         st.success(
             f"🎯 Top Pari Hockey : {best_bet}"
