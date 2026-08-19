@@ -3250,26 +3250,11 @@ def hockey_page():
                 btts
             )
 
-            st.metric(
-                "1ère Période IA",
-                period_1
-            )
-
         with col2:
 
             st.metric(
                 "🔥 Over / Under",
                 over_under
-            )
-
-            st.metric(
-                "2ème Période IA",
-                period_2
-            )
-
-            st.metric(
-                "3ème Période IA",
-                period_3
             )
 
             st.metric(
@@ -3286,11 +3271,6 @@ def hockey_page():
             "OUI"
             if total_goals > 5.5
             else "NON"
-        )
-
-        st.metric(
-            "🔥 Over 5.5",
-            over55
         )
 
         hockey_scorers = {
