@@ -3003,6 +3003,10 @@ def hockey_page():
 
             pass
 
+        # =========================
+        # V14.4 AUTO-PONDÉRATION IA
+        # =========================
+
         learning_bonus = round(
             (
                 historical_success_rate - 50
@@ -3018,21 +3022,17 @@ def hockey_page():
             )
         )
 
-        elif historical_success_rate <= 30:
+        try:
 
-            learning_bonus = -15
+            historical_success_rate = (
+                get_prediction_success_rate(
+                    prediction_type
+                )
+            )
 
-        elif historical_success_rate <= 40:
+        except:
 
-            learning_bonus = -10
-
-        elif historical_success_rate <= 50:
-
-            learning_bonus = -5
-
-        else:
-
-            learning_bonus = 0
+            pass
 
         confidence_score += learning_bonus
 
@@ -3081,6 +3081,24 @@ def hockey_page():
         st.metric(
             "🎯 Bonus IA",
             learning_bonus
+        )
+
+    if learning_bonus > 0:
+
+        st.success(
+            "📈 IA en progression"
+        )
+
+    elif learning_bonus < 0:
+
+        st.warning(
+            "📉 IA à surveiller"
+        )
+
+    else:
+
+        st.info(
+            "⚖️ IA stable
         )
 
         st.metric(
