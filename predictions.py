@@ -1011,7 +1011,12 @@ def predictions_page():
     )
 
     st.metric(
-        "Bonus IA",
+        "🧠 IA Learning",
+        f"{historical_success_rate}%"
+    )
+
+    st.metric(
+        "🚀 Bonus Auto IA",
         learning_bonus
     )
 
@@ -1968,6 +1973,16 @@ def basketball_page():
         st.metric(
             "🧠 IA INDEX",
             f"{confidence_basket}/100"
+        )
+
+        st.metric(
+            "🧠 IA Learning",
+            f"{historical_success_rate}%"
+        )
+
+        st.metric(
+            "🚀 Bonus Auto IA",
+            learning_bonus
         )
 
         st.success(
