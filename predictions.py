@@ -74,6 +74,7 @@ from database import (
     count_predictions,
     count_users
 )
+from database import db_diagnostics
 
 st.write(
     "👤 Utilisateurs :",
