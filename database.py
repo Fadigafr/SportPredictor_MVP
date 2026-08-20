@@ -160,3 +160,22 @@ def count_predictions():
     conn.close()
 
     return total
+
+def count_predictions_db():
+
+    conn = get_conn()
+
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT COUNT(*)
+        FROM predictions_history
+    """)
+
+    total = c.fetchone()[0]
+
+    conn.close()
+
+    return total
+
+    
