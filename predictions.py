@@ -70,6 +70,15 @@ from database import (
     load_predictions_db,
     count_predictions
 )
+from database import (
+    count_predictions,
+    count_users
+)
+
+st.write(
+    "👤 Utilisateurs :",
+    count_users()
+)
 
 # =====================================================
 # POISSON
