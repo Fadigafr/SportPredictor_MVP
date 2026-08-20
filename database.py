@@ -149,3 +149,87 @@ def db_diagnostics():
     conn.close()
 
     return users, predictions
+
+def save_prediction_db(
+    date,
+    sport,
+    match,
+    fixture_id,
+    prediction,
+    ai_index,
+    odd,
+    result="PENDING"
+):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute("""
+        INSERT INTO predictions_history
+        (
+            date,
+            sport,
+            match,
+            fixture_id,
+            prediction,
+            ai_index,
+            odd,
+            result
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """,
+    (
+        date,
+        sport,
+        match,
+        fixture_id,
+        prediction,
+        ai_index,
+        odd,
+        result
+    ))
+
+    conn.commit()
+    conn.close()
+
+def load_predictions_db():
+
+    conn = get_conn()
+
+    conn.row_factory = sqlite3.Row
+
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT *
+        FROM predictions_history
+        ORDER BY id DESC
+    """)
+
+    rows = c.fetchall()
+
+    conn.close()
+
+    return [dict(row) for row in rows]
+
+def update_prediction_result(
+    prediction_id,
+    result
+):
+
+    conn = get_conn()
+
+    c = conn.cursor()
+
+    c.execute(
+        """
+        UPDATE predictions_history
+        SET result = ?
+        WHERE id = ?
+        """,
+        (result, prediction_id)
+    )
+
+    conn.commit()
+    conn.close()
+
