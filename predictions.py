@@ -4734,6 +4734,13 @@ if os.path.exists("users.db"):
         "Taille DB:",
         os.path.getsize("users.db")
     )
+
+from database import count_predictions
+
+st.write(
+    "📊 Nombre de paris SQLite :",
+    count_predictions()
+)
     
 def get_global_ai_indexes():
 
