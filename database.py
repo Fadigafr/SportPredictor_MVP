@@ -178,4 +178,18 @@ def count_predictions_db():
 
     return total
 
-    
+def count_users():
+
+    conn = get_conn()
+
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT COUNT(*) FROM users"
+    )
+
+    total = c.fetchone()[0]
+
+    conn.close()
+
+    return total   
