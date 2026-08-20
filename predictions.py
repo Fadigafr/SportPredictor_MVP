@@ -4713,6 +4713,22 @@ def dashboard_global_page():
     {total_bets}
     """
     )
+
+import os
+
+    st.write("DB :", os.path.abspath("users.db"))
+
+    st.write(
+        "DB existe ?",
+        os.path.exists("users.db")
+    )
+
+    if os.path.exists("users.db"):
+
+        st.write(
+            "Taille DB:",
+            os.path.getsize("users.db")
+        )
     
 def get_global_ai_indexes():
 
