@@ -4749,6 +4749,16 @@ st.write(
     "📊 Nombre de paris SQLite :",
     count_predictions()
 )
+
+users, predictions = db_diagnostics()
+
+st.write(
+    f"👤 Utilisateurs SQLite : {users}"
+)
+
+st.write(
+    f"📊 Paris SQLite : {predictions}"
+)
     
 def get_global_ai_indexes():
 
