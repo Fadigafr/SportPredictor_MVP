@@ -16,8 +16,8 @@ def login():
         "SELECT COUNT(*) FROM users"
     ).fetchone()[0]
 
-    st.*idebar.write(
-        f"👤 Users DB : *count}"
+    st.sidebar.write(
+        f"👤 Users DB : {count}"
     )
 
     mode = st.sidebar.radio(
