@@ -4731,6 +4731,21 @@ def dashboard_global_page():
 
 import os
 from database import count_predictions
+import sqlite3
+
+conn = sqlite3.connect("users.db")
+
+c = conn.cursor()
+
+c.execute(
+    "SELECT * FROM users"
+)
+
+st.write(
+    c.fetchall()
+)
+
+conn
 
 st.write("DB :", os.path.abspath("users.db"))
 
