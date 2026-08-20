@@ -4714,6 +4714,11 @@ def dashboard_global_page():
     """
     )
 
+    st.write(
+        "📊 Lignes SQLite :",
+        count_predictions_db()
+    )
+
 import os
 
 st.write("DB :", os.path.abspath("users.db"))
