@@ -193,3 +193,22 @@ def count_users():
     conn.close()
 
     return total   
+
+def db_diagnostics():
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT COUNT(*) FROM users"
+    )
+    users = c.fetchone()[0]
+
+    c.execute(
+        "SELECT COUNT(*) FROM predictions_history"
+    )
+    predictions = c.fetchone()[0]
+
+    conn.close()
+
+    return users, predictions
