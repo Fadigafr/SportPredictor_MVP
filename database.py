@@ -2,20 +2,6 @@ import sqlite3
 
 DB = "users.db"
 
-import os
-
-st.write(
-    "DB existe :",
-    os.path.exists("users.db")
-)
-
-st.write(
-    "Taille DB :",
-    os.path.getsize("users.db")
-    if os.path.exists("users.db")
-    else 0
-)
-
 def get_conn():
     return sqlite3.connect(
         DB,
