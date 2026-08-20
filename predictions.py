@@ -4720,6 +4720,7 @@ def dashboard_global_page():
     )
 
 import os
+from database import count_predictions
 
 st.write("DB :", os.path.abspath("users.db"))
 
@@ -4734,8 +4735,6 @@ if os.path.exists("users.db"):
         "Taille DB:",
         os.path.getsize("users.db")
     )
-
-from database import count_predictions
 
 st.write(
     "📊 Nombre de paris SQLite :",
