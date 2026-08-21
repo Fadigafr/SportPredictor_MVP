@@ -70,10 +70,6 @@ from database import (
     load_predictions_db,
     count_predictions
 )
-from database import (
-    count_predictions,
-    count_users
-)
 
 # =====================================================
 # POISSON
@@ -4722,49 +4718,6 @@ def dashboard_global_page():
         "📊 Lignes SQLite :",
         count_predictions_db()
     )
-
-import os
-from database import count_predictions
-import sqlite3
-
-conn = sqlite3.connect("users.db")
-
-c = conn.cursor()
-
-c.execute(
-    "SELECT * FROM users"
-)
-
-st.write(
-    c.fetchall()
-)
-
-st.write("DB :", os.path.abspath("users.db"))
-
-st.write(
-    "DB existe ?",
-    os.path.exists("users.db")
-)
-
-if os.path.exists("users.db"):
-
-    st.write(
-        "Taille DB:",
-        os.path.getsize("users.db")
-    )
-
-st.write(
-    "📊 Nombre de paris SQLite :",
-    count_predictions()
-)
-
-st.write(
-    f"👤 Utilisateurs SQLite : {users}"
-)
-
-st.write(
-    f"📊 Paris SQLite : {predictions}"
-)
     
 def get_global_ai_indexes():
 
