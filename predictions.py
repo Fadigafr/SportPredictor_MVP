@@ -76,10 +76,11 @@ from database import (
 )
 from database import db_diagnostics
 
-st.write(
-    "👤 Utilisateurs :",
-    count_users()
-)
+# st.write(
+#*    "👤 Utilisateurs :",
+#     cou*t_users()
+# )
+*
 
 # =====================================================
 # POISSON
