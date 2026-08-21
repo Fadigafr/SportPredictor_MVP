@@ -99,7 +99,7 @@ def init_db():
     create_default_admin()
 
 
-def count_predictions():
+#def count_predictions():
 
     conn = get_conn()
     c = conn.cursor()
@@ -115,7 +115,7 @@ def count_predictions():
     return total
 
 
-def count_users():
+#def count_users():
 
     conn = get_conn()
     c = conn.cursor()
@@ -131,7 +131,7 @@ def count_users():
     return total
 
 
-def db_diagnostics():
+# db_diagnostics():
 
     conn = get_conn()
     c = conn.cursor()
