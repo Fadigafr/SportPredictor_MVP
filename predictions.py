@@ -4716,7 +4716,7 @@ def dashboard_global_page():
     )
     st.write(
         "📊 Nombre de paris SQLite :",
-        count_predictions_db()
+        # count_predictions_db()
     )
     
 def get_global_ai_indexes():
