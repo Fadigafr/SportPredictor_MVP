@@ -98,7 +98,20 @@ def init_db():
     # Création automatique du compte admin
     create_default_admin()
 
+def count_predictions():
 
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute(
+        "SELECT COUNT(*) FROM predictions_history"
+    )
+
+    total = c.fetchone()[0]
+
+    conn.close()
+
+    return total
 def count_predictions_db():
 
     conn = get_conn()
