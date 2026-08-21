@@ -74,13 +74,6 @@ from database import (
     count_predictions,
     count_users
 )
-from database import db_diagnostics
-
-# st.write(
-#*    "👤 Utilisateurs :",
-#     cou*t_users()
-# )
-*
 
 # =====================================================
 # POISSON
@@ -4746,8 +4739,6 @@ st.write(
     c.fetchall()
 )
 
-conn
-
 st.write("DB :", os.path.abspath("users.db"))
 
 st.write(
@@ -4766,8 +4757,6 @@ st.write(
     "📊 Nombre de paris SQLite :",
     count_predictions()
 )
-
-users, predictions = db_diagnostics()
 
 st.write(
     f"👤 Utilisateurs SQLite : {users}"
