@@ -99,7 +99,7 @@ def init_db():
     create_default_admin()
 
 
-def count_predictions():
+def count_predictions_db():
 
     conn = get_conn()
     c = conn.cursor()
