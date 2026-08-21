@@ -66,10 +66,8 @@ from results_db import get_ai_reliability
 from results_db import (
     get_prediction_success_rate
 )
-from database import count_predictions_db
 from database import (
-    load_predictions_db,
-    count_predictions
+    load_predictions_db
 )
 
 # =====================================================
@@ -4713,10 +4711,6 @@ def dashboard_global_page():
     Paris analysés :
     {total_bets}
     """
-    )
-    st.write(
-        "📊 Nombre de paris SQLite :",
-        # count_predictions_db()
     )
     
 def get_global_ai_indexes():
