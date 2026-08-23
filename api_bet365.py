@@ -32,8 +32,11 @@ def api_get(endpoint):
 
     if response.status_code != 200:
 
-        print(response.text)
-        return {}
+    print("URL =", url)
+    print("STATUS =", response.status_code)
+    print("RESPONSE =", response.text)
+
+    return {}
 
     return response.json()
 
