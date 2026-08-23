@@ -27,16 +27,14 @@ def api_get(endpoint):
         timeout=30
     )
 
-    print("URL :", url)
-    print("STATUS :", response.status_code)
+    print("URL =", url)
+    print("STATUS =", response.status_code)
 
     if response.status_code != 200:
 
-    print("URL =", url)
-    print("STATUS =", response.status_code)
-    print("RESPONSE =", response.text)
+    print(response.text)
 
-    return {}
+        return {}
 
     return response.json()
 
