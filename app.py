@@ -28,17 +28,17 @@ from api_bet365 import (
     get_live_events_sports
 )
 
-if st.button("TEST SPORTS"):
+#if st.button("TEST SPORTS"):
 
-    data = get_live_events_sports()
+    #data = get_live_events_sports()
 
-    st.json(data)
+    #st.json(data)
 
-if st.button("TEST SOCCER"):
+#if st.button("TEST SOCCER"):
 
-    matches = get_soccer_live()
+    #matches = get_soccer_live()
 
-    st.json(matches[:5])
+    #st.json(matches[:5])
 
 init_db()
 
