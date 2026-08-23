@@ -69,13 +69,6 @@ from results_db import (
 from database import (
     load_predictions_db
 )
-from api_bet365 import get_soccer_live
-
-if st.button("TEST BET365"):
-
-    matches = get_soccer_live()
-
-    st.json(matches[:5])
 
 # =====================================================
 # POISSON
