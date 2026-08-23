@@ -20,8 +20,6 @@ from api_bet365 import (
 
 def validate_bet365_football():
 
-    bets = load_predictions()
-
     matches = get_soccer_live()
 
     for match in matches:
@@ -30,7 +28,7 @@ def validate_bet365_football():
             continue
 
         print(
-            f"Match terminé : "
+            f"FT : "
             f"{match['home']} vs {match['away']}"
         )
     
