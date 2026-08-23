@@ -25,6 +25,14 @@ def validate_bet365_football():
     matches = get_soccer_live()
 
     for match in matches:
+
+        if not is_finished(match):
+            continue
+
+        print(
+            f"Match terminé : "
+            f"{match['home']} vs {match['away']}"
+        )
     
 def save_prediction(
     sport,
