@@ -292,6 +292,13 @@ elif menu == "Calendrier":
             sorted(competitions.keys())
         )
 
+    if not competitions:
+
+        st.warning(
+            "Aucune compétition disponible"
+        )
+        st.stop()
+        
         league_id = competitions[competition]["id"]
 
         st.image(
