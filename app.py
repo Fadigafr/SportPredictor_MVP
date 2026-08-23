@@ -28,6 +28,13 @@ from api_bet365 import (
     get_live_events_sports
 )
 from api_bet365 import get_live_events_sports
+from api_bet365 import get_soccer_live
+
+if st.button("TEST SOCCER"):
+
+    data = get_soccer_live()
+
+    st.json(data)
 
 if st.button("TEST SPORTS"):
 
