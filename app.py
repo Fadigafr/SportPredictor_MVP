@@ -292,11 +292,6 @@ elif menu == "Calendrier":
         )
 
     if not competition:
-
-        st.warning(
-            "Choisissez une compétition"
-        )
-
         st.stop()
 
         league_id = competitions[competition]["id"]
