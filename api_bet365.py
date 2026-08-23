@@ -40,7 +40,7 @@ def api_get(endpoint):
 def get_live_events_sports():
 
     return api_get(
-        "/v2/bet365/live-events/sports"
+        "/live-events/sports"
     )
 
 # =====================================
@@ -207,7 +207,7 @@ def normalize_tennis_event(event):
 def get_soccer_live():
 
     return api_get(
-        "/v2/bet365/live-events?sport=Soccer"
+        "/live-events?sport=soccer"
     )
 
 # =====================================
@@ -217,7 +217,7 @@ def get_soccer_live():
 def get_hockey_live():
 
     return api_get(
-        "/v2/bet365/live-events?sport=Ice Hockey"
+        "/live-events?sport=ice hockey"
     )
 
 # =====================================
@@ -227,7 +227,7 @@ def get_hockey_live():
 def get_basketball_live():
 
     return api_get(
-        "/v2/bet365/live-events?sport=Basketball"
+        "/live-events?sport=basketball"
     )
 
 # =====================================
@@ -237,7 +237,7 @@ def get_basketball_live():
 def get_tennis_live():
 
     return api_get(
-        "/v2/bet365/live-events?sport=Tennis"
+        "/live-events?sport=tennis"
     )
 
 # =====================================
