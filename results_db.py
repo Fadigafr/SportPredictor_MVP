@@ -18,18 +18,6 @@ from api_bet365 import (
     is_finished
 )
 
-for match in get_soccer_live():
-
-    if is_finished(match):
-
-        print(
-            "MATCH TERMINE"
-        )
-
-        print(
-            match["score"]
-        )
-
 def validate_bet365_football():
 
     bets = load_predictions()
