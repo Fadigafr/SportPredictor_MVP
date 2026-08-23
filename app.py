@@ -34,9 +34,6 @@ if st.button("TEST SPORTS"):
 
     data = get_live_events_sports()
 
-    st.text(str(type(data)))
-    st.json(data)
-
 init_db()
 
 validate_football_results()
