@@ -27,20 +27,24 @@ from api_bet365 import get_soccer_live
 from api_bet365 import (
     get_live_events_sports
 )
-from api_bet365 import get_live_events_sports
-from api_bet365 import get_soccer_live
+from api_bet365 import (
+    get_soccer_live,
+    get_basketball_live,
+    get_hockey_live,
+    get_tennis_live
+)
 
 if st.button("TEST SOCCER"):
+    st.json(get_soccer_live())
 
-    data = get_soccer_live()
+if st.button("TEST BASKETBALL"):
+    st.json(get_basketball_live())
 
-    st.json(data)
+if st.button("TEST HOCKEY"):
+    st.json(get_hockey_live())
 
-if st.button("TEST SPORTS"):
-
-    data = get_live_events_sports()
-
-    st.json(data)
+if st.button("TEST TENNIS"):
+    st.json(get_tennis_live())
 
 init_db()
 
