@@ -28,24 +28,7 @@ def api_get(endpoint):
         timeout=30
     )
 
-    print("URL =", url)
-
-    print(
-        "KEY PRESENT =",
-        API_KEY != "VOTRE_CLE_RAPIDAPI"
-    )
-
-    print(
-        "HOST =",
-        HEADERS["x-rapidapi-host"]
-    )
-
-    print("URL =", url)
-    print("STATUS =", response.status_code)
-
     if response.status_code != 200:
-
-        print(response.text)
 
         return {}
 
