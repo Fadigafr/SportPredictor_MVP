@@ -13,6 +13,10 @@ HEADERS = {
     "x-rapidapi-key": API_KEY,
     "x-rapidapi-host": "bet365data.p.rapidapi.com"
 }
+print(
+    "KEY PRESENT =",
+    bool(API_KEY)
+)
 print(HEADERS)
 
 # =====================================
