@@ -39,6 +39,10 @@ if st.button("TEST SOCCER"):
 
     st.json(matches[:5])
 
+    st.write(
+        HEADERS
+    )
+
 init_db()
 
 validate_football_results()
