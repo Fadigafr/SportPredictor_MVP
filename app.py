@@ -34,7 +34,9 @@ if st.button("TEST SPORTS"):
 
     data = get_live_events_sports()
 
-    st.write(type(data))
+    st.text(
+        str(type(data))
+    )
 
     st.json(data)
 
