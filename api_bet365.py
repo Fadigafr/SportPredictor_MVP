@@ -17,6 +17,10 @@ print(
     "KEY PRESENT =",
     bool(API_KEY)
 )
+print(
+    "SECRET OK =",
+    "RAPIDAPI_KEY" in st.secrets
+)
 print(HEADERS)
 
 # =====================================
