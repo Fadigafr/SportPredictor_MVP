@@ -23,6 +23,13 @@ from results_db import (
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
+from api_bet365 import get_soccer_live
+
+if st.button("TEST BET365"):
+
+    matches = get_soccer_live()
+
+    st.json(matches[:5])
 
 init_db()
 
