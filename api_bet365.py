@@ -38,11 +38,25 @@ def api_get(endpoint):
     return response.json()
 
 
-def get_live_events_sports():
+def get_soccer_live():
 
-    return api_get(
-        "/live-events/sports"
+    data = api_get(
+        "/v2/bet365/live-events?sport=Soccer"
     )
+
+    if "data" not in data:
+
+        print("Erreur Bet365 :")
+        print(data)
+
+        return []
+
+    events = data["data"]["events"]
+
+    return [
+        normalize_soccer_event(e)
+        for e in events
+    ]
         
 # =====================================
 # NORMALISATION STATUT
