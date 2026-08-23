@@ -36,21 +36,6 @@ def api_get(endpoint):
         }
 
     return response.json()
-def api_get(endpoint):
-
-    url = f"{BASE_URL}{endpoint}"
-
-    response = requests.get(
-        url,
-        headers=HEADERS,
-        timeout=30
-    )
-
-    if response.status_code != 200:
-
-        return {}
-
-    return response.json()
 
 def get_live_events_sports():
 
@@ -58,12 +43,6 @@ def get_live_events_sports():
         "/v2/bet365/live-events/sports"
     )
 
-
-def get_soccer_live():
-
-    return api_get(
-        "/v2/bet365/live-events?sport=Soccer"
-    )
 # =====================================
 # NORMALISATION STATUT
 # =====================================
@@ -255,14 +234,6 @@ def get_hockey_live():
         "/v2/bet365/live-events?sport=Ice Hockey"
     )
 
-    events = data["data"]["events"]
-
-    return [
-        normalize_hockey_event(e)
-        for e in events
-    ]
-
-
 # =====================================
 # BASKETBALL LIVE
 # =====================================
@@ -273,14 +244,6 @@ def get_basketball_live():
         "/v2/bet365/live-events?sport=Basketball"
     )
 
-    events = data["data"]["events"]
-
-    return [
-        normalize_basketball_event(e)
-        for e in events
-    ]
-
-
 # =====================================
 # TENNIS LIVE
 # =====================================
@@ -290,14 +253,6 @@ def get_tennis_live():
     return api_get(
         "/v2/bet365/live-events?sport=Tennis"
     )
-
-    events = data["data"]["events"]
-
-    return [
-        normalize_tennis_event(e)
-        for e in events
-    ]
-
 
 # =====================================
 # MATCH TERMINE ?
