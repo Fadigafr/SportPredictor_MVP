@@ -6,9 +6,7 @@ import requests
 
 API_KEY = "VOTRE_CLE_RAPIDAPI"
 
-BASE_URL = (
-    "https://bet365data.p.rapidapi.com"
-)
+BASE_URL = "https://bet365data.p.rapidapi.com"
 
 HEADERS = {
     "x-rapidapi-key": API_KEY,
@@ -29,11 +27,12 @@ def api_get(endpoint):
         timeout=30
     )
 
+    print("URL :", url)
+    print("STATUS :", response.status_code)
+
     if response.status_code != 200:
 
-        print(response.status_code)
         print(response.text)
-
         return {}
 
     return response.json()
@@ -209,7 +208,7 @@ def normalize_tennis_event(event):
 def get_soccer_live():
 
     data = api_get(
-        "/soccer/live"
+        "/v2/bet365/live-events?sport=Soccer"
     )
 
     if "data" not in data:
@@ -225,7 +224,6 @@ def get_soccer_live():
         normalize_soccer_event(e)
         for e in events
     ]
-
 
 # =====================================
 # HOCKEY LIVE
@@ -327,3 +325,21 @@ def get_score(event):
             0,
             0
         )
+
+def get_basketball_live():
+
+    return api_get(
+        "/v2/bet365/live-events?sport=Basketball"
+    )
+
+def get_hockey_live():
+
+    return api_get(
+        "/v2/bet365/live-events?sport=Ice Hockey"
+    )
+
+def get_tennis_live():
+
+    return api_get(
+        "/v2/bet365/live-events?sport=Tennis"
+    )
