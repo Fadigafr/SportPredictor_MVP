@@ -39,7 +39,13 @@ def get_live_events_sports():
     return api_get(
         "/v2/bet365/live-events/sports"
     )
-        
+
+
+def get_soccer_live():
+
+    return api_get(
+        "/v2/bet365/live-events?sport=Soccer"
+    )
 # =====================================
 # NORMALISATION STATUT
 # =====================================
