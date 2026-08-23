@@ -32,7 +32,7 @@ def api_get(endpoint):
 
     if response.status_code != 200:
 
-    print(response.text)
+        print(response.text)
 
         return {}
 
