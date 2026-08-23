@@ -24,7 +24,7 @@ def validate_bet365_football():
 
     matches = get_soccer_live()
 
-    for match in
+    for match in matches:
     
 def save_prediction(
     sport,
