@@ -38,7 +38,11 @@ def api_get(endpoint):
 
     return response.json()
 
+def get_live_events_sports():
 
+    return api_get(
+        "/live-events/sports"
+        
 # =====================================
 # NORMALISATION STATUT
 # =====================================
@@ -314,8 +318,3 @@ def get_score(event):
             0,
             0
         )
-
-def get_live_events_sports():
-
-    return api_get(
-        "/live-events/sports"
