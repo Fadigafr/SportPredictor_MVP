@@ -24,6 +24,14 @@ from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
 from api_bet365 import get_soccer_live
+from api_bet365 import (
+    get_live_events_sports
+)
+if st.button("TEST BET365"):
+
+    data = get_live_events_sports()
+
+    st.json(data)
 
 if st.button("TEST BET365"):
 
