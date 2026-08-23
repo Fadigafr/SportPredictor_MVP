@@ -5,6 +5,7 @@ import requests
 # =====================================
 
 API_KEY = "VOTRE_CLE_RAPIDAPI"
+print("API KEY =", API_KEY[:10])
 
 BASE_URL = "https://bet365data.p.rapidapi.com"
 
