@@ -212,10 +212,19 @@ def get_soccer_live():
         "/soccer/live"
     )
 
-    print("BET365 RESPONSE:")
-    print(data)
+    if "data" not in data:
 
-    return []
+        print("Erreur Bet365 :")
+        print(data)
+
+        return []
+
+    events = data["data"]["events"]
+
+    return [
+        normalize_soccer_event(e)
+        for e in events
+    ]
 
 
 # =====================================
