@@ -1,11 +1,11 @@
 import requests
+import streamlit as st
 
 # =====================================
 # CONFIGURATION
 # =====================================
 
-API_KEY = "VOTRE_CLE_RAPIDAPI"
-print("API KEY =", API_KEY[:10])
+API_KEY = st.secrets["RAPIDAPI_KEY"]
 
 BASE_URL = "https://bet365data.p.rapidapi.com"
 
