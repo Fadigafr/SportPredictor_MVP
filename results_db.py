@@ -30,7 +30,14 @@ for match in get_soccer_live():
             match["score"]
         )
 
+def validate_bet365_football():
 
+    bets = load_predictions()
+
+    matches = get_soccer_live()
+
+    for match in
+    
 def save_prediction(
     sport,
     match,
@@ -49,15 +56,7 @@ def save_prediction(
         ai_index=ai_index,
         odd=odd,
         result="PENDING"
-    )
-
-def validate_bet365_football():
-
-    bets = load_predictions()
-
-    matches = get_soccer_live()
-
-    for match in 
+    ) 
 
 def load_predictions():
 
