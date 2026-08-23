@@ -212,12 +212,10 @@ def get_soccer_live():
         "/soccer/live"
     )
 
-    events = data["data"]["events"]
+    print("BET365 RESPONSE:")
+    print(data)
 
-    return [
-        normalize_soccer_event(e)
-        for e in events
-    ]
+    return []
 
 
 # =====================================
