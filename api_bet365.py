@@ -31,17 +31,19 @@ def api_get(endpoint):
 
     if response.status_code != 200:
 
-    print(response.status_code)
-    print(response.text)
+        print(response.status_code)
+        print(response.text)
 
-    return {}
+        return {}
 
     return response.json()
+
 
 def get_live_events_sports():
 
     return api_get(
         "/live-events/sports"
+    )
         
 # =====================================
 # NORMALISATION STATUT
