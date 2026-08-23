@@ -13,6 +13,7 @@ HEADERS = {
     "x-rapidapi-key": API_KEY,
     "x-rapidapi-host": "bet365data.p.rapidapi.com"
 }
+print(HEADERS)
 
 # =====================================
 # REQUETE GENERIQUE
@@ -26,6 +27,18 @@ def api_get(endpoint):
         url,
         headers=HEADERS,
         timeout=30
+    )
+
+    print("URL =", url)
+
+    print(
+        "KEY PRESENT =",
+        API_KEY != "VOTRE_CLE_RAPIDAPI"
+    )
+
+    print(
+        "HOST =",
+        HEADERS["x-rapidapi-host"]
     )
 
     print("URL =", url)
