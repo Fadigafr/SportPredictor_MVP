@@ -206,9 +206,20 @@ def normalize_tennis_event(event):
 
 def get_soccer_live():
 
-    return api_get(
+    data = api_get(
         "/live-events?sport=soccer"
     )
+
+    if "data" not in data:
+
+        return []
+
+    events = data["data"]["events"]
+
+    return [
+        normalize_soccer_event(e)
+        for e in events
+    ]
 
 # =====================================
 # HOCKEY LIVE
