@@ -13,6 +13,23 @@ from database import (
     load_predictions_db,
     update_prediction_result
 )
+from api_bet365 import (
+    get_soccer_live,
+    is_finished
+)
+
+for match in get_soccer_live():
+
+    if is_finished(match):
+
+        print(
+            "MATCH TERMINE"
+        )
+
+        print(
+            match["score"]
+        )
+
 
 def save_prediction(
     sport,
@@ -33,6 +50,14 @@ def save_prediction(
         odd=odd,
         result="PENDING"
     )
+
+def validate_bet365_football():
+
+    bets = load_predictions()
+
+    matches = get_soccer_live()
+
+    for match in 
 
 def load_predictions():
 
