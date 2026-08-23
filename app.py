@@ -27,7 +27,6 @@ from api_bet365 import get_soccer_live
 from api_bet365 import (
     get_live_events_sports
 )
-
 from api_bet365 import get_live_events_sports
 
 init_db()
@@ -292,13 +291,14 @@ elif menu == "Calendrier":
             sorted(competitions.keys())
         )
 
-    if not competitions:
+    if not competition:
 
         st.warning(
-            "Aucune compétition disponible"
+            "Choisissez une compétition"
         )
+
         st.stop()
-        
+
         league_id = competitions[competition]["id"]
 
         st.image(
