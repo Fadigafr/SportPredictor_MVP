@@ -5,15 +5,15 @@ matches = get_soccer_live()
 for match in matches:
 
     print(
-        f"{match['home']} vs {match['away']}"
+        match["home"],
+        "vs",
+        match["away"]
     )
 
     print(
-        f"Score : {match['score']}"
+        match["status"]
     )
 
     print(
-        f"Status : {match['status']}"
+        match["score"]
     )
-
-    print("-" * 30)
