@@ -21,6 +21,14 @@ print(
     "SECRET OK =",
     "RAPIDAPI_KEY" in st.secrets
 )
+print(
+    "SECRET EXISTS =",
+    "RAPIDAPI_KEY" in st.secrets
+)
+print(
+    "KEY LENGTH =",
+    len(st.secrets["RAPIDAPI_KEY"])
+)
 print(HEADERS)
 
 # =====================================
