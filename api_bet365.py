@@ -206,23 +206,9 @@ def normalize_tennis_event(event):
 
 def get_soccer_live():
 
-    data = api_get(
+    return api_get(
         "/v2/bet365/live-events?sport=Soccer"
     )
-
-    if "data" not in data:
-
-        print("Erreur Bet365 :")
-        print(data)
-
-        return []
-
-    events = data["data"]["events"]
-
-    return [
-        normalize_soccer_event(e)
-        for e in events
-    ]
 
 # =====================================
 # HOCKEY LIVE
