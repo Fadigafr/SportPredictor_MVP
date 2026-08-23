@@ -30,6 +30,24 @@ def api_get(endpoint):
 
     if response.status_code != 200:
 
+        return {
+            "status": response.status_code,
+            "body": response.text
+        }
+
+    return response.json()
+def api_get(endpoint):
+
+    url = f"{BASE_URL}{endpoint}"
+
+    response = requests.get(
+        url,
+        headers=HEADERS,
+        timeout=30
+    )
+
+    if response.status_code != 200:
+
         return {}
 
     return response.json()
