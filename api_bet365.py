@@ -36,27 +36,6 @@ def api_get(endpoint):
         return {}
 
     return response.json()
-
-
-def get_soccer_live():
-
-    data = api_get(
-        "/v2/bet365/live-events?sport=Soccer"
-    )
-
-    if "data" not in data:
-
-        print("Erreur Bet365 :")
-        print(data)
-
-        return []
-
-    events = data["data"]["events"]
-
-    return [
-        normalize_soccer_event(e)
-        for e in events
-    ]
         
 # =====================================
 # NORMALISATION STATUT
@@ -245,8 +224,8 @@ def get_soccer_live():
 
 def get_hockey_live():
 
-    data = api_get(
-        "/ice-hockey/live"
+    return api_get(
+        "/v2/bet365/live-events?sport=Ice Hockey"
     )
 
     events = data["data"]["events"]
@@ -263,8 +242,8 @@ def get_hockey_live():
 
 def get_basketball_live():
 
-    data = api_get(
-        "/basketball/live"
+    return api_get(
+        "/v2/bet365/live-events?sport=Basketball"
     )
 
     events = data["data"]["events"]
@@ -281,8 +260,8 @@ def get_basketball_live():
 
 def get_tennis_live():
 
-    data = api_get(
-        "/tennis/live"
+    return api_get(
+        "/v2/bet365/live-events?sport=Tennis"
     )
 
     events = data["data"]["events"]
@@ -339,21 +318,3 @@ def get_score(event):
             0,
             0
         )
-
-def get_basketball_live():
-
-    return api_get(
-        "/v2/bet365/live-events?sport=Basketball"
-    )
-
-def get_hockey_live():
-
-    return api_get(
-        "/v2/bet365/live-events?sport=Ice Hockey"
-    )
-
-def get_tennis_live():
-
-    return api_get(
-        "/v2/bet365/live-events?sport=Tennis"
-    )
