@@ -30,7 +30,12 @@ def api_get(endpoint):
         timeout=30
     )
 
-    response.raise_for_status()
+    if response.status_code != 200:
+
+    print(response.status_code)
+    print(response.text)
+
+    return {}
 
     return response.json()
 
