@@ -36,6 +36,12 @@ def api_get(endpoint):
         return {}
 
     return response.json()
+
+def get_live_events_sports():
+
+    return api_get(
+        "/v2/bet365/live-events/sports"
+    )
         
 # =====================================
 # NORMALISATION STATUT
