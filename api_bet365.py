@@ -15,7 +15,6 @@ HEADERS = {
     "x-rapidapi-host": "bet365data.p.rapidapi.com"
 }
 
-
 # =====================================
 # REQUETE GENERIQUE
 # =====================================
