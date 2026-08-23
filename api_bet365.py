@@ -1,6 +1,16 @@
 import requests
 import streamlit as st
 
+print(
+    "SECRET EXISTS =",
+    "RAPIDAPI_KEY" in st.secrets
+)
+
+if "RAPIDAPI_KEY" in st.secrets:
+    print(
+        "KEY LENGTH =",
+        len(st.secrets["RAPIDAPI_KEY"])
+    )
 # =====================================
 # CONFIGURATION
 # =====================================
@@ -14,14 +24,6 @@ HEADERS = {
     "x-rapidapi-host": "bet365data.p.rapidapi.com"
 }
 
-print(
-    "SECRET EXISTS =",
-    "RAPIDAPI_KEY" in st.secrets
-)
-print(
-    "KEY LENGTH =",
-    len(st.secrets["RAPIDAPI_KEY"])
-)
 print(HEADERS)
 
 # =====================================
