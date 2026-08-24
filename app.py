@@ -409,6 +409,20 @@ elif menu == "Calendrier":
                     key=f"fixture_{fixture_id}"
                 ):
 
+                    odd_home, odd_draw, odd_away = (
+                        get_match_odds(
+                            fixture_id
+                        )
+                    )
+
+                    if odd_home:
+
+                        st.write(
+                            f"🏠 {odd_home} | "
+                            f"🤝 {odd_draw} | "
+                            f"🚩 {odd_away}"
+                        )
+                        
                     st.session_state["fixture_id"] = fixture_id
 
                     st.session_state["home_team"] = home
