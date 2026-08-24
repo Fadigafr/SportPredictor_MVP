@@ -312,6 +312,11 @@ elif menu == "Calendrier":
             ["Toutes"] + leagues
         )
 
+        search_team = st.text_input(
+            "🔍 Rechercher une équipe",
+            placeholder="Ex: Botafogo, Arsenal, Lazio..."
+        )
+        
         if league_filter != "Toutes":
 
             fixtures = [
@@ -321,6 +326,25 @@ elif menu == "Calendrier":
                 if f["league"] == league_filter
 
             ]
+
+        if search_team:
+
+            fixtures = [
+
+                f for f in fixtures
+
+                if search_team.lower()
+                in (
+                    f["home"] +
+                    " " +
+                    f["away"]
+                ).lower()
+
+            ]
+
+        fixtures.sort(
+            key=lambda x: x["date"]
+        )
 
         col1, col2 = st.columns(2)
 
