@@ -446,38 +446,21 @@ def get_event_details(fixture_id):
         f"/event?fi={fixture_id}"
     )
 
-
 def get_match_odds(fixture_id):
 
     data = get_event_details(
         fixture_id
     )
 
-    if not data.get("data"):
-        return (
-            2.20,
-            3.20,
-            3.60
-        )
-
     try:
 
         event = data["data"][0]
 
-        for market in event.get(
-            "mg",
-            []
-        ):
+        for market in event["mg"]:
 
-            if (
-                market.get("name")
-                == "Full Time Result"
-            ):
+            if market["name"] == "Full Time Result":
 
-                outcomes = market.get(
-                    "ma",
-                    []
-                )
+                outcomes = market["ma"]
 
                 home_odd = float(
                     outcomes[0]["decimal"]
@@ -505,6 +488,3 @@ def get_match_odds(fixture_id):
         2.20,
         3.20,
         3.60
-    )
-
-
