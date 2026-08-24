@@ -231,28 +231,39 @@ elif menu == "Matchs Live":
 
     st.title("Matchs Live")
 
-    data = api_get(
-        "https://v3.football.api-sports.io/fixtures?live=all"
-    )
+    if sport == "Football":
+        matches = get_soccer_live()
+
+    elif sport == "Basketball":
+        matches = get_basketball_live()
+
+    elif sport == "Tennis":
+        matches = get_tennis_live()
+
+    elif sport == "Hockey":
+        matches = get_hockey_live()
+
+    else:
+        matches = []
 
     rows = []
 
-    for m in data.get("response", []):
+    for m in matches:
 
         rows.append({
+
             "Match":
-            f"{m['teams']['home']['name']} vs "
-            f"{m['teams']['away']['name']}",
+            f"{m['home']} vs {m['away']}",
 
             "Score":
-            f"{m['goals']['home']} - "
-            f"{m['goals']['away']}",
+            m["score"],
 
-            "Minute":
-            m["fixture"]["status"]["elapsed"],
+            "Statut":
+            m["status"],
 
             "Compétition":
-            m["league"]["name"]
+            m["league"]
+
         })
 
     if rows:
@@ -267,7 +278,6 @@ elif menu == "Matchs Live":
         st.warning(
             "Aucun match en direct."
         )
-
 # =====================================================
 # CALENDRIER & COMPÉTITIONS
 # =====================================================
