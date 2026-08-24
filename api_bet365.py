@@ -271,19 +271,26 @@ def normalize_tennis_event(event):
 
         "sport": "Tennis",
 
-        "fixture_id": event.get("fi"),
+        "fixture_id":
+        event.get("fi"),
 
-        "home": event.get("home"),
+        "home":
+        event.get("home"),
 
-        "away": event.get("away"),
+        "away":
+        event.get("away"),
 
-        "league": event.get("league"),
+        "league":
+        event.get("league"),
 
-        "score": event.get("SS", ""),
+        "score":
+        event.get("SS", ""),
 
-        "status": get_status(event),
+        "status":
+        get_status(event),
 
-        "raw": event
+        "raw":
+        event
     }
 
 def get_tennis_live():
