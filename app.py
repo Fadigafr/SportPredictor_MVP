@@ -314,9 +314,15 @@ elif menu == "Calendrier":
                     key=f"fixture_{fixture_id}"
                 ):
 
-                    st.session_state[
-                        "fixture_id"
-                    ] = fixture_id
+                    st.session_state["fixture_id"] = fixture_id
+
+                    st.session_state["home_team"] = home
+
+                    st.session_state["away_team"] = away
+
+                    st.session_state["league"] = league
+
+                    st.session_state["match_date"] = date_match
 
                     st.success(
                         f"Match sélectionné : {home} vs {away}"
