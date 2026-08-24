@@ -404,24 +404,6 @@ elif menu == "Calendrier":
 📅 {date_match}
 """
                 )
-
-                odd_home, odd_draw, odd_away = (
-                    get_match_odds(
-                        fixture_id
-                    )
-                )
-
-                odd_home = odd_home or 2.20
-                odd_draw = odd_draw or 3.20
-                odd_away = odd_away or 3.60
-
-                if odd_home:
-
-                    st.write(
-                        f"🏠 {odd_home} | "
-                        f"🤝 {odd_draw} | "
-                        f"🚩 {odd_away}"
-                    )
                         
                 if st.button(
                     "🔍 Analyser",
