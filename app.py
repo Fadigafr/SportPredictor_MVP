@@ -18,7 +18,8 @@ from predictions import dashboard_global_page
 from results_db import (
     validate_football_results,
     validate_hockey_results,
-    validate_basketball_results
+    validate_basketball_results,
+    validate_football_results_bet365
 )
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
