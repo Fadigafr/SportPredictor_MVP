@@ -280,45 +280,60 @@ def predictions_page():
     st.title("SPORT PREDICTOR ULTRA PRO IA V6.2")
 
     if "fixture_id" not in st.session_state:
-        st.warning("Sélectionnez un match depuis le calendrier.")
+
+        st.warning(
+            "Sélectionnez un match depuis le calendrier."
+        )
+
         return
 
     fixture_id = st.session_state["fixture_id"]
 
-    # =====================================================
-    # MATCH
-    # =====================================================
-
-    fixture = api_get(
-        f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
+    home_team = st.session_state.get(
+        "home_team",
+        "Unknown"
     )
 
-    if not fixture.get("response"):
-        st.error("Impossible de charger le match.")
-        return
+    away_team = st.session_state.get(
+        "away_team",
+        "Unknown"
+    )
 
-    game = fixture["response"][0]
+    league = st.session_state.get(
+        "league",
+        "Unknown"
+    )
 
-    home_team = game["teams"]["home"]["name"]
-    away_team = game["teams"]["away"]["name"]
+    date_match = st.session_state.get(
+        "match_date",
+        "Unknown"
+    )
 
-    home_id = game["teams"]["home"]["id"]
-    away_id = game["teams"]["away"]["id"]
+    st.subheader(
+        f"{home_team} vs {away_team}"
+    )
 
-    league_id = game["league"]["id"]
-    season = game["league"]["season"]
+    st.write(
+        f"🏆 {league}"
+    )
 
+    st.write(
+        f"📅 {date_match}"
+    )
     try:
 
-        home_scorers = get_top_scorers(
-            home_id,
-            season
-        )
+        # home_scorers = get_top_scorers(
+        #     home_id,
+        #     season
+        # )
 
-        away_scorers = get_top_scorers(
-            away_id,
-            season
-        )
+        # away_scorers = get_top_scorers(
+        #     away_id,
+        #     season
+        # )
+
+home_scorers = []
+away_scorers = []
 
     except Exception:
 
@@ -340,20 +355,29 @@ def predictions_page():
 
         probable_scorer = "Non disponible"
 
-    home_form = calculate_form(home_id)
-    away_form = calculate_form(away_id)
+    # home_form = calculate_form(home_id)
+    # away_form = calculate_form(away_id)
 
-    home_rank_score, away_rank_score = get_ranking_scores(
-       league_id,
-       season,
-        home_id,
-        away_id
-    )
+    home_form = 50
+    away_form = 50
 
-    home_h2h_score, away_h2h_score = calculate_h2h(
-        home_id,
-        away_id
-    )
+    # home_rank_score, away_rank_score = get_ranking_scores(
+    #     league_id,
+    #     season,
+    #     home_id,
+    #     away_id
+    # )
+
+    home_rank_score = 50
+    away_rank_score = 50
+
+    # home_h2h_score, away_h2h_score = calculate_h2h(
+    #     home_id,
+    #     away_id
+    # )
+
+    home_h2h_score = 50
+    away_h2h_score = 50
 
     home_advantage = 100
     away_advantage = 0
