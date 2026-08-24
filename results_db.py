@@ -195,21 +195,21 @@ def validate_football_results_bet365():
     
     for bet in bets:
 
-    print(
-        "PREDICTION:",
-        bet.get("match"),
-        bet.get("fixture_id")
-    )
+        print(
+            "PREDICTION:",
+            bet.get("match"),
+            bet.get("fixture_id")
+        )
 
     for match in live_matches:
 
-    print(
-        "LIVE:",
-        match["fixture_id"],
-        match["home"],
-        "vs",
-        match["away"]
-    )
+        print(
+            "LIVE:",
+            match["fixture_id"],
+            match["home"],
+            "vs",
+            match["away"]
+        )
     
 def validate_football_results():
 
