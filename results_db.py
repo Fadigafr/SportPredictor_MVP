@@ -15,7 +15,8 @@ from database import (
 )
 from api_bet365 import (
     get_soccer_live,
-    is_finished
+    is_finished,
+    get_score
 )
 
 def validate_bet365_football():
@@ -121,6 +122,75 @@ def get_stats_by_sport():
 
     return sports
 
+def validate_football_results_bet365():
+
+    bets = load_predictions()
+
+    live_matches = get_soccer_live()
+
+    updated = False
+
+    for bet in bets:
+
+        if bet.get("sport") != "Football":
+            continue
+
+        if bet.get("result") != "PENDING":
+            continue
+
+        fixture_id = str(
+            bet.get("fixture_id")
+        )
+
+        for match in live_matches:
+
+            if str(match["fixture_id"]) != fixture_id:
+                continue
+
+            if not is_finished(match):
+                continue
+
+            home_score, away_score = get_score(match)
+
+            prediction = bet.get("prediction")
+
+            if prediction == "1":
+
+                result = (
+                    "WIN"
+                    if home_score > away_score
+                    else "LOSS"
+                )
+
+            elif prediction == "2":
+
+                result = (
+                    "WIN"
+                    if away_score > home_score
+                    else "LOSS"
+                )
+
+            elif prediction == "N":
+
+                result = (
+                    "WIN"
+                    if home_score == away_score
+                    else "LOSS"
+                )
+
+            else:
+
+                result = "LOSS"
+
+            update_prediction_result(
+                bet["id"],
+                result
+            )
+
+            updated = True
+
+    return updated
+    
 def validate_football_results():
 
     bets = load_predictions()
