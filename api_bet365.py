@@ -439,3 +439,11 @@ def get_soccer_event(fi):
     return api_get(
         f"/events/{fi}"
     )
+
+def get_event_details(fixture_id):
+
+    return api_get(
+        f"/event?fi={fixture_id}"
+    )
+
+
