@@ -298,18 +298,18 @@ elif menu == "Calendrier":
 
                 league = match["league"]
 
-raw_date = match["date"]
+                raw_date = match["date"]
 
-try:
+                try:
 
-    date_match = datetime.strptime(
-        raw_date,
-        "%Y%m%d%H%M%S"
-    ).strftime("%d/%m/%Y %H:%M")
+                    date_match = datetime.strptime(
+                        raw_date,
+                        "%Y%m%d%H%M%S"
+                    ).strftime("%d/%m/%Y %H:%M")
 
-except:
+            except:
 
-    date_match = raw_date
+                date_match = raw_date
 
 
                 st.markdown(
