@@ -60,7 +60,8 @@ from results_db import (
     calculate_real_stats,
     get_stats_by_sport,
     validate_football_results,
-    save_prediction
+    validate_football_results_bet365,
+    count_predictions
 )
 from results_db import get_ai_reliability
 from results_db import (
