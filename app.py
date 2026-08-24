@@ -36,6 +36,14 @@ from api_bet365 import (
 from api_bet365 import get_soccer_calendar
 from datetime import datetime
 
+if st.button("TEST VALIDATION BET365"):
+
+    result = validate_football_results_bet365()
+
+    st.success(
+        f"Validation exécutée : {result}"
+    )
+
 init_db()
 
 validate_football_results()
