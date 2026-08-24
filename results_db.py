@@ -1,5 +1,6 @@
 import json
 import os
+import sqlite3
 from datetime import datetime
 from api_football import api_get
 from api_hockey import (
@@ -586,14 +587,6 @@ def get_prediction_stats(
 
 def count_predictions():
 
-    conn = sqlite3.connect(DB_NAME)
+    predictions = load_predictions()
 
-    cur = conn.cursor()
-
-    cur.execute(
-        "SELECT COUNT(*) FROM predictions"
-    )
-
-    total = cur.fetchone()[0]
-
-    conn
+    return len(predictions)
