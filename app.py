@@ -36,6 +36,7 @@ from api_bet365 import (
     get_soccer_calendar,
     get_soccer_event
 )
+from api_bet365 import get_match_odds
 from datetime import datetime
 
 if st.button("TEST VALIDATION BET365"):
