@@ -44,7 +44,6 @@ if st.button("TEST VALIDATION BET365"):
     st.success(
         f"Validation exécutée : {result}"
     )
-st.write(load_predictions())
 
 init_db()
 
