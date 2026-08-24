@@ -298,6 +298,46 @@ elif menu == "Calendrier":
 
         fixtures = get_soccer_calendar()
 
+        leagues = sorted(
+            list(
+                set(
+                    f["league"]
+                    for f in fixtures
+                )
+            )
+        )
+
+        league_filter = st.selectbox(
+            "🏆 Compétition",
+            ["Toutes"] + leagues
+        )
+
+        if league_filter != "Toutes":
+
+            fixtures = [
+
+                f for f in fixtures
+
+                if f["league"] == league_filter
+
+            ]
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.metric(
+                "Matchs",
+                len(fixtures)
+            )
+
+        with col2:
+
+            st.metric(
+                "Compétitions",
+                len(leagues)
+            )
+
         if not fixtures:
 
             st.warning(
