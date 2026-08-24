@@ -332,8 +332,8 @@ def predictions_page():
         #     season
         # )
 
-home_scorers = []
-away_scorers = []
+        home_scorers = []
+        away_scorers = []
 
     except Exception:
 
@@ -396,47 +396,47 @@ away_scorers = []
     odd_draw = 3.20
     odd_away = 3.60
 
-    try:
+    #try:
 
-        odds_data = api_get(
-            f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
-        )
+        #odds_data = api_get(
+          #  f"https://v3.football.api-sports.io/odds?fixture={fixture_id}"
+       # )
 
-        if odds_data.get("response"):
+       # if odds_data.get("response"):
 
-            bookmakers = odds_data["response"][0]["bookmakers"]
+          #  bookmakers = odds_data["response"][0]["bookmakers"]
 
-            home_odds = []
-            draw_odds = []
-            away_odds = []
+          #  home_odds = []
+          #  draw_odds = []
+          #  away_odds = []
 
-            for bookmaker in bookmakers:
+         #   for bookmaker in bookmakers:
 
-                for bet in bookmaker["bets"]:
+              #  for bet in bookmaker["bets"]:
 
-                    if bet["name"] == "Match Winner":
+                  #  if bet["name"] == "Match Winner":
 
-                        home_odds.append(
-                            float(bet["values"][0]["odd"])
-                        )
+                       # home_odds.append(
+                        #    float(bet["values"][0]["odd"])
+                       # )
 
-                        draw_odds.append(
-                            float(bet["values"][1]["odd"])
-                        )
+                       # draw_odds.append(
+                     #       float(bet["values"][1]["odd"])
+                    #    )
 
-                        away_odds.append(
-                            float(bet["values"][2]["odd"])
-                        )
+                     #   away_odds.append(
+                     #       float(bet["values"][2]["odd"])
+                    #    )
 
-                        break
+                  #      break
 
-            odd_home = sum(home_odds) / len(home_odds)
-            odd_draw = sum(draw_odds) / len(draw_odds)
-            odd_away = sum(away_odds) / len(away_odds)
+          #  odd_home = sum(home_odds) / len(home_odds)
+           # odd_draw = sum(draw_odds) / len(draw_odds)
+          #  odd_away = sum(away_odds) / len(away_odds)
 
-    except Exception as e:
+   # except Exception as e:
 
-        st.error(f"Erreur Odds : {e}")
+#        st.error(f"Erreur Odds : {e}")
 
     st.write(
         f"📊 Cotes : "
