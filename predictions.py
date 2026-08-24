@@ -70,6 +70,7 @@ from results_db import (
 from database import (
     load_predictions_db
 )
+from api_bet365 import get_match_odds
 
 # =====================================================
 # POISSON
@@ -393,9 +394,11 @@ def predictions_page():
     # Cotes Bookmakers API-Football
     # =====================================================
 
-    odd_home = 2.20
-    odd_draw = 3.20
-    odd_away = 3.60
+    odd_home, odd_draw, odd_away = (
+        get_match_odds(
+            fixture_id
+        )
+    )
 
     #try:
 
