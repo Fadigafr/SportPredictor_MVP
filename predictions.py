@@ -453,6 +453,18 @@ def predictions_page():
     # Conversion bookmakers
     # =====================================================
 
+    if not odd_home:
+
+        odd_home = 2.20
+
+    if not odd_draw:
+
+        odd_draw = 3.20
+
+    if not odd_away:
+
+        odd_away = 3.60
+    
     book_home = (1 / odd_home)
     book_draw = (1 / odd_draw)
     book_away = (1 / odd_away)
