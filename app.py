@@ -271,63 +271,65 @@ elif menu == "Matchs Live":
 # CALENDRIER & COMPÉTITIONS
 # =====================================================
 
-if sport == "Football":
+elif menu == "Calendrier":
 
-    st.title("📅 Calendrier")
+    if sport == "Football":
 
-    fixtures = get_soccer_calendar()
+        st.title("📅 Calendrier")
 
-    if not fixtures:
+        fixtures = get_soccer_calendar()
 
-        st.warning(
-            "Aucun match trouvé."
-        )
+        if not fixtures:
 
-    else:
+            st.warning(
+                "Aucun match trouvé."
+            )
 
-        for match in fixtures[:100]:
+        else:
 
-            fixture_id = match["fixture_id"]
+            for match in fixtures[:100]:
 
-            home = match["home"]
+                fixture_id = match["fixture_id"]
 
-            away = match["away"]
+                home = match["home"]
 
-            league = match["league"]
+                away = match["away"]
 
-            date_match = match["date"]
+                league = match["league"]
 
-            st.markdown(
-                f"""
+                date_match = match["date"]
+
+                st.markdown(
+                    f"""
 ### {home} vs {away}
 
 🏆 {league}
 
 📅 {date_match}
 """
-            )
-
-            if st.button(
-                "🔍 Analyser",
-                key=f"fixture_{fixture_id}"
-            ):
-
-                st.session_state[
-                    "fixture_id"
-                ] = fixture_id
-
-                st.success(
-                    f"Match sélectionné : {home} vs {away}"
                 )
 
-            st.divider()
+                if st.button(
+                    "🔍 Analyser",
+                    key=f"fixture_{fixture_id}"
+                ):
+
+                    st.session_state[
+                        "fixture_id"
+                    ] = fixture_id
+
+                    st.success(
+                        f"Match sélectionné : {home} vs {away}"
+                    )
+
+                st.divider()
 
     elif sport == "Tennis":
 
         tennis_calendar_page()
 
     elif sport == "Basketball":
-        
+
         basketball_calendar_page()
 
     elif sport == "Hockey":
