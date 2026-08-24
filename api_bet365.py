@@ -366,6 +366,7 @@ def get_soccer_leagues():
         "/leagues?take=1000&from=0&sport=soccer"
     )
 
+
 def normalize_soccer_fixture(
     event,
     league_name
@@ -390,6 +391,12 @@ def normalize_soccer_fixture(
 
         "odds":
         event.get("outcomes", []),
+
+        "raw":
+        event
+
+    }
+
 
 def get_soccer_calendar():
 
