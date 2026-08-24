@@ -45,6 +45,14 @@ if st.button("TEST VALIDATION BET365"):
         f"Validation exécutée : {result}"
     )
 
+if st.button("TEST EVENT"):
+
+    st.json(
+        get_soccer_event(
+            "198646827"
+        )
+    )
+
 init_db()
 
 validate_football_results()
