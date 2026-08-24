@@ -34,6 +34,7 @@ from api_bet365 import (
     get_tennis_live
 )
 from api_bet365 import get_soccer_calendar
+from datetime import datetime
 
 init_db()
 
@@ -297,7 +298,19 @@ elif menu == "Calendrier":
 
                 league = match["league"]
 
-                date_match = match["date"]
+raw_date = match["date"]
+
+try:
+
+    date_match = datetime.strptime(
+        raw_date,
+        "%Y%m%d%H%M%S"
+    ).strftime("%d/%m/%Y %H:%M")
+
+except:
+
+    date_match = raw_date
+
 
                 st.markdown(
                     f"""
