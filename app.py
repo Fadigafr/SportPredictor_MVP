@@ -340,6 +340,13 @@ elif menu == "Calendrier":
                     st.success(
                         f"Match sélectionné : {home} vs {away}"
                     )
+                    st.session_state["selected_league"] = league
+
+                    st.session_state["selected_home"] = home
+
+                    st.session_state["selected_away"] = away
+
+                    st.session_state["selected_date"] = date_match
 
                 st.divider()
 
