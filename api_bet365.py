@@ -506,3 +506,35 @@ def get_match_odds(fixture_id):
         3.20,
         3.60
     )
+
+def get_match_odds(fixture_id):
+
+    data = get_event_details(
+        fixture_id
+    )
+
+    try:
+
+        event = data["data"][0]
+
+        for market in event["mg"]:
+
+            if market["name"] == "Full Time Result":
+
+                outcomes = market["ma"]
+
+                return (
+                    float(outcomes[0]["decimal"]),
+                    float(outcomes[1]["decimal"]),
+                    float(outcomes[2]["decimal"])
+                )
+
+    except Exception:
+
+        pass
+
+    return (
+        None,
+        None,
+        None
+    )
