@@ -34,18 +34,6 @@ from api_bet365 import (
     get_tennis_live
 )
 
-if st.button("TEST SOCCER"):
-    st.json(get_soccer_live())
-
-if st.button("TEST BASKETBALL"):
-    st.json(get_basketball_live())
-
-if st.button("TEST HOCKEY"):
-    st.json(get_hockey_live())
-
-if st.button("TEST TENNIS"):
-    st.json(get_tennis_live())
-
 init_db()
 
 validate_football_results()
