@@ -429,3 +429,9 @@ def get_soccer_calendar():
             )
 
     return fixtures
+
+def get_soccer_event(fi):
+
+    return api_get(
+        f"/events/{fi}"
+    )
