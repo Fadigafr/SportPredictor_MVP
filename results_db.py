@@ -125,6 +125,8 @@ def validate_football_results():
 
     bets = load_predictions()
 
+    live_matches = get_soccer_live()
+
     updated = False
 
     for bet in bets:
@@ -135,84 +137,58 @@ def validate_football_results():
         if bet.get("result") != "PENDING":
             continue
 
-        fixture_id = bet.get("fixture_id")
+        fixture_id = str(
+            bet.get("fixture_id")
+        )
 
-        if not fixture_id:
-            continue
+        for match in live_matches:
 
-        try:
-
-            data = api_get(
-                f"https://v3.football.api-sports.io/fixtures?id={fixture_id}"
-            )
-
-            if not data.get("response"):
+            if str(match["fixture_id"]) != fixture_id:
                 continue
 
-            match_data = data["response"][0]
-
-            status = match_data["fixture"]["status"]["short"]
-
-            if status not in [
-                "FT",
-                "AET",
-                "PEN"
-            ]:
+            if not is_finished(match):
                 continue
 
-            home_winner = match_data["teams"]["home"]["winner"]
-            away_winner = match_data["teams"]["away"]["winner"]
+            home_score, away_score = get_score(match)
 
             prediction = bet.get("prediction")
 
-            if prediction == "1" and home_winner:
+            if prediction == "1":
 
-                update_prediction_result(
-                    bet["id"],
+                result = (
                     "WIN"
+                    if home_score > away_score
+                    else "LOSS"
                 )
 
-            elif prediction == "2" and away_winner:
+            elif prediction == "2":
 
-                update_prediction_result(
-                    bet["id"],
+                result = (
                     "WIN"
+                    if away_score > home_score
+                    else "LOSS"
                 )
 
             elif prediction == "N":
 
-                goals_home = match_data["goals"]["home"]
-                goals_away = match_data["goals"]["away"]
-
-                if goals_home == goals_away:
-
-                    update_prediction_result(
-                        bet["id"],
-                        "WIN"
-                    )
-
-                else:
-
-                    update_prediction_result(
-                        bet["id"],
-                        "LOSS"
-                    )
+                result = (
+                    "WIN"
+                    if home_score == away_score
+                    else "LOSS"
+                )
 
             else:
 
-                update_prediction_result(
-                    bet["id"],
-                    "LOSS"
-                )
+                result = "LOSS"
+
+            update_prediction_result(
+                bet["id"],
+                result
+            )
 
             updated = True
 
-        except Exception as e:
-
-            print(
-                "Validation error:",
-                e
-            )
+    return updated
     
 def get_ai_reliability():
 
