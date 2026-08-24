@@ -430,6 +430,10 @@ def get_soccer_calendar():
 
     return fixtures
 
+# =====================================
+# SOCCER EVENT
+# =====================================
+
 def get_soccer_event(fi):
 
     return api_get(
