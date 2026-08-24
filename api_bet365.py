@@ -355,3 +355,70 @@ def get_score(event):
             0,
             0
         )
+
+# =====================================
+# CALENDRIER ET COMPÉTITIONS
+# =====================================
+
+def get_soccer_leagues():
+
+    return api_get(
+        "/leagues?take=1000&from=0&sport=soccer"
+    )
+
+def normalize_soccer_fixture(
+    event,
+    league_name
+):
+
+    return {
+
+        "fixture_id":
+        event.get("fi"),
+
+        "home":
+        event.get("home"),
+
+        "away":
+        event.get("away"),
+
+        "league":
+        league_name,
+
+        "date":
+        event.get("bc"),
+
+        "odds":
+        event.get("outcomes", []),
+
+def get_soccer_calendar():
+
+    data = get_soccer_leagues()
+
+    fixtures = []
+
+    for league in data.get(
+        "leagues",
+        []
+    ):
+
+        league_name = league.get(
+            "leagueName",
+            "Unknown"
+        )
+
+        for event in league.get(
+            "events",
+            []
+        ):
+
+            fixtures.append(
+
+                normalize_soccer_fixture(
+                    event,
+                    league_name
+                )
+
+            )
+
+    return fixtures
