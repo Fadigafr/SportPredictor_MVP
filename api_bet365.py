@@ -534,7 +534,7 @@ def get_match_odds(fixture_id):
         pass
 
     return (
-        None,
-        None,
-        None
+        2.20,
+        3.20,
+        3.60
     )
