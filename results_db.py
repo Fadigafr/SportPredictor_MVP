@@ -583,3 +583,17 @@ def get_prediction_stats(
             1
         )
     }
+
+def count_predictions():
+
+    conn = sqlite3.connect(DB_NAME)
+
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT COUNT(*) FROM predictions"
+    )
+
+    total = cur.fetchone()[0]
+
+    conn
