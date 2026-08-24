@@ -307,9 +307,9 @@ elif menu == "Calendrier":
                         "%Y%m%d%H%M%S"
                     ).strftime("%d/%m/%Y %H:%M")
 
-            except:
+                except:
 
-                date_match = raw_date
+                    date_match = raw_date
 
 
                 st.markdown(
