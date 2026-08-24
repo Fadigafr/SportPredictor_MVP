@@ -370,7 +370,7 @@ elif menu == "Calendrier":
 
         else:
 
-            for match in fixtures[:100]:
+            for match in fixtures[:20]:
 
                 fixture_id = match["fixture_id"]
 
@@ -404,12 +404,7 @@ elif menu == "Calendrier":
 """
                 )
 
-                if st.button(
-                    "🔍 Analyser",
-                    key=f"fixture_{fixture_id}"
-                ):
-
-                    odd_home, odd_draw, odd_away = (
+                odd_home, odd_draw, odd_away = (
                         get_match_odds(
                             fixture_id
                         )
@@ -422,6 +417,11 @@ elif menu == "Calendrier":
                             f"🤝 {odd_draw} | "
                             f"🚩 {odd_away}"
                         )
+                        
+                if st.button(
+                    "🔍 Analyser",
+                    key=f"fixture_{fixture_id}"
+                ):
                         
                     st.session_state["fixture_id"] = fixture_id
 
