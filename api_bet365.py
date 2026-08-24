@@ -227,9 +227,19 @@ def get_soccer_live():
 
 def get_hockey_live():
 
-    return api_get(
+    data = api_get(
         "/live-events?sport=ice hockey"
     )
+
+    if not data.get("data"):
+        return []
+
+    events = data["data"]["events"]
+
+    return [
+        normalize_hockey_event(e)
+        for e in events
+    ]
 
 # =====================================
 # BASKETBALL LIVE
@@ -237,19 +247,60 @@ def get_hockey_live():
 
 def get_basketball_live():
 
-    return api_get(
+    data = api_get(
         "/live-events?sport=basketball"
     )
+
+    if not data.get("data"):
+        return []
+
+    events = data["data"]["events"]
+
+    return [
+        normalize_basketball_event(e)
+        for e in events
+    ]
 
 # =====================================
 # TENNIS LIVE
 # =====================================
 
+def normalize_tennis_event(event):
+
+    return {
+
+        "sport": "Tennis",
+
+        "fixture_id": event.get("fi"),
+
+        "home": event.get("home"),
+
+        "away": event.get("away"),
+
+        "league": event.get("league"),
+
+        "score": event.get("SS", ""),
+
+        "status": get_status(event),
+
+        "raw": event
+    }
+
 def get_tennis_live():
 
-    return api_get(
+    data = api_get(
         "/live-events?sport=tennis"
     )
+
+    if not data.get("data"):
+        return []
+
+    events = data["data"]["events"]
+
+    return [
+        normalize_tennis_event(e)
+        for e in events
+    ]
 
 # =====================================
 # MATCH TERMINE ?
