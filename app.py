@@ -32,9 +32,10 @@ from api_bet365 import (
     get_soccer_live,
     get_basketball_live,
     get_hockey_live,
-    get_tennis_live
+    get_tennis_live,
+    get_soccer_calendar,
+    get_soccer_event
 )
-from api_bet365 import get_soccer_calendar
 from datetime import datetime
 
 if st.button("TEST VALIDATION BET365"):
