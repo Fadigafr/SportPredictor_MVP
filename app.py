@@ -372,9 +372,7 @@ elif menu == "Calendrier":
                     date_match = datetime.strptime(
                         raw_date,
                         "%Y%m%d%H%M%S"
-                    ).strftime(
-                        "%d/%m/%Y %H:%M"
-                    )
+                    ).strftime("%d/%m/%Y %H:%M")
 
                 except:
 
@@ -388,48 +386,36 @@ elif menu == "Calendrier":
 
                     st.markdown(
                         f"""
-### ⚽ {home}
-
-🆚
-
-### ⚽ {away}
+### ⚽ {home} 🆚 {away}
 
 🏆 {league}
 
 📅 {date_match}
 """
-    )
+            )
 
-    odd_home = 2.20
-    odd_draw = 3.20
-    odd_away = 3.60
+                    st.write(
+                        f"🏠 {odd_home}   "
+                        f"🤝 {odd_draw}   "
+                        f"🚩 {odd_away}"
+                    )
 
-    st.write(
-        f"🏠 {odd_home} | "
-        f"🤝 {odd_draw} | "
-        f"🚩 {odd_away}"
-    )
+                    if st.button(
+                        "🔍 Analyser",
+                        key=f"fixture_{fixture_id}"
+                    ):
 
-    if st.button(
-        "🔍 Analyser",
-        key=f"fixture_{fixture_id}"
-    ):
+                        st.session_state["fixture_id"] = fixture_id
 
-        st.session_state["fixture_id"] = fixture_id
+                        st.session_state["home_team"] = home
 
-        st.session_state["home_team"] = home
+                        st.session_state["away_team"] = away
 
-        st.session_state["away_team"] = away
+                        st.session_state["league"] = league
 
-        st.session_state["league"] = league
+                        st.session_state["match_date"] = date_match
 
-        st.session_state["match_date"] = date_match
-
-        st.success(
-            f"Match sélectionné : {home} vs {away}"
-        )
-
-        st.divider()
+                    st.divider()
     
     elif sport == "Tennis":
 
