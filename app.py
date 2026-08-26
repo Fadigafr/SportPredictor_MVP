@@ -390,7 +390,7 @@ elif menu == "Calendrier":
                         f"""
 ### ⚽ {home}
 
-### 🆚
+🆚
 
 ### ⚽ {away}
 
@@ -398,68 +398,35 @@ elif menu == "Calendrier":
 
 📅 {date_match}
 """
-                    )
+    )
 
-                    st.write(
-                        f"🏠 {odd_home}   "
-                        f"🤝 {odd_draw}   "
-                        f"🚩 {odd_away}"
-                    )
+    st.write(
+        f"🏠 {odd_home} | "
+        f"🤝 {odd_draw} | "
+        f"🚩 {odd_away}"
+    )
 
-                    col1, col2, col3 = st.columns(3)
+    if st.button(
+        "🔍 Analyser",
+        key=f"fixture_{fixture_id}"
+    ):
 
-                    with col1:
-                        st.metric("🏠 1", odd_home)
+            st.session_state["fixture_id"] = fixture_id
 
-                    with col2:
-                        st.metric("🤝 N", odd_draw)
+            st.session_state["home_team"] = home
 
-                    with col3:
-                        st.metric("🚩 2", odd_away)
+            st.session_state["away_team"] = away
 
-                    if odd_home < 2:
+            st.session_state["league"] = league
 
-                        badge = "🔥 FAVORI"
+            st.session_state["match_date"] = date_match
 
-                    elif odd_home < 3:
+            st.success(
+                f"Match sélectionné : {home} vs {away}"
+            )
 
-                        badge = "⭐ ÉQUILIBRÉ"
-
-                    else:
-
-                        badge = "⚠️ OUVERT"
-
-                    st.info(badge)
-
-                    if st.button(
-                        "🔍 Analyser",
-                        key=f"fixture_{fixture_id}"
-                    ):
-
-                        st.session_state["fixture_id"] = fixture_id
-
-                        st.session_state["home_team"] = home
-
-                        st.session_state["away_team"] = away
-
-                        st.session_state["league"] = league
-
-                        st.session_state["match_date"] = date_match
-
-                        st.session_state["selected_league"] = league
-
-                        st.session_state["selected_home"] = home
-
-                        st.session_state["selected_away"] = away
-
-                        st.session_state["selected_date"] = date_match
-
-                        st.success(
-                            f"Match sélectionné : {home} vs {away}"
-                        )
-
-                    st.divider()
-
+        st.divider()
+    
     elif sport == "Tennis":
 
         tennis_calendar_page()
@@ -609,21 +576,29 @@ elif menu == "Admin":
 
     admin_page()
 
-    if st.button("TEST VALIDATION BET365"):
+    st.title("Administration")
 
-        result = validate_football_results_bet365()
-
-        st.success(
-            f"Validation exécutée : {result}"
-        )
-
-    if st.button("TEST EVENT"):
+    if st.button(
+        "TEST EVENT"
+    ):
 
         st.json(
             get_soccer_event(
                 "198646827"
             )
-       )
+        )
+
+    if st.button(
+        "TEST VALIDATION BET365"
+    ):
+
+        result = (
+            validate_football_results_bet365()
+        )
+
+        st.success(
+            f"Validation exécutée : {result}"
+        )
 
 # =====================================================
 # DASHBOARD IA GLOBAL
