@@ -285,7 +285,11 @@ elif menu == "Calendrier":
 
         if not fixtures:
 
-            fixtures = []
+            st.warning(
+                "Quota Bet365 atteint ou aucun match disponible."
+            )
+
+            st.stop()
 
         st.write(
             "Fixtures récupérées :",
