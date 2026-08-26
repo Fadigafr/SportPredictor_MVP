@@ -283,6 +283,8 @@ elif menu == "Calendrier":
 
         fixtures = get_soccer_calendar()
 
+        st.write("Fixtures récupérées :", len(fixtures
+
         leagues = sorted(
             list(
                 set(
@@ -291,6 +293,9 @@ elif menu == "Calendrier":
                 )
             )
         )
+
+        st.write("Compétitions trouvées :", len(leagues))
+                                              
 
         league_filter = st.selectbox(
             "🏆 Compétition",
