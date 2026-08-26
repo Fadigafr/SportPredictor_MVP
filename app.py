@@ -283,7 +283,14 @@ elif menu == "Calendrier":
 
         fixtures = get_soccer_calendar()
 
-        st.write("Fixtures récupérées :", len(fixtures))
+        if not fixtures:
+
+            fixtures = []
+
+        st.write(
+            "Fixtures récupérées :",
+            len(fixtures) if fixtures else 0
+        )
 
         leagues = sorted(
             list(
