@@ -328,6 +328,11 @@ elif menu == "Calendrier":
 
             ]
 
+        st.metric(
+            "Matchs affichés",
+            len(fixtures)
+        )
+
         if search_team:
 
             fixtures = [
@@ -395,15 +400,27 @@ elif menu == "Calendrier":
                     date_match = raw_date
 
 
-                st.markdown(
-                    f"""
-### {home} vs {away}
+                with st.container():
+
+    st.markdown(
+        f"""
+### ⚽ {home}
+
+### 🆚
+
+### ⚽ {away}
 
 🏆 {league}
 
 📅 {date_match}
 """
-                )
+    )
+
+    st.write(
+        f"🏠 {odd_home}   "
+        f"🤝 {odd_draw}   "
+        f"🚩 {odd_away}"
+    )
                         
                 if st.button(
                     "🔍 Analyser",
@@ -432,6 +449,31 @@ elif menu == "Calendrier":
                     st.session_state["selected_date"] = date_match
 
                 st.divider()
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric("🏠 1", odd_home)
+
+        with col2:
+            st.metric("🤝 N", odd_draw)
+
+        with col3:
+            st.metric("🚩 2", odd_away)
+            
+        if odd_home < 2:
+
+            badge = "🔥 FAVORI"
+
+        elif odd_home < 3:
+
+            badge = "⭐ ÉQUILIBRÉ"
+
+        else:
+
+            badge = "⚠️ OUVERT"`
+
+        st.info(badge)
 
     elif sport == "Tennis":
 
