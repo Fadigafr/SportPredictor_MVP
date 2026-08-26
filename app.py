@@ -400,10 +400,10 @@ elif menu == "Calendrier":
                     date_match = raw_date
 
 
-                with st.container():
+            with st.container():
 
-                    st.markdown(
-                        f"""
+                st.markdown(
+                    f"""
 ### ⚽ {home}
 
 ### 🆚
