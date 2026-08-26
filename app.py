@@ -336,7 +336,7 @@ elif menu == "Calendrier":
         with col1:
 
             st.metric(
-                "Matchs",
+                "Matchs affichés",
                 len(fixtures)
             )
 
