@@ -400,6 +400,10 @@ elif menu == "Calendrier":
 """
     )
 
+    odd_home = 2.20
+    odd_draw = 3.20
+    odd_away = 3.60
+
     st.write(
         f"🏠 {odd_home} | "
         f"🤝 {odd_draw} | "
