@@ -430,6 +430,14 @@ def get_soccer_calendar():
 
     return fixtures
 
+def get_soccer_calendar():
+
+    data = get_soccer_leagues()
+
+    print("CALENDAR DATA =", data)
+
+    fixtures = []
+
 # =====================================
 # SOCCER EVENT
 # =====================================
