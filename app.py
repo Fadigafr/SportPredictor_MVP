@@ -609,6 +609,22 @@ elif menu == "Admin":
 
     admin_page()
 
+    if st.button("TEST VALIDATION BET365"):
+
+        result = validate_football_results_bet365()
+
+        st.success(
+            f"Validation exécutée : {result}"
+        )
+
+    if st.button("TEST EVENT"):
+
+        st.json(
+            get_soccer_event(
+                "198646827"
+            )
+       )
+
 # =====================================================
 # DASHBOARD IA GLOBAL
 # =====================================================
