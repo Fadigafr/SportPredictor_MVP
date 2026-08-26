@@ -608,9 +608,7 @@ elif menu == "Admin":
 
     if st.button("TEST CALENDAR"):
 
-        st.json(
-            get_soccer_leagues()
-        )
+        st.json(get_soccer_calendar())
 
 # =====================================================
 # DASHBOARD IA GLOBAL
