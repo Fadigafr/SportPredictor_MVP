@@ -281,6 +281,14 @@ elif menu == "Calendrier":
 
         st.title("📅 Calendrier")
 
+        st.markdown(
+            """
+        ### 🚀 Centre de Sélection des Matchs
+
+        Utilisez les filtres ci-dessous pour trouver rapidement les meilleures opportunités du jour.
+        """
+        )
+
         fixtures = get_soccer_calendar()
 
         if not fixtures:
@@ -347,20 +355,45 @@ elif menu == "Calendrier":
             key=lambda x: x["date"]
         )
 
-        col1, col2 = st.columns(2)
+        if fixtures:
+
+            top_match = fixtures[0]
+
+            st.markdown("---")
+
+            st.subheader("🔥 TOP MATCH DU JOUR")
+
+            st.info(
+                f"""
+        ⚽ {top_match['home']} 🆚 {top_match['away']}
+
+        🏆 {top_match['league']}
+        """
+            )
+
+            st.markdown("---")
+
+        col1, col2, col3 = st.columns(3)
 
         with col1:
 
             st.metric(
-                "Matchs affichés",
+                "⚽ Matchs",
                 len(fixtures)
             )
 
         with col2:
 
             st.metric(
-                "Compétitions",
+                "🏆 Compétitions",
                 len(leagues)
+            )
+
+        with col3:
+
+            st.metric(
+                "🤖 IA Ready",
+                len(fixtures)
             )
 
         if not fixtures:
@@ -402,13 +435,13 @@ elif menu == "Calendrier":
 
                     st.markdown(
                         f"""
-### ⚽ {home} 🆚 {away}
+## ⚽ {home} 🆚 {away}
 
 🏆 {league}
 
 📅 {date_match}
 """
-            )
+                    )
 
                     st.write(
                         f"🏠 {odd_home}   "
@@ -416,8 +449,10 @@ elif menu == "Calendrier":
                         f"🚩 {odd_away}"
                     )
 
+                    st.success("🤖 IA READY")
+
                     if st.button(
-                        "🔍 Analyser",
+                        "🚀 Lancer Analyse IA",
                         key=f"fixture_{fixture_id}"
                     ):
 
