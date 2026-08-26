@@ -39,22 +39,6 @@ from api_bet365 import (
 from api_bet365 import get_match_odds
 from datetime import datetime
 
-if st.button("TEST VALIDATION BET365"):
-
-    result = validate_football_results_bet365()
-
-    st.success(
-        f"Validation exécutée : {result}"
-    )
-
-if st.button("TEST EVENT"):
-
-    st.json(
-        get_soccer_event(
-            "198646827"
-        )
-    )
-
 init_db()
 
 validate_football_results()
