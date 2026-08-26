@@ -402,6 +402,14 @@ def get_soccer_calendar():
 
     data = get_soccer_leagues()
 
+    if not isinstance(data, dict):
+
+        return []
+
+    if "leagues" not in data:
+
+        return []
+
     fixtures = []
 
     for league in data.get(
@@ -419,24 +427,26 @@ def get_soccer_calendar():
             []
         ):
 
-            fixtures.append(
+            fixtures.append({
 
-                normalize_soccer_fixture(
-                    event,
-                    league_name
-                )
+                "fixture_id":
+                event.get("fi"),
 
-            )
+                "home":
+                event.get("home"),
+
+                "away":
+                event.get("away"),
+
+                "league":
+                league_name,
+
+                "date":
+                event.get("bc")
+
+            })
 
     return fixtures
-
-def get_soccer_calendar():
-
-    data = get_soccer_leagues()
-
-    print("CALENDAR DATA =", data)
-
-    fixtures = []
 
 # =====================================
 # SOCCER EVENT
