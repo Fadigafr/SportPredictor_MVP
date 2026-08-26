@@ -355,6 +355,10 @@ elif menu == "Calendrier":
             key=lambda x: x["date"]
         )
 
+        # =====================================================
+        # TOP MATCH DU JOUR
+        # =====================================================
+
         if fixtures:
 
             top_match = fixtures[0]
@@ -363,7 +367,7 @@ elif menu == "Calendrier":
 
             st.subheader("🔥 TOP MATCH DU JOUR")
 
-            st.info(
+            st.success(
                 f"""
         ⚽ {top_match['home']} 🆚 {top_match['away']}
 
@@ -372,6 +376,10 @@ elif menu == "Calendrier":
             )
 
             st.markdown("---")
+            
+        # =====================================================
+        # STATISTIQUES PREMIUM
+        # =====================================================
 
         col1, col2, col3 = st.columns(3)
 
@@ -441,15 +449,40 @@ elif menu == "Calendrier":
 
 📅 {date_match}
 """
-                    )
+    )
 
-                    st.write(
-                        f"🏠 {odd_home}   "
-                        f"🤝 {odd_draw}   "
-                        f"🚩 {odd_away}"
-                    )
+            # Badge IA
 
                     st.success("🤖 IA READY")
+
+            # Badge Match
+
+                    if odd_home < 2:
+
+                        st.success("🔥 FAVORI")
+
+                    elif odd_home < 3:
+
+                        st.info("⭐ ÉQUILIBRÉ")
+
+                    else:
+
+                        st.warning("⚠️ OUVERT")
+
+                    # Cotes
+
+                    col1, col2, col3 = st.columns(3)
+
+                    with col1:
+                        st.metric("🏠 1", odd_home)
+
+                    with col2:
+                        st.metric("🤝 N", odd_draw)
+
+                    with col3:
+                        st.metric("🚩 2", odd_away)
+
+                    # Analyse
 
                     if st.button(
                         "🚀 Lancer Analyse IA",
@@ -465,6 +498,18 @@ elif menu == "Calendrier":
                         st.session_state["league"] = league
 
                         st.session_state["match_date"] = date_match
+
+                        st.session_state["selected_league"] = league
+
+                        st.session_state["selected_home"] = home
+
+                        st.session_state["selected_away"] = away
+
+                        st.session_state["selected_date"] = date_match
+
+                        st.success(
+                            f"Match sélectionné : {home} vs {away}"
+                        )
 
                     st.divider()
     
