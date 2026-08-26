@@ -402,8 +402,8 @@ elif menu == "Calendrier":
 
             with st.container():
 
-                st.markdown(
-                    f"""
+    st.markdown(
+        f"""
 ### ⚽ {home}
 
 ### 🆚
@@ -421,59 +421,60 @@ elif menu == "Calendrier":
         f"🤝 {odd_draw}   "
         f"🚩 {odd_away}"
     )
-                        
-                if st.button(
-                    "🔍 Analyser",
-                    key=f"fixture_{fixture_id}"
-                ):
-                        
-                    st.session_state["fixture_id"] = fixture_id
 
-                    st.session_state["home_team"] = home
+    col1, col2, col3 = st.columns(3)
 
-                    st.session_state["away_team"] = away
+    with col1:
+        st.metric("🏠 1", odd_home)
 
-                    st.session_state["league"] = league
+    with col2:
+        st.metric("🤝 N", odd_draw)
 
-                    st.session_state["match_date"] = date_match
+    with col3:
+        st.metric("🚩 2", odd_away)
 
-                    st.success(
-                        f"Match sélectionné : {home} vs {away}"
-                    )
-                    st.session_state["selected_league"] = league
+    if odd_home < 2:
 
-                    st.session_state["selected_home"] = home
+        badge = "🔥 FAVORI"
 
-                    st.session_state["selected_away"] = away
+    elif odd_home < 3:
 
-                    st.session_state["selected_date"] = date_match
+        badge = "⭐ ÉQUILIBRÉ"
 
-                st.divider()
+    else:
 
-        col1, col2, col3 = st.columns(3)
+        badge = "⚠️ OUVERT"
 
-        with col1:
-            st.metric("🏠 1", odd_home)
+    st.info(badge)
 
-        with col2:
-            st.metric("🤝 N", odd_draw)
+    if st.button(
+        "🔍 Analyser",
+        key=f"fixture_{fixture_id}"
+    ):
 
-        with col3:
-            st.metric("🚩 2", odd_away)
-            
-        if odd_home < 2:
+        st.session_state["fixture_id"] = fixture_id
 
-            badge = "🔥 FAVORI"
+        st.session_state["home_team"] = home
 
-        elif odd_home < 3:
+        st.session_state["away_team"] = away
 
-            badge = "⭐ ÉQUILIBRÉ"
+        st.session_state["league"] = league
 
-        else:
+        st.session_state["match_date"] = date_match
 
-            badge = "⚠️ OUVERT"`
+        st.session_state["selected_league"] = league
 
-        st.info(badge)
+        st.session_state["selected_home"] = home
+
+        st.session_state["selected_away"] = away
+
+        st.session_state["selected_date"] = date_match
+
+        st.success(
+            f"Match sélectionné : {home} vs {away}"
+        )
+
+    st.divider()
 
     elif sport == "Tennis":
 
