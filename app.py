@@ -317,7 +317,7 @@ elif menu == "Calendrier":
             "🔍 Rechercher une équipe",
             placeholder="Ex: Botafogo, Arsenal, Lazio..."
         )
-        
+
         if league_filter != "Toutes":
 
             fixtures = [
@@ -327,11 +327,6 @@ elif menu == "Calendrier":
                 if f["league"] == league_filter
 
             ]
-
-        st.metric(
-            "Matchs affichés",
-            len(fixtures)
-        )
 
         if search_team:
 
@@ -393,17 +388,22 @@ elif menu == "Calendrier":
                     date_match = datetime.strptime(
                         raw_date,
                         "%Y%m%d%H%M%S"
-                    ).strftime("%d/%m/%Y %H:%M")
+                    ).strftime(
+                        "%d/%m/%Y %H:%M"
+                    )
 
                 except:
 
                     date_match = raw_date
 
+                odd_home = 2.20
+                odd_draw = 3.20
+                odd_away = 3.60
 
-            with st.container():
+                with st.container():
 
-            st.markdown(
-                f"""
+                    st.markdown(
+                        f"""
 ### ⚽ {home}
 
 ### 🆚
@@ -414,67 +414,67 @@ elif menu == "Calendrier":
 
 📅 {date_match}
 """
-    )
+                    )
 
-    st.write(
-        f"🏠 {odd_home}   "
-        f"🤝 {odd_draw}   "
-        f"🚩 {odd_away}"
-    )
+                    st.write(
+                        f"🏠 {odd_home}   "
+                        f"🤝 {odd_draw}   "
+                        f"🚩 {odd_away}"
+                    )
 
-    col1, col2, col3 = st.columns(3)
+                    col1, col2, col3 = st.columns(3)
 
-    with col1:
-        st.metric("🏠 1", odd_home)
+                    with col1:
+                        st.metric("🏠 1", odd_home)
 
-    with col2:
-        st.metric("🤝 N", odd_draw)
+                    with col2:
+                        st.metric("🤝 N", odd_draw)
 
-    with col3:
-        st.metric("🚩 2", odd_away)
+                    with col3:
+                        st.metric("🚩 2", odd_away)
 
-    if odd_home < 2:
+                    if odd_home < 2:
 
-        badge = "🔥 FAVORI"
+                        badge = "🔥 FAVORI"
 
-    elif odd_home < 3:
+                    elif odd_home < 3:
 
-        badge = "⭐ ÉQUILIBRÉ"
+                        badge = "⭐ ÉQUILIBRÉ"
 
-    else:
+                    else:
 
-        badge = "⚠️ OUVERT"
+                        badge = "⚠️ OUVERT"
 
-    st.info(badge)
+                    st.info(badge)
 
-    if st.button(
-        "🔍 Analyser",
-        key=f"fixture_{fixture_id}"
-    ):
+                    if st.button(
+                        "🔍 Analyser",
+                        key=f"fixture_{fixture_id}"
+                    ):
 
-        st.session_state["fixture_id"] = fixture_id
+                        st.session_state["fixture_id"] = fixture_id
 
-        st.session_state["home_team"] = home
+                        st.session_state["home_team"] = home
 
-        st.session_state["away_team"] = away
+                        st.session_state["away_team"] = away
 
-        st.session_state["league"] = league
+                        st.session_state["league"] = league
 
-        st.session_state["match_date"] = date_match
+                        st.session_state["match_date"] = date_match
 
-        st.session_state["selected_league"] = league
+                        st.session_state["selected_league"] = league
 
-        st.session_state["selected_home"] = home
+                        st.session_state["selected_home"] = home
 
-        st.session_state["selected_away"] = away
+                        st.session_state["selected_away"] = away
 
-        st.session_state["selected_date"] = date_match
+                        st.session_state["selected_date"] = date_match
 
-        st.success(
-            f"Match sélectionné : {home} vs {away}"
-        )
+                        st.success(
+                            f"Match sélectionné : {home} vs {away}"
+                        )
 
-    st.divider()
+                    st.divider()
 
     elif sport == "Tennis":
 
@@ -487,7 +487,6 @@ elif menu == "Calendrier":
     elif sport == "Hockey":
 
         hockey_calendar_page()
-
 # =====================================================
 # ANALYSE IA DU JOUR
 # =====================================================
