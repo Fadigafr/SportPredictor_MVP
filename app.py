@@ -595,6 +595,12 @@ elif menu == "Admin":
             f"Validation exécutée : {result}"
         )
 
+    if st.button("TEST CALENDAR"):
+
+        st.json(
+            get_soccer_leagues()
+        )
+
 # =====================================================
 # DASHBOARD IA GLOBAL
 # =====================================================
