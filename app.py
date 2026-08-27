@@ -722,7 +722,7 @@ elif menu == "Admin":
             cur.fetchone()[0]
         )
 
-        con*.close()
+        conn.close()
 
         st.metric(
             "Nombre SQLite",
