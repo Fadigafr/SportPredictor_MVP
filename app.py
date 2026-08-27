@@ -699,7 +699,10 @@ elif menu == "Admin":
             "📊 Dashboard Administrateur"
         )
 
-        predictions = load_predictions()
+        predictions = load_predictions_db()
+
+        st.write(predictions)
+
 
         st.write(predictions)
         st.write(
