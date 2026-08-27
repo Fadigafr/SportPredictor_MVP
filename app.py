@@ -704,6 +704,15 @@ elif menu == "Admin":
 
         st.write(predictions)
 
+        db_predictions = []
+
+        st.write(db_predictions)
+
+        st.metric(
+            "Nombre SQLite",
+            len(db_predictions)
+        )
+
         st.metric(
             "Pronostics",
             len(predictions)
