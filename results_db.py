@@ -609,3 +609,5 @@ def count_predictions():
     predictions = load_predictions()
 
     return len(predictions)
+
+    print("get_global_success_rate OK")
