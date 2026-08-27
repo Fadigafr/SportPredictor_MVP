@@ -903,8 +903,7 @@ elif menu == "Admin":
 
         st.warning(
             "Les fonctions sensibles seront ajoutées dans les prochaines versions."
-        )ATION BET365"
-    ):
+        ):
 
         result = (
             validate_football_results_bet365()
