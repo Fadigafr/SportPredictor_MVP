@@ -703,8 +703,6 @@ elif menu == "Admin":
 
         st.write(predictions)
 
-
-        st.write(predictions)
         st.write(
             "Nombre Python :",
             len(predictions)
