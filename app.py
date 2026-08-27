@@ -14,6 +14,7 @@ from predictions import (
 from api_football import api_get
 from database import init_db
 from database import load_predictions_db
+from database import get_conn
 from api_basketball import get_basketball_games_today
 from predictions import dashboard_global_page
 from results_db import (
@@ -707,6 +708,21 @@ elif menu == "Admin":
         db_predictions = []
 
         st.write(db_predictions)
+
+        conn = get_conn()
+
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT COUNT(*) FROM predictions_history"
+        )
+
+        st.*rite(
+            "Table predictions_histo*y :",
+            cur.fetchone()[0]
+        )
+
+        con*.close()
 
         st.metric(
             "Nombre SQLite",
