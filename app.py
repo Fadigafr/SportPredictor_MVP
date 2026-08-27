@@ -864,7 +864,7 @@ elif menu == "Admin":
 
     predictions = load_predictions()
 
-    st.write(predictions)
+        st.write(predictions)
 
     # =====================================================
     # IA LEARNING
