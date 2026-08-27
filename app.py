@@ -701,6 +701,11 @@ elif menu == "Admin":
 
         predictions = load_predictions()
 
+        st.write(
+            "Total prédictions :",
+            len(predictions)
+        )
+
         pending_count = len(
             [
                 p for p in predictions
