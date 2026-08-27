@@ -388,6 +388,25 @@ def get_prediction_success_rate(prediction):
         1
     )
 
+def get_global_success_rate():
+
+    predictions = load_predictions()
+
+    validated = [
+        p for p in predictions
+        if p.get("result") in ["WIN", "LOSS"]
+    ]
+
+    if len(validated) == 0:
+        return 0
+
+    wins = len([
+        p for p in validated
+        if p.get("result") == "WIN"
+    ])
+
+    return round((wins / len(validated)) * 100, 2)
+
 def validate_hockey_results():
 
     bets = load_predictions()
