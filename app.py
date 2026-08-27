@@ -838,6 +838,69 @@ elif menu == "Admin":
 
                 st.error(e)
 
+    if st.button("CRÉER PRONOSTIC TEST"):
+
+    save_prediction(
+
+        sport="Football",
+
+        match="Botafogo vs Flamengo",
+
+        prediction="1",
+
+        ai_index=85,
+
+        odd=2.10,
+
+        fixture_id="TEST123"
+
+    )
+
+    st.success(
+        "✅ Pronostic test créé."
+    )
+
+    predictions = load_predictions()
+
+    predictions.append({
+
+        "id": 999,
+
+        "sport": "Football",
+
+        "match": "Botafogo vs Flamengo",
+
+        "prediction": "1",
+
+        "result": "PENDING",
+
+        "ai_index": 85,
+
+        "odd": 2.10,
+
+        "fixture_id": "TEST123"
+
+    })
+
+    fake_match = {
+
+        "fixture_id": "TEST123",
+
+        "home": "Botafogo",
+
+        "away": "Flamengo",
+
+        "score": "2-1",
+
+        "status": "FT"
+
+    }
+
+    home_score = 2
+    away_score = 1
+
+    prediction = "1"
+
     # =====================================================
     # IA LEARNING
     # =====================================================
