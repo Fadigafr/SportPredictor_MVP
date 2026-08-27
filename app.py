@@ -482,6 +482,13 @@ elif menu == "Calendrier":
                     with col3:
                         st.metric("🚩 2", odd_away)
 
+
+                    badge = "⭐ SOLIDE"
+
+                    st.info(
+                        badge
+                    )
+
                     # Analyse
 
                     if st.button(
