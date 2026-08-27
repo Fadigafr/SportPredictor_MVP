@@ -24,10 +24,10 @@ from results_db import (
     validate_football_results_bet365
 )
 from results_db import (
-    save_prediction,
     load_predictions,
     validate_football_results_bet365,
-    get_prediction_success_rate
+    get_prediction_success_rate,
+    get_global_success_rate
 )
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
@@ -902,6 +902,15 @@ elif menu == "Admin":
             st.warning(
                 "⚠️ IA en apprentissage"
             )
+
+        st.subheader("🤖 IA Learning")
+
+        rate = get_global_success_rate()
+
+        st.metric(
+            "Taux de réussite IA",
+            f"{rate}%"
+        )
 
         st.markdown("---")
 
