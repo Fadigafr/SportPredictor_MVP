@@ -903,20 +903,27 @@ elif menu == "Admin":
 
         st.warning(
             "Les fonctions sensibles seront ajoutées dans les prochaines versions."
+        )
+
+        if st.button(
+            "TEST VALIDATION BET365"
         ):
 
-        result = (
-            validate_football_results_bet365()
-        )
+    result = (
+        validate_football_results_bet365()
+    )
 
-        st.success(
-            f"Validation exécutée : {result}"
-        )
+    st.success(
+        f"Validation exécutée : {result}"
+    )
 
-    if st.button("TEST CALENDAR"):
+if st.button(
+    "TEST CALENDAR"
+):
 
-        st.json(get_soccer_calendar())
-
+    st.json(
+        get_soccer_calendar()
+    )
 # =====================================================
 # DASHBOARD IA GLOBAL
 # =====================================================
