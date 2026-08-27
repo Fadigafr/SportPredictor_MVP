@@ -727,16 +727,6 @@ elif menu == "Admin":
             len(predictions)
         )
 
-        st.write(
-            "Nombre SQLite :",
-            len(db_predictions)
-        )
-
-        st.write(
-            "Nombre JSON :",
-            len(load_predictions())
-        )
-
         pending_count = len(
             [
                 p for p in predictions
