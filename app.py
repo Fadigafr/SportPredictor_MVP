@@ -27,7 +27,8 @@ from results_db import (
     load_predictions,
     validate_football_results_bet365,
     get_prediction_success_rate,
-    get_global_success_rate
+    get_global_success_rate,
+    save_prediction
 )
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
