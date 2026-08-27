@@ -840,25 +840,25 @@ elif menu == "Admin":
 
     if st.button("CRÉER PRONOSTIC TEST"):
 
-    save_prediction(
+        save_prediction(
 
-        sport="Football",
+            sport="Football",
 
-        match="Botafogo vs Flamengo",
+            match="Botafogo vs Flamengo",
 
-        prediction="1",
+            prediction="1",
 
-        ai_index=85,
+            ai_index=85,
 
-        odd=2.10,
+            odd=2.10,
 
-        fixture_id="TEST123"
+            fixture_id="TEST123"
 
-    )
+        )
 
-    st.success(
-        "✅ Pronostic test créé."
-    )
+        st.success(
+            "✅ Pronostic test créé."
+        )
 
     predictions = load_predictions()
 
