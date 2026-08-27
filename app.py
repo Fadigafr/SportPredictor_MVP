@@ -24,7 +24,9 @@ from results_db import (
     validate_football_results_bet365
 )
 from results_db import (
+    save_prediction,
     load_predictions,
+    validate_football_results_bet365,
     get_prediction_success_rate
 )
 from predictions import tennis_calendar_page
