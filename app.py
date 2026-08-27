@@ -718,7 +718,7 @@ elif menu == "Admin":
         )
 
         st.write(
-            "Table predictions_histo*y :",
+            "Table predictions_history :",
             cur.fetchone()[0]
         )
 
