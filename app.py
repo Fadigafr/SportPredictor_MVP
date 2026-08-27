@@ -703,11 +703,7 @@ elif menu == "Admin":
 
         predictions = load_predictions_db()
 
-        st.write(predictions)
-
         db_predictions = []
-
-        st.write(db_predictions)
 
         conn = get_conn()
 
@@ -725,11 +721,6 @@ elif menu == "Admin":
         conn.close()
 
         st.metric(
-            "Nombre SQLite",
-            len(db_predictions)
-        )
-
-        st.metric(
             "Pronostics",
             len(predictions)
         )
@@ -739,14 +730,6 @@ elif menu == "Admin":
             len(db_predictions)
         )
 
-        st.write(
-            db_predictions
-        )
-
-        st.write(
-            "Nombre Python :",
-            len(predictions)
-        )
         st.write(
             "Nombre JSON :",
             len(load_predictions())
