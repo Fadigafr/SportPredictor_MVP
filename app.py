@@ -862,6 +862,10 @@ elif menu == "Admin":
             "✅ Pronostic test créé."
         )
 
+    predictions = load_predictions()
+
+    st.write(predictions)
+
     # =====================================================
     # IA LEARNING
     # =====================================================
