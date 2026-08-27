@@ -905,8 +905,6 @@ elif menu == "Admin":
 
         st.subheader("🤖 IA Learning")
 
-        rate = get_global_success_rate()
-
         st.metric(
             "Taux de réussite IA",
             f"{rate}%"
