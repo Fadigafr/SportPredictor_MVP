@@ -701,13 +701,10 @@ elif menu == "Admin":
 
         predictions = load_predictions()
 
+        st.write(predictions)
         st.write(
-            "Total prédictions :",
+            "Nombre Python :",
             len(predictions)
-        )
-        st.write(
-            "Nombre SQLite :",
-            len(load_predictions_db())
         )
         st.write(
             "Nombre JSON :",
