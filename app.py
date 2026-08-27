@@ -852,9 +852,17 @@ elif menu == "Admin":
             "✅ Pronostic test créé."
         )
 
+        st.markdown("---")
+
         predictions = load_predictions()
 
-        st.write(predictions)
+        st.metric("Pronostics enregistrés", len(predictions))
+
+        pending = len(
+            [p for p in predictions if p.get("result") == "PENDING"]
+        )
+
+        st.metric("En attente", pending)
 
     # =====================================================
     # IA LEARNING
@@ -900,6 +908,15 @@ elif menu == "Admin":
         st.write(
             "Module IA Learning actif."
         )
+
+        if st.button("Calculer taux de réussite"):
+
+            rate = get_prediction_success_rate()
+
+            st.metric(
+                "Taux de réussite IA",
+                f"{rate:.1f}%"
+            )
 
     # =====================================================
     # BASE DE DONNÉES
