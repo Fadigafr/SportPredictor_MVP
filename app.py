@@ -909,21 +909,22 @@ elif menu == "Admin":
             "TEST VALIDATION BET365"
         ):
 
-    result = (
-        validate_football_results_bet365()
-    )
+            result = (
+                validate_football_results_bet365()
+            )
 
-    st.success(
-        f"Validation exécutée : {result}"
-    )
+            st.success(
+                f"Validation exécutée : {result}"
+            )
 
-if st.button(
-    "TEST CALENDAR"
-):
+        if st.button(
+            "TEST CALENDAR"
+        ):
 
-    st.json(
-        get_soccer_calendar()
-    )
+            st.json(
+                get_soccer_calendar()
+            )
+            
 # =====================================================
 # DASHBOARD IA GLOBAL
 # =====================================================
