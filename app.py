@@ -21,6 +21,10 @@ from results_db import (
     validate_basketball_results,
     validate_football_results_bet365
 )
+from results_db import (
+    load_predictions,
+    get_prediction_success_rate
+)
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
