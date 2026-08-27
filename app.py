@@ -717,7 +717,7 @@ elif menu == "Admin":
             "SELECT COUNT(*) FROM predictions_history"
         )
 
-        st.*rite(
+        st.write(
             "Table predictions_histo*y :",
             cur.fetchone()[0]
         )
