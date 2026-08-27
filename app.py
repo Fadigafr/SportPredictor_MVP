@@ -700,7 +700,14 @@ elif menu == "Admin":
             "📊 Dashboard Administrateur"
         )
 
-        db_predictions = load_predictions_db()
+        predictions = load_predictions_db()
+
+        st.write(predictions)
+
+        st.metric(
+            "Pronostics",
+            len(predictions)
+        )
 
         st.write(
             "Nombre SQLite :",
