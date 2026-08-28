@@ -685,3 +685,13 @@ def count_predictions():
     return len(predictions)
 
     print("get_global_success_rate OK")
+
+def get_learning_summary():
+
+    stats = get_ai_learning_stats()
+
+    return {
+        "success_rate": stats["success_rate"],
+        "bonus": get_learning_bonus(),
+        "total_predictions": stats["total"]
+    }
