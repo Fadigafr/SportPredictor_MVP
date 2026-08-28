@@ -139,6 +139,31 @@ def calculate_ai_index(
 
     return round(ai_index, 2)
 
+def calculate_ai_index(
+    form_score,
+    h2h_score,
+    ranking_score
+):
+    learning_bonus = get_learning_bonus()
+
+    ai_index = (
+        form_score
+        + h2h_score
+        + ranking_score
+        + learning_bonus
+    )
+
+    return max(
+        0,
+        min(100, ai_index)
+    )
+
+    ai_index = calculate_ai_index(
+        form_score,
+        h2h_score,
+        ranking_score
+    )
+
 def calculate_btts(
     predicted_home_goals,
     predicted_away_goals
