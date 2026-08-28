@@ -31,6 +31,7 @@ from results_db import (
     save_prediction
 )
 from results_db import get_ai_learning_stats
+from results_db import get_ai_confidence_level
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
@@ -962,6 +963,9 @@ elif menu == "Admin":
             f"{stats['success_rate']}%"
         )
 
+        st.success(
+            get_ai_confidence_level()
+        )
 
     # =====================================================
     # BASE DE DONNÉES
