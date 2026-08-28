@@ -405,6 +405,25 @@ def get_ai_learning_stats():
         "success_rate": success_rate
     }
 
+def get_ai_confidence_level():
+
+    stats = get_ai_learning_stats()
+
+    rate = stats["success_rate"]
+
+    if rate >= 80:
+        return "🔥 IA ELITE"
+
+    elif rate >= 70:
+        return "🚀 IA PREMIUM"
+
+    elif rate >= 60:
+        return "✅ IA STABLE"
+
+    elif rate >= 50:
+        return "⚠ IA EN APPRENTISSAGE"
+
+    return "🔧 IA À OPTIMISER"
 def get_prediction_success_rate(prediction):
 
     stats = get_learning_stats()
