@@ -370,6 +370,41 @@ def get_learning_stats():
 
     return stats
 
+def get_ai_learning_stats():
+
+    predictions = load_predictions()
+
+    wins = len([
+        p for p in predictions
+        if p.get("result") == "WIN"
+    ])
+
+    losses = len([
+        p for p in predictions
+        if p.get("result") == "LOSS"
+    ])
+
+    pending = len([
+        p for p in predictions
+        if p.get("result") == "PENDING"
+    ])
+
+    total = len(predictions)
+
+    success_rate = (
+        round((wins / (wins + losses)) * 100, 1)
+        if (wins + losses) > 0
+        else 0
+    )
+
+    return {
+        "total": total,
+        "wins": wins,
+        "losses": losses,
+        "pending": pending,
+        "success_rate": success_rate
+    }
+
 def get_prediction_success_rate(prediction):
 
     stats = get_learning_stats()
