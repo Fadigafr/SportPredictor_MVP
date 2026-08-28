@@ -957,6 +957,9 @@ elif menu == "Admin":
             st.success(
                 f"✅ Bonus IA actif : +{bonus}"
             )
+            st.success(
+                f"Bonus IA actuel : +{bonus}"
+            )
 
         else:
 
