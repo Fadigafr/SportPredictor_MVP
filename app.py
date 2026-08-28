@@ -906,28 +906,6 @@ elif menu == "Admin":
                 "⚠️ IA en apprentissage"
             )
 
-        st.subheader("🤖 IA Learning")
-
-        st.metric(
-            "Taux de réussite IA",
-            f"{rate}%"
-        )
-
-        st.markdown("---")
-
-        st.write(
-            "Module IA Learning actif."
-        )
-
-        if st.button("Calculer taux de réussite"):
-
-            rate = get_prediction_success_rate()
-
-            st.metric(
-                "Taux de réussite IA",
-                f"{rate:.1f}%"
-            )
-
         st.subheader("🤖 IA Learning Premium")
 
         stats = get_ai_learning_stats()
