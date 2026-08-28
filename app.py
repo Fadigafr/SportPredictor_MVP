@@ -30,6 +30,7 @@ from results_db import (
     get_global_success_rate,
     save_prediction
 )
+from results_db import get_learning_bonus
 from results_db import get_ai_learning_stats
 from results_db import get_ai_confidence_level
 from predictions import tennis_calendar_page
