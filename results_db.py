@@ -391,11 +391,13 @@ def get_ai_learning_stats():
 
     total = len(predictions)
 
-    success_rate = (
-        round((wins / (wins + losses)) * 100, 1)
-        if (wins + losses) > 0
-        else 0
-    )
+    if wins + losses == 0:
+        success_rate = 50
+    else:
+        success_rate = round(
+            (wins / (wins + losses)) * 100,
+            1
+        )
 
     return {
         "total": total,
@@ -404,7 +406,6 @@ def get_ai_learning_stats():
         "pending": pending,
         "success_rate": success_rate
     }
-
 def get_learning_bonus():
 
     stats = get_ai_learning_stats()
