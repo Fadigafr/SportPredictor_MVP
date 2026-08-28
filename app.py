@@ -30,6 +30,7 @@ from results_db import (
     get_global_success_rate,
     save_prediction
 )
+from results_db import get_ai_learning_stats
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
@@ -925,6 +926,42 @@ elif menu == "Admin":
                 "Taux de réussite IA",
                 f"{rate:.1f}%"
             )
+
+        st.subheader("🤖 IA Learning Premium")
+
+        stats = get_ai_learning_stats()
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric(
+                "Pronostics analysés",
+                stats["total"]
+            )
+
+            st.metric(
+                "Pronostics gagnants",
+                stats["wins"]
+            )
+
+        with col2:
+            st.metric(
+                "Pronostics perdants",
+                stats["losses"]
+            )
+
+            st.metric(
+                "En attente",
+                stats["pending"]
+            )
+
+        st.markdown("---")
+
+        st.metric(
+            "Taux de réussite IA",
+            f"{stats['success_rate']}%"
+        )
+
 
     # =====================================================
     # BASE DE DONNÉES
