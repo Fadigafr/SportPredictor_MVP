@@ -4,6 +4,7 @@ from api_tennis import get_all_fixtures
 import json
 import os
 from datetime import datetime
+from results_db import get_learning_bonus
 
 # ai_engine.py
 
@@ -110,6 +111,9 @@ def calculate_ai_index(
     scorer_score,
     home_score
 ):
+
+    learning_bonus = get_learning_bonus()
+
     ai_index = (
 
         poisson_score * 0.25 +
@@ -122,8 +126,15 @@ def calculate_ai_index(
 
         scorer_score * 0.10 +
 
-        home_score * 0.10
+        home_score * 0.10 +
 
+        learning_bonus
+
+    )
+
+    ai_index = max(
+        0,
+        min(ai_index, 100)
     )
 
     return round(ai_index, 2)
