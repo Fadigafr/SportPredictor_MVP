@@ -695,3 +695,6 @@ def get_learning_summary():
         "bonus": get_learning_bonus(),
         "total_predictions": stats["total"]
     }
+
+def get_learning_bonus():
+    return 5
