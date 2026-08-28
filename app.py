@@ -945,6 +945,25 @@ elif menu == "Admin":
             get_ai_confidence_level()
         )
 
+        bonus = get_learning_bonus()
+
+        st.metric(
+            "Bonus Auto-Learning",
+            bonus
+        )
+
+        if bonus > 0:
+
+            st.success(
+                f"✅ Bonus IA actif : +{bonus}"
+            )
+
+        else:
+
+            st.error(
+                f"⚠ Malus IA : {bonus}"
+            )
+
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
