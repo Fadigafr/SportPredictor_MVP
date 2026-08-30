@@ -1019,37 +1019,24 @@ elif menu == "Admin":
                         bonus
                     )
 
-        if st.button("Ajouter 5 WIN"):
+        if st.button("📊 Générer historique test"):
 
-            for i in range(5):
+            for i in range(10):
 
-                save_prediction(
+                save_prediction_db(
+                    date="2026-08-30",
                     sport="Football",
-                    match=f"TEST_WIN_{i}",
+                    match=f"TEST_{i}",
+                    fixture_id=f"TEST{i}",
                     prediction="1",
-                    ai_index=90,
+                    ai_index=85,
                     odd=2.0,
-                    fixture_id=f"WIN{i}",
-                    result="WIN"
+                    result="WIN" if i < 7 else "LOSS"
                 )
 
-            st.success("5 WIN ajoutés")
-
-        if st.button("Ajouter 5 LOSS"):
-
-            for i in range(5):
-
-                save_prediction(
-                    sport="Football",
-                    match=f"TEST_LOSS_{i}",
-                    prediction="1",
-                    ai_index=90,
-                    odd=2.0,
-                    fixture_id=f"LOSS{i}",
-                    result="LOSS"
-                )
-
-            st.success("5 LOSS ajoutés")
+            st.success(
+                "✅ Historique de test généré"
+            )
 
         stats = get_ai_learning_stats()
 
