@@ -762,3 +762,32 @@ def get_market_bonus(market):
         return 1
 
     return -3
+
+def get_market_learning_stats():
+
+    predictions = load_predictions()
+
+    print("Predictions =", predictions)
+
+    stats = {}
+
+    for p in predictions:
+
+        market = p.get("prediction", "UNKNOWN")
+        result = p.get("result", "PENDING")
+
+        if market not in stats:
+            stats[market] = {
+                "wins": 0,
+                "losses": 0
+            }
+
+        if result == "WIN":
+            stats[market]["wins"] += 1
+
+        elif result == "LOSS":
+            stats[market]["losses"] += 1
+
+    print("Market stats =", stats)
+
+    return stats
