@@ -917,6 +917,9 @@ elif menu == "Admin":
 
         stats = get_ai_learning_stats()
 
+        st.write(type(stats))
+        st.write(stats)
+
         col1, col2 = st.columns(2)
 
         with col1:
