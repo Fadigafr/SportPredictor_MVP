@@ -172,6 +172,9 @@ def calculate_ai_index(
         prediction
     )
 
+    print("Learning Bonus =", learning_bonus)
+    print("AI Index =", ai_index)
+
 def calculate_btts(
     predicted_home_goals,
     predicted_away_goals
