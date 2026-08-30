@@ -973,23 +973,6 @@ elif menu == "Admin":
                 f"⚠ Malus IA : {bonus}"
             )
 
-        st.subheader(
-            "🎯 Learning par Marché"
-        )
-
-        markets = get_market_learning_stats()
-
-        for market in markets:
-
-            rate = get_market_success_rate(
-                market
-            )
-
-            st.metric(
-                f"Marché {market}",
-                f"{rate}%"
-            )
-
         st.markdown("---")
 
         st.subheader(
