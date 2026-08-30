@@ -142,16 +142,22 @@ def calculate_ai_index(
 def calculate_ai_index(
     form_score,
     h2h_score,
-    ranking_score
+    ranking_score,
+    market="1"
 ):
 
     learning_bonus = get_learning_bonus()
+
+    market_bonus = get_market_bonus(
+        market
+    )
 
     ai_index = (
         form_score
         + h2h_score
         + ranking_score
         + learning_bonus
+        + market_bonus
     )
 
     return max(
@@ -162,7 +168,8 @@ def calculate_ai_index(
     ai_index = calculate_ai_index(
         form_score,
         h2h_score,
-        ranking_score
+        ranking_score,
+        prediction
     )
 
 def calculate_btts(
