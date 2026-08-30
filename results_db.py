@@ -791,11 +791,3 @@ def get_market_learning_stats():
     print("Market stats =", stats)
 
     return stats
-
-def get_ai_learning_stats():
-
-    predictions = load_predictions()
-
-    print(predictions)
-
-    ...
