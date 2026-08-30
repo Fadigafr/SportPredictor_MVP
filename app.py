@@ -30,6 +30,10 @@ from results_db import (
     get_global_success_rate,
     save_prediction
 )
+from results_db import (
+    get_market_learning_stats,
+    get_market_success_rate
+)
 from results_db import get_learning_bonus
 from results_db import get_ai_learning_stats
 from results_db import get_ai_confidence_level
@@ -966,6 +970,23 @@ elif menu == "Admin":
 
             st.error(
                 f"⚠ Malus IA : {bonus}"
+            )
+
+        st.subheader(
+            "🎯 Learning par Marché"
+        )
+
+        markets = get_market_learning_stats()
+
+        for market in markets:
+
+            rate = get_market_success_rate(
+                market
+            )
+
+            st.metric(
+                f"Marché {market}",
+                f"{rate}%"
             )
 
     # =====================================================
