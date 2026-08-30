@@ -1019,6 +1019,47 @@ elif menu == "Admin":
                         bonus
                     )
 
+        if st.button("Ajouter 5 WIN"):
+
+            for i in range(5):
+
+                save_prediction(
+                    sport="Football",
+                    match=f"TEST_WIN_{i}",
+                    prediction="1",
+                    ai_index=90,
+                    odd=2.0,
+                    fixture_id=f"WIN{i}",
+                    result="WIN"
+                )
+
+            st.success("5 WIN ajoutés")
+
+        if st.button("Ajouter 5 LOSS"):
+
+            for i in range(5):
+
+                save_prediction(
+                    sport="Football",
+                    match=f"TEST_LOSS_{i}",
+                    prediction="1",
+                    ai_index=90,
+                    odd=2.0,
+                    fixture_id=f"LOSS{i}",
+                    result="LOSS"
+                )
+
+            st.success("5 LOSS ajoutés")
+
+        stats = get_ai_learning_stats()
+
+        st.write("WIN :", stats["wins"])
+        st.write("LOSS :", stats["losses"])
+        st.write("PENDING :", stats["pending"])
+        st.write("Taux :", stats["success_rate"])
+        st.write("Bonus :", get_learning_bonus())
+        
+
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
