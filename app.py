@@ -978,6 +978,10 @@ elif menu == "Admin":
         st.subheader(
             "🎯 Learning par Marché"
         )
+        
+        st.info(
+            "Le bonus marché influence désormais l'AI Index."
+        )
 
         markets = get_market_learning_stats()
 
