@@ -698,7 +698,7 @@ def get_learning_summary():
     }
 
 def get_learning_bonus():
-    return 200
+    return 5
 
 def get_market_learning_stats():
 
