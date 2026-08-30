@@ -34,6 +34,7 @@ from results_db import (
     get_market_learning_stats,
     get_market_success_rate
 )
+from results_db import get_market_bonus
 from results_db import get_learning_bonus
 from results_db import get_ai_learning_stats
 from results_db import get_ai_confidence_level
