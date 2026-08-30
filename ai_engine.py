@@ -144,6 +144,7 @@ def calculate_ai_index(
     h2h_score,
     ranking_score
 ):
+
     learning_bonus = get_learning_bonus()
 
     ai_index = (
