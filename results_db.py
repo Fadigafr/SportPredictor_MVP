@@ -724,3 +724,41 @@ def get_market_learning_stats():
             stats[market]["losses"] += 1
 
     return stats
+
+def get_market_success_rate(market):
+
+    stats = get_market_learning_stats()
+
+    if market not in stats:
+        return 50
+
+    wins = stats[market]["wins"]
+    losses = stats[market]["losses"]
+
+    total = wins + losses
+
+    if total == 0:
+        return 50
+
+    return round(
+        wins / total * 100,
+        1
+    )
+
+def get_market_bonus(market):
+
+    rate = get_market_success_rate(market)
+
+    if rate >= 80:
+        return 8
+
+    elif rate >= 70:
+        return 5
+
+    elif rate >= 60:
+        return 3
+
+    elif rate >= 50:
+        return 1
+
+    return -3
