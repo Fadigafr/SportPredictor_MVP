@@ -14,6 +14,7 @@ from predictions import (
 from api_football import api_get
 from database import init_db
 from database import load_predictions_db
+from database import save_prediction_db
 from database import get_conn
 from api_basketball import get_basketball_games_today
 from predictions import dashboard_global_page
