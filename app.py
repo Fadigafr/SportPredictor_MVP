@@ -1049,8 +1049,27 @@ elif menu == "Admin":
         st.write("PENDING :", stats["pending"])
         st.write("Taux :", stats["success_rate"])
         st.write("Bonus :", get_learning_bonus())
-        
 
+        st.subheader("🏆 Top Marchés IA")
+
+        markets = get_market_learning_stats()
+
+        ranking = []
+
+        for market in markets:
+
+            ranking.append({
+                "market": market,
+                "rate": get_market_success_rate(market),
+                "bonus": get_market_bonus(market)
+            })
+
+        ranking = sorted(
+            ranking,
+            key=lambda x: x["rate"],
+            reverse=True
+        )
+        
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
