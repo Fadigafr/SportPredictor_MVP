@@ -989,6 +989,48 @@ elif menu == "Admin":
                 f"{rate}%"
             )
 
+        st.markdown("---")
+
+        st.subheader(
+            "🎯 Learning par Marché"
+        )
+
+        markets = get_market_learning_stats()
+
+        if not markets:
+
+            st.info(
+                "Aucune donnée de marché disponible."
+            )
+
+        else:
+
+            for market in markets:
+
+                rate = get_market_success_rate(
+                    market
+                )
+
+                bonus = get_market_bonus(
+                    market
+                )
+
+                col1, col2 = st.columns(2)
+
+                with col1:
+
+                    st.metric(
+                        f"Marché {market}",
+                        f"{rate}%"
+                    )
+
+                with col2:
+
+                    st.metric(
+                        "Bonus",
+                        bonus
+                    )
+
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
