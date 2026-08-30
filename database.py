@@ -181,20 +181,3 @@ def update_prediction_result(
     conn.commit()
     conn.close()
 
-if st.button("📊 Générer historique test"):
-
-    for i in range(10):
-
-        result = "WIN" if i < 7 else "LOSS"
-
-        save_prediction(
-            sport="Football",
-            match=f"Test Match {i}",
-            prediction="1",
-            ai_index=85,
-            odd=2.0,
-            fixture_id=f"TEST{i}",
-            result=result
-        )
-
-    st.success("Historique test créé")
