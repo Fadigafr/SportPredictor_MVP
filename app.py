@@ -35,6 +35,7 @@ from results_db import (
     get_market_learning_stats,
     get_market_success_rate
 )
+from results_db import get_market_ranking
 from results_db import get_market_bonus
 from results_db import get_learning_bonus
 from results_db import get_ai_learning_stats
@@ -1050,6 +1051,10 @@ elif menu == "Admin":
         st.write("Taux :", stats["success_rate"])
         st.write("Bonus :", get_learning_bonus())
 
+        # =====================================================
+        # 🏆 TOP MARCHÉS IA
+        # =====================================================
+
         st.subheader("🏆 Top Marchés IA")
 
         markets = get_market_learning_stats()
@@ -1070,40 +1075,134 @@ elif menu == "Admin":
             reverse=True
         )
 
-        for item in ranking:
+        if not ranking:
 
-            st.write(
-                f"{item['market']} | "
-                f"{item['rate']}% | "
-                f"Bonus {item['bonus']}"
+            st.info(
+                "Aucune donnée de marché disponible."
             )
+
+        else:
+
+            for item in ranking:
+
+                col1, col2, col3 = st.columns(3)
+
+                with col1:
+                    st.write(f"🎯 {item['market']}")
+
+                with col2:
+                    st.metric(
+                        "Réussite",
+                        f"{item['rate']}%"
+                    )
+
+                with col3:
+                    st.metric(
+                        "Bonus",
+                        item["bonus"]
+                    )
+
+        # =====================================================
+        # 📈 RÉSUMÉ IA GLOBAL
+        # =====================================================
+
+        st.markdown("---")
 
         st.subheader("📈 Résumé IA Global")
 
         stats = get_ai_learning_stats()
 
-        st.metric(
-            "Historique total",
-            stats["total"]
-        )
+        col1, col2, col3 = st.columns(3)
 
-        st.metric(
-            "Taux de réussite",
-            f"{stats['success_rate']}%"
-        )
+        with col1:
 
-        st.metric(
-            "Bonus IA",
-            get_learning_bonus()
-        )
+            st.metric(
+                "Historique Total",
+                stats["total"]
+            )
 
-        for item in ranking:
+        with col2:
 
-            if item["rate"] < 50:
+            st.metric(
+                "Taux de Réussite",
+                f"{stats['success_rate']}%"
+            )
+
+        with col3:
+
+            st.metric(
+                "Bonus IA",
+                get_learning_bonus()
+            )
+
+        # =====================================================
+        # 🏆 NIVEAU IA
+        # =====================================================
+
+        if stats["success_rate"] >= 80:
+
+            st.success("🔥 IA ELITE")
+
+        elif stats["success_rate"] >= 70:
+
+            st.success("🚀 IA PREMIUM")
+
+        elif stats["success_rate"] >= 60:
+
+            st.info("✅ IA STABLE")
+
+        elif stats["success_rate"] >= 50:
+
+            st.warning("⚠️ IA EN APPRENTISSAGE")
+
+        else:
+
+            st.error("🔧 IA À OPTIMISER")
+
+        # =====================================================
+        # ⚠️ MARCHÉS À SURVEILLER
+        # =====================================================
+
+        st.markdown("---")
+
+        st.subheader("⚠️ Marchés à Surveiller")
+
+        weak_markets = [
+            item for item in ranking
+            if item["rate"] < 50
+        ]
+
+        if weak_markets:
+
+            for item in weak_markets:
 
                 st.warning(
-                    f"{item['market']} : {item['rate']}%"
+                    f"{item['market']} → {item['rate']}%"
                 )
+
+        else:
+
+            st.success(
+                "✅ Aucun marché critique détecté."
+            )
+
+        # =====================================================
+        # 🏆 MEILLEUR MARCHÉ IA
+        # =====================================================
+
+        if ranking:
+
+            best_market = ranking[0]
+
+            st.markdown("---")
+
+            st.subheader("🏅 Meilleur Marché IA")
+
+            st.success(
+                f"{best_market['market']} | "
+                f"{best_market['rate']}% | "
+                f"Bonus +{best_market['bonus']}"
+            )
         
     # =====================================================
     # BASE DE DONNÉES
