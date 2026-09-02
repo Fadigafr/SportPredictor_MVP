@@ -1069,6 +1069,41 @@ elif menu == "Admin":
             key=lambda x: x["rate"],
             reverse=True
         )
+
+        for item in ranking:
+
+            st.write(
+                f"{item['market']} | "
+                f"{item['rate']}% | "
+                f"Bonus {item['bonus']}"
+            )
+
+        st.subheader("📈 Résumé IA Global")
+
+        stats = get_ai_learning_stats()
+
+        st.metric(
+            "Historique total",
+            stats["total"]
+        )
+
+        st.metric(
+            "Taux de réussite",
+            f"{stats['success_rate']}%"
+        )
+
+        st.metric(
+            "Bonus IA",
+            get_learning_bonus()
+        )
+
+        for item in ranking:
+
+            if item["rate"] < 50:
+
+                st.warning(
+                    f"{item['market']} : {item['rate']}%"
+                )
         
     # =====================================================
     # BASE DE DONNÉES
