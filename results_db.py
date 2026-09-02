@@ -791,3 +791,24 @@ def get_market_learning_stats():
     print("Market stats =", stats)
 
     return stats
+
+def get_market_ranking():
+
+    markets = get_market_learning_stats()
+
+    ranking = []
+
+    for market in markets:
+
+        ranking.append({
+            "market": market,
+            "rate": get_market_success_rate(market),
+            "bonus": get_market_bonus(market)
+        })
+
+    ranking.sort(
+        key=lambda x: x["rate"],
+        reverse=True
+    )
+
+    return ranking
