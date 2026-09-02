@@ -5,6 +5,10 @@ import json
 import os
 from datetime import datetime
 from results_db import get_learning_bonus
+from results_db import (
+    get_learning_bonus,
+    get_market_bonus
+)
 
 # ai_engine.py
 
@@ -109,10 +113,15 @@ def calculate_ai_index(
     h2h_score,
     bookmaker_score,
     scorer_score,
-    home_score
+    home_score,
+    market="1"
 ):
 
     learning_bonus = get_learning_bonus()
+
+    market_bonus = get_market_bonus(
+        market
+    )
 
     ai_index = (
 
@@ -128,7 +137,9 @@ def calculate_ai_index(
 
         home_score * 0.10 +
 
-        learning_bonus
+        learning_bonus +
+
+        market_bonus
 
     )
 
@@ -137,43 +148,22 @@ def calculate_ai_index(
         min(ai_index, 100)
     )
 
-    return round(ai_index, 2)
-
-def calculate_ai_index(
-    form_score,
-    h2h_score,
-    ranking_score,
-    market="1"
-):
-
-    learning_bonus = get_learning_bonus()
-
-    market_bonus = get_market_bonus(
-        market
+    print(
+        f"Learning Bonus = {learning_bonus}"
     )
 
-    ai_index = (
-        form_score
-        + h2h_score
-        + ranking_score
-        + learning_bonus
-        + market_bonus
+    print(
+        f"Market Bonus = {market_bonus}"
     )
 
-    return max(
-        0,
-        min(100, ai_index)
+    print(
+        f"AI Index Final = {ai_index}"
     )
 
-    ai_index = calculate_ai_index(
-        form_score,
-        h2h_score,
-        ranking_score,
-        prediction
+    return round(
+        ai_index,
+        2
     )
-
-    print("Learning Bonus =", learning_bonus)
-    print("AI Index =", ai_index)
 
 def calculate_btts(
     predicted_home_goals,
