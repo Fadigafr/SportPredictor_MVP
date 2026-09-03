@@ -289,11 +289,11 @@ def build_match_analysis(
     learning_bonus = get_learning_bonus()
 
     market_bonus = get_market_bonus(
-    "1"
+        market
     )
 
     market_rate = get_market_success_rate(
-    "1"
+        market
     )
 
     return {
@@ -314,17 +314,17 @@ def build_match_analysis(
 
         "learning_impact": {
 
-            "global_bonus": get_learning_bonus(),
+            "global_bonus": learning_bonus,
 
-            "market_bonus": get_market_bonus(
-                market
-            ),
+            "market_bonus": market_bonus,
 
-            "market": market
+            "market_rate": market_rate,
+
+            "market": market,
+
+            "final_ai_index": ai_index
 
         }
-
-    }
     
 def get_value_bets():
 
