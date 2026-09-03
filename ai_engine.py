@@ -107,6 +107,10 @@ def get_top_predictions():
         reverse=True
     )
 
+# =====================================================
+# AI INDEX V15.9.1
+# =====================================================
+
 def calculate_ai_index(
     poisson_score,
     form_score,
@@ -117,13 +121,16 @@ def calculate_ai_index(
     market="1"
 ):
 
+    # Bonus global IA
     learning_bonus = get_learning_bonus()
 
+    # Bonus spécifique au marché
     market_bonus = get_market_bonus(
         market
     )
 
-    ai_index = (
+    # Score IA de base
+    base_ai_index = (
 
         poisson_score * 0.25 +
 
@@ -135,17 +142,30 @@ def calculate_ai_index(
 
         scorer_score * 0.10 +
 
-        home_score * 0.10 +
-
-        learning_bonus +
-
-        market_bonus
+        home_score * 0.10
 
     )
 
+    # Score final
+    ai_index = (
+        base_ai_index
+        + learning_bonus
+        + market_bonus
+    )
+
+    # Limites de sécurité
     ai_index = max(
         0,
         min(ai_index, 100)
+    )
+
+    # Logs debug
+    print("=" * 50)
+    print("AI LEARNING IMPACT")
+    print("=" * 50)
+
+    print(
+        f"Base AI Index = {round(base_ai_index, 2)}"
     )
 
     print(
@@ -157,13 +177,20 @@ def calculate_ai_index(
     )
 
     print(
-        f"AI Index Final = {ai_index}"
+        f"AI Index Final = {round(ai_index, 2)}"
     )
+
+    print("=" * 50)
 
     return round(
         ai_index,
         2
     )
+
+
+# =====================================================
+# BTTS
+# =====================================================
 
 def calculate_btts(
     predicted_home_goals,
@@ -175,39 +202,43 @@ def calculate_btts(
         and
         predicted_away_goals > 0
     )
-    btts_result = calculate_btts(
-        predicted_home_goals,
-        predicted_away_goals
-    )
 
-    ou_result = calculate_over_under(
-        predicted_home_goals,
-        predicted_away_goals
-    )
-    ai_index = calculate_ai_index(
-        poisson_score,
-        form_score,
-        h2h_score,
-        bookmaker_score,
-        scorer_score,
-        home_score
-    )
+
+# =====================================================
+# OVER / UNDER
+# =====================================================
 
 def calculate_over_under(
     home_goals,
     away_goals
 ):
 
-    total = home_goals + away_goals
+    total = (
+        home_goals +
+        away_goals
+    )
 
     return {
+
         "over25": total >= 3,
-        "under25": total < 3
+
+        "under25": total < 3,
+
+        "total_goals": total
+
     }
+
+
+# =====================================================
+# AI LEVEL
+# =====================================================
 
 def get_ai_level(ai_index):
 
-    if ai_index >= 85:
+    if ai_index >= 90:
+        return "🏆 SUPER ELITE"
+
+    elif ai_index >= 85:
         return "🔥 ELITE BET"
 
     elif ai_index >= 70:
@@ -217,6 +248,61 @@ def get_ai_level(ai_index):
         return "⚠️ BET MOYEN"
 
     return "❌ RISQUE ÉLEVÉ"
+
+
+# =====================================================
+# ANALYSE COMPLÈTE MATCH
+# =====================================================
+
+def build_match_analysis(
+    poisson_score,
+    form_score,
+    h2h_score,
+    bookmaker_score,
+    scorer_score,
+    home_score,
+    predicted_home_goals,
+    predicted_away_goals,
+    market="1"
+):
+
+    btts_result = calculate_btts(
+        predicted_home_goals,
+        predicted_away_goals
+    )
+
+    ou_result = calculate_over_under(
+        predicted_home_goals,
+        predicted_away_goals
+    )
+
+    ai_index = calculate_ai_index(
+        poisson_score,
+        form_score,
+        h2h_score,
+        bookmaker_score,
+        scorer_score,
+        home_score,
+        market
+    )
+
+    return {
+
+        "ai_index": ai_index,
+
+        "confidence": get_ai_level(
+            ai_index
+        ),
+
+        "btts": btts_result,
+
+        "over25": ou_result["over25"],
+
+        "under25": ou_result["under25"],
+
+        "total_goals": ou_result["total_goals"]
+
+    }
 
 def get_value_bets():
 
