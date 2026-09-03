@@ -3578,6 +3578,35 @@ def dashboard_global_page():
             f"IA {bet['ai_index']}/100"
         )
 
+    learning_impact = bet.get(
+        "learning_impact",
+        {}
+    )
+
+    st.markdown("---")
+
+    st.subheader(
+        "🧠 IA Learning Impact"
+    )
+
+    st.write(
+        f"Bonus Global : +{learning_impact.get('global_bonus', 0)}"
+    )
+
+    st.write(
+        f"Bonus Marché : +{learning_impact.get('market_bonus', 0)}"
+    )
+
+    st.write(
+        f"Réussite Marché : "
+        f"{learning_impact.get('market_rate', 0)}%"
+    )
+
+    st.write(
+        f"AI Index Final : "
+        f"{bet.get('ai_index', 0)}"
+    )
+    
     st.subheader("🏆 Top 5 Paris Premium")
 
     premium_bets = get_top_predictions()[:5]
