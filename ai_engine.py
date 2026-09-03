@@ -310,20 +310,22 @@ def build_match_analysis(
 
         "under25": ou_result["under25"],
 
-        "total_goals": ou_result["total_goals"]
+        "total_goals": ou_result["total_goals"],
+
+        "learning_impact": {
+
+            "global_bonus": get_learning_bonus(),
+
+            "market_bonus": get_market_bonus(
+                market
+            ),
+
+            "market": market
+
+        }
 
     }
-
-    "learning_impact": {
-
-        "global_bonus": learning_bonus,
-
-        "market_bonus": market_bonus,
-
-        "market_rate": market_rate
-
-     }
-
+    
 def get_value_bets():
 
     value_bets = []
