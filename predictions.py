@@ -3435,6 +3435,7 @@ def dashboard_global_page():
 """
     )
     st.write(bet)
+    
     learning_impact = bet.get(
         "learning_impact",
         {}
