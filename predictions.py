@@ -3434,16 +3434,80 @@ def dashboard_global_page():
 🔥 Niveau : {best_bet['confidence']}
 """
     )
+
+    impact = best_bet.get(
+        "learning_impact",
+        {}
+    )
+
+    if impact:
+
+        st.markdown("---")
+
+        st.subheader(
+            "🧠 IA Learning Impact"
+        )
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+
+            st.metric(
+                "Bonus Global",
+                impact.get(
+                    "global_bonus",
+                    0
+                )
+            )
+
+        with col2:
+
+            st.metric(
+                "Bonus Marché",
+                impact.get(
+                    "market_bonus",
+                    0
+                )
+            )
+
+         with col3:
+
+            st.metric(
+                "Marché",
+                impact.get(
+                    "market",
+                    "N/A"
+                )
+            )
+
+        st.info(
+            f"""
+    Taux Marché : {impact.get('market_rate', 0)} %
+
+    AI Index Final :
+    {impact.get('final_ai_index', 0)}
+    """
+        )
     
     top_predictions = get_top_predictions()
 
     best_bet = top_predictions[0]
 
     best_bet = {
+
         "sport": best_bet["sport"],
+
         "match": best_bet["match"],
+
         "ia": best_bet["ai_index"],
-        "confidence": best_bet["confidence"]
+
+        "confidence": best_bet["confidence"],
+
+        "learning_impact": best_bet.get(
+            "learning_impact",
+            {}
+        )
+
     }
 
     st.subheader("📈 Performance IA")
