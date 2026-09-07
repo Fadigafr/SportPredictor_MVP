@@ -3687,6 +3687,29 @@ def dashboard_global_page():
             f"{bet['ai_index']}/100"
         )
 
+        impact = bet.get(
+            "learning_impact",
+            {}
+        )
+
+        if impact:
+
+            st.info(
+                f"""
+        🧠 IA Learning Impact
+
+        Marché : {impact.get('market')}
+
+        Réussite Marché : {impact.get('market_rate')}%
+
+        Bonus Global : +{impact.get('global_bonus')}
+
+        Bonus Marché : +{impact.get('market_bonus')}
+
+        AI Index Final : {impact.get('final_ai_index')}
+        """
+            )
+
     st.subheader("🥇 Classement des Sports")
 
     ranking = sorted(
