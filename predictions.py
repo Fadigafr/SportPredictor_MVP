@@ -3434,9 +3434,7 @@ def dashboard_global_page():
 🔥 Niveau : {best_bet['confidence']}
 """
     )
-
     st.write(bet)
-    
     learning_impact = bet.get(
         "learning_impact",
         {}
