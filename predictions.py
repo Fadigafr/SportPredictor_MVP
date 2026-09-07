@@ -3436,12 +3436,16 @@ def dashboard_global_page():
     )
     st.write(bet)
     
+    # =====================================================
+    # 🧠 IA LEARNING IMPACT
+    # =====================================================
+
     learning_impact = bet.get(
         "learning_impact",
         {}
     )
 
-    if impact:
+    if learning_impact:
 
         st.markdown("---")
 
@@ -3449,45 +3453,44 @@ def dashboard_global_page():
             "🧠 IA Learning Impact"
         )
 
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
 
         with col1:
 
             st.metric(
                 "Bonus Global",
-                impact.get(
+                learning_impact.get(
                     "global_bonus",
                     0
                 )
+            )
+
+            st.metric(
+                "Réussite Marché",
+                f"{learning_impact.get('market_rate', 0)}%"
             )
 
         with col2:
 
             st.metric(
                 "Bonus Marché",
-                impact.get(
+                learning_impact.get(
                     "market_bonus",
                     0
                 )
             )
 
-        with col3:
-
             st.metric(
                 "Marché",
-                impact.get(
+                learning_impact.get(
                     "market",
                     "N/A"
                 )
             )
 
-        st.info(
-            f"""
-    Taux Marché : {impact.get('market_rate', 0)} %
-
-    AI Index Final :
-    {impact.get('final_ai_index', 0)}
-    """
+        st.success(
+            f"AI Index Final : "
+            f"{learning_impact.get('final_ai_index', 0)}"
         )
     
     top_predictions = get_top_predictions()
