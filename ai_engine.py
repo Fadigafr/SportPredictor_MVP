@@ -296,7 +296,7 @@ def build_match_analysis(
         market
     )
 
-    return {
+        return {
 
         "ai_index": ai_index,
 
@@ -325,6 +325,8 @@ def build_match_analysis(
             "final_ai_index": ai_index
 
         }
+
+    }
     
 def get_value_bets():
 
