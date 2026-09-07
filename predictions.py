@@ -3470,7 +3470,7 @@ def dashboard_global_page():
                 )
             )
 
-         with col3:
+        with col3:
 
             st.metric(
                 "Marché",
