@@ -296,37 +296,37 @@ def build_match_analysis(
         market
     )
 
-        return {
+    return {
 
-            "ai_index": ai_index,
+        "ai_index": ai_index,
 
-            "confidence": get_ai_level(
-                ai_index
-            ),
+        "confidence": get_ai_level(
+            ai_index
+        ),
 
-            "btts": btts_result,
+        "btts": btts_result,
 
-            "over25": ou_result["over25"],
+        "over25": ou_result["over25"],
 
-            "under25": ou_result["under25"],
+        "under25": ou_result["under25"],
 
-            "total_goals": ou_result["total_goals"],
+        "total_goals": ou_result["total_goals"],
 
-            "learning_impact": {
+        "learning_impact": {
 
-                "global_bonus": learning_bonus,
+            "global_bonus": learning_bonus,
 
-                "market_bonus": market_bonus,
+            "market_bonus": market_bonus,
 
-                "market_rate": market_rate,
+            "market_rate": market_rate,
 
-                "market": market,
+            "market": market,
 
-                "final_ai_index": ai_index
-
-            }
+            "final_ai_index": ai_index
 
         }
+
+    }
     
 def get_value_bets():
 
