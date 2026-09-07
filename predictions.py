@@ -3435,7 +3435,9 @@ def dashboard_global_page():
 """
     )
 
-    impact = best_bet.get(
+    st.write(bet)
+    
+    learning_impact = bet.get(
         "learning_impact",
         {}
     )
