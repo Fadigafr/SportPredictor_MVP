@@ -3432,7 +3432,7 @@ def dashboard_global_page():
     # 🧠 IA LEARNING IMPACT
     # =====================================================
 
-    impact = best_bet.get(
+    learning_impact = best_bet.get(
         "learning_impact",
         {}
     )
