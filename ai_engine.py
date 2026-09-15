@@ -16,20 +16,54 @@ def get_today_predictions():
 
     predictions = []
 
-    # Football
+    # =====================================================
+    # FOOTBALL
+    # =====================================================
+
     try:
 
+        ai_index = 92
+
         predictions.append({
+
             "sport": "Football",
+
             "match": "PSG vs Marseille",
-            "ai_index": 92,
-            "confidence": "ELITE"
+
+            "ai_index": ai_index,
+
+            "confidence": "ELITE",
+
+            "learning_impact": {
+
+                "global_bonus": get_learning_bonus(),
+
+                "market_bonus": get_market_bonus(
+                    "1"
+                ),
+
+                "market_rate": get_market_success_rate(
+                    "1"
+                ),
+
+                "market": "1",
+
+                "final_ai_index": ai_index
+
+            }
+
         })
 
-    except Exception:
-        pass
+    except Exception as e:
 
-    # Basketball
+        print(
+            f"Erreur Football : {e}"
+        )
+
+    # =====================================================
+    # BASKETBALL
+    # =====================================================
+
     try:
 
         games = get_games_today()
@@ -37,43 +71,70 @@ def get_today_predictions():
         for game in games[:5]:
 
             home = game["teams"]["home"]["name"]
+
             away = game["teams"]["away"]["name"]
 
             ai_index = 80
 
             predictions.append({
+
                 "sport": "Basketball",
+
                 "match": f"{home} vs {away}",
+
                 "ai_index": ai_index,
-                "confidence": get_ai_level(ai_index)
+
+                "confidence": get_ai_level(
+                    ai_index
+                )
+
             })
 
     except Exception:
+
         pass
 
-    # Tennis
+    # =====================================================
+    # TENNIS
+    # =====================================================
+
     try:
 
         tennis_data = get_all_fixtures()
 
-        for match in tennis_data.get("data", [])[:5]:
+        for match in tennis_data.get(
+            "data",
+            []
+        )[:5]:
 
             player1 = match["player1"]["name"]
+
             player2 = match["player2"]["name"]
 
             ai_index = 78
 
             predictions.append({
+
                 "sport": "Tennis",
+
                 "match": f"{player1} vs {player2}",
+
                 "ai_index": ai_index,
-                "confidence": get_ai_level(ai_index)
+
+                "confidence": get_ai_level(
+                    ai_index
+                )
+
             })
 
     except Exception:
+
         pass
 
-    # Hockey
+    # =====================================================
+    # HOCKEY
+    # =====================================================
+
     try:
 
         games = get_hockey_fixtures()
@@ -81,22 +142,31 @@ def get_today_predictions():
         for game in games[:5]:
 
             home = game["teams"]["home"]["name"]
+
             away = game["teams"]["away"]["name"]
 
             ai_index = 76
 
             predictions.append({
+
                 "sport": "Hockey",
+
                 "match": f"{home} vs {away}",
+
                 "ai_index": ai_index,
-                "confidence": get_ai_level(ai_index)
+
+                "confidence": get_ai_level(
+                    ai_index
+                )
+
             })
 
     except Exception:
+
         pass
 
     return predictions
-
+    
 def get_top_predictions():
 
     predictions = get_today_predictions()
