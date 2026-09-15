@@ -3437,7 +3437,7 @@ def dashboard_global_page():
         {}
     )
 
-    if "learning_impact" in best_bet:
+    if impact:
 
         st.markdown("---")
 
