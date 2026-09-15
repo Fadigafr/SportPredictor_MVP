@@ -3427,8 +3427,6 @@ def dashboard_global_page():
     Niveau : {best_bet['confidence']}
     """
     )
-
-    st.write(best_bet)
     
     # =====================================================
     # 🧠 IA LEARNING IMPACT
