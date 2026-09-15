@@ -3512,7 +3512,7 @@ def dashboard_global_page():
     with col1:
         st.metric(
             "Indice IA",
-            f"{best_bet['ia']}/100"
+            f"{best_bet['ai_index']}/100"
         )
 
     with col2:
@@ -4194,7 +4194,7 @@ def dashboard_global_page():
 
     st.metric(
         "Indice IA",
-        f"{best_bet['ia']}/100"
+        f"{best_bet['ai_index']}/100"
     )
 
     st.markdown("---")
