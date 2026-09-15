@@ -3437,7 +3437,7 @@ def dashboard_global_page():
         {}
     )
 
-    if impact:
+    if learning_impact:
 
         st.markdown("---")
 
