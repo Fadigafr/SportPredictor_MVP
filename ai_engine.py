@@ -4,10 +4,10 @@ from api_tennis import get_all_fixtures
 import json
 import os
 from datetime import datetime
-from results_db import get_learning_bonus
 from results_db import (
     get_learning_bonus,
-    get_market_bonus
+    get_market_bonus,
+    get_market_success_rate
 )
 
 # ai_engine.py
