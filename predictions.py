@@ -3414,26 +3414,20 @@ def dashboard_global_page():
 
     best_bet = top_predictions[0]
 
-    best_bet = {
-        "sport": best_bet["sport"],
-        "match": best_bet["match"],
-        "ia": best_bet["ai_index"],
-        "confidence": best_bet["confidence"]
-    }
-
     st.subheader("🔥 Meilleur Pari du Jour")
 
     st.success(
         f"""
-🏆 {best_bet['sport']}
+    {best_bet['sport']}
 
-⚔️ {best_bet['match']}
+    {best_bet['match']}
 
-🧠 IA Index : {best_bet['ia']}/100
+    IA Index : {best_bet['ai_index']}/100
 
-🔥 Niveau : {best_bet['confidence']}
-"""
+    Niveau : {best_bet['confidence']}
+    """
     )
+
     st.write(best_bet)
     
     # =====================================================
@@ -3492,27 +3486,6 @@ def dashboard_global_page():
             f"AI Index Final : "
             f"{learning_impact.get('final_ai_index', 0)}"
         )
-    
-    top_predictions = get_top_predictions()
-
-    best_bet = top_predictions[0]
-
-    best_bet = {
-
-        "sport": best_bet["sport"],
-
-        "match": best_bet["match"],
-
-        "ia": best_bet["ai_index"],
-
-        "confidence": best_bet["confidence"],
-
-        "learning_impact": best_bet.get(
-            "learning_impact",
-            {}
-        )
-
-    }
 
     st.subheader("📈 Performance IA")
 
