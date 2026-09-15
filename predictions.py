@@ -3439,7 +3439,7 @@ def dashboard_global_page():
         {}
     )
 
-    if learning_impact:
+    if "learning_impact" in best_bet:
 
         st.markdown("---")
 
