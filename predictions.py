@@ -1522,6 +1522,11 @@ def predictions_page():
         odd=odd_home,
         fixture_id=fixture_id
     )
+
+    print(
+        "Fixture ID détecté :",
+        fixture_id
+    )
     
     st.info(
         f"""
