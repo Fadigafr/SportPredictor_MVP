@@ -1140,6 +1140,33 @@ elif menu == "Admin":
             )
 
         # =====================================================
+        # ⏳ VALIDATION AUTOMATIQUE
+        # =====================================================
+
+        st.markdown("---")
+
+        st.subheader("⏳ Validation Automatique")
+
+        pending_predictions = get_pending_predictions()
+
+        st.metric(
+            "Pronostics en attente",
+            len(pending_predictions)
+        )
+
+        if pending_predictions:
+
+            st.warning(
+                f"{len(pending_predictions)} pronostics attendent une validation."
+            )
+
+        else:
+
+            st.success(
+                "✅ Aucun pronostic en attente."
+            )
+
+        # =====================================================
         # 🏆 NIVEAU IA
         # =====================================================
 
