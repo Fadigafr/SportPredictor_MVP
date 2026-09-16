@@ -890,3 +890,70 @@ def mark_prediction_loss(
         prediction_id,
         "LOSS"
     )
+
+def validate_prediction_result(
+    prediction,
+    home_goals,
+    away_goals
+):
+
+    predicted_market = prediction["prediction"]
+
+    if predicted_market == "1":
+
+        result = (
+            "WIN"
+            if home_goals > away_goals
+            else "LOSS"
+        )
+
+    elif predicted_market == "2":
+
+        result = (
+            "WIN"
+            if away_goals > home_goals
+            else "LOSS"
+        )
+
+    elif predicted_market == "X":
+
+        result = (
+            "WIN"
+            if home_goals == away_goals
+            else "LOSS"
+        )
+
+    else:
+
+        result = "LOSS"
+
+    update_prediction_result(
+        prediction["id"],
+        result
+    )
+
+    return result
+
+def auto_validate_pending():
+
+    pending = get_pending_predictions()
+
+    validated = 0
+
+    for prediction in pending:
+
+        fixture_id = prediction["fixture_id"]
+
+        # temporaire
+        home_goals = 2
+        away_goals = 1
+
+        validate_prediction_result(
+            prediction,
+            home_goals,
+            away_goals
+        )
+
+        validated += 1
+
+    return validated
