@@ -14,6 +14,7 @@ from database import (
     load_predictions_db,
     update_prediction_result
 )
+from database import get_conn
 from api_bet365 import (
     get_soccer_live,
     is_finished,
