@@ -40,6 +40,10 @@ from results_db import get_market_bonus
 from results_db import get_learning_bonus
 from results_db import get_ai_learning_stats
 from results_db import get_ai_confidence_level
+from results_db import (
+    get_pending_predictions,
+    get_pending_count
+)
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
