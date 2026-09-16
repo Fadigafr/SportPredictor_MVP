@@ -889,36 +889,3 @@ def mark_prediction_loss(
         prediction_id,
         "LOSS"
     )
-
-def check_finished_matches():
-
-    pending_predictions = get_pending_predictions()
-
-    for prediction in pending_predictions:
-
-        fixture_id = prediction["fixture_id"]
-
-        # API résultat réel
-
-        final_result = get_match_result(
-            fixture_id
-        )
-
-        if final_result:
-
-            validate_prediction(
-                prediction,
-                final_result
-            )
-
-def validate_prediction(
-    prediction,
-    final_result
-):
-
-    update_prediction_result(
-        prediction["id"],
-        result
-    )
-
-
