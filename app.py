@@ -44,7 +44,8 @@ from results_db import (
     get_pending_predictions,
     get_pending_count,
     mark_prediction_win,
-    mark_prediction_loss
+    mark_prediction_loss,
+    auto_validate_pending
 )
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
