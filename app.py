@@ -42,7 +42,9 @@ from results_db import get_ai_learning_stats
 from results_db import get_ai_confidence_level
 from results_db import (
     get_pending_predictions,
-    get_pending_count
+    get_pending_count,
+    mark_prediction_win,
+    mark_prediction_loss
 )
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
