@@ -1514,6 +1514,11 @@ def predictions_page():
         f"✅ PARI FINAL IA : {pari_final}"
     )
 
+    print(
+        "Fixture ID =",
+        fixture_id
+    )
+    
     save_prediction(
         sport="Football",
         match=f"{home_team} vs {away_team}",
