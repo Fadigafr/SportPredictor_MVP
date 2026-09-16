@@ -1234,7 +1234,41 @@ elif menu == "Admin":
                 f"{best_market['rate']}% | "
                 f"Bonus +{best_market['bonus']}"
             )
-        
+        st.markdown("---")
+
+        st.subheader("🧪 Test Validation Auto")
+
+        if st.button(
+            "✅ Transformer un PENDING en WIN"
+        ):
+
+            pending = get_pending_predictions()
+
+            if pending:
+
+                mark_prediction_win(
+                    pending[0]["id"]
+                )
+
+                st.success(
+                    "PENDING → WIN"
+                )
+
+        if st.button(
+            "✅ Transformer un PENDING en WIN"
+        ):
+
+            pending = get_pending_predictions()
+
+            if pending:
+
+                mark_prediction_win(
+                    pending[0]["id"]
+                )
+
+                st.success(
+                    "PENDING → WIN"
+                )
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
