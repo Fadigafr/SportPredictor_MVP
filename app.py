@@ -1241,7 +1241,8 @@ elif menu == "Admin":
         st.subheader("🧪 Test Validation Auto")
 
         if st.button(
-            "✅ Transformer un PENDING en WIN"
+            "✅ Transformer un PENDING en WIN",
+            key="btn_pending_win_v16"
         ):
 
             pending = get_pending_predictions()
@@ -1257,20 +1258,22 @@ elif menu == "Admin":
                 )
 
         if st.button(
-            "✅ Transformer un PENDING en WIN"
+            "❌ Transformer un PENDING en LOSS",
+            key="btn_pending_loss_v16"
         ):
 
             pending = get_pending_predictions()
 
             if pending:
 
-                mark_prediction_win(
+                mark_prediction_loss(
                     pending[0]["id"]
                 )
 
                 st.success(
-                    "PENDING → WIN"
+                    "PENDING → LOSS"
                 )
+
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
