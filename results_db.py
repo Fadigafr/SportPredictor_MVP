@@ -957,3 +957,27 @@ def auto_validate_pending():
         validated += 1
 
     return validated
+
+# =====================================================
+# V16.3 FIXTURE IDS EN ATTENTE
+# =====================================================
+
+def get_pending_fixture_ids():
+
+    pending = get_pending_predictions()
+
+    fixture_ids = []
+
+    for prediction in pending:
+
+        fixture_id = prediction.get(
+            "fixture_id"
+        )
+
+        if fixture_id:
+
+            fixture_ids.append(
+                fixture_id
+            )
+
+    return fixture_ids
