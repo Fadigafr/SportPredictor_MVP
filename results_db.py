@@ -842,19 +842,24 @@ def get_pending_count():
         get_pending_predictions()
     )
 
+# =====================================================
+# V16.1 UPDATE RESULT
+# =====================================================
+
 def update_prediction_result(
     prediction_id,
     result
 ):
 
     conn = get_conn()
+
     c = conn.cursor()
 
     c.execute(
         """
         UPDATE predictions_history
-        SET result=?
-        WHERE id=?
+        SET result = ?
+        WHERE id = ?
         """,
         (
             result,
@@ -863,7 +868,27 @@ def update_prediction_result(
     )
 
     conn.commit()
+
     conn.close()
+
+def mark_prediction_win(
+    prediction_id
+):
+
+    update_prediction_result(
+        prediction_id,
+        "WIN"
+    )
+
+
+def mark_prediction_loss(
+    prediction_id
+):
+
+    update_prediction_result(
+        prediction_id,
+        "LOSS"
+    )
 
 def check_finished_matches():
 
