@@ -1274,6 +1274,21 @@ elif menu == "Admin":
                     "PENDING → LOSS"
                 )
 
+        st.markdown("---")
+
+        st.subheader("🤖 Auto Validation V16.2")
+
+        if st.button(
+            "🚀 Lancer Validation Auto",
+            key="auto_validation_v162"
+        ):
+
+            total = auto_validate_pending()
+
+            st.success(
+                f"{total} pronostics validés automatiquement."
+            )
+
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
