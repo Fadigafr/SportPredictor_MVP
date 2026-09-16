@@ -813,6 +813,35 @@ def get_market_ranking():
 
     return ranking
 
+# =====================================================
+# V16 - PRONOSTICS EN ATTENTE
+# =====================================================
+
+def get_pending_predictions():
+
+    predictions = load_predictions()
+
+    pending = []
+
+    for prediction in predictions:
+
+        if prediction.get(
+            "result",
+            "PENDING"
+        ) == "PENDING":
+
+            pending.append(
+                prediction
+            )
+
+    return pending
+
+def get_pending_count():
+
+    return len(
+        get_pending_predictions()
+    )
+
 def update_prediction_result(
     prediction_id,
     result
