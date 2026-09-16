@@ -4853,6 +4853,20 @@ def dashboard_global_page():
     {total_bets}
     """
     )
+
+    if fixture_ids:
+
+        st.success(
+            f"{len(fixture_ids)} fixture_id exploitables détectés."
+        )
+
+        st.write(fixture_ids[:10])
+
+    else:
+
+        st.warning(
+            "En attente de nouveaux pronostics réels (quota API)."
+        )
     
 def get_global_ai_indexes():
 
