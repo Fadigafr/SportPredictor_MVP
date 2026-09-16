@@ -45,7 +45,8 @@ from results_db import (
     get_pending_count,
     mark_prediction_win,
     mark_prediction_loss,
-    auto_validate_pending
+    auto_validate_pending,
+    get_pending_fixture_ids
 )
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
@@ -1303,6 +1304,35 @@ elif menu == "Admin":
 
             st.success(
                 f"{total} pronostics validés automatiquement."
+            )
+
+        st.markdown("---")
+
+        st.subheader(
+            "🔗 V16.3 Validation Réelle"
+        )
+
+        fixture_ids = get_pending_fixture_ids()
+
+        st.metric(
+            "Fixture IDs disponibles",
+            len(fixture_ids)
+        )
+
+        if fixture_ids:
+
+            st.success(
+                f"{len(fixture_ids)} fixture_id exploitables détectés."
+            )
+
+            st.write(
+                fixture_ids[:10]
+            )
+
+        else:
+
+            st.error(
+                "Aucun fixture_id trouvé."
             )
 
     # =====================================================
