@@ -812,3 +812,59 @@ def get_market_ranking():
     )
 
     return ranking
+
+def update_prediction_result(
+    prediction_id,
+    result
+):
+
+    conn = get_conn()
+    c = conn.cursor()
+
+    c.execute(
+        """
+        UPDATE predictions_history
+        SET result=?
+        WHERE id=?
+        """,
+        (
+            result,
+            prediction_id
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+def check_finished_matches():
+
+    pending_predictions = get_pending_predictions()
+
+    for prediction in pending_predictions:
+
+        fixture_id = prediction["fixture_id"]
+
+        # API résultat réel
+
+        final_result = get_match_result(
+            fixture_id
+        )
+
+        if final_result:
+
+            validate_prediction(
+                prediction,
+                final_result
+            )
+
+def validate_prediction(
+    prediction,
+    final_result
+):
+
+    update_prediction_result(
+        prediction["id"],
+        result
+    )
+
+
