@@ -1169,6 +1169,21 @@ elif menu == "Admin":
                 "✅ Aucun pronostic en attente."
             )
 
+            st.metric(
+                "WIN Auto",
+                wins
+            )
+
+            st.metric(
+                "LOSS Auto",
+                losses
+            )
+
+            st.metric(
+                "PENDING",
+                pending
+            )
+            
         # =====================================================
         # 🏆 NIVEAU IA
         # =====================================================
