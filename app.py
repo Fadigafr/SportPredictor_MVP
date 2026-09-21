@@ -866,7 +866,7 @@ elif menu == "Admin":
 
             odd=2.10,
 
-            fixture_id="TEST123"
+           fixture_id=event["eventId"]
 
         )
 
