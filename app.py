@@ -944,7 +944,6 @@ elif menu == "Admin":
                 first_event = events[0]
 
                 st.json(first_event)
-` 
                     
         if st.button(
             "TEST CALENDAR"
