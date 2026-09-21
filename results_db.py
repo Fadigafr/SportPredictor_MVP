@@ -981,3 +981,14 @@ def get_pending_fixture_ids():
             )
 
     return fixture_ids
+
+def calculate_real_result(
+    prediction,
+    actual_result
+):
+
+    return (
+        "WIN"
+        if prediction == actual_result
+        else "LOSS"
+    )
