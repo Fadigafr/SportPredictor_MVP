@@ -892,7 +892,7 @@ elif menu == "Admin":
 
                 st.subheader("📋 5 dernières prédictions")
 
-                for prediction in reversed(predictions[-5:]):
+                for prediction in predictions[:5]:
 
                     st.json(prediction)
 
@@ -900,8 +900,12 @@ elif menu == "Admin":
 
                 st.subheader("🔍 Dernier enregistrement")
 
+                st.success(
+                    f"ID le plus récent : {predictions[0]['id']}"
+                )
+                
                 st.json(
-                    predictions[-1]
+                    predictions[0]
                 )
 
                 predictions = load_predictions()
