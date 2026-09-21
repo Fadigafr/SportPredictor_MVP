@@ -962,6 +962,23 @@ elif menu == "Admin":
                 st.success(
                     f"Résultat réel : {result}"
                 )
+
+        if st.button(
+            "🚀 Tester Validation Réelle"
+        ):
+
+            prediction = "1"
+
+            actual_result = "1"
+
+            result = calculate_real_result(
+                prediction,
+                actual_result
+            )
+
+            st.success(
+                f"Résultat : {result}"
+            )
             
         if st.button(
             "TEST CALENDAR"
