@@ -932,6 +932,19 @@ elif menu == "Admin":
 
             st.json(data)
 
+        if st.button(
+            "🔍 Tester Premier Match Live",
+            key="test_first_live"
+        ):
+
+            events = get_live_soccer_events()
+
+            if events:
+
+                first_event = events[0]
+
+                st.json(first_event)
+` 
                     
         if st.button(
             "TEST CALENDAR"
