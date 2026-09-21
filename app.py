@@ -903,6 +903,18 @@ elif menu == "Admin":
                 st.json(
                     predictions[-1]
                 )
+
+                predictions = load_predictions()
+
+                st.write(
+                    "Premier ID :",
+                    predictions[0]["id"]
+                )
+
+                st.write(
+                    "Dernier ID :",
+                    predictions[-1]["id"]
+                )
                     
         if st.button(
             "TEST CALENDAR"
