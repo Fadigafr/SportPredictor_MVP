@@ -960,6 +960,14 @@ elif menu == "Admin":
                 st.error(e)
 
         if st.button(
+            "🎯 Event Live Actuel"
+        ):
+
+            event = get_first_live_event()
+
+            st.json(event)
+
+        if st.button(
             "TEST VALIDATION BET365"
         ):
 
