@@ -74,3 +74,43 @@ def get_first_live_event():
         return events[0]
 
     return None
+
+def extract_match_result(event):
+
+    teams = event.get(
+        "moreInfo",
+        {}
+    ).get(
+        "teams",
+        []
+    )
+
+    if len(teams) < 2:
+
+        return None
+
+    home_score = int(
+        teams[0].get(
+            "score",
+            0
+        )
+    )
+
+    away_score = int(
+        teams[1].get(
+            "score",
+            0
+        )
+    )
+
+    if home_score > away_score:
+
+        return "1"
+
+    elif away_score > home_score:
+
+        return "2"
+
+    else:
+
+        return "X"
