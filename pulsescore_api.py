@@ -34,3 +34,27 @@ def get_live_soccer_events(limit=10):
         )
 
     return []
+
+def get_event_details(event_id):
+
+    headers = {
+        "X-Secret": API_KEY,
+        "Accept-Encoding": "gzip"
+    }
+
+    url = (
+        f"{BASE_URL}"
+        f"/live-events/events/{event_id}"
+    )
+
+    response = requests.get(
+        url,
+        headers=headers,
+        timeout=30
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {}
