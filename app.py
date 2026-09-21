@@ -945,7 +945,21 @@ elif menu == "Admin":
                 first_event = events[0]
 
                 st.json(first_event)
-                    
+
+        if st.button(
+            "🎯 Tester Résultat Réel"
+        ):
+
+            event = get_first_live_event()
+
+            result = extract_match_result(
+                event
+        )
+
+            st.success(
+                f"Résultat réel : {result}"
+            )
+            
         if st.button(
             "TEST CALENDAR"
         ):
