@@ -1197,6 +1197,16 @@ elif menu == "Admin":
                 "✅ Aucun pronostic en attente."
             )
 
+            wins = len(
+                [p for p in load_predictions()
+                 if p.get("result") == "WIN"]
+            )
+
+            losses = len(
+                [p for p in load_predictions()
+                 if p.get("result") == "LOSS"]
+            )
+
             st.metric(
                 "WIN Auto",
                 wins
