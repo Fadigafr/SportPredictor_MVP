@@ -882,9 +882,15 @@ elif menu == "Admin":
 
             if predictions:
 
-                st.json(
-                    predictions[-1]
-                )
+                st.subheader("📋 Dernières prédictions")
+
+                predictions = load_predictions()
+
+                for prediction in reversed(predictions[-5:]):
+
+                    st.json(
+                        prediction
+                    )
                     
         if st.button(
             "TEST CALENDAR"
