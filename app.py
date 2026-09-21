@@ -65,6 +65,9 @@ from api_bet365 import (
 )
 from api_bet365 import get_match_odds
 from datetime import datetime
+from pulsescore_api import (
+    get_live_soccer_events
+)
 
 init_db()
 
@@ -922,6 +925,30 @@ elif menu == "Admin":
                 "⚠️ IA en apprentissage"
             )
 
+        st.subheader(
+            "🧪 Test PulseScore"
+        )
+
+        events = get_live_soccer_events()
+
+        st.write(
+            f"Matchs trouvés : {len(events)}"
+        )
+
+        for event in events:
+
+            st.info(
+                f"""
+        🏆 {event.get('league')}
+
+        ⚽ {event.get('home')}
+        vs
+        {event.get('away')}
+
+        🆔 {event.get('eventId')}
+        """
+            )
+            
         st.subheader("🤖 IA Learning Premium")
 
         stats = get_ai_learning_stats()
