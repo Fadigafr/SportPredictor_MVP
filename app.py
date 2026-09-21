@@ -1216,11 +1216,6 @@ elif menu == "Admin":
                 "LOSS Auto",
                 losses
             )
-
-            st.metric(
-                "PENDING",
-                pending
-            )
             
         # =====================================================
         # 🏆 NIVEAU IA
