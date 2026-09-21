@@ -886,11 +886,23 @@ elif menu == "Admin":
 
                 predictions = load_predictions()
 
+                st.write(
+                    f"Total : {len(predictions)}"
+                )
+
+                st.subheader("📋 5 dernières prédictions")
+
                 for prediction in reversed(predictions[-5:]):
 
-                    st.json(
-                        prediction
-                    )
+                    st.json(prediction)
+
+                predictions = load_predictions()
+
+                st.subheader("🔍 Dernier enregistrement")
+
+                st.json(
+                    predictions[-1]
+                )
                     
         if st.button(
             "TEST CALENDAR"
