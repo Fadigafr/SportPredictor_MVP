@@ -64,3 +64,13 @@ def get_event_details(event_id):
     }
 
     return {}
+
+def get_first_live_event():
+
+    events = get_live_soccer_events(1)
+
+    if events:
+
+        return events[0]
+
+    return None
