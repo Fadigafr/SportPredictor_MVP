@@ -727,8 +727,7 @@ elif menu == "Admin":
 
         predictions = load_predictions_db()
 
-        db_predictions = []
-
+  
         conn = get_conn()
 
         cur = conn.cursor()
@@ -819,6 +818,38 @@ elif menu == "Admin":
             except Exception as e:
 
                 st.error(e)
+
+        if st.button(
+            "💾 Sauvegarder Event PulseScore",
+            key="save_pulsescore_event"
+        ):
+
+            events = get_live_soccer_events()
+
+            if events:
+
+                event = events[0]
+
+                save_prediction(
+
+                    sport="Football",
+
+                    match=f"{event['home']} vs {event['away']}",
+
+                    prediction="1",
+
+                    ai_index=80,
+
+                    odd=2.00,
+
+                    fixture_id=event["eventId"]
+
+                )
+
+                st.success(
+                    f"✅ EventID sauvegardé : "
+                    f"{event['eventId']}"
+                )
 
         if st.button(
             "TEST CALENDAR"
