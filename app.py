@@ -48,6 +48,11 @@ from results_db import (
     auto_validate_pending,
     get_pending_fixture_ids
 )
+from results_db import (
+    get_pending_predictions,
+    update_prediction_result,
+    calculate_real_result
+)
 from predictions import tennis_calendar_page
 from predictions import basketball_calendar_page
 from predictions import hockey_calendar_page
