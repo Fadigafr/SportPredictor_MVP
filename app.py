@@ -875,6 +875,18 @@ elif menu == "Admin":
                 })
 
         if st.button(
+            "🔍 Dernière prédiction"
+        ):
+
+            predictions = load_predictions()
+
+            if predictions:
+
+                st.json(
+                    predictions[-1]
+                )
+                    
+        if st.button(
             "TEST CALENDAR"
         ):
 
