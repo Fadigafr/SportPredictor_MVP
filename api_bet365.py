@@ -79,7 +79,7 @@ def normalize_soccer_event(event):
         "sport": "Football",
 
         "fixture_id":
-        event.get("fi"),
+        event.get("eventId"),
 
         "home":
         event.get("home"),
