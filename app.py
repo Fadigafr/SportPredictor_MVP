@@ -984,6 +984,25 @@ elif menu == "Admin":
             st.success(
                 f"Résultat : {result}"
             )
+
+        if st.button(
+            "🚀 Validation Réelle Complète"
+        ):
+
+            predictions = load_predictions()
+
+            latest_prediction = predictions[0]
+
+            event = get_first_live_event()
+
+            result = validate_prediction_with_event(
+                latest_prediction,
+                event
+            )
+
+            st.success(
+                f"Résultat calculé : {result}"
+            )
             
         if st.button(
             "TEST CALENDAR"
