@@ -1333,35 +1333,6 @@ elif menu == "Admin":
                 f"{total} pronostics validés automatiquement."
             )
 
-        st.markdown("---")
-
-        st.subheader(
-            "🔗 V16.3 Validation Réelle"
-        )
-
-        fixture_ids = get_pending_fixture_ids()
-
-        st.metric(
-            "Fixture IDs disponibles",
-            len(fixture_ids)
-        )
-
-        if fixture_ids:
-
-            st.success(
-                f"{len(fixture_ids)} fixture_id exploitables détectés."
-            )
-
-            st.write(
-                fixture_ids[:10]
-            )
-
-        else:
-
-            st.error(
-                "Aucun fixture_id trouvé."
-            )
-
     # =====================================================
     # BASE DE DONNÉES
     # =====================================================
