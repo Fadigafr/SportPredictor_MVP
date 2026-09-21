@@ -68,7 +68,8 @@ from datetime import datetime
 from pulsescore_api import (
     get_live_soccer_events,
     get_event_details,
-    get_first_live_event
+    get_first_live_event,
+    extract_match_result
 )
 
 init_db()
@@ -952,13 +953,15 @@ elif menu == "Admin":
 
             event = get_first_live_event()
 
-            result = extract_match_result(
-                event
-        )
+            if event:
 
-            st.success(
-                f"Résultat réel : {result}"
-            )
+                result = extract_match_result(
+                    event
+                )
+
+                st.success(
+                    f"Résultat réel : {result}"
+                )
             
         if st.button(
             "TEST CALENDAR"
