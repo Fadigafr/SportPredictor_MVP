@@ -1523,11 +1523,15 @@ def predictions_page():
     )
     save_prediction(
         sport="Football",
-        match=f"{home_team} vs {away_team}",
-        prediction=pari_final,
-        ai_index=confidence_score,
-        odd=odd_home,
-        fixture_id=fixture_id
+        match=f"{home} vs {away}",
+        prediction=prediction,
+        ai_index=ai_index,
+        odd=odd,
+        fixture_id=event.get("eventId")
+    )
+
+    st.success(
+        f"✅ EventID enregistré : {event.get('eventId')}"
     )
 
     print(
