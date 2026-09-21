@@ -992,3 +992,21 @@ def calculate_real_result(
         if prediction == actual_result
         else "LOSS"
     )
+
+def validate_prediction_with_event(
+    prediction_data,
+    event
+):
+
+    prediction = prediction_data["prediction"]
+
+    actual_result = extract_match_result(
+        event
+    )
+
+    result = calculate_real_result(
+        prediction,
+        actual_result
+    )
+
+    return result
