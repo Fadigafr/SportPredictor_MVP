@@ -375,7 +375,7 @@ def normalize_soccer_fixture(
     return {
 
         "fixture_id":
-        event.get("fi"),
+        event.get("eventId"),
 
         "home":
         event.get("home"),
@@ -430,7 +430,7 @@ def get_soccer_calendar():
             fixtures.append({
 
                 "fixture_id":
-                event.get("fi"),
+                event.get("eventId"),
 
                 "home":
                 event.get("home"),
@@ -442,7 +442,7 @@ def get_soccer_calendar():
                 league_name,
 
                 "date":
-                event.get("bc")
+                event.get("startTime", "")
 
             })
 
