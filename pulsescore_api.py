@@ -53,8 +53,14 @@ def get_event_details(event_id):
         timeout=30
     )
 
-    if response.status_code == 200:
+    return {
 
-        return response.json()
+        "status_code": response.status_code,
+
+        "url": url,
+
+        "json": response.json()
+
+    }
 
     return {}
