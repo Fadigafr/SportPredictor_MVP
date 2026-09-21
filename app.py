@@ -66,7 +66,8 @@ from api_bet365 import (
 from api_bet365 import get_match_odds
 from datetime import datetime
 from pulsescore_api import (
-    get_live_soccer_events
+    get_live_soccer_events,
+    get_event_details
 )
 
 init_db()
