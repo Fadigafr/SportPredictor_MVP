@@ -1133,7 +1133,7 @@ elif menu == "Admin":
                     date="2026-08-30",
                     sport="Football",
                     match=f"TEST_{i}",
-                    fixture_id=f"TEST{i}",
+                    fixture_id=event["eventId"],
                     prediction="1",
                     ai_index=85,
                     odd=2.0,
