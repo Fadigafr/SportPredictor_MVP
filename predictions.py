@@ -1518,7 +1518,9 @@ def predictions_page():
         "Fixture ID =",
         fixture_id
     )
-    
+    st.warning(
+        f"Fixture ID sauvegardé : {fixture_id}"
+    )
     save_prediction(
         sport="Football",
         match=f"{home_team} vs {away_team}",
