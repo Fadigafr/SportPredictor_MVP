@@ -4860,6 +4860,8 @@ def dashboard_global_page():
     """
     )
 
+    fixture_ids = get_pending_fixture_ids()
+    
     if fixture_ids:
 
         st.success(
