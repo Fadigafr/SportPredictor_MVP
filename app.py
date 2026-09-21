@@ -852,6 +852,29 @@ elif menu == "Admin":
                 )
 
         if st.button(
+            "📋 Voir les derniers EventID",
+            key="show_last_eventids"
+        ):
+
+            predictions = load_predictions()
+
+            for prediction in predictions[-10:]:
+
+                st.write({
+
+                    "match": prediction.get("match"),
+
+                    "fixture_id": prediction.get(
+                        "fixture_id"
+                    ),
+
+                    "result": prediction.get(
+                        "result"
+                    )
+
+                })
+
+        if st.button(
             "TEST CALENDAR"
         ):
 
