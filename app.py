@@ -1004,9 +1004,11 @@ elif menu == "Admin":
             )
 
             update_prediction_result(
-                latest_prediction["id"],
+                prediction_id,
                 result
             )
+
+            update_learning_stats()
 
             st.success(
                 f"✅ Prédiction #{latest_prediction['id']} mise à jour : {result}"
@@ -1015,6 +1017,18 @@ elif menu == "Admin":
             st.write(
                 "Event :",
                 event
+            )
+
+        if st.button("🧠 Tester Learning Temps Réel"):
+
+            before = get_ai_bonus()
+
+            update_learning_stats()
+
+            after = get_ai_bonus()
+
+            st.success(
+                f"Bonus IA : {before} → {after}"
             )
         
         if st.button(
