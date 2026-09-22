@@ -1021,15 +1021,16 @@ elif menu == "Admin":
 
         if st.button("🧠 Tester Learning Temps Réel"):
 
-            before = get_ai_bonus()
+            before = get_learning_bonus()
 
             update_learning_stats()
 
-            after = get_ai_bonus()
+            after = get_learning_bonus()
 
             st.success(
                 f"Bonus IA : {before} → {after}"
             )
+            st.json(stats)
         
         if st.button(
             "TEST CALENDAR"
