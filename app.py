@@ -1092,6 +1092,8 @@ elif menu == "Admin":
                     key=f"predict_{event.get('eventId')}"
                 ):
 
+                    st.json(event)
+                    
                     save_prediction(
 
                         sport="Football",
