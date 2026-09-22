@@ -52,6 +52,10 @@ from results_db import (
     get_pending_fixture_ids
 )
 from results_db import (
+    get_ai_learning_stats,
+    get_learning_bonus
+)
+from results_db import (
     get_pending_predictions,
     update_prediction_result,
     calculate_real_result
@@ -1009,6 +1013,16 @@ elif menu == "Admin":
             )
 
             update_learning_stats()
+
+            stats = get_ai_learning_stats()
+
+            bonus = get_learning_bonus()
+
+            st.success(
+                f"✅ Learning mis à jour | Bonus IA : {bonus}"
+            )
+
+            st.json(stats)
 
             st.success(
                 f"✅ Prédiction #{latest_prediction['id']} mise à jour : {result}"
