@@ -62,7 +62,11 @@ def save_prediction(
 
 def load_predictions():
 
-    return load_predictions_db()
+    data = load_predictions_db()
+
+    print("LOAD_PREDICTIONS =", len(data))
+
+    return data
 
 def calculate_real_stats():
 
@@ -451,6 +455,7 @@ def get_ai_confidence_level():
         return "⚠ IA EN APPRENTISSAGE"
 
     return "🔧 IA À OPTIMISER"
+    
 def get_prediction_success_rate(prediction):
 
     stats = get_learning_stats()
