@@ -1003,8 +1003,13 @@ elif menu == "Admin":
                 event
             )
 
+            update_prediction_result(
+                latest_prediction["id"],
+                result
+            )
+
             st.success(
-                f"Résultat calculé : {result}"
+                f"✅ Prédiction #{latest_prediction['id']} mise à jour : {result}"
             )
 
             st.write(
