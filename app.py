@@ -1006,7 +1006,17 @@ elif menu == "Admin":
             st.success(
                 f"Résultat calculé : {result}"
             )
-            
+
+        st.write(
+            "Type event :",
+            type(event)
+        )
+
+        st.write(
+            "Event :",
+            event
+        )
+        
         if st.button(
             "TEST CALENDAR"
         ):
