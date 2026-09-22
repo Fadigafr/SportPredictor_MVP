@@ -77,6 +77,10 @@ def get_first_live_event():
 
 def extract_match_result(event):
 
+    if not isinstance(event, dict):
+
+        return None
+
     teams = event.get(
         "moreInfo",
         {}
