@@ -1124,6 +1124,18 @@ elif menu == "Admin":
                         f"✅ Pronostic créé : {event.get('eventId')}"
                     )
 
+                    data = load_predictions()
+
+                    st.write(
+                        "DEBUG TOTAL =",
+                        len(data)
+                    )
+
+                    if data:
+                        st.json(data[0])
+                    else:
+                        st.error("Aucune donnée chargée")
+                        
                     predictions = load_predictions()
 
                     st.write(
