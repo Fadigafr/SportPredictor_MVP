@@ -1044,21 +1044,34 @@ elif menu == "Admin":
             st.write("Bonus IA :")
             st.success(bonus)
 
-        st.subheader(
-            "📅 Calendrier Réel PulseScore"
-        )
+        # ====================================================
+         V16.5 CALENDRIER RÉEL PULSESCORE
+        # ====================================================
+
+        st.subheader("📅 Calendrier Réel PulseScore")
 
         if st.button(
-            "📅 Charger Matchs Futurs"
+            "📅 Charger Matchs Futurs",
+            key="load_upcoming_events"
         ):
 
             events = get_upcoming_soccer_events()
 
+            st.success(
+                f"{len(events)} matchs futurs trouvés."
+            )
+
             for event in events:
+
+                league = event.get("league", "")
+
+                # Optionnel : ignorer Esoccer
+                # if "Esoccer" in league:
+                #     continue
 
                 st.info(
                     f"""
-        🏆 {event.get('league')}
+        🏆 {league}
 
         ⚽ {event.get('home')}
         vs
@@ -1069,6 +1082,75 @@ elif menu == "Admin":
         🆔 {event.get('eventId')}
         """
                 )
+
+                # ------------------------------------------------
+                # V16.5.3 PRONOSTIC RÉEL
+                # ------------------------------------------------
+
+                if st.button(
+                    f"🎯 Pronostiquer {event.get('eventId')}",
+                    key=f"predict_{event.get('eventId')}"
+                ):
+
+                    save_prediction(
+
+                        sport="Football",
+
+                        match=(
+                            f"{event.get('home')} "
+                            f"vs "
+                            f"{event.get('away')}"
+                        ),
+
+                        prediction="1",
+
+                        ai_index=80,
+
+                        fixture_id=event.get(
+                            "eventId"
+                        )
+
+                    )
+
+                    st.success(
+                        "✅ Pronostic créé avec succès"
+                    )
+
+        # ====================================================
+        # HISTORIQUE DES MATCHS FUTURS
+        # ====================================================
+
+        st.subheader("📋 Historique des Matchs Futurs")
+
+        predictions = load_predictions()
+
+        pending_predictions = [
+
+            p for p in predictions
+
+            if p.get("result") == "PENDING"
+        ]
+
+        st.metric(
+            "📅 Matchs en attente",
+            len(pending_predictions)
+        )
+
+        for p in pending_predictions[:20]:
+
+            st.info(
+                f"""
+        ⚽ {p.get('match')}
+
+        🆔 {p.get('fixture_id')}
+
+        🎯 Pronostic : {p.get('prediction')}
+
+        📊 IA Index : {p.get('ai_index')}
+
+        ⏳ Statut : {p.get('result')}
+        """
+            )
                 
         if st.button(
             "TEST CALENDAR"
