@@ -933,11 +933,11 @@ def validate_prediction_result(
         result = "LOSS"
 
     update_prediction_result(
-        prediction["id"],
+        prediction_id,
         result
     )
 
-    return result
+    update_learning_stats()
 
 def auto_validate_pending():
 
