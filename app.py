@@ -1045,7 +1045,7 @@ elif menu == "Admin":
             st.success(bonus)
 
         # ====================================================
-         V16.5 CALENDRIER RÉEL PULSESCORE
+        V16.5 CALENDRIER RÉEL PULSESCORE
         # ====================================================
 
         st.subheader("📅 Calendrier Réel PulseScore")
