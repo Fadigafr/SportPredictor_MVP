@@ -1042,7 +1042,33 @@ elif menu == "Admin":
 
             st.write("Bonus IA :")
             st.success(bonus)
-        
+
+        st.subheader(
+            "📅 Calendrier Réel PulseScore"
+        )
+
+        if st.button(
+            "📅 Charger Matchs Futurs"
+        ):
+
+            events = get_upcoming_soccer_events()
+
+            for event in events:
+
+                st.info(
+                    f"""
+        🏆 {event.get('league')}
+
+        ⚽ {event.get('home')}
+        vs
+        {event.get('away')}
+
+        🕒 {event.get('startTime')}
+
+        🆔 {event.get('eventId')}
+        """
+                )
+                
         if st.button(
             "TEST CALENDAR"
         ):
