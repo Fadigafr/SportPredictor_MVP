@@ -1092,6 +1092,12 @@ elif menu == "Admin":
                     key=f"predict_{event.get('eventId')}"
                 ):
 
+                    predictions = load_predictions()
+
+                    for p in predictions[:5]:
+
+                        st.json(p)
+                        
                     st.json(event)
                     
                     save_prediction(
@@ -1113,22 +1119,20 @@ elif menu == "Admin":
                         )
 
                     )
-                    predictions = load_predictions()
-
-                    st.json(
-                        predictions[0]
-                    )
-
-
+                    
                     st.success(
-                        "✅ Pronostic créé avec succès"
+                        f"✅ Pronostic créé : {event.get('eventId')}"
                     )
-                    st.success("✅ save_prediction exécutée")
+
                     predictions = load_predictions()
 
                     st.write(
-                        "Nombre total prédictions :",
+                        "Total prédictions :",
                         len(predictions)
+                    )
+
+                    st.json(
+                        predictions[0]
                     )
 
         # ====================================================
