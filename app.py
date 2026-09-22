@@ -1012,8 +1012,6 @@ elif menu == "Admin":
                 result
             )
 
-            update_learning_stats()
-
             stats = get_ai_learning_stats()
 
             bonus = get_learning_bonus()
