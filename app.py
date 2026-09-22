@@ -1113,9 +1113,22 @@ elif menu == "Admin":
                         )
 
                     )
+                    predictions = load_predictions()
+
+                    st.json(
+                        predictions[0]
+                    )
+
 
                     st.success(
                         "✅ Pronostic créé avec succès"
+                    )
+                    st.success("✅ save_prediction exécutée")
+                    predictions = load_predictions()
+
+                    st.write(
+                        "Nombre total prédictions :",
+                        len(predictions)
                     )
 
         # ====================================================
