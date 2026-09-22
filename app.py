@@ -35,6 +35,9 @@ from results_db import (
     get_market_learning_stats,
     get_market_success_rate
 )
+from results_db import (
+    validate_prediction_with_event
+)
 from results_db import get_market_ranking
 from results_db import get_market_bonus
 from results_db import get_learning_bonus
