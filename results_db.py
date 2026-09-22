@@ -20,6 +20,11 @@ from api_bet365 import (
     is_finished,
     get_score
 )
+from pulsescore_api import (
+    get_live_soccer_events,
+    extract_match_result
+)
+
 
 def validate_bet365_football():
 
