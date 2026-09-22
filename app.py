@@ -1008,11 +1008,6 @@ elif menu == "Admin":
             )
 
             st.write(
-                "Type event :",
-                type(event)
-            )
-
-            st.write(
                 "Event :",
                 event
             )
