@@ -1095,44 +1095,35 @@ elif menu == "Admin":
                     key=f"predict_{event.get('eventId')}"
                 ):
 
-                    st.warning("AVANT SAVE")
+                    from database import save_prediction_db
+                    from datetime import datetime
 
-                    save_prediction(
+                    save_prediction_db(
+
+                        date=datetime.now().strftime(
+                            "%Y-%m-%d %H:%M:%S"
+                        ),
+
                         sport="Football",
-                        match="TEST MATCH",
+
+                        match=f"{event.get('home')} vs {event.get('away')}",
+
+                        fixture_id=event.get(
+                            "eventId"
+                        ),
+
                         prediction="1",
+
                         ai_index=80,
-                        fixture_id=999999
+
+                        odd=2.00,
+
+                        result="PENDING"
                     )
-
-                    st.success("APRES SAVE")
-
-                    conn = get_conn()
-
-                    c = conn.cursor()
-
-                    c.execute(
-                        "SELECT COUNT(*) FROM predictions_history"
-                    )
-
-                    total = c.fetchone()[0]
 
                     st.success(
-                        f"TOTAL SQL APRES INSERT = {total}"
+                        "✅ INSERT DIRECT SQLITE"
                     )
-
-                    c.execute("""
-                        SELECT *
-                        FROM predictions_history
-                        ORDER BY id DESC
-                        LIMIT 5
-                    """)
-
-                    rows = c.fetchall()
-
-                    st.write(rows)
-
-                    conn.close()
 
         # ====================================================
         # HISTORIQUE DES MATCHS FUTURS
