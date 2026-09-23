@@ -157,71 +157,87 @@ def generate_calendar_prediction(event):
         []
     )
 
-    for market in markets:
+    if not markets:
 
-        if market.get(
+        return {
+            "prediction": "X",
+            "ai_index": 50
+        }
+
+    market = markets[0]
+
+    selections = market.get(
+        "selections",
+        []
+    )
+
+    if not selections:
+
+        return {
+            "prediction": "X",
+            "ai_index": 50
+        }
+
+    best = min(
+        selections,
+        key=lambda x: x.get(
+            "odds",
+            999
+        )
+    )
+
+    outcome = best.get(
+        "canonicalOutcome"
+    )
+
+    if outcome == "HOME":
+
+        prediction = "1"
+
+    elif outcome == "AWAY":
+
+        prediction = "2"
+
+    else:
+
+        prediction = "X"
+
+    odds = float(
+        best.get(
+            "odds",
+            2.0
+        )
+    )
+
+    ai_index = max(
+        60,
+        min(
+            95,
+            int((1 / odds) * 100)
+        )
+    )
+
+    st.write(
+        "Marché choisi :",
+        market.get(
             "canonicalMarket"
-        ) == "MATCH_RESULT":
+        )
+    )
 
-            selections = market.get(
-                "selections",
-                []
-            )
+    st.write(
+        "Outcome choisi :",
+        outcome
+    )
 
-            if len(selections) < 3:
-                continue
-
-            best = min(
-                selections,
-                key=lambda x: x.get(
-                    "odds",
-                    999
-                )
-            )
-
-            outcome = best.get(
-                "canonicalOutcome"
-            )
-
-            if outcome == "HOME":
-
-                prediction = "1"
-
-            elif outcome == "DRAW":
-
-                prediction = "X"
-
-            else:
-
-                prediction = "2"
-
-            confidence = max(
-                60,
-                min(
-                    95,
-                    int(
-                        100 / best.get(
-                            "odds",
-                            2
-                        )
-                    )
-                    * 2
-                )
-            )
-
-            return {
-
-                "prediction":
-                prediction,
-
-                "ai_index":
-                confidence
-
-            }
+    st.write(
+        "Odds :",
+        odds
+    )
 
     return {
 
-        "prediction": "X",
+        "prediction": prediction,
 
-        "ai_index": 50
+        "ai_index": ai_index
+
     }
