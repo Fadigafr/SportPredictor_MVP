@@ -1062,22 +1062,18 @@ elif menu == "Admin":
                 get_upcoming_soccer_events()
             )
 
-            events = get_upcoming_soccer_events()
+        events = st.session_state.events_cache
 
-            st.success(
-                f"{len(events)} matchs futurs trouvés."
-            )
+        st.success(
+            f"{len(events)} matchs futurs trouvés."
+        )
 
-            for event in events:
+        for event in events:
 
-                league = event.get("league", "")
+            league = event.get("league", "")
 
-                # Optionnel : ignorer Esoccer
-                # if "Esoccer" in league:
-                #     continue
-
-                st.info(
-                    f"""
+            st.info(
+                f"""
         🏆 {league}
 
         ⚽ {event.get('home')}
@@ -1088,7 +1084,7 @@ elif menu == "Admin":
 
         🆔 {event.get('eventId')}
         """
-                )
+            )
 
                 # ------------------------------------------------
                 # V16.5.3 PRONOSTIC RÉEL
