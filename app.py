@@ -1094,8 +1094,11 @@ elif menu == "Admin":
 
         🆔 {event.get('eventId')}
         """
-        Marchés : {len(event.get("markets", []))}
             )
+
+        st.write(
+            f"📊 Marchés : {len(event.get('markets', []))}"
+        )
 
                 # ------------------------------------------------
                 # V16.5.3 PRONOSTIC RÉEL
