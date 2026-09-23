@@ -1098,6 +1098,14 @@ elif menu == "Admin":
             from database import save_prediction_db
             from datetime import datetime
 
+            analysis = generate_calendar_prediction(
+                event
+            )
+
+            prediction = analysis["prediction"]
+
+            ai_index = analysis["ai_index"]
+
             save_prediction_db(
 
                 date=datetime.now().strftime(
@@ -1106,36 +1114,41 @@ elif menu == "Admin":
 
                 sport="Football",
 
-                match=f"{event.get('home')} vs {event.get('away')}",
+                match=(
+                    f"{event.get('home')} "
+                    f"vs "
+                    f"{event.get('away')}"
+                ),
 
                 fixture_id=event.get(
                     "eventId"
-                 ),
+                ),
 
-                analysis = generate_calendar_prediction(
-                    event
-                )
+                prediction=prediction,
 
-                prediction = analysis[
-                    "prediction"
-                ]
-
-                ai_index = analysis[
-                    "ai_index"
-                ]
+                ai_index=ai_index,
 
                 odd=2.00,
 
                 result="PENDING"
             )
 
+            st.success(
+                "✅ Pronostic IA créé"
+            )
+
+            st.write(
+                f"🎯 Pronostic : {prediction}"
+            )
+
+            st.write(
+                f"📊 IA Index : {ai_index}"
+            )
+
             st.json(
                 event.get("markets", [])
             )
-            st.success(
-                "✅ INSERT DIRECT SQLITE"
-            )
-
+            
         # ====================================================
         # HISTORIQUE DES MATCHS FUTURS
         # ====================================================
