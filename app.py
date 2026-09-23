@@ -1095,60 +1095,44 @@ elif menu == "Admin":
                     key=f"predict_{event.get('eventId')}"
                 ):
 
-                    predictions = load_predictions()
+                    st.warning("AVANT SAVE")
 
-                    for p in predictions[:5]:
-
-                        st.json(p)
-                        
-                    st.json(event)
-                    
                     save_prediction(
-
                         sport="Football",
-
-                        match=(
-                            f"{event.get('home')} "
-                            f"vs "
-                            f"{event.get('away')}"
-                        ),
-
+                        match="TEST MATCH",
                         prediction="1",
-
                         ai_index=80,
-
-                        fixture_id=event.get(
-                            "eventId"
-                        )
-
+                        fixture_id=999999
                     )
-                    
+
+                    st.success("APRES SAVE")
+
+                    conn = get_conn()
+
+                    c = conn.cursor()
+
+                    c.execute(
+                        "SELECT COUNT(*) FROM predictions_history"
+                    )
+
+                    total = c.fetchone()[0]
+
                     st.success(
-                        f"✅ Pronostic créé : {event.get('eventId')}"
+                        f"TOTAL SQL APRES INSERT = {total}"
                     )
 
-                    data = load_predictions()
+                    c.execute("""
+                        SELECT *
+                        FROM predictions_history
+                        ORDER BY id DESC
+                        LIMIT 5
+                    """)
 
-                    st.write(
-                        "DEBUG TOTAL =",
-                        len(data)
-                    )
+                    rows = c.fetchall()
 
-                    if data:
-                        st.json(data[0])
-                    else:
-                        st.error("Aucune donnée chargée")
-                        
-                    predictions = load_predictions()
+                    st.write(rows)
 
-                    st.write(
-                        "Total prédictions :",
-                        len(predictions)
-                    )
-
-                    st.json(
-                        predictions[0]
-                    )
+                    conn.close()
 
         # ====================================================
         # HISTORIQUE DES MATCHS FUTURS
@@ -1217,6 +1201,31 @@ elif menu == "Admin":
                 "TOTAL USERS =",
                 c.fetchone()[0]
             )
+
+            conn.close()
+
+            conn = get_conn()
+            c = conn.cursor()
+
+            c.execute("""
+            SELECT COUNT(*)
+            FROM predictions
+            """)
+
+            st.write(
+                "TOTAL PREDICTIONS =",
+                c.fetchone()[0]
+            )
+
+            c.execute("""
+            SELECT *
+            FROM predictions
+            LIMIT 5
+            """)
+
+           rows = c.fetchall()
+
+            st.write(rows)
 
             conn.close()
 
