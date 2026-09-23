@@ -1186,39 +1186,39 @@ elif menu == "Admin":
         """
             )
         
-            if st.button("TEST CALENDAR"):
+        if st.button("TEST CALENDAR"):
 
-                conn = get_conn()
-                c = conn.cursor()
+            conn = get_conn()
+            c = conn.cursor()
 
-                c.execute("""
-                SELECT name
-                FROM sqlite_master
-                WHERE type='table'
-                """)
+            c.execute("""
+            SELECT name
+            FROM sqlite_master
+            WHERE type='table'
+            """)
 
-                tables = c.fetchall()
+            tables = c.fetchall()
 
-                st.write("TABLES :")
-                st.write(tables)
+            st.write("TABLES :")
+            st.write(tables)
 
-                conn.close()
+            conn.close()
 
-                conn = get_conn()
+            conn = get_conn()
 
-                c = conn.cursor()
+            c = conn.cursor()
 
-                c.execute("""
-                SELECT COUNT(*)
-                FROM users
-                """)
+            c.execute("""
+            SELECT COUNT(*)
+            FROM users
+            """)
 
-                st.write(
-                    "TOTAL USERS =",
-                    c.fetchone()[0]
-                )
+            st.write(
+                "TOTAL USERS =",
+                c.fetchone()[0]
+            )
 
-                conn.close()
+            conn.close()
 
             if st.button("TEST INSERT"):
 
