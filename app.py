@@ -1112,9 +1112,17 @@ elif menu == "Admin":
                     "eventId"
                  ),
 
-                prediction="1",
+                analysis = generate_calendar_prediction(
+                    event
+                )
 
-                ai_index=80,
+                prediction = analysis[
+                    "prediction"
+                ]
+
+                ai_index = analysis[
+                    "ai_index"
+                ]
 
                 odd=2.00,
 
