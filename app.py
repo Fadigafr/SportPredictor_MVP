@@ -17,6 +17,8 @@ from database import load_predictions_db
 from database import save_prediction_db
 from database import get_conn
 from database import get_conn, DB
+import os
+from database import get_conn
 from api_basketball import get_basketball_games_today
 from predictions import dashboard_global_page
 from results_db import (
@@ -1183,26 +1185,59 @@ elif menu == "Admin":
         ⏳ Statut : {p.get('result')}
         """
             )
-
-        import os
-
+        
         if st.button("TEST CALENDAR"):
 
-            st.write("DB =", DB)
+            conn = get_conn()
+            c = conn.cursor()
+
+            c.execute("""
+            SELECT name
+            FROM sqlite_master
+            WHERE type='table'
+            """)
+
+            tables = c.fetchall()
+
+            st.write("TABLES :")
+            st.write(tables)
+
+            conn.close()
+
+            conn = get_conn()
+
+            c = conn.cursor()
+
+            c.execute("""
+            SELECT COUNT(*)
+            FROM users
+            """)
 
             st.write(
-                "Existe ?",
-                os.path.exists(DB)
+                "TOTAL USERS =",
+                c.fetchone()[0]
             )
 
-            if os.path.exists(DB):
+            conn.close()
 
-                st.write(
-                    "Taille :",
-                    os.path.getsize(DB),
-                    "octets"
-                )
+        if st.button("TEST INSERT"):
 
+            save_prediction(
+
+                sport="Football",
+
+                match="TEST MATCH",
+
+                prediction="1",
+
+                ai_index=80,
+
+                fixture_id=999999
+
+            )
+
+            st.success("Insertion effectuée")
+            
                 if st.button(
                     "🎯 Event Live Actuel"
                 ):
