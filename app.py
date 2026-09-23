@@ -85,7 +85,8 @@ from pulsescore_api import (
     get_event_details,
     get_first_live_event,
     extract_match_result,
-    get_upcoming_soccer_events
+    get_upcoming_soccer_events,
+    generate_calendar_prediction
 )
 
 init_db()
