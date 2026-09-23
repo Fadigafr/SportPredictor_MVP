@@ -149,3 +149,79 @@ def extract_match_result(event):
     else:
 
         return "X"
+
+def generate_calendar_prediction(event):
+
+    markets = event.get(
+        "markets",
+        []
+    )
+
+    for market in markets:
+
+        if market.get(
+            "canonicalMarket"
+        ) == "MATCH_RESULT":
+
+            selections = market.get(
+                "selections",
+                []
+            )
+
+            if len(selections) < 3:
+                continue
+
+            best = min(
+                selections,
+                key=lambda x: x.get(
+                    "odds",
+                    999
+                )
+            )
+
+            outcome = best.get(
+                "canonicalOutcome"
+            )
+
+            if outcome == "HOME":
+
+                prediction = "1"
+
+            elif outcome == "DRAW":
+
+                prediction = "X"
+
+            else:
+
+                prediction = "2"
+
+            confidence = max(
+                60,
+                min(
+                    95,
+                    int(
+                        100 / best.get(
+                            "odds",
+                            2
+                        )
+                    )
+                    * 2
+                )
+            )
+
+            return {
+
+                "prediction":
+                prediction,
+
+                "ai_index":
+                confidence
+
+            }
+
+    return {
+
+        "prediction": "X",
+
+        "ai_index": 50
+    }
