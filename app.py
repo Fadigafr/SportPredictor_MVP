@@ -1053,10 +1053,14 @@ elif menu == "Admin":
 
         st.subheader("📅 Calendrier Réel PulseScore")
 
-        if st.button(
-            "📅 Charger Matchs Futurs",
-            key="load_upcoming_events"
-        ):
+        if "events_cache" not in st.session_state:
+            st.session_state.events_cache = []
+
+        if st.button("📅 Charger Matchs Futurs"):
+
+            st.session_state.events_cache = (
+                get_upcoming_soccer_events()
+            )
 
             events = get_upcoming_soccer_events()
 
