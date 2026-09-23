@@ -1184,46 +1184,32 @@ elif menu == "Admin":
         """
             )
 
+        import os
+
         if st.button("TEST CALENDAR"):
 
             st.write("DB =", DB)
 
-            conn = get_conn()
-
-            c = conn.cursor()
-
-            c.execute(
-                "SELECT COUNT(*) FROM predictions_history"
+            st.write(
+                "Existe ?",
+                os.path.exists(DB)
             )
 
-            total = c.fetchone()[0]
+            if os.path.exists(DB):
 
-            st.success(
-                f"TOTAL SQL = {total}"
-            )
+                st.write(
+                    "Taille :",
+                    os.path.getsize(DB),
+                    "octets"
+                )
 
-            c.execute(
-                """
-                SELECT id, match, fixture_id, result
-                FROM predictions_history
-                ORDER BY id DESC
-                LIMIT 5
-                """
-            )
+                if st.button(
+                    "🎯 Event Live Actuel"
+                ):
 
-            rows = c.fetchall()
+                    event = get_first_live_event()
 
-            st.write(rows)
-
-            conn.close()
-
-        if st.button(
-            "🎯 Event Live Actuel"
-        ):
-
-            event = get_first_live_event()
-
-            st.json(event)
+                    st.json(event)
 
         if st.button(
             "TEST VALIDATION BET365"
