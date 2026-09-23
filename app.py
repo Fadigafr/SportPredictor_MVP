@@ -16,6 +16,7 @@ from database import init_db
 from database import load_predictions_db
 from database import save_prediction_db
 from database import get_conn
+from database import get_conn, DB
 from api_basketball import get_basketball_games_today
 from predictions import dashboard_global_page
 from results_db import (
@@ -1182,21 +1183,37 @@ elif menu == "Admin":
         ⏳ Statut : {p.get('result')}
         """
             )
-                
+
         if st.button("TEST CALENDAR"):
+
+            st.write("DB =", DB)
 
             conn = get_conn()
 
-            st.write(conn)
+            c = conn.cursor()
 
-            predictions = load_predictions()
-
-            st.write(
-                "TOTAL =",
-                len(predictions)
+            c.execute(
+                "SELECT COUNT(*) FROM predictions_history"
             )
 
-            st.json(predictions[:5])
+            total = c.fetchone()[0]
+
+            st.success(
+                f"TOTAL SQL = {total}"
+            )
+
+            c.execute(
+                """
+                SELECT id, match, fixture_id, result
+                FROM predictions_history
+                ORDER BY id DESC
+                LIMIT 5
+                """
+            )
+
+            rows = c.fetchall()
+
+            st.write(rows)
 
             conn.close()
 
