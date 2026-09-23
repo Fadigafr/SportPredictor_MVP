@@ -1090,40 +1090,40 @@ elif menu == "Admin":
                 # V16.5.3 PRONOSTIC RÉEL
                 # ------------------------------------------------
 
-                if st.button(
-                    f"🎯 Pronostiquer {event.get('eventId')}",
-                    key=f"predict_{event.get('eventId')}"
-                ):
+        if st.button(
+            f"🎯 Pronostiquer {event.get('eventId')}",
+            key=f"predict_{event.get('eventId')}"
+        ):
 
-                    from database import save_prediction_db
-                    from datetime import datetime
+            from database import save_prediction_db
+            from datetime import datetime
 
-                    save_prediction_db(
+            save_prediction_db(
 
-                        date=datetime.now().strftime(
-                            "%Y-%m-%d %H:%M:%S"
-                        ),
+                date=datetime.now().strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                ),
 
-                        sport="Football",
+                sport="Football",
 
-                        match=f"{event.get('home')} vs {event.get('away')}",
+                match=f"{event.get('home')} vs {event.get('away')}",
 
-                        fixture_id=event.get(
-                            "eventId"
-                        ),
+                fixture_id=event.get(
+                    "eventId"
+                 ),
 
-                        prediction="1",
+                prediction="1",
 
-                        ai_index=80,
+                ai_index=80,
 
-                        odd=2.00,
+                odd=2.00,
 
-                        result="PENDING"
-                    )
+                result="PENDING"
+            )
 
-                    st.success(
-                        "✅ INSERT DIRECT SQLITE"
-                    )
+            st.success(
+                "✅ INSERT DIRECT SQLITE"
+            )
 
         # ====================================================
         # HISTORIQUE DES MATCHS FUTURS
