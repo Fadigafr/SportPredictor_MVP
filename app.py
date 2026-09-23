@@ -1069,6 +1069,15 @@ elif menu == "Admin":
             f"{len(events)} matchs futurs trouvés."
         )
 
+        events = [
+
+            e for e in events
+
+            if len(
+                e.get("markets", [])
+            ) > 0
+        ]
+        
         for event in events:
 
             league = event.get("league", "")
@@ -1085,6 +1094,8 @@ elif menu == "Admin":
 
         🆔 {event.get('eventId')}
         """
+        📊 Marchés :
+        {len(event.get("markets", []))}
             )
 
                 # ------------------------------------------------
@@ -1099,6 +1110,13 @@ elif menu == "Admin":
             from database import save_prediction_db
             from datetime import datetime
 
+            st.write(
+                "Markets count :",
+                len(event.get("markets", []))
+            )
+            
+            st.json(event)
+            
             analysis = generate_calendar_prediction(
                 event
             )
