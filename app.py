@@ -1185,6 +1185,10 @@ elif menu == "Admin":
                 
         if st.button("TEST CALENDAR"):
 
+            conn = get_conn()
+
+            st.write(conn)
+
             predictions = load_predictions()
 
             st.write(
@@ -1193,6 +1197,8 @@ elif menu == "Admin":
             )
 
             st.json(predictions[:5])
+
+            conn.close()
 
         if st.button(
             "🎯 Event Live Actuel"
