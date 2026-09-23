@@ -1223,7 +1223,7 @@ elif menu == "Admin":
             LIMIT 5
             """)
 
-           rows = c.fetchall()
+            rows = c.fetchall()
 
             st.write(rows)
 
