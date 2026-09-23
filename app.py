@@ -1094,8 +1094,7 @@ elif menu == "Admin":
 
         🆔 {event.get('eventId')}
         """
-        📊 Marchés :
-        {len(event.get("markets", []))}
+        📊 Marchés :  {len(event.get("markets", []))}
             )
 
                 # ------------------------------------------------
