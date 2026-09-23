@@ -1183,19 +1183,16 @@ elif menu == "Admin":
         """
             )
                 
-        if st.button(
-            "TEST CALENDAR"
-        ):
+        if st.button("TEST CALENDAR"):
 
-            try:
+            predictions = load_predictions()
 
-                st.json(
-                    get_soccer_calendar()
-                )
+            st.write(
+                "TOTAL =",
+                len(predictions)
+            )
 
-            except Exception as e:
-
-                st.error(e)
+            st.json(predictions[:5])
 
         if st.button(
             "🎯 Event Live Actuel"
