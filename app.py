@@ -1121,6 +1121,9 @@ elif menu == "Admin":
                 result="PENDING"
             )
 
+            st.json(
+                event.get("markets", [])
+            )
             st.success(
                 "✅ INSERT DIRECT SQLITE"
             )
