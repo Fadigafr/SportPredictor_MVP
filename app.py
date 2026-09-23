@@ -1244,7 +1244,7 @@ elif menu == "Admin":
 
                 event = get_first_live_event()
 
-                 st.json(event)
+                st.json(event)
 
         if st.button(
             "TEST VALIDATION BET365"
