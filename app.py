@@ -1319,7 +1319,7 @@ elif menu == "Admin":
         st.write(
             f"PENDING trouvés : {len(pending_predictions)}"
         )
-        
+
         if pending_predictions:
 
             prediction = pending_predictions[0]
@@ -1327,12 +1327,36 @@ elif menu == "Admin":
             fixture_id = prediction["fixture_id"]
 
             st.write(
-                f"Validation EventID : {fixture_id}"
+                prediction["match"]
+            )
+
+            st.write(
+                f"EventID : {fixture_id}"
             )
 
             event = get_event_details(
                 fixture_id
             )
+
+            st.json(event)
+
+        else:
+
+            st.warning(
+                "Aucun pronostic PENDING."
+            )
+
+        event = get_event_details(
+            fixture_id
+        )
+        if event.get("status_code") == 429:
+
+            st.error(
+                "⏳ Limite PulseScore atteinte. "
+                "Attendre 60 secondes puis relancer."
+            )
+
+        else:
 
             st.json(event)
 
