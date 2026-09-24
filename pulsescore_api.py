@@ -242,3 +242,31 @@ def generate_calendar_prediction(event):
         "ai_index": ai_index
 
     }
+
+def get_soccer_event_details(
+    event_id
+):
+
+    headers = {
+        "X-Secret": API_KEY
+    }
+
+    url = (
+        f"{BASE_URL}/events/{event_id}"
+    )
+
+    response = requests.get(
+        url,
+        headers=headers,
+        timeout=30
+    )
+
+    return {
+
+        "status_code": response.status_code,
+
+        "url": url,
+
+        "json": response.json()
+
+    }
