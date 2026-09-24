@@ -250,7 +250,7 @@ def get_soccer_event_details(event_id):
     }
 
     url = (
-        f"{BASE_URL}/events/{event_id}"
+        f"{BASE_URL}/soccer/events/{event_id}"
     )
 
     response = requests.get(
