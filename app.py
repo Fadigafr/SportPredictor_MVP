@@ -84,6 +84,7 @@ from pulsescore_api import (
     get_live_soccer_events,
     get_event_details,
     get_first_live_event,
+    get_event_details,
     extract_match_result,
     get_upcoming_soccer_events,
     generate_calendar_prediction
