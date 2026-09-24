@@ -1350,6 +1350,29 @@ elif menu == "Admin":
             )
 
         st.json(event)
+
+        data = event["json"]["data"]
+
+        st.write(
+            "SS :",
+            data.get(
+                "moreInfo",
+                {}
+            ).get(
+                "SS"
+            )
+        )
+
+        st.write(
+            "MoreInfo :"
+        )
+
+        st.json(
+            data.get(
+                "moreInfo",
+                {}
+            )
+        )
         
         if event.get("status_code") == 429:
 
