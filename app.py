@@ -84,7 +84,6 @@ from pulsescore_api import (
     get_live_soccer_events,
     get_event_details,
     get_first_live_event,
-    get_event_details,
     extract_match_result,
     get_upcoming_soccer_events,
     generate_calendar_prediction
@@ -1338,7 +1337,7 @@ elif menu == "Admin":
                 f"EventID : {fixture_id}"
             )
 
-            event = get_event_details(
+            event = get_soccer_event_details(
                 fixture_id
             )
 
@@ -1349,10 +1348,6 @@ elif menu == "Admin":
             st.warning(
                 "Aucun pronostic PENDING."
             )
-
-        event = get_soccer_event_details(
-            fixture_id
-        )
 
         st.json(event)
         
