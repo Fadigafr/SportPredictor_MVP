@@ -1346,9 +1346,12 @@ elif menu == "Admin":
                 "Aucun pronostic PENDING."
             )
 
-        event = get_event_details(
+        event = get_soccer_event_details(
             fixture_id
         )
+
+        st.json(event)
+        
         if event.get("status_code") == 429:
 
             st.error(
