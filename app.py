@@ -1330,6 +1330,14 @@ elif menu == "Admin":
                 prediction["fixture_id"]
             )
 
+        fixture_id = prediction["fixture_id"]
+
+        event = get_event_details(
+            fixture_id
+        )
+
+        st.json(event)
+
     if st.button("CRÉER PRONOSTIC TEST"):
 
         save_prediction(
