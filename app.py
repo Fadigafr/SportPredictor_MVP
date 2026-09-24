@@ -1338,6 +1338,13 @@ elif menu == "Admin":
 
         st.json(event)
 
+        event = get_upcoming_soccer_events(
+            page=1,
+            limit=1
+        )[0]
+
+        st.json(event)
+
     if st.button("CRÉER PRONOSTIC TEST"):
 
         save_prediction(
