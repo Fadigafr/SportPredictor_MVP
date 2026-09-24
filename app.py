@@ -1309,6 +1309,27 @@ elif menu == "Admin":
 
                 st.error(e)
 
+    if st.button(
+        "🚀 Lancer Validation Auto",
+        key="auto_validate"
+    ):
+
+        pending_predictions = get_pending_predictions()
+
+        st.write(
+            f"PENDING trouvés : {len(pending_predictions)}"
+        )
+        
+        for prediction in pending_predictions:
+
+            st.write(
+                prediction["match"]
+            )
+
+            st.write(
+                prediction["fixture_id"]
+            )
+
     if st.button("CRÉER PRONOSTIC TEST"):
 
         save_prediction(
