@@ -1,5 +1,6 @@
 import requests
 import streamlit as st
+import time
 
 BASE_URL = "https://api.pulsescore.net/api/v3/bet365"
 
