@@ -1020,3 +1020,14 @@ def validate_prediction_with_event(
     )
 
     return result
+
+def get_pending_predictions():
+
+    predictions = load_predictions()
+
+    return [
+
+        p for p in predictions
+
+        if p.get("result") == "PENDING"
+    ]
