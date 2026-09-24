@@ -1320,23 +1320,21 @@ elif menu == "Admin":
             f"PENDING trouvés : {len(pending_predictions)}"
         )
         
-        for prediction in pending_predictions:
+        if pending_predictions:
+
+            prediction = pending_predictions[0]
+
+            fixture_id = prediction["fixture_id"]
 
             st.write(
-                prediction["match"]
+                f"Validation EventID : {fixture_id}"
             )
 
-            st.write(
-                prediction["fixture_id"]
+            event = get_event_details(
+                fixture_id
             )
 
-        fixture_id = prediction["fixture_id"]
-
-        event = get_event_details(
-            fixture_id
-        )
-
-        st.json(event)
+            st.json(event)
 
         event = get_upcoming_soccer_events(
             page=1,
