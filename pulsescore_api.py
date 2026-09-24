@@ -243,16 +243,14 @@ def generate_calendar_prediction(event):
 
     }
 
-def get_soccer_event_details(
-    event_id
-):
+def get_soccer_event_details(event_id):
 
     headers = {
         "X-Secret": API_KEY
     }
 
     url = (
-        f"{BASE_URL}/soccer/events/{event_id}"
+        f"{BASE_URL}/events/{event_id}"
     )
 
     response = requests.get(
