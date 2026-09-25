@@ -1082,23 +1082,24 @@ elif menu == "Admin":
         ]
         
         for event in events:
-
+ 
             league = event.get("league", "")
-
+ 
             st.info(
                 f"""
         🏆 {league}
-
+ 
         ⚽ {event.get('home')}
         vs
         {event.get('away')}
-
+ 
         🕒 {event.get('startTime')}
-
+ 
         🆔 {event.get('eventId')}
+ 
+        📊 Marchés : {len(event.get('markets', []))}
         """
-        f"📊 Marchés : {len(event.get('markets', []))}"
-            )
+        )
 
                 # ------------------------------------------------
                 # V16.5.3 PRONOSTIC RÉEL
