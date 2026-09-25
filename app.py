@@ -1373,6 +1373,19 @@ elif menu == "Admin":
             "data"
         )
 
+        data = event["json"]["data"]
+
+        if data:
+
+            st.write("CLÉS :")
+
+            st.write(list(data.keys()))
+
+            st.write(
+                "Score :",
+                data.get("score")
+            )
+
         if data is None:
 
             st.error(
