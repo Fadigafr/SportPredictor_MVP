@@ -1337,7 +1337,7 @@ elif menu == "Admin":
                 f"EventID : {fixture_id}"
             )
 
-            event = get_soccer_event_details(
+            get_live_event_details(
                 fixture_id
             )
 
