@@ -292,3 +292,21 @@ def extract_score_result(data):
     else:
 
         return "X"
+
+def extract_live_score(data):
+
+    score = data.get("score")
+
+    if not score:
+
+        return None
+
+    home = int(
+        score.get("home", 0)
+    )
+
+    away = int(
+        score.get("away", 0)
+    )
+
+    return home, away
