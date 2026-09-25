@@ -1429,7 +1429,7 @@ elif menu == "Admin":
                         f"✅ Prédiction #{prediction['id']} → {result}"
                     )
 
-        if st.button("CRÉER PRONOSTIC TEST"):
+    if st.button("CRÉER PRONOSTIC TEST"):
 
         save_prediction(
 
