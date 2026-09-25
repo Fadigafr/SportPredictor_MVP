@@ -1323,119 +1323,113 @@ elif menu == "Admin":
             f"PENDING trouvés : {len(pending_predictions)}"
         )
 
-        if pending_predictions:
+        if not pending_predictions:
+
+            st.warning(
+                "Aucun pronostic PENDING."
+            )
+
+        else:
 
             prediction = pending_predictions[0]
 
             fixture_id = prediction["fixture_id"]
 
             st.write(
-                prediction["match"]
+                f"Match : {prediction['match']}"
             )
 
             st.write(
                 f"EventID : {fixture_id}"
             )
 
-            get_live_event_details(
+            # ----------------------------------
+            # EVENT LIVE PULSESCORE
+            # ----------------------------------
+
+            event = get_event_details(
                 fixture_id
             )
 
-            st.json(event)
+            # Gestion quota PulseScore
+            if event.get("status_code") == 429:
 
-        else:
+                st.error(
+                    "⏳ Limite PulseScore atteinte (1 requête/minute)."
+                )
 
-            st.warning(
-                "Aucun pronostic PENDING."
-            )
+            else:
 
-        st.json(event)
+                data = (
+                    event.get("json", {})
+                         .get("data")
+                )
 
-        data = event["json"]["data"]
+                # Match pas encore live
+                if data is None:
 
-        st.write(
-            "MORE INFO"
-        )
+                    st.warning(
+                        "⚠️ Match non live ou événement non disponible."
+                    )
 
-        st.json(
-            data.get("moreInfo", {})
-        )
+                else:
 
-        st.write(
-            "KEYS EVENT"
-        )
+                    score = data.get(
+                        "score",
+                        {}
+                    )
 
-        st.write(
-            list(data.keys())
-        )
+                    st.write(
+                        "Score détecté :",
+                        score
+                    )
 
-        data = event["json"].get(
-            "data"
-        )
+                    # ----------------------------------
+                    # EXTRACTION RÉSULTAT
+                    # ----------------------------------
 
-        data = event["json"]["data"]
+                    actual_result = (
+                        extract_score_result(
+                            data
+                        )
+                    )
 
-        if data:
+                    st.write(
+                        f"Résultat réel : {actual_result}"
+                    )
 
-            st.write("CLÉS :")
+                    # ----------------------------------
+                    # COMPARAISON
+                    # ----------------------------------
 
-            st.write(list(data.keys()))
+                    result = (
+                        calculate_real_result(
+                            prediction["prediction"],
+                            actual_result
+                        )
+                    )
 
-            st.write(
-                "Score :",
-                data.get("score")
-            )
+                    st.write(
+                        f"Validation : {result}"
+                    )
 
-        actual_result = extract_score_result(
-            data
-        )
+                    # ----------------------------------
+                    # UPDATE SQLITE
+                    # ----------------------------------
 
-        result = calculate_real_result(
+                    update_prediction_result(
 
-            prediction["prediction"],
+                        prediction["id"],
 
-            actual_result
-        )
+                        result
 
-        update_prediction_result(
+                    )
 
-            prediction["id"],
+                    st.success(
+                        f"✅ Prédiction #{prediction['id']} → {result}"
+                    )
 
-            result
-        )
-
-        st.success(
-            f"✅ Validation : {result}"
-        )
-
-        if data is None:
-
-            st.error(
-                "Event non disponible dans PulseScore."
-            )
-
-        else:
-
-            st.success(
-                "Event trouvé."
-            )
-
-            st.write(
-                list(data.keys())
-            )
-        
-        if event.get("status_code") == 429:
-
-            st.error(
-                "⏳ Limite PulseScore atteinte. "
-                "Attendre 60 secondes puis relancer."
-            )
-
-        else:
-
-            st.json(event)
-
-    if st.button("CRÉER PRONOSTIC TEST"):
+        if st.button("CRÉER PRONOSTIC TEST"):
 
         save_prediction(
 
