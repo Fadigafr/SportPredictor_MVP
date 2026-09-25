@@ -1386,6 +1386,28 @@ elif menu == "Admin":
                 data.get("score")
             )
 
+        actual_result = extract_score_result(
+            data
+        )
+
+        result = calculate_real_result(
+
+            prediction["prediction"],
+
+            actual_result
+        )
+
+        update_prediction_result(
+
+            prediction["id"],
+
+            result
+        )
+
+        st.success(
+            f"✅ Validation : {result}"
+        )
+
         if data is None:
 
             st.error(
