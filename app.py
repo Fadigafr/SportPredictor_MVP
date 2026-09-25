@@ -1368,6 +1368,26 @@ elif menu == "Admin":
         st.write(
             list(data.keys())
         )
+
+        data = event["json"].get(
+            "data"
+        )
+
+        if data is None:
+
+            st.error(
+                "Event non disponible dans PulseScore."
+            )
+
+        else:
+
+            st.success(
+                "Event trouvé."
+            )
+
+            st.write(
+                list(data.keys())
+            )
         
         if event.get("status_code") == 429:
 
