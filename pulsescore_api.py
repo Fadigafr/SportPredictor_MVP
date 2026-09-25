@@ -268,3 +268,27 @@ def get_soccer_event_details(event_id):
         "json": response.json()
 
     }
+
+def extract_score_result(data):
+
+    score = data.get("score")
+
+    if not score:
+
+        return None
+
+    home = int(score.get("home", 0))
+
+    away = int(score.get("away", 0))
+
+    if home > away:
+
+        return "1"
+
+    elif away > home:
+
+        return "2"
+
+    else:
+
+        return "X"
