@@ -1082,90 +1082,80 @@ elif menu == "Admin":
         ]
         
         for event in events:
- 
+
             league = event.get("league", "")
- 
+
             st.info(
                 f"""
         🏆 {league}
- 
+
         ⚽ {event.get('home')}
         vs
         {event.get('away')}
- 
+
         🕒 {event.get('startTime')}
- 
+
         🆔 {event.get('eventId')}
- 
+
         📊 Marchés : {len(event.get('markets', []))}
         """
-        )
-
-                # ------------------------------------------------
-                # V16.5.3 PRONOSTIC RÉEL
-                # ------------------------------------------------
-
-        if st.button(
-            f"🎯 Pronostiquer {event.get('eventId')}",
-            key=f"predict_{event.get('eventId')}"
-        ):
-
-            from database import save_prediction_db
-            from datetime import datetime
-
-            st.write(
-                "Markets count :",
-                len(event.get("markets", []))
-            )
-            
-            st.json(event)
-            
-            analysis = generate_calendar_prediction(
-                event
             )
 
-            prediction = analysis["prediction"]
+            if st.button(
+                f"🎯 Pronostiquer {event.get('eventId')}",
+                key=f"predict_{event.get('eventId')}"
+            ):
 
-            ai_index = analysis["ai_index"]
+                analysis = generate_calendar_prediction(
+                    event
+                )
 
-            save_prediction_db(
+                prediction_result = analysis[
+                    "prediction"
+                ]
 
-                date=datetime.now().strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                ),
+                ai_index = analysis[
+                    "ai_index"
+                ]
 
-                sport="Football",
+                save_prediction_db(
 
-                match=(
-                    f"{event.get('home')} "
-                    f"vs "
-                    f"{event.get('away')}"
-                ),
+                    date=datetime.now().strftime(
+                        "%Y-%m-%d %H:%M:%S"
+                    ),
 
-                fixture_id=event.get(
-                    "eventId"
-                ),
+                    sport="Football",
 
-                prediction=prediction,
+                    match=(
+                        f"{event.get('home')} "
+                        f"vs "
+                        f"{event.get('away')}"
+                    ),
 
-                ai_index=ai_index,
+                    fixture_id=event.get(
+                        "eventId"
+                    ),
 
-                odd=2.00,
+                    prediction=prediction_result,
 
-                result="PENDING"
-            )
+                    ai_index=ai_index,
 
-            st.success(
-                "✅ Pronostic IA créé"
-            )
+                    odd=2.00,
 
-            st.write(
-                f"🎯 Pronostic : {prediction}"
-            )
+                    result="PENDING"
+                )
 
-            st.write(
-                f"📊 IA Index : {ai_index}"
-            )
+                st.success(
+                    "✅ Pronostic IA créé"
+                )
+
+                st.write(
+                    f"🎯 Pronostic : {prediction_result}"
+                )
+
+                st.write(
+                    f"📊 IA Index : {ai_index}"
+                )
 
             st.json(
                 event.get("markets", [])
