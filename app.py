@@ -1188,7 +1188,7 @@ elif menu == "Admin":
                     f"📊 IA Index : {ai_index}"
                 )
 
-            # ====================================================
+        # ====================================================
         # V16.5 CALENDRIER RÉEL PULSESCORE
         # ====================================================
 
@@ -1323,12 +1323,11 @@ elif menu == "Admin":
             if st.checkbox(
                 f"🔍 Voir marchés {event.get('eventId')}",
                 key=f"markets_{event.get('eventId')}"
-):
+            ):
 
                 st.json(
                     event.get("markets", [])
                 )
-`
             
         # ====================================================
         # HISTORIQUE DES MATCHS FUTURS
