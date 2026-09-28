@@ -1075,62 +1075,6 @@ elif menu == "Admin":
 
         st.write(events[0])
 
-        now = datetime.now(
-            timezone.utc
-        )
-
-        filtered_events = []
-
-        for event in events:
-
-            start_time = event.get(
-                "startTime"
-            )
-
-            st.write(
-                "NOW :",
-                now
-            )
-
-            st.write(
-                event.get("startTime")
-            )
-
-        for event in events[:5]:
-
-            st.write(
-                event.get("eventId")
-            )
-
-            st.write(
-                event.get("live")
-            )
-
-            st.write(
-                event.get("startTime")
-            )
-
-            if not start_time:
-                continue
-
-            event_time = datetime.fromisoformat(
-                start_time.replace(
-                    "Z",
-                    "+00:00"
-                )
-            )
-
-            # garder matchs des 30 dernières minutes
-            if event_time >= (
-                now - timedelta(minutes=30)
-            ):
-
-                filtered_events.append(
-                    event
-                )
-
-        events = filtered_events
-
         st.write(
             "AVANT FILTRE :",
             len(st.session_state.events_cache)
