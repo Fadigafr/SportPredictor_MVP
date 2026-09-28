@@ -1106,6 +1106,16 @@ elif menu == "Admin":
 
         events = filtered_events
 
+        st.write(
+            "AVANT FILTRE :",
+            len(st.session_state.events_cache)
+        )
+
+        st.write(
+            "APRÈS FILTRE :",
+            len(events)
+        )
+
         st.success(
             f"{len(events)} matchs futurs trouvés."
         )
