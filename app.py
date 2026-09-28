@@ -1073,6 +1073,8 @@ elif menu == "Admin":
 
         events = st.session_state.events_cache
 
+        st.write(events[0])
+
         now = datetime.now(
             timezone.utc
         )
@@ -1083,6 +1085,15 @@ elif menu == "Admin":
 
             start_time = event.get(
                 "startTime"
+            )
+
+            st.write(
+                "NOW :",
+                now
+            )
+
+            st.write(
+                event.get("startTime")
             )
 
             if not start_time:
