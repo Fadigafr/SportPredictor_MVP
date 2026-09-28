@@ -1068,6 +1068,37 @@ elif menu == "Admin":
 
         events = st.session_state.events_cache
 
+        from datetime import datetime, timezone
+
+        now = datetime.now(timezone.utc)
+
+        future_events = []
+
+        for event in events:
+
+            start_time = event.get(
+                "startTime"
+            )
+
+            if not start_time:
+                continue
+
+            event_time = datetime.fromisoformat(
+
+                start_time.replace(
+                    "Z",
+                    "+00:00"
+                )
+            )
+
+            if event_time > now:
+
+                future_events.append(
+                    event
+                )
+
+        events = future_events
+
         st.success(
             f"{len(events)} matchs futurs trouvés."
         )
