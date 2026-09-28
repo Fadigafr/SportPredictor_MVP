@@ -1096,6 +1096,20 @@ elif menu == "Admin":
                 event.get("startTime")
             )
 
+        for event in events[:5]:
+
+            st.write(
+                event.get("eventId")
+            )
+
+            st.write(
+                event.get("live")
+            )
+
+            st.write(
+                event.get("startTime")
+            )
+
             if not start_time:
                 continue
 
