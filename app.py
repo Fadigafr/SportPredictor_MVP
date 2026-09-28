@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+from datetime import datetime, timezone
 
 from auth import login
 from admin import admin_page
@@ -1067,8 +1068,6 @@ elif menu == "Admin":
             )
 
         events = st.session_state.events_cache
-
-        from datetime import datetime, timezone
 
         now = datetime.now(timezone.utc)
 
