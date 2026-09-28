@@ -1073,18 +1073,6 @@ elif menu == "Admin":
 
         events = st.session_state.events_cache
 
-        st.write(events[0])
-
-        st.write(
-            "AVANT FILTRE :",
-            len(st.session_state.events_cache)
-        )
-
-        st.write(
-            "APRÈS FILTRE :",
-            len(events)
-        )
-
         st.success(
             f"{len(events)} matchs futurs trouvés."
         )
@@ -1346,6 +1334,25 @@ elif menu == "Admin":
 
             st.write(
                 f"EventID : {fixture_id}"
+            )
+
+            event = get_event_details(
+                fixture_id
+            )
+
+            st.write(
+                "Status Code :",
+                event.get("status_code")
+            )
+
+            data = (
+                event.get("json", {})
+                     .get("data")
+            )
+
+            st.write(
+                "DATA LIVE :",
+                data is not None
             )
 
             # ----------------------------------
