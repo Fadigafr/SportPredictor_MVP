@@ -1,7 +1,11 @@
 import streamlit as st
 import pandas as pd
 import os
-from datetime import datetime, timezone
+from datetime import (
+    datetime,
+    timezone,
+    timedelta
+)
 
 from auth import login
 from admin import admin_page
@@ -1069,9 +1073,11 @@ elif menu == "Admin":
 
         events = st.session_state.events_cache
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(
+            timezone.utc
+        )
 
-        future_events = []
+        filtered_events = []
 
         for event in events:
 
@@ -1083,20 +1089,22 @@ elif menu == "Admin":
                 continue
 
             event_time = datetime.fromisoformat(
-
                 start_time.replace(
                     "Z",
                     "+00:00"
                 )
             )
 
-            if event_time > now:
+            # garder matchs des 30 dernières minutes
+            if event_time >= (
+                now - timedelta(minutes=30)
+            ):
 
-                future_events.append(
+                filtered_events.append(
                     event
                 )
 
-        events = future_events
+        events = filtered_events
 
         st.success(
             f"{len(events)} matchs futurs trouvés."
