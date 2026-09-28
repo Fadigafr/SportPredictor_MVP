@@ -1073,6 +1073,32 @@ elif menu == "Admin":
 
         events = st.session_state.events_cache
 
+        filtered_events = []
+
+        for event in events:
+
+            markets = event.get(
+                "markets",
+                []
+            )
+
+            has_match_result = any(
+
+                market.get(
+                    "canonicalMarket"
+                ) == "MATCH_RESULT"
+
+                for market in markets
+            )
+
+            if has_match_result:
+
+                filtered_events.append(
+                    event
+                )
+
+        events = filtered_events
+
         st.success(
             f"{len(events)} matchs futurs trouvés."
         )
