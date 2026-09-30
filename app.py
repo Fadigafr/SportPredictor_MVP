@@ -1141,52 +1141,71 @@ elif menu == "Admin":
                     event
                 )
 
-                prediction_result = analysis[
-                    "prediction"
+                prediction_result = analysis["prediction"]
+
+                ai_index = analysis["ai_index"]
+
+                # ----------------------------------
+                # Vérifier doublon EventID
+                # ----------------------------------
+
+                existing = [
+
+                p for p in load_predictions()
+
+                    if str(
+                        p.get("fixture_id")
+                    ) == str(
+                        event.get("eventId")
+                    )
                 ]
 
-                ai_index = analysis[
-                    "ai_index"
-                ]
+                if existing:
 
-                save_prediction_db(
+                    st.warning(
+                        "⚠️ Pronostic déjà enregistré."
+                    )
 
-                    date=datetime.now().strftime(
-                        "%Y-%m-%d %H:%M:%S"
-                    ),
+                else:
 
-                    sport="Football",
+                    save_prediction_db(
 
-                    match=(
-                        f"{event.get('home')} "
-                        f"vs "
-                        f"{event.get('away')}"
-                    ),
+                        date=datetime.now().strftime(
+                            "%Y-%m-%d %H:%M:%S"
+                        ),
 
-                    fixture_id=event.get(
-                        "eventId"
-                    ),
+                        sport="Football",
 
-                    prediction=prediction_result,
+                        match=(
+                            f"{event.get('home')} "
+                            f"vs "
+                            f"{event.get('away')}"
+                        ),
 
-                    ai_index=ai_index,
+                        fixture_id=event.get(
+                            "eventId"
+                        ),
 
-                    odd=2.00,
+                        prediction=prediction_result,
 
-                    result="PENDING"
-                )
+                        ai_index=ai_index,
 
-                st.success(
-                    "✅ Pronostic IA créé"
-                )
+                        odd=2.00,
 
-                st.write(
-                    f"🎯 Pronostic : {prediction_result}"
-                )
+                        result="PENDING"
+                    )
 
-                st.write(
-                    f"📊 IA Index : {ai_index}"
-                )
+                    st.success(
+                        "✅ Pronostic IA créé"
+                    )
+
+                    st.write(
+                        f"🎯 Pronostic : {prediction_result}"
+                    )
+
+                    st.write(
+                        f"📊 IA Index : {ai_index}"
+                    )
             
         # ====================================================
         # HISTORIQUE DES MATCHS FUTURS
