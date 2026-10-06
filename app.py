@@ -1130,6 +1130,16 @@ elif menu == "Admin":
 
         events = filtered_events
 
+        st.write(
+            "Heure actuelle UTC :",
+            now
+        )
+        for event in events[:5]:
+
+            st.write(
+                event.get("startTime")
+            )
+
         st.success(
             f"{len(events)} matchs futurs trouvés."
         )
