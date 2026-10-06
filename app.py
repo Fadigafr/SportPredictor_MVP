@@ -1492,35 +1492,6 @@ elif menu == "Admin":
         )
 
                     # ----------------------------------
-                    # EXTRACTION RÉSULTAT
-                    # ----------------------------------
-
-                    actual_result = (
-                        extract_score_result(
-                            data
-                        )
-                    )
-
-                    st.write(
-                        f"Résultat réel : {actual_result}"
-                    )
-
-                    # ----------------------------------
-                    # COMPARAISON
-                    # ----------------------------------
-
-                    result = (
-                        calculate_real_result(
-                            prediction["prediction"],
-                            actual_result
-                        )
-                    )
-
-                    st.write(
-                        f"Validation : {result}"
-                    )
-
-                    # ----------------------------------
                     # UPDATE SQLITE
                     # ----------------------------------
 
