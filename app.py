@@ -954,11 +954,11 @@ elif menu == "Admin":
             key="test_event_details"
         ):
 
-            data = get_event_details(
-                201586086
-            )
-
-            st.json(data)
+            # data = get_event_details(
+            #     201586086
+            # )
+            #
+            # st.json(data)
 
         if st.button(
             "🔍 Tester Premier Match Live",
