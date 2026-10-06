@@ -1392,50 +1392,104 @@ elif menu == "Admin":
         key="auto_validate"
     ):
 
-        pending_predictions = get_pending_predictions()
+        pending_predictions = (
+            get_pending_predictions()
+        )
 
         st.write(
             f"PENDING trouvés : {len(pending_predictions)}"
         )
 
-        if not pending_predictions:
+        live_events = (
+            get_live_soccer_events(
+                limit=30
+            )
+        )
 
-            st.warning(
-                "Aucun pronostic PENDING."
+        live_lookup = {
+
+            str(
+                e.get("eventId")
+            ): e
+
+            for e in live_events
+        }
+
+        validated = 0
+
+        for prediction in pending_predictions:
+
+            fixture_id = str(
+                prediction["fixture_id"]
             )
 
-        else:
+            if fixture_id not in live_lookup:
 
-            prediction = pending_predictions[0]
+                continue
 
-            fixture_id = prediction["fixture_id"]
-
-            st.write(
-                f"Match : {prediction['match']}"
+            live_event = (
+                live_lookup[fixture_id]
             )
 
-            st.write(
-                f"EventID : {fixture_id}"
+            score = live_event.get(
+                "score",
+                {}
             )
 
-            event = get_event_details(
-                fixture_id
+                if not score:
+
+                continue
+
+            home = int(
+                score.get(
+                    "home",
+                    0
+                )
             )
 
-            st.write(
-                "Status Code :",
-                event.get("status_code")
+            away = int(
+                score.get(
+                    "away",
+                    0
+                )
             )
 
-            data = (
-                event.get("json", {})
-                     .get("data")
+            if home > away:
+
+                actual_result = "1"
+
+            elif away > home:
+
+                actual_result = "2"
+
+            else:
+
+                actual_result = "X"
+
+            result = (
+                calculate_real_result(
+                    prediction["prediction"],
+                    actual_result
+                )
             )
 
-            st.write(
-                "DATA LIVE :",
-                data is not None
+            update_prediction_result(
+
+                prediction["id"],
+
+                result
+
             )
+
+            st.success(
+                f"{prediction['match']} → {result}"
+            )
+
+            validated += 1
+
+        st.info(
+            f"{validated} validation(s) effectuée(s)."
+        )
 
             # ----------------------------------
             # EVENT LIVE PULSESCORE
