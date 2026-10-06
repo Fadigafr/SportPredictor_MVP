@@ -833,22 +833,6 @@ elif menu == "Admin":
         )
 
         if st.button(
-            "TEST EVENT"
-        ):
-
-            try:
-
-                st.json(
-                    get_soccer_event(
-                        "198646827"
-                    )
-                )
-
-            except Exception as e:
-
-                st.error(e)
-
-        if st.button(
             "💾 Sauvegarder Event PulseScore",
             key="save_pulsescore_event"
         ):
@@ -949,17 +933,6 @@ elif menu == "Admin":
                     predictions[-1]["id"]
                 )
 
-        #if st.button(
-        #    "🔍 Tester EventID Réel",
-        #    key="test_event_details"
-        #:
-
-            # data = get_event_details(
-            #     201586086
-            # )
-            #
-            # st.json(data)
-
         if st.button(
             "🔍 Tester Premier Match Live",
             key="test_first_live"
@@ -972,79 +945,7 @@ elif menu == "Admin":
                 first_event = events[0]
 
                 st.json(first_event)
-
-        if st.button(
-            "🎯 Tester Résultat Réel"
-        ):
-
-            event = get_first_live_event()
-
-            if event:
-
-                result = extract_match_result(
-                    event
-                )
-
-                st.success(
-                    f"Résultat réel : {result}"
-                )
-
-        if st.button(
-            "🚀 Tester Validation Réelle"
-        ):
-
-            prediction = "1"
-
-            actual_result = "1"
-
-            result = calculate_real_result(
-                prediction,
-                actual_result
-            )
-
-            st.success(
-                f"Résultat : {result}"
-            )
-
-        if st.button(
-            "🚀 Validation Réelle Complète"
-        ):
-
-            predictions = load_predictions()
-
-            latest_prediction = predictions[0]
-
-            event = get_first_live_event()
-
-            result = validate_prediction_with_event(
-                latest_prediction,
-                event
-            )
-
-            update_prediction_result(
-                prediction_id,
-                result
-            )
-
-            stats = get_ai_learning_stats()
-
-            bonus = get_learning_bonus()
-
-            st.success(
-                f"✅ Learning mis à jour | Bonus IA : {bonus}"
-            )
-
-            st.json(stats)
-
-            st.success(
-                f"✅ Prédiction #{latest_prediction['id']} mise à jour : {result}"
-            )
-
-            st.write(
-                "Event :",
-                event
-            )
-
+        
         if st.button("🧠 Tester Learning Temps Réel"):
 
             stats = get_ai_learning_stats()
@@ -1129,16 +1030,6 @@ elif menu == "Admin":
                 )
 
         events = filtered_events
-
-        st.write(
-            "Heure actuelle UTC :",
-            now
-        )
-        for event in events[:5]:
-
-            st.write(
-                event.get("startTime")
-            )
 
         st.success(
             f"{len(events)} matchs futurs trouvés."
