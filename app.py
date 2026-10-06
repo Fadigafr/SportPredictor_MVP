@@ -1315,6 +1315,21 @@ elif menu == "Admin":
                 prediction["fixture_id"]
             )
 
+            st.write(
+                f"Recherche EventID : {fixture_id}"
+            )
+
+            st.write(
+                f"Live disponibles : {len(live_lookup)}"
+            )
+            if fixture_id not in live_lookup:
+
+                st.warning(
+                    f"EventID non live : {fixture_id}"
+                )
+
+                continue
+
             if fixture_id not in live_lookup:
 
                 continue
