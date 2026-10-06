@@ -1491,47 +1491,6 @@ elif menu == "Admin":
             f"{validated} validation(s) effectuée(s)."
         )
 
-            # ----------------------------------
-            # EVENT LIVE PULSESCORE
-            # ----------------------------------
-
-            event = get_event_details(
-                fixture_id
-            )
-
-            # Gestion quota PulseScore
-            if event.get("status_code") == 429:
-
-                st.error(
-                    "⏳ Limite PulseScore atteinte (1 requête/minute)."
-                )
-
-            else:
-
-                data = (
-                    event.get("json", {})
-                         .get("data")
-                )
-
-                # Match pas encore live
-                if data is None:
-
-                    st.warning(
-                        "⚠️ Match non live ou événement non disponible."
-                    )
-
-                else:
-
-                    score = data.get(
-                        "score",
-                        {}
-                    )
-
-                    st.write(
-                        "Score détecté :",
-                        score
-                    )
-
                     # ----------------------------------
                     # EXTRACTION RÉSULTAT
                     # ----------------------------------
