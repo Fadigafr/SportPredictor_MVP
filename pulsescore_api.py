@@ -37,6 +37,8 @@ def get_upcoming_soccer_events(
         )
 
     return []
+
+    st.write(url)
     
 def get_live_soccer_events(limit=10):
 
