@@ -1392,18 +1392,18 @@ elif menu == "Admin":
         key="auto_validate"
     ):
 
-        pending_predictions = (
-            get_pending_predictions()
-        )
+        pending_predictions = get_pending_predictions()
 
         st.write(
             f"PENDING trouvés : {len(pending_predictions)}"
         )
 
-        live_events = (
-            get_live_soccer_events(
-                limit=30
-            )
+        # ----------------------------------
+        # Live Events PulseScore
+        # ----------------------------------
+
+        live_events = get_live_soccer_events(
+            limit=30
         )
 
         live_lookup = {
@@ -1413,6 +1413,7 @@ elif menu == "Admin":
             ): e
 
             for e in live_events
+
         }
 
         validated = 0
@@ -1466,11 +1467,12 @@ elif menu == "Admin":
 
                 actual_result = "X"
 
-            result = (
-                calculate_real_result(
-                    prediction["prediction"],
-                    actual_result
-                )
+            result = calculate_real_result(
+
+                prediction["prediction"],
+
+                actual_result
+
             )
 
             update_prediction_result(
@@ -1482,7 +1484,17 @@ elif menu == "Admin":
             )
 
             st.success(
-                f"{prediction['match']} → {result}"
+                f"""
+    ✅ {prediction['match']}
+
+    Score : {home}-{away}
+
+    Pronostic : {prediction['prediction']}
+
+    Résultat réel : {actual_result}
+
+    Validation : {result}
+    """
             )
 
             validated += 1
