@@ -1491,22 +1491,6 @@ elif menu == "Admin":
             f"{validated} validation(s) effectuée(s)."
         )
 
-                    # ----------------------------------
-                    # UPDATE SQLITE
-                    # ----------------------------------
-
-                    update_prediction_result(
-
-                        prediction["id"],
-
-                        result
-
-                    )
-
-                    st.success(
-                        f"✅ Prédiction #{prediction['id']} → {result}"
-                    )
-
     if st.button("CRÉER PRONOSTIC TEST"):
 
         save_prediction(
