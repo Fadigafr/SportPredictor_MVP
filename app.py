@@ -83,6 +83,7 @@ from api_bet365 import (
     get_soccer_calendar,
     get_soccer_event
 )
+from datetime import datetime, timezone
 from api_bet365 import get_match_odds
 from datetime import datetime
 from pulsescore_api import (
@@ -1075,7 +1076,36 @@ elif menu == "Admin":
 
         filtered_events = []
 
+        now = datetime.now(timezone.utc)
+
+        filtered_events = []
+
         for event in events:
+
+            start_time = event.get(
+                "startTime"
+            )
+
+            if not start_time:
+                continue
+
+            try:
+
+                event_time = datetime.fromisoformat(
+                    start_time.replace(
+                        "Z",
+                        "+00:00"
+                    )
+                )
+
+            except Exception:
+
+                continue
+
+            # Ignorer les matchs déjà passés
+            if event_time <= now:
+
+                continue
 
             markets = event.get(
                 "markets",
@@ -1089,6 +1119,7 @@ elif menu == "Admin":
                 ) == "MATCH_RESULT"
 
                 for market in markets
+
             )
 
             if has_match_result:
