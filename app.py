@@ -1436,7 +1436,7 @@ elif menu == "Admin":
                 {}
             )
 
-                if not score:
+            if not score:
 
                 continue
 
