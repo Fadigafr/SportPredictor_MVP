@@ -949,10 +949,10 @@ elif menu == "Admin":
                     predictions[-1]["id"]
                 )
 
-        if st.button(
-            "🔍 Tester EventID Réel",
-            key="test_event_details"
-        ):
+        #if st.button(
+        #    "🔍 Tester EventID Réel",
+        #    key="test_event_details"
+        #:
 
             # data = get_event_details(
             #     201586086
