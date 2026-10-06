@@ -1103,9 +1103,9 @@ elif menu == "Admin":
                 continue
 
             # Ignorer les matchs déjà passés
-            if event_time <= now:
-
-                continue
+            # Filtre temporairement désactivé
+            # if event_time <= now:
+            #     continue
 
             markets = event.get(
                 "markets",
