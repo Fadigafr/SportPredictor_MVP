@@ -31,8 +31,10 @@ def get_upcoming_soccer_events(
 
         data = response.json()
 
+        print("LIVE JSON = ", data)
+
         return data.get(
-            "events",
+            "data",
             []
         )
 
