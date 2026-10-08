@@ -38,7 +38,7 @@ def get_upcoming_soccer_events(
             []
         )
 
-    st.write(response.json())
+    print(response.json())
     
     return []
 
