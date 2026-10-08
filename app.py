@@ -969,9 +969,27 @@ elif menu == "Admin":
 
         if st.button("📅 Charger Matchs Futurs"):
 
-            st.session_state.events_cache = (
-                get_upcoming_soccer_events()
+        events = get_upcoming_soccer_events()
+
+        st.write(
+            f"Événements bruts API : {len(events)}"
+        )
+
+        if events:
+
+            st.write(
+                "Premier événement reçu :"
             )
+
+            st.json(events[0])
+
+        else:
+
+            st.error(
+                "Aucun événement renvoyé par PulseScore."
+            )
+
+        st.session_state.events_cache = events
 
         events = st.session_state.events_cache
 
