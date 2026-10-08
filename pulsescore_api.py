@@ -27,22 +27,27 @@ def get_upcoming_soccer_events(
         timeout=30
     )
 
+    print("STATUS =", response.status_code)
+
+    print("TEXT =", response.text[:2000])
+
     if response.status_code == 200:
 
         data = response.json()
 
-        print("LIVE JSON = ", data)
+        print("EVENTS COUNT =",
+              len(data.get("events", [])))
 
         return data.get(
-            "data",
+            "events",
             []
         )
 
-    print(response.json())
-    
-    return []
+    st.error(
+        f"PulseScore Error : {response.status_code}"
+    )
 
-    st.write(url)
+    return []
     
 def get_live_soccer_events(limit=10):
 
