@@ -38,6 +38,8 @@ def get_upcoming_soccer_events(
             []
         )
 
+    st.write(response.json())
+    
     return []
 
     st.write(url)
