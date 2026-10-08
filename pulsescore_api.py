@@ -64,10 +64,9 @@ def get_live_soccer_events(limit=10):
 
         data = response.json()
 
-        return data.get(
-            "events",
-            []
-        )
+        print(data)
+
+        return data.get("data", [])
 
     return []
 
